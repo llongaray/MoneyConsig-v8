@@ -1,0 +1,51 @@
+{% extends 'base-plus.html' %}
+{% load static %}
+
+{% block title %}Configurações - MoneyConsig{% endblock %}
+
+{% block header_title %}Configurações{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'usuarios/css/configuracoes.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="configuracoes-container">
+    <div id="message" class="message"></div>
+    
+    <div class="configuracao-item">
+        <div class="configuracao-info">
+            <h3>Modo Escuro</h3>
+            <p>Ative o tema escuro para uma experiência visual mais confortável</p>
+        </div>
+        <label class="toggle-switch">
+            <input type="checkbox" id="modo-escuro">
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
+
+    <div class="configuracao-item">
+        <div class="configuracao-info">
+            <h3>Manter Menu Aberto</h3>
+            <p>O menu lateral permanecerá aberto quando você entrar no sistema</p>
+        </div>
+        <label class="toggle-switch">
+            <input type="checkbox" id="manter-menu-aberto">
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
+
+    <button class="salvar-btn" id="salvar-configuracoes">
+        Salvar Configurações
+    </button>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script>
+    // URLs para as APIs
+    const urlGetConfiguracoes = '{% url "usuarios:api_get_configuracoes" %}';
+    const urlPostConfiguracoes = '{% url "usuarios:api_post_configuracoes" %}';
+</script>
+<script src="{% static 'usuarios/js/configuracoes.js' %}"></script>
+{% endblock %} 

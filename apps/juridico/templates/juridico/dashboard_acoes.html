@@ -1,0 +1,389 @@
+{% extends "base-plus.html" %}
+{% load static %}
+{% load permissionsacess %}
+
+{% block header_title %}
+Dashboard Jurídico - Ações<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'juridico/css/dashboard_acoes.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-md-4" id="dashboard-juridico-container">
+
+  {# ========================================== #}
+  {#         SESSÃO: VISÃO GERAL DAS AÇÕES    #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-geral-acoes">
+    <h2 class="section-title"><i class='bx bx-bar-chart-square'></i> Visão Geral das Ações</h2>
+    <div class="category-block" id="categoria-geral-acoes">
+      <div class="box geral-acoes" id="box-geral-acoes">
+        <div class="card" id="card-total-acoes">
+          <span class="icon"><i class='bx bx-briefcase-alt'></i></span>
+          <span class="container-info">
+            <span class="title">Total de Ações</span>
+            <span class="value" id="valor-total-acoes">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-acoes-com-recursos">
+          <span class="icon"><i class='bx bx-transfer-alt'></i></span>
+          <span class="container-info">
+            <span class="title">Ações com Recursos</span>
+            <span class="value" id="valor-acoes-com-recursos">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#         SESSÃO: STATUS DAS AÇÕES         #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-status-acoes">
+    <h2 class="section-title"><i class='bx bx-check-square'></i> Status das Ações</h2>
+    <div class="category-block" id="categoria-status-acoes">
+      <div class="box status-acoes" id="box-status-acoes">
+        <div class="card" id="card-status-em-espera">
+          <span class="icon"><i class='bx bx-time-five'></i></span>
+          <span class="container-info">
+            <span class="title">Em Espera</span>
+            <span class="value" id="valor-status-em-espera">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-status-incompleto">
+          <span class="icon"><i class='bx bx-error-circle'></i></span>
+          <span class="container-info">
+            <span class="title">Incompleto</span>
+            <span class="value" id="valor-status-incompleto">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-status-em-despacho">
+          <span class="icon"><i class='bx bx-file-find'></i></span>
+          <span class="container-info">
+            <span class="title">Em Despacho</span>
+            <span class="value" id="valor-status-em-despacho">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-status-protocolado">
+          <span class="icon"><i class='bx bxs-file-archive'></i></span>
+          <span class="container-info">
+            <span class="title">Protocolado</span>
+            <span class="value" id="valor-status-protocolado">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-status-finalizado">
+          <span class="icon"><i class='bx bx-check-double'></i></span>
+          <span class="container-info">
+            <span class="title">Finalizado</span>
+            <span class="value" id="valor-status-finalizado">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#         SESSÃO: SENTENÇAS                #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-sentencas">
+    <h2 class="section-title"><i class='bx bx-gavel'></i> Sentenças</h2>
+    <div class="category-block" id="categoria-sentencas">
+      <div class="box sentencas" id="box-sentencas">
+        <div class="card" id="card-sentencas-favoraveis">
+          <span class="icon"><i class='bx bx-like'></i></span>
+          <span class="container-info">
+            <span class="title">Favoráveis</span>
+            <span class="value" id="valor-sentencas-favoraveis">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-sentencas-nao-favoraveis">
+          <span class="icon"><i class='bx bx-dislike'></i></span>
+          <span class="container-info">
+            <span class="title">Não Favoráveis</span>
+            <span class="value" id="valor-sentencas-nao-favoraveis">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-sentencas-pendentes">
+          <span class="icon"><i class='bx bx-pause-circle'></i></span>
+          <span class="container-info">
+            <span class="title">Pendentes</span>
+            <span class="value" id="valor-sentencas-pendentes">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#         SESSÃO: TIPOS DE AÇÃO            #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-tipos-acao">
+    <h2 class="section-title"><i class='bx bx-archive'></i> Tipos de Ação</h2>
+    <div class="category-block" id="categoria-tipos-acao">
+      <div class="box tipos-acao" id="box-tipos-acao">
+        <div class="card" id="card-tipo-associacao">
+          <span class="icon"><i class='bx bx-user-plus'></i></span>
+          <span class="container-info">
+            <span class="title">Associação</span>
+            <span class="value" id="valor-tipo-associacao">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-tipo-cartao">
+          <span class="icon"><i class='bx bx-credit-card'></i></span>
+          <span class="container-info">
+            <span class="title">Cartão</span>
+            <span class="value" id="valor-tipo-cartao">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-tipo-debito-conta">
+          <span class="icon"><i class='bx bx-wallet'></i></span>
+          <span class="container-info">
+            <span class="title">Débito em Conta</span>
+            <span class="value" id="valor-tipo-debito-conta">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-tipo-limpa-nome">
+          <span class="icon"><i class='bx bx-shield-quarter'></i></span>
+          <span class="container-info">
+            <span class="title">Limpa Nome</span>
+            <span class="value" id="valor-tipo-limpa-nome">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-tipo-revisional">
+          <span class="icon"><i class='bx bx-file'></i></span>
+          <span class="container-info">
+            <span class="title">Revisional</span>
+            <span class="value" id="valor-tipo-revisional">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#         SESSÃO: RECURSOS                 #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-recursos">
+    <h2 class="section-title"><i class='bx bx-git-pull-request'></i> Recursos</h2>
+    
+    {# --- Sub-Sessão: Recursos 1º Grau --- #}
+    <div class="dashboard-subsection" id="subsessao-recursos-primeiro-grau">
+      <h5 class="subsection-title">Recursos em 1º Grau</h5>
+      <div class="box recursos-primeiro-grau" id="box-recursos-primeiro-grau">
+        <div class="card" id="card-recurso-1-apelacao">
+          <span class="icon"><i class='bx bx-subdirectory-right'></i></span>
+          <span class="container-info">
+            <span class="title">Apelação</span>
+            <span class="value" id="valor-recurso-1-apelacao">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-recurso-1-agravo">
+          <span class="icon"><i class='bx bx-subdirectory-right'></i></span>
+          <span class="container-info">
+            <span class="title">Agravo</span>
+            <span class="value" id="valor-recurso-1-agravo">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-recurso-1-embargos">
+          <span class="icon"><i class='bx bx-subdirectory-right'></i></span>
+          <span class="container-info">
+            <span class="title">Embargos</span>
+            <span class="value" id="valor-recurso-1-embargos">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    {# --- Sub-Sessão: Recursos 2º Grau --- #}
+    <div class="dashboard-subsection" id="subsessao-recursos-segundo-grau">
+      <h5 class="subsection-title">Recursos em 2º Grau</h5>
+      <div class="box recursos-segundo-grau" id="box-recursos-segundo-grau">
+        <div class="card" id="card-recurso-2-apelacao">
+          <span class="icon"><i class='bx bx-subdirectory-right'></i></span>
+          <span class="container-info">
+            <span class="title">Apelação</span>
+            <span class="value" id="valor-recurso-2-apelacao">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-recurso-2-agravo">
+          <span class="icon"><i class='bx bx-subdirectory-right'></i></span>
+          <span class="container-info">
+            <span class="title">Agravo</span>
+            <span class="value" id="valor-recurso-2-agravo">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-recurso-2-embargos">
+          <span class="icon"><i class='bx bx-subdirectory-right'></i></span>
+          <span class="container-info">
+            <span class="title">Embargos</span>
+            <span class="value" id="valor-recurso-2-embargos">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#      SESSÃO: HISTÓRICO DE AÇÕES (GRÁFICO) #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-historico-acoes">
+    <h2 class="section-title"><i class='bx bx-line-chart'></i> Histórico de Novas Ações (Últimos 6 meses)</h2>
+    <div class="category-block" id="categoria-historico-acoes">
+      <div class="card chart-container" id="card-historico-chart">
+        <canvas id="graficoHistoricoAcoes"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  {# --- Timestamp --- #}
+  <div class="timestamp-container text-end mt-3" id="timestamp-container">
+    <small class="text-muted">Última atualização: <span id="last-update-time">Aguardando dados...</span></small>
+  </div>
+
+</div>
+
+{# Estilos CSS (copiados do dashboard de funcionários como base, podem ser ajustados) #}
+<style>
+    .dashboard-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .section-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--color-primary-dark);
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--color-primary-light);
+        display: flex;
+        align-items: center;
+    }
+    .section-title i {
+        margin-right: 10px;
+        font-size: 1.6rem;
+    }
+
+    .category-block {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .box {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+    }
+    .card {
+        background-color: #fdfdfd;
+        padding: 15px;
+        border-radius: 6px;
+        border: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .card .icon {
+        font-size: 2.5rem; /* Aumentado para ícones maiores */
+        color: var(--color-primary);
+        padding: 10px;
+        background-color: var(--color-primary-lighter);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 60px; /* Tamanho mínimo para o círculo do ícone */
+        min-height: 60px;
+    }
+    .card .container-info {
+        display: flex;
+        flex-direction: column;
+    }
+    .card .title {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 5px;
+    }
+    .card .value {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--color-text-dark);
+    }
+    
+    .dashboard-subsection {
+        width: 100%;
+        margin-bottom: 25px;
+        padding: 15px;
+        background-color: #f9f9f9; 
+        border: 1px solid #eaeaea;
+        border-radius: 8px;
+    }
+    .subsection-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--color-primary-dark);
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .card.chart-container {
+        padding: 20px;
+    }
+
+    /* Dark Mode Styles (base) */
+    html.dark .dashboard-section {
+        background-color: #2c2c2c;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    html.dark .section-title {
+        color: #e0e0e0;
+        border-bottom-color: #4a4a4a;
+    }
+    html.dark .card {
+        background-color: #353535;
+        border-color: #454545;
+    }
+    html.dark .card .icon {
+        color: var(--color-primary-light);
+        background-color: #404040;
+    }
+    html.dark .card .title {
+        color: #bbb;
+    }
+    html.dark .card .value {
+        color: #f0f0f0;
+    }
+    html.dark .dashboard-subsection {
+        background-color: #2f2f2f;
+        border-color: #404040;
+    }
+    html.dark .subsection-title {
+        color: #d0d0d0;
+        border-bottom-color: #4a4a4a;
+    }
+    .timestamp-container small {
+      color: #6c757d; /* Cor padrão para texto muted do Bootstrap */
+    }
+
+    html.dark .timestamp-container small {
+        color: #a0a0a0; /* Cor para modo escuro */
+    }
+</style>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {# Chart.js para o gráfico #}
+<script src="{% static 'juridico/js/dashboard_acoes.js' %}"></script>
+{% endblock %}

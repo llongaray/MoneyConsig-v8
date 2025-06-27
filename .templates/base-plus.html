@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}MoneyConsig{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/partials/menu-lateral.css' %}">
+    <link rel="stylesheet" href="{% static 'css/partials/alert_ti.css' %}">
+    <link rel="stylesheet" href="{% static 'css/darkmode.css' %}">
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/geral/logo.png' %}" type="image/png">
+    <!-- Importando Boxicons via CDN -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    {% block addcss_extra %}{% endblock %}
+    
+    <!-- jQuery (necessário para a configuração AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Configuração global do AJAX para CSRF -->
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // Configuração global do AJAX
+        $(document).ready(function() {
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                }
+            });
+        });
+    </script>
+    <link rel="stylesheet" href="{% static 'administrativo/css/comunicados_pop-up.css' %}">
+</head>
+
+<body>
+    {% csrf_token %}
+    {% include 'partials/_menu-latera.html' %}
+    <main>
+        <header>
+            <div class="TituloPagina">
+                <p>{% block header_title %}MoneyConsig{% endblock %}</p>
+                {% block pre_content %}{% endblock %}
+            </div>
+            <div class="Logout">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'usuarios:render_configuracoes' %}" class="configuracoes-link">
+                        <i class='bx bx-cog'></i>
+                    </a>
+                    <div class="notificacao-container">
+                        <button id="btn-comunicados">
+                            <i class='bx bx-bell'></i>
+                            <span id="contador-comunicados">0</span>
+                        </button>
+                        <div id="modal-comunicados" class="comunicados-popup">
+                            <div class="comunicados-popup__tabs">
+                                <div class="comunicados-popup__tab comunicados-popup__tab--active" data-tab="nao-lidos">Não Lidos</div>
+                                <div class="comunicados-popup__tab" data-tab="lidos">Lidos</div>
+                            </div>
+                            <div class="comunicados-popup__content">
+                                <div id="submodal-nao-lidos" class="comunicados-popup__lista"></div>
+                                <div id="submodal-lidos" class="comunicados-popup__lista" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'usuarios:logout' %}">
+                        <i class='bx bx-log-out'></i>
+                    </a>
+                    <a href="#">
+                        <p>{{ user.username }}</p>
+                    </a>
+                {% else %}
+                    <a href="{% url 'admin:login' %}">
+                        <i class='bx bx-log-in'></i>
+                    </a>
+                {% endif %}
+            </div>
+        </header>
+
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- jQuery já carregado no head -->
+    <!-- Script dos comunicados -->
+    <script src="{% static 'funcionarios/js/comunicados_cliente.js' %}"></script>
+    <script src="{% static 'js/alert_ti.js' %}"></script>
+    
+    <!-- Script das configurações do usuário -->
+    <script>
+        // Aplicar configurações do usuário
+        $(document).ready(function() {
+            {% if user.is_authenticated %}
+                // Carregar configurações do usuário
+                $.get('{% url "usuarios:api_get_configuracoes" %}')
+                    .done(function(data) {
+                        // Aplicar modo escuro
+                        if (data.modo_escuro) {
+                            localStorage.setItem('theme', 'dark');
+                            document.documentElement.setAttribute('data-theme', 'dark');
+                            document.body.classList.add('dark-mode');
+                        } else {
+                            localStorage.setItem('theme', 'light');
+                            document.documentElement.setAttribute('data-theme', 'light');
+                            document.body.classList.remove('dark-mode');
+                        }
+
+                        // Aplicar configuração do menu
+                        const sidebar = document.getElementById('sidebar');
+                        if (sidebar && data.manter_menu_aberto) {
+                            sidebar.classList.remove('collapsed');
+                            const toggleIcon = sidebar.querySelector('.sidebar-toggle i');
+                            if (toggleIcon) {
+                                toggleIcon.classList.remove('bx-menu-alt-right');
+                                toggleIcon.classList.add('bx-menu');
+                            }
+                        }
+                    })
+                    .fail(function() {
+                        console.log('Erro ao carregar configurações do usuário');
+                    });
+            {% endif %}
+        });
+    </script>
+    
+    {% block addjs_extra %}{% endblock %}
+</body>
+</html>

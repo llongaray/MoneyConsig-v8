@@ -1,0 +1,948 @@
+/* ==========================================
+   CSS para a página de Comunicados
+   Baseado no estilo de administrativo.css
+   Foco: Verde e Azul, com ênfase no Verde
+   ========================================== */
+
+/* ---------- Variáveis de Cores e Sombreamentos ---------- */
+:root {
+    --color-primary-dark: #142650; /* Azul escuro */
+    --color-secondary: #70f611; /* Verde */
+    --color-tertiary: #0bd5f0; /* Azul claro (ciano) */
+    --color-accent: #b4874c; /* Tom terroso */
+    --color-white: #fff;
+    --color-gray: #ddd;
+    --color-light-gray: #f0f0f0;
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-danger: #dc3545;
+    --color-success: #198754; /* Verde escuro para sucesso */
+
+    --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-card-hover: 0 6px 18px rgba(112, 246, 17, 0.15); /* Sombra verde no hover */
+
+    /* Gradientes com foco no verde */
+    --gradient-primary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary-dark) 100%);
+    --gradient-secondary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+    --gradient-metallic-green-focus: linear-gradient(135deg, #ffffff 0%, var(--color-secondary) 30%, var(--color-tertiary) 50%, var(--color-secondary) 70%, #ffffff 100%);
+    --gradient-card-header: linear-gradient(-45deg, var(--color-secondary), #5cb85c, var(--color-primary-dark), var(--color-secondary));
+
+    /* Animação do Gradiente */
+    --gradient-animation: gradientBG 12s ease infinite;
+}
+
+/* ==========================================
+   Estilos Gerais da Página
+   ========================================== */
+body {
+    background-color: var(--color-light-gray);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.titulo-pagina {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--color-secondary);
+    display: inline-block;
+}
+
+.titulo-pagina i {
+    color: var(--color-secondary);
+}
+
+/* ==========================================
+   Estilos do Card de Comunicado
+   ========================================== */
+.card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray);
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-card-hover);
+}
+
+.card .card-header {
+    background: var(--gradient-card-header) !important;
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: var(--color-white) !important;
+    font-weight: 600;
+    font-size: 1.1em;
+    padding: 1rem 1.25rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.card .card-header i {
+    margin-right: 0.75rem;
+    font-size: 1.3rem;
+    vertical-align: middle;
+}
+
+/* Efeito de brilho metálico */
+.card .card-header::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.05) 40%,
+      rgba(255,255,255,0.3) 50%,
+      rgba(255,255,255,0.05) 60%,
+      rgba(255,255,255,0) 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.7s ease;
+    z-index: -1;
+}
+
+.card:hover .card-header::before {
+    top: 100%;
+    left: 100%;
+}
+
+.card .card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(245, 255, 245, 0.8) 100%);
+}
+
+/* ==========================================
+   Estilos do Formulário
+   ========================================== */
+.card form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.card form .mb-3 {
+    flex: 1 1 100%; /* Todos os campos ocupam a linha inteira */
+    min-width: 250px;
+}
+
+.card form .form-label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.card form .form-label i {
+    margin-right: 0.5rem;
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+}
+
+.card form .form-control,
+.card form .form-select {
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    background-color: var(--color-white);
+    width: 100%;
+}
+
+.card form .form-control:focus,
+.card form .form-select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+    background-color: #fafffa;
+    outline: none;
+}
+
+/* Estilo específico para o textarea */
+#comunicado_texto {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Estilo para o select múltiplo */
+#comunicado_destinatarios {
+    min-height: 120px;
+}
+
+/* Estilo para o input de arquivos */
+#comunicado_arquivos {
+    padding: 0.5rem;
+}
+
+/* Switch */
+.card form .form-check.form-switch {
+    padding-left: 3em;
+    display: flex;
+    align-items: center;
+    min-height: auto;
+    margin-top: 0.5rem;
+}
+
+.card form .form-switch .form-check-input {
+    width: 2.5em;
+    height: 1.25em;
+    margin-left: -3em;
+    background-color: var(--color-gray);
+    border-color: #bbb;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23bbb'/%3e%3c/svg%3e");
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, background-position 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.card form .form-switch .form-check-input:focus {
+    border-color: var(--color-secondary);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(112, 246, 17, 0.2);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(112, 246, 17, 0.8)'/%3e%3c/svg%3e");
+}
+
+.card form .form-switch .form-check-input:checked {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    background-position: right center;
+}
+
+.card form .form-switch .form-check-label {
+    padding-top: 0.1em;
+    color: var(--color-text-dark);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Botão de Submissão */
+.card form button[type="submit"] {
+    background: var(--gradient-secondary-green) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBGButton 10s ease infinite !important;
+    border: none;
+    border-radius: 8px;
+    color: var(--color-primary-dark) !important;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.15);
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.card form button[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(112, 246, 17, 0.25);
+}
+
+.card form button[type="submit"]:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(112, 246, 17, 0.2);
+}
+
+.card form button[type="submit"] i {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* Efeito de brilho no botão */
+.card form button[type="submit"]::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(30deg);
+    transition: all 0.6s ease;
+}
+
+.card form button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+/* Estado de Carregamento do Botão */
+.card form button[type="submit"]:disabled {
+    background: var(--color-gray) !important;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* ==========================================
+   Mensagens de Feedback (Toast Notifications)
+   ========================================== */
+#toast-container-fixed {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1056;
+    width: auto;
+    max-width: 400px;
+}
+
+#toast-container-fixed .alert {
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1.25rem;
+    font-weight: 500;
+    box-shadow: var(--box-shadow-medium);
+    border: none;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    position: relative;
+}
+
+#toast-container-fixed .alert.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#toast-container-fixed .alert-success {
+    background: linear-gradient(135deg, #d1e7dd, var(--color-success));
+    color: #0a3622;
+}
+
+#toast-container-fixed .alert-danger {
+    background: linear-gradient(135deg, #f8d7da, var(--color-danger));
+    color: #58151c;
+}
+
+#toast-container-fixed .alert i {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+#toast-container-fixed .alert-dismissible .btn-close {
+    padding: 0.8rem;
+    opacity: 0.8;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    line-height: 1;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: inherit;
+}
+
+#toast-container-fixed .alert-dismissible .btn-close:hover {
+    opacity: 1;
+}
+
+/* ==========================================
+   Responsividade
+   ========================================== */
+@media (max-width: 767px) {
+    .card .card-body {
+        padding: 1rem;
+    }
+    .card .card-header {
+        font-size: 1em;
+        padding: 0.8rem 1rem;
+    }
+    .card form .mb-3 {
+        min-width: unset;
+    }
+    .card form button[type="submit"] {
+        padding: 0.7rem 1.2rem;
+    }
+}
+
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes gradientBGButton {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==========================================
+   Estilos para o Formulário de Comunicados
+   ========================================== */
+
+/* Container Principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Título da Página */
+.titulo-pagina {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--color-secondary);
+    display: inline-block;
+}
+
+.titulo-pagina i {
+    color: var(--color-secondary);
+}
+
+/* Card do Formulário */
+.card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-light);
+    border: none;
+    margin-bottom: 2rem;
+}
+
+.card-header {
+    background: var(--gradient-card-header);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.card-header i {
+    font-size: 1.5rem;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Formulário */
+.form-label {
+    color: var(--color-primary-dark);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-label i {
+    color: var(--color-secondary);
+    font-size: 1.2rem;
+}
+
+.form-control {
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 0.25rem rgba(112, 246, 17, 0.15);
+}
+
+/* Checkboxes e Radios */
+.form-check {
+    margin-bottom: 0.5rem;
+}
+
+.form-check-input {
+    border: 2px solid var(--color-gray);
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+.form-check-label {
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Container de Destinatários */
+.destinatarios-container {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 1rem;
+    border: 1px solid var(--color-gray);
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+
+/* Preview do Banner */
+#preview_banner {
+    border-radius: 8px;
+    box-shadow: var(--box-shadow-light);
+    transition: all 0.3s ease;
+}
+
+#preview_banner:hover {
+    transform: scale(1.02);
+    box-shadow: var(--box-shadow-medium);
+}
+
+/* Botão de Envio */
+.btn-primary {
+    background: var(--gradient-secondary-green);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(112, 246, 17, 0.2);
+}
+
+.btn-primary i {
+    font-size: 1.2rem;
+}
+
+/* Mensagens de Erro */
+.invalid-feedback {
+    color: var(--color-danger);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.is-invalid {
+    border-color: var(--color-danger) !important;
+}
+
+.is-invalid:focus {
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Toast Notifications */
+#toast-container-fixed {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.alert {
+    margin-bottom: 0.5rem;
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: var(--box-shadow-medium);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.alert.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d1e7dd, var(--color-success));
+    color: #0a3622;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #f8d7da, var(--color-danger));
+    color: #58151c;
+}
+
+.alert i {
+    font-size: 1.3rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .destinatarios-container {
+        max-height: 200px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Estilos para as Abas de Destinatários */
+.nav-tabs {
+    border-bottom: 2px solid #142650;
+    margin-bottom: 0;
+}
+
+.nav-tabs .nav-link {
+    color: #142650;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+    color: #0bd5f0;
+    border: none;
+}
+
+.nav-tabs .nav-link.active {
+    color: #70f611;
+    background-color: #142650;
+    border: none;
+    border-bottom: 3px solid #70f611;
+}
+
+.nav-tabs .nav-link i {
+    margin-right: 0.5rem;
+    font-size: 1.1em;
+}
+
+/* Estilos para o Conteúdo das Abas */
+.tab-content {
+    background-color: #fff;
+    border-color: #142650;
+}
+
+.tab-pane {
+    padding: 1rem 0;
+}
+
+/* Estilos para os Checkboxes */
+.destinatarios-header {
+    background-color: #f8f9fa;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.form-check {
+    margin-bottom: 0.5rem;
+    padding-left: 1.75rem;
+}
+
+.form-check-input {
+    width: 1.1em;
+    height: 1.1em;
+    margin-top: 0.15em;
+    border-color: #142650;
+}
+
+.form-check-input:checked {
+    background-color: #70f611;
+    border-color: #70f611;
+}
+
+.form-check-input:focus {
+    border-color: #0bd5f0;
+    box-shadow: 0 0 0 0.25rem rgba(11, 213, 240, 0.25);
+}
+
+.form-check-label {
+    color: #142650;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Estilos para as Colunas */
+[id^="coluna-"] {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+/* Estilização da Scrollbar */
+[id^="coluna-"]::-webkit-scrollbar {
+    width: 8px;
+}
+
+[id^="coluna-"]::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+[id^="coluna-"]::-webkit-scrollbar-thumb {
+    background: #142650;
+    border-radius: 4px;
+}
+
+[id^="coluna-"]::-webkit-scrollbar-thumb:hover {
+    background: #0bd5f0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .nav-tabs .nav-link {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .nav-tabs .nav-link i {
+        margin-right: 0.25rem;
+    }
+
+    [id^="coluna-"] {
+        max-height: 200px;
+    }
+}
+
+/* Estilos para o seletor de destinatários */
+.destinatarios-selector {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.destinatarios-selector select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.5rem;
+    padding-right: 3rem;
+}
+
+.destinatarios-selector select:hover {
+    border-color: #007bff;
+}
+
+.destinatarios-selector select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* Container dos checkboxes */
+.checkbox-container {
+    display: none;
+    background: #fff;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.checkbox-container.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo dos checkboxes */
+.checkbox-container .form-check {
+    margin-bottom: 0.75rem;
+    padding-left: 2rem;
+    position: relative;
+}
+
+.checkbox-container .form-check-input {
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.checkbox-container .form-check-input:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.checkbox-container .form-check-input:focus {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.checkbox-container .form-check-label {
+    font-size: 0.95rem;
+    color: #444;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.checkbox-container .form-check:hover .form-check-label {
+    color: #007bff;
+}
+
+/* Container de duas colunas */
+.checkbox-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.checkbox-columns::-webkit-scrollbar {
+    width: 6px;
+}
+
+.checkbox-columns::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.checkbox-columns::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.checkbox-columns::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .checkbox-columns {
+        grid-template-columns: 1fr;
+    }
+    
+    .destinatarios-selector select {
+        font-size: 0.95rem;
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .checkbox-container {
+        padding: 1rem;
+    }
+}
+
+/* Estilo para o botão "Marcar Todos" */
+.marcar-todos-container {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.marcar-todos-container .form-check {
+    margin: 0;
+    padding-left: 2rem;
+}
+
+.marcar-todos-container .form-check-input {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 0.2rem;
+}
+
+.marcar-todos-container .form-check-label {
+    font-weight: 500;
+    color: #007bff;
+}
+
+/* Animação de loading */
+.loading-spinner {
+    display: none;
+    text-align: center;
+    padding: 1rem;
+}
+
+.loading-spinner.active {
+    display: block;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mensagem de erro */
+.error-message {
+    display: none;
+    color: #dc3545;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 4px;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.error-message.active {
+    display: block;
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}

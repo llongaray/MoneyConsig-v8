@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.scene {
+  position: absolute; /* Mantém a cena como absoluta para ajustar ao fluxo dos elementos */
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0; /* Garante que a cena fique atrás dos outros elementos */
+  pointer-events: none; /* Impede que a cena interaja com o mouse */
+}
+
+.scene .rocket {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: animate 0.2s ease infinite;
+}
+
+@keyframes animate {
+  0%, 100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(2px); 
+  }
+}
+
+.scene .rocket::before,
+.scene .rocket::after {
+  content: '';
+  position: absolute;
+  bottom: -200px;
+  width: 15px;
+  height: 200px;
+  background: linear-gradient(#00d0ff, transparent);  
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.scene .rocket::after {
+  filter: blur(20px);
+}
+
+.scene i {
+  position: absolute;
+  top: -250px; 
+  background: #C0C0C0;
+  animation: animateStar linear infinite;
+}
+
+@keyframes animateStar {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(600vh);
+  }
+}
+
+.progress-meta .scene .rocket {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Certifica que a imagem e o fundo estão centralizados */
+}
+
+.progress-meta .scene .rocket img {
+  background-color: none;
+  border: none;
+  box-shadow: none;
+  height: 60px;
+  width: auto;
+}
+
+.progress-meta .scene {
+  position: relative;
+  height: 100%;
+}

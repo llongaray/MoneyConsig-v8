@@ -1,0 +1,945 @@
+/* ==========================================
+   Estilos para o Card de Detalhes do Agendamento
+   ========================================== */
+.observacao-agendamento-card {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(11, 213, 240, 0.12);
+  overflow: hidden;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.observacao-agendamento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 35px rgba(11, 213, 240, 0.18);
+}
+
+.observacao-agendamento-card .card-header {
+  background: linear-gradient(135deg, #0bd5f0 0%, #142650 35%, #ffffff 50%, #142650 65%, #0bd5f0 100%);
+  background-size: 300% 300%;
+  animation: gradientFlowDetalhes 12s ease infinite;
+  color: var(--color-white);
+  padding: 1.2rem 1.5rem;
+  border: none;
+  position: relative;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.3px;
+}
+
+.observacao-agendamento-card .card-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: slideShineDetalhes 3s ease-in-out infinite;
+}
+
+.observacao-agendamento-card .card-header i {
+  font-size: 1.3rem;
+  margin-right: 0.6rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.observacao-agendamento-card .card-body {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 1) 0%, 
+    rgba(11, 213, 240, 0.02) 25%, 
+    rgba(255, 255, 255, 1) 75%, 
+    rgba(11, 213, 240, 0.05) 100%
+  );
+  position: relative;
+}
+
+/* Elementos informativos básicos */
+.observacao-agendamento-card .card-body > p {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.9) 0%, 
+    rgba(11, 213, 240, 0.05) 50%, 
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  padding: 0.875rem 1rem;
+  border-radius: 12px;
+  border-left: 4px solid var(--color-tertiary);
+  box-shadow: 0 3px 12px rgba(11, 213, 240, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.observacao-agendamento-card .card-body > p::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--color-tertiary), #70f611);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.observacao-agendamento-card .card-body > p:hover {
+  transform: translateX(6px);
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 1) 0%, 
+    rgba(11, 213, 240, 0.08) 50%, 
+    rgba(255, 255, 255, 1) 100%
+  );
+  border-left-color: #70f611;
+  box-shadow: 0 6px 20px rgba(11, 213, 240, 0.15);
+}
+
+.observacao-agendamento-card .card-body > p:hover::before {
+  transform: scaleY(1);
+}
+
+.observacao-agendamento-card .card-body > p i {
+  font-size: 1.3rem;
+  color: var(--color-tertiary);
+  animation: pulseIconDetalhes 3s ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(11, 213, 240, 0.3));
+}
+
+.observacao-agendamento-card .card-body strong {
+  margin-right: 0.6rem;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  font-size: 1.02rem;
+}
+
+.observacao-agendamento-card .card-body span {
+  font-weight: 500;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+/* Seções especiais do formulário */
+.observacao-agendamento-card .mb-3 {
+  margin-bottom: 1.5rem !important;
+  position: relative;
+}
+
+.observacao-agendamento-card .mb-3 > p {
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  font-size: 1.05rem;
+}
+
+/* Modo visualização das seções */
+#tabulacao-view, #telefone-view, #observacao-view {
+  background: linear-gradient(135deg, 
+    rgba(248, 249, 250, 1) 0%, 
+    rgba(11, 213, 240, 0.03) 50%, 
+    rgba(248, 249, 250, 1) 100%
+  );
+  border: 1px solid rgba(11, 213, 240, 0.15);
+  border-radius: 10px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+#tabulacao-view:hover, #telefone-view:hover, #observacao-view:hover {
+  border-color: rgba(11, 213, 240, 0.3);
+  box-shadow: 0 4px 15px rgba(11, 213, 240, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Modo edição das seções */
+#tabulacao-edit, #telefone-edit, #observacao-edit {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 1) 0%, 
+    rgba(112, 246, 17, 0.02) 50%, 
+    rgba(255, 255, 255, 1) 100%
+  );
+  border: 2px solid rgba(112, 246, 17, 0.2);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+#tabulacao-edit::before, #telefone-edit::before, #observacao-edit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #70f611, #0bd5f0, #70f611);
+  border-radius: 12px 12px 0 0;
+}
+
+/* Controles de formulário melhorados */
+#tabulacao-edit .form-select,
+#tabulacao-edit .form-control,
+#telefone-edit .form-control,
+#telefone-edit .form-select,
+#observacao-edit .form-control {
+  border: 2px solid rgba(112, 246, 17, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+#tabulacao-edit .form-select:focus,
+#tabulacao-edit .form-control:focus,
+#telefone-edit .form-control:focus,
+#telefone-edit .form-select:focus,
+#observacao-edit .form-control:focus {
+  border-color: #70f611;
+  box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 1);
+}
+
+/* Checkbox personalizado */
+.form-check-input {
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid rgba(112, 246, 17, 0.3);
+  transition: all 0.3s ease;
+}
+
+.form-check-input:checked {
+  background-color: #70f611;
+  border-color: #70f611;
+  box-shadow: 0 2px 8px rgba(112, 246, 17, 0.3);
+}
+
+.form-check-label {
+  font-weight: 500;
+  color: var(--color-primary-dark);
+  margin-left: 0.5rem;
+}
+
+/* Observação texto especial */
+.observacao-texto {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%, 
+    rgba(11, 213, 240, 0.05) 25%, 
+    rgba(255, 255, 255, 0.95) 75%, 
+    rgba(11, 213, 240, 0.08) 100%
+  );
+  border-radius: 12px;
+  padding: 1.25rem !important;
+  box-shadow: 0 4px 15px rgba(11, 213, 240, 0.08);
+  border: 1px solid rgba(11, 213, 240, 0.15);
+  margin-top: 0.75rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.observacao-texto::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmerDetalhes 4s ease-in-out infinite;
+}
+
+.observacao-texto:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 25px rgba(11, 213, 240, 0.15);
+  border-color: rgba(11, 213, 240, 0.3);
+}
+
+.observacao-texto p {
+  border-left: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  font-style: italic;
+  line-height: 1.6;
+  color: #495057;
+  font-size: 0.98rem;
+}
+
+/* Botões de controle melhorados */
+.observacao-agendamento-card .mt-3 {
+  margin-top: 2rem !important;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(11, 213, 240, 0.1);
+}
+
+#btn-editar-detalhes {
+  background: linear-gradient(135deg, rgba(11, 213, 240, 0.1), rgba(255, 255, 255, 1));
+  border: 2px solid var(--color-tertiary);
+  color: var(--color-tertiary);
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+#btn-editar-detalhes::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+#btn-editar-detalhes:hover {
+  background: linear-gradient(135deg, var(--color-tertiary), #70f611);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(11, 213, 240, 0.3);
+}
+
+#btn-editar-detalhes:hover::before {
+  left: 100%;
+}
+
+/* Estado desabilitado do botão editar detalhes */
+#btn-editar-detalhes:disabled,
+#btn-editar-detalhes.btn-outline-secondary:disabled {
+  background: linear-gradient(135deg, rgba(108, 117, 125, 0.1), rgba(248, 249, 250, 1));
+  border: 2px solid #6c757d;
+  color: #6c757d;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  opacity: 0.7;
+}
+
+#btn-editar-detalhes:disabled:hover,
+#btn-editar-detalhes.btn-outline-secondary:disabled:hover {
+  background: linear-gradient(135deg, rgba(108, 117, 125, 0.1), rgba(248, 249, 250, 1));
+  border: 2px solid #6c757d;
+  color: #6c757d;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+#btn-editar-detalhes:disabled::before,
+#btn-editar-detalhes.btn-outline-secondary:disabled::before {
+  display: none;
+}
+
+/* Container dos botões de ação */
+.observacao-agendamento-card .mt-4 .d-flex {
+  display: flex !important;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.observacao-agendamento-card .mt-4 .d-flex .btn {
+  flex: 1;
+  min-width: 140px;
+  white-space: nowrap;
+}
+
+#botoes-edicao .btn-group {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#btn-salvar-detalhes {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border: none;
+  font-weight: 600;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+#btn-salvar-detalhes:hover {
+  background: linear-gradient(135deg, #218838, #1e7e34);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+#btn-cancelar-edicao {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  border: none;
+  font-weight: 600;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+#btn-cancelar-edicao:hover {
+  background: linear-gradient(135deg, #5a6268, #495057);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+/* Animações personalizadas */
+@keyframes gradientFlowDetalhes {
+  0% { background-position: 0% 50%; }
+  25% { background-position: 100% 50%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 0% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes slideShineDetalhes {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes pulseIconDetalhes {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes shimmerDetalhes {
+  0% { left: -100%; }
+  50% { left: -50%; }
+  100% { left: 100%; }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .observacao-agendamento-card .card-header {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  
+  .observacao-agendamento-card .card-body {
+    padding: 1rem;
+  }
+  
+  .observacao-agendamento-card .card-body > p {
+    padding: 0.7rem 0.8rem;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+  }
+  
+  .observacao-agendamento-card .card-body > p i {
+    font-size: 1.1rem;
+  }
+  
+  #tabulacao-edit, #telefone-edit, #observacao-edit {
+    padding: 1rem;
+  }
+  
+  #tabulacao-edit .form-select,
+  #tabulacao-edit .form-control,
+  #telefone-edit .form-control,
+  #telefone-edit .form-select,
+  #observacao-edit .form-control {
+    padding: 0.65rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .observacao-texto {
+    padding: 1rem !important;
+  }
+  
+  #btn-editar-detalhes {
+    padding: 0.55rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .observacao-agendamento-card .mt-4 .d-flex .btn {
+    min-width: 120px;
+    font-size: 0.85rem;
+  }
+  
+  #btn-salvar-detalhes, #btn-cancelar-edicao {
+    padding: 0.65rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .observacao-agendamento-card .card-header {
+    padding: 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  .observacao-agendamento-card .card-body {
+    padding: 0.8rem;
+  }
+  
+  .observacao-agendamento-card .card-body > p {
+    padding: 0.6rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    text-align: left;
+  }
+  
+  .observacao-agendamento-card .card-body > p i {
+    align-self: flex-start;
+  }
+  
+  #telefone-edit .row {
+    margin: 0;
+  }
+  
+  #telefone-edit .col-8, #telefone-edit .col-4 {
+    padding: 0.25rem;
+  }
+  
+  .observacao-agendamento-card .mt-3 {
+    margin-top: 1.5rem !important;
+    padding-top: 1rem;
+  }
+  
+  #botoes-edicao .btn-group {
+    flex-direction: column;
+  }
+  
+  #btn-salvar-detalhes, #btn-cancelar-edicao {
+    border-radius: 8px !important;
+    margin-bottom: 0.5rem;
+  }
+  
+  #btn-editar-detalhes {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .observacao-agendamento-card .mt-4 .d-flex {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .observacao-agendamento-card .mt-4 .d-flex .btn {
+    width: 100%;
+    min-width: auto;
+    flex: none;
+  }
+}
+
+/* ==========================================
+   🌙 DARK MODE - CARD DE DETALHES DO AGENDAMENTO
+   ========================================== */
+
+/* Card de detalhes do agendamento */
+[data-theme="dark"] .observacao-agendamento-card,
+body.dark-mode .observacao-agendamento-card {
+    background-color: #3d3450;
+    border-color: #6e42c1;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .observacao-agendamento-card:hover,
+body.dark-mode .observacao-agendamento-card:hover {
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.5);
+    background-color: rgba(134, 89, 212, 0.1);
+}
+
+/* Header do card */
+[data-theme="dark"] .observacao-agendamento-card .card-header,
+body.dark-mode .observacao-agendamento-card .card-header {
+    background: linear-gradient(135deg, #0bd5f0 0%, #142650 35%, #ffffff 50%, #142650 65%, #0bd5f0 100%);
+    background-size: 300% 300%;
+    animation: gradientFlowDetalhes 12s ease infinite;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .observacao-agendamento-card .card-header i,
+body.dark-mode .observacao-agendamento-card .card-header i {
+    color: #ffffff;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Body do card */
+[data-theme="dark"] .observacao-agendamento-card .card-body,
+body.dark-mode .observacao-agendamento-card .card-body {
+    background: linear-gradient(135deg, 
+        #3d3450 0%, 
+        rgba(11, 213, 240, 0.05) 25%, 
+        #3d3450 75%, 
+        rgba(11, 213, 240, 0.08) 100%
+    );
+    color: #ffffff;
+}
+
+/* Elementos informativos */
+[data-theme="dark"] .observacao-agendamento-card .card-body > p,
+body.dark-mode .observacao-agendamento-card .card-body > p {
+    background: linear-gradient(135deg, 
+        rgba(61, 52, 80, 0.9) 0%, 
+        rgba(11, 213, 240, 0.08) 50%, 
+        rgba(61, 52, 80, 0.9) 100%
+    );
+    border-left-color: #70f611;
+    box-shadow: 0 3px 12px rgba(11, 213, 240, 0.15);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .observacao-agendamento-card .card-body > p:hover,
+body.dark-mode .observacao-agendamento-card .card-body > p:hover {
+    background: linear-gradient(135deg, 
+        rgba(61, 52, 80, 1) 0%, 
+        rgba(11, 213, 240, 0.12) 50%, 
+        rgba(61, 52, 80, 1) 100%
+    );
+    border-left-color: #70f611;
+    box-shadow: 0 6px 20px rgba(11, 213, 240, 0.25);
+}
+
+[data-theme="dark"] .observacao-agendamento-card .card-body > p i,
+body.dark-mode .observacao-agendamento-card .card-body > p i {
+    color: #70f611;
+    filter: drop-shadow(0 2px 4px rgba(11, 213, 240, 0.4));
+}
+
+[data-theme="dark"] .observacao-agendamento-card .card-body strong,
+body.dark-mode .observacao-agendamento-card .card-body strong {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .observacao-agendamento-card .card-body span,
+body.dark-mode .observacao-agendamento-card .card-body span {
+    color: #b8b5c0;
+}
+
+/* Modo visualização das seções */
+[data-theme="dark"] #tabulacao-view,
+[data-theme="dark"] #telefone-view,
+[data-theme="dark"] #observacao-view,
+body.dark-mode #tabulacao-view,
+body.dark-mode #telefone-view,
+body.dark-mode #observacao-view {
+    background: linear-gradient(135deg, 
+        rgba(61, 52, 80, 1) 0%, 
+        rgba(11, 213, 240, 0.05) 50%, 
+        rgba(61, 52, 80, 1) 100%
+    );
+    border-color: rgba(11, 213, 240, 0.25);
+    color: #ffffff;
+}
+
+[data-theme="dark"] #tabulacao-view:hover,
+[data-theme="dark"] #telefone-view:hover,
+[data-theme="dark"] #observacao-view:hover,
+body.dark-mode #tabulacao-view:hover,
+body.dark-mode #telefone-view:hover,
+body.dark-mode #observacao-view:hover {
+    border-color: rgba(11, 213, 240, 0.4);
+    box-shadow: 0 4px 15px rgba(11, 213, 240, 0.2);
+}
+
+/* Modo edição das seções */
+[data-theme="dark"] #tabulacao-edit,
+[data-theme="dark"] #telefone-edit,
+[data-theme="dark"] #observacao-edit,
+body.dark-mode #tabulacao-edit,
+body.dark-mode #telefone-edit,
+body.dark-mode #observacao-edit {
+    background: linear-gradient(135deg, 
+        rgba(61, 52, 80, 1) 0%, 
+        rgba(112, 246, 17, 0.05) 50%, 
+        rgba(61, 52, 80, 1) 100%
+    );
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+/* Controles de formulário */
+[data-theme="dark"] #tabulacao-edit .form-select,
+[data-theme="dark"] #tabulacao-edit .form-control,
+[data-theme="dark"] #telefone-edit .form-control,
+[data-theme="dark"] #telefone-edit .form-select,
+[data-theme="dark"] #observacao-edit .form-control,
+body.dark-mode #tabulacao-edit .form-select,
+body.dark-mode #tabulacao-edit .form-control,
+body.dark-mode #telefone-edit .form-control,
+body.dark-mode #telefone-edit .form-select,
+body.dark-mode #observacao-edit .form-control {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] #tabulacao-edit .form-select:focus,
+[data-theme="dark"] #tabulacao-edit .form-control:focus,
+[data-theme="dark"] #telefone-edit .form-control:focus,
+[data-theme="dark"] #telefone-edit .form-select:focus,
+[data-theme="dark"] #observacao-edit .form-control:focus,
+body.dark-mode #tabulacao-edit .form-select:focus,
+body.dark-mode #tabulacao-edit .form-control:focus,
+body.dark-mode #telefone-edit .form-control:focus,
+body.dark-mode #telefone-edit .form-select:focus,
+body.dark-mode #observacao-edit .form-control:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+/* Checkbox personalizado */
+[data-theme="dark"] .form-check-input,
+body.dark-mode .form-check-input {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.4);
+}
+
+[data-theme="dark"] .form-check-input:checked,
+body.dark-mode .form-check-input:checked {
+    background-color: #70f611;
+    border-color: #70f611;
+    box-shadow: 0 2px 8px rgba(112, 246, 17, 0.4);
+}
+
+[data-theme="dark"] .form-check-label,
+body.dark-mode .form-check-label {
+    color: #ffffff;
+}
+
+/* Observação texto especial */
+[data-theme="dark"] .observacao-texto,
+body.dark-mode .observacao-texto {
+    background: linear-gradient(135deg, 
+        rgba(61, 52, 80, 0.95) 0%, 
+        rgba(11, 213, 240, 0.08) 25%, 
+        rgba(61, 52, 80, 0.95) 75%, 
+        rgba(11, 213, 240, 0.12) 100%
+    );
+    border-color: rgba(11, 213, 240, 0.25);
+    box-shadow: 0 4px 15px rgba(11, 213, 240, 0.15);
+}
+
+[data-theme="dark"] .observacao-texto:hover,
+body.dark-mode .observacao-texto:hover {
+    box-shadow: 0 8px 25px rgba(11, 213, 240, 0.25);
+    border-color: rgba(11, 213, 240, 0.4);
+}
+
+[data-theme="dark"] .observacao-texto p,
+body.dark-mode .observacao-texto p {
+    color: #b8b5c0;
+}
+
+/* Botões de controle */
+[data-theme="dark"] #btn-editar-detalhes,
+body.dark-mode #btn-editar-detalhes {
+    background: linear-gradient(135deg, rgba(11, 213, 240, 0.15), rgba(61, 52, 80, 1));
+    border-color: #0bd5f0;
+    color: #0bd5f0;
+}
+
+[data-theme="dark"] #btn-editar-detalhes:hover,
+body.dark-mode #btn-editar-detalhes:hover {
+    background: linear-gradient(135deg, #0bd5f0, #70f611);
+    color: #ffffff;
+    box-shadow: 0 6px 20px rgba(11, 213, 240, 0.4);
+}
+
+/* Estado desabilitado do botão */
+[data-theme="dark"] #btn-editar-detalhes:disabled,
+[data-theme="dark"] #btn-editar-detalhes.btn-outline-secondary:disabled,
+body.dark-mode #btn-editar-detalhes:disabled,
+body.dark-mode #btn-editar-detalhes.btn-outline-secondary:disabled {
+    background: linear-gradient(135deg, rgba(108, 117, 125, 0.15), rgba(61, 52, 80, 1));
+    border-color: #6c757d;
+    color: #6c757d;
+    opacity: 0.7;
+}
+
+/* Botões de ação */
+[data-theme="dark"] #btn-salvar-detalhes,
+body.dark-mode #btn-salvar-detalhes {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: #ffffff;
+}
+
+[data-theme="dark"] #btn-salvar-detalhes:hover,
+body.dark-mode #btn-salvar-detalhes:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+}
+
+[data-theme="dark"] #btn-cancelar-edicao,
+body.dark-mode #btn-cancelar-edicao {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    color: #ffffff;
+}
+
+[data-theme="dark"] #btn-cancelar-edicao:hover,
+body.dark-mode #btn-cancelar-edicao:hover {
+    background: linear-gradient(135deg, #5a6268, #495057);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+}
+
+/* Responsividade no dark mode */
+@media (max-width: 768px) {
+    [data-theme="dark"] .observacao-agendamento-card .card-header,
+    body.dark-mode .observacao-agendamento-card .card-header {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+    
+    [data-theme="dark"] .observacao-agendamento-card .card-body,
+    body.dark-mode .observacao-agendamento-card .card-body {
+        padding: 1rem;
+    }
+    
+    [data-theme="dark"] .observacao-agendamento-card .card-body > p,
+    body.dark-mode .observacao-agendamento-card .card-body > p {
+        padding: 0.7rem 0.8rem;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+    }
+    
+    [data-theme="dark"] .observacao-agendamento-card .card-body > p i,
+    body.dark-mode .observacao-agendamento-card .card-body > p i {
+        font-size: 1.1rem;
+    }
+    
+    [data-theme="dark"] #tabulacao-edit,
+    [data-theme="dark"] #telefone-edit,
+    [data-theme="dark"] #observacao-edit,
+    body.dark-mode #tabulacao-edit,
+    body.dark-mode #telefone-edit,
+    body.dark-mode #observacao-edit {
+        padding: 1rem;
+    }
+    
+    [data-theme="dark"] #tabulacao-edit .form-select,
+    [data-theme="dark"] #tabulacao-edit .form-control,
+    [data-theme="dark"] #telefone-edit .form-control,
+    [data-theme="dark"] #telefone-edit .form-select,
+    [data-theme="dark"] #observacao-edit .form-control,
+    body.dark-mode #tabulacao-edit .form-select,
+    body.dark-mode #tabulacao-edit .form-control,
+    body.dark-mode #telefone-edit .form-control,
+    body.dark-mode #telefone-edit .form-select,
+    body.dark-mode #observacao-edit .form-control {
+        padding: 0.65rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    [data-theme="dark"] .observacao-texto,
+    body.dark-mode .observacao-texto {
+        padding: 1rem !important;
+    }
+    
+    [data-theme="dark"] #btn-editar-detalhes,
+    body.dark-mode #btn-editar-detalhes {
+        padding: 0.55rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    [data-theme="dark"] .observacao-agendamento-card .mt-4 .d-flex .btn,
+    body.dark-mode .observacao-agendamento-card .mt-4 .d-flex .btn {
+        min-width: 120px;
+        font-size: 0.85rem;
+    }
+    
+    [data-theme="dark"] #btn-salvar-detalhes,
+    [data-theme="dark"] #btn-cancelar-edicao,
+    body.dark-mode #btn-salvar-detalhes,
+    body.dark-mode #btn-cancelar-edicao {
+        padding: 0.65rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    [data-theme="dark"] .observacao-agendamento-card .card-header,
+    body.dark-mode .observacao-agendamento-card .card-header {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+    }
+    
+    [data-theme="dark"] .observacao-agendamento-card .card-body,
+    body.dark-mode .observacao-agendamento-card .card-body {
+        padding: 0.8rem;
+    }
+    
+    [data-theme="dark"] .observacao-agendamento-card .card-body > p,
+    body.dark-mode .observacao-agendamento-card .card-body > p {
+        padding: 0.6rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+        text-align: left;
+    }
+    
+    [data-theme="dark"] .observacao-agendamento-card .card-body > p i,
+    body.dark-mode .observacao-agendamento-card .card-body > p i {
+        align-self: flex-start;
+    }
+    
+    [data-theme="dark"] #telefone-edit .row,
+    body.dark-mode #telefone-edit .row {
+        margin: 0;
+    }
+    
+    [data-theme="dark"] #telefone-edit .col-8,
+    [data-theme="dark"] #telefone-edit .col-4,
+    body.dark-mode #telefone-edit .col-8,
+    body.dark-mode #telefone-edit .col-4 {
+        padding: 0.25rem;
+    }
+    
+    [data-theme="dark"] .observacao-agendamento-card .mt-3,
+    body.dark-mode .observacao-agendamento-card .mt-3 {
+        margin-top: 1.5rem !important;
+        padding-top: 1rem;
+    }
+    
+    [data-theme="dark"] #botoes-edicao .btn-group,
+    body.dark-mode #botoes-edicao .btn-group {
+        flex-direction: column;
+    }
+    
+    [data-theme="dark"] #btn-salvar-detalhes,
+    [data-theme="dark"] #btn-cancelar-edicao,
+    body.dark-mode #btn-salvar-detalhes,
+    body.dark-mode #btn-cancelar-edicao {
+        border-radius: 8px !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    [data-theme="dark"] #btn-editar-detalhes,
+    body.dark-mode #btn-editar-detalhes {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    [data-theme="dark"] .observacao-agendamento-card .mt-4 .d-flex,
+    body.dark-mode .observacao-agendamento-card .mt-4 .d-flex {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    [data-theme="dark"] .observacao-agendamento-card .mt-4 .d-flex .btn,
+    body.dark-mode .observacao-agendamento-card .mt-4 .d-flex .btn {
+        width: 100%;
+        min-width: auto;
+        flex: none;
+    }
+} 

@@ -1,0 +1,854 @@
+/* ==========================================
+   Estilos para o Card de Consulta de Cliente
+   ========================================== */
+.consulta-card {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 5px 15px rgba(11, 213, 240, 0.1);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.consulta-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(11, 213, 240, 0.05) 25%, 
+    rgba(112, 246, 17, 0.05) 50%,
+    rgba(11, 213, 240, 0.05) 75%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.consulta-card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 10px 25px rgba(11, 213, 240, 0.2);
+}
+
+.consulta-card:hover::after {
+  opacity: 1;
+}
+
+.consulta-card .card-header {
+  background: linear-gradient(135deg, 
+    var(--color-tertiary) 0%, 
+    var(--color-primary-dark) 50%, 
+    var(--color-tertiary) 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientConsulta 8s ease infinite;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.consulta-card .card-header i {
+  margin-right: 8px;
+  font-size: 1.1rem;
+  animation: pulseIcon 2s infinite;
+}
+
+.consulta-card .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 1) 0%,
+    rgba(240, 240, 240, 0.8) 100%
+  );
+}
+
+/* Estilização do formulário de consulta */
+#consultaClienteForm {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.consulta-cpf {
+  width: 100%;
+  position: relative;
+}
+
+.consulta-cpf::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    var(--color-tertiary),
+    var(--color-secondary)
+  );
+  transition: width 0.4s ease;
+}
+
+.consulta-cpf:focus-within::after {
+  width: 100%;
+}
+
+.consulta-card .form-label {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.consulta-card .form-label i {
+  margin-right: 8px;
+  color: var(--color-tertiary);
+  font-size: 1.2rem;
+}
+
+#cpf_cliente {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid rgba(11, 213, 240, 0.2);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+#cpf_cliente:focus {
+  border-color: var(--color-tertiary);
+  box-shadow: 0 0 0 3px rgba(11, 213, 240, 0.1);
+  transform: translateY(-2px);
+  background-color: white;
+}
+
+#cpf_cliente:focus + .form-label {
+  transform: translateY(-5px) scale(1.05);
+}
+
+/* Botão de Consulta estilizado */
+.consulta-card .btn-primary {
+  background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+  background-size: 300% 300% !important;
+  animation: gradientBG 8s ease infinite !important;
+  border: none;
+  border-radius: 6px;
+  color: #fff !important;
+  font-weight: 600;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(11, 213, 240, 0.2);
+  z-index: 0;
+  font-size: 0.9rem;
+}
+
+.consulta-card .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(11, 213, 240, 0.3);
+}
+
+.consulta-card .btn-primary:active {
+  transform: translateY(1px);
+}
+
+.consulta-card .btn-primary::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(30deg);
+  transition: all 0.6s ease;
+  z-index: -1;
+}
+
+.consulta-card .btn-primary:hover::before {
+  left: 100%;
+}
+
+.consulta-card .btn-primary i {
+  margin-right: 8px;
+  font-size: 1.1rem;
+}
+
+/* Animação especial para Consulta */
+@keyframes gradientConsulta {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseIcon {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Dark mode para card de consulta */
+html.dark .consulta-card {
+  background-color: #222;
+}
+
+html.dark .consulta-card .card-body {
+  background: linear-gradient(135deg, 
+    rgba(35, 35, 35, 1) 0%,
+    rgba(25, 25, 25, 0.8) 100%
+  );
+}
+
+html.dark #cpf_cliente {
+  background-color: rgba(50, 50, 50, 0.7);
+  border-color: rgba(11, 213, 240, 0.3);
+  color: white;
+}
+
+html.dark #cpf_cliente:focus {
+  background-color: rgba(60, 60, 60, 0.9);
+}
+
+html.dark .consulta-card .form-label {
+  color: #eee;
+}
+
+/* Estilos para formulários */
+form#consultaClienteForm,
+form#appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background-color: var(--color-white);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow-light);
+  width: 100%;
+}
+
+/* Botões com gradiente e animação */
+.btn {
+  background: var(--gradient-metallic);
+  background-size: 400% 400%;
+  animation: metallicShift 10s ease infinite;
+  color: var(--color-primary-dark);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.1) 40%,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0.1) 60%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  z-index: -1;
+}
+
+.btn:hover::before {
+  top: 100%;
+  left: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  background: var(--gradient-metallic-hover);
+  background-size: 400% 400%;
+  animation: metallicShift 5s ease infinite;
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+html.dark .btn {
+  background: var(--gradient-metallic-inverted);
+  color: var(--color-white);
+}
+
+/* ==========================================
+   🌙 DARK MODE - FORMULÁRIO
+   ========================================== */
+
+/* Formulário principal */
+[data-theme="dark"] .formulario-consulta-cliente,
+body.dark-mode .formulario-consulta-cliente {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .formulario-consulta-cliente:hover,
+body.dark-mode .formulario-consulta-cliente:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Header do formulário */
+[data-theme="dark"] .formulario-consulta-cliente .card-header,
+body.dark-mode .formulario-consulta-cliente .card-header {
+    background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+    background-size: 400% 400%;
+    animation: metallicShift 15s ease infinite;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .formulario-consulta-cliente .card-header:hover,
+body.dark-mode .formulario-consulta-cliente .card-header:hover {
+    background-color: rgba(112, 246, 17, 0.2);
+    box-shadow: 0 0 15px rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .formulario-consulta-cliente .card-header::after,
+body.dark-mode .formulario-consulta-cliente .card-header::after {
+    color: #ffffff;
+}
+
+/* Body do formulário */
+[data-theme="dark"] .formulario-consulta-cliente .card-body,
+body.dark-mode .formulario-consulta-cliente .card-body {
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.1), rgba(61, 52, 80, 1));
+}
+
+/* Labels do formulário */
+[data-theme="dark"] .formulario-consulta-cliente .form-label,
+body.dark-mode .formulario-consulta-cliente .form-label {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .formulario-consulta-cliente .form-label i,
+body.dark-mode .formulario-consulta-cliente .form-label i {
+    color: #70f611;
+}
+
+/* Controles do formulário */
+[data-theme="dark"] .formulario-consulta-cliente .form-control,
+body.dark-mode .formulario-consulta-cliente .form-control {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .formulario-consulta-cliente .form-control:focus,
+body.dark-mode .formulario-consulta-cliente .form-control:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+/* Select do formulário */
+[data-theme="dark"] .formulario-consulta-cliente .form-select,
+body.dark-mode .formulario-consulta-cliente .form-select {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .formulario-consulta-cliente .form-select:focus,
+body.dark-mode .formulario-consulta-cliente .form-select:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+/* Botões do formulário */
+[data-theme="dark"] .formulario-consulta-cliente .btn-primary,
+body.dark-mode .formulario-consulta-cliente .btn-primary {
+    background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBG 8s ease infinite !important;
+    color: #ffffff !important;
+    border-color: #70f611;
+}
+
+[data-theme="dark"] .formulario-consulta-cliente .btn-primary:hover,
+body.dark-mode .formulario-consulta-cliente .btn-primary:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .formulario-consulta-cliente .btn-outline-secondary,
+body.dark-mode .formulario-consulta-cliente .btn-outline-secondary {
+    background: transparent;
+    border-color: rgba(112, 246, 17, 0.4);
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .formulario-consulta-cliente .btn-outline-secondary:hover,
+body.dark-mode .formulario-consulta-cliente .btn-outline-secondary:hover {
+    background: rgba(112, 246, 17, 0.15);
+    border-color: #70f611;
+    color: #ffffff;
+}
+
+/* Checkbox e radio buttons */
+[data-theme="dark"] .formulario-consulta-cliente .form-check-input,
+body.dark-mode .formulario-consulta-cliente .form-check-input {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .formulario-consulta-cliente .form-check-input:checked,
+body.dark-mode .formulario-consulta-cliente .form-check-input:checked {
+    background-color: #70f611;
+    border-color: #70f611;
+}
+
+[data-theme="dark"] .formulario-consulta-cliente .form-check-label,
+body.dark-mode .formulario-consulta-cliente .form-check-label {
+    color: #b8b5c0;
+}
+
+/* Textarea */
+[data-theme="dark"] .formulario-consulta-cliente textarea.form-control,
+body.dark-mode .formulario-consulta-cliente textarea.form-control {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .formulario-consulta-cliente textarea.form-control:focus,
+body.dark-mode .formulario-consulta-cliente textarea.form-control:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+/* Placeholder */
+[data-theme="dark"] .formulario-consulta-cliente .form-control::placeholder,
+body.dark-mode .formulario-consulta-cliente .form-control::placeholder {
+    color: #8a85a0;
+}
+
+/* Responsividade no dark mode */
+@media (max-width: 768px) {
+    [data-theme="dark"] .formulario-consulta-cliente .card-header,
+    body.dark-mode .formulario-consulta-cliente .card-header {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    [data-theme="dark"] .formulario-consulta-cliente .form-control,
+    [data-theme="dark"] .formulario-consulta-cliente .form-select,
+    body.dark-mode .formulario-consulta-cliente .form-control,
+    body.dark-mode .formulario-consulta-cliente .form-select {
+        padding: 0.65rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    [data-theme="dark"] .formulario-consulta-cliente .form-label,
+    body.dark-mode .formulario-consulta-cliente .form-label {
+        font-size: 0.85rem;
+    }
+}
+
+/* ==========================================
+   🌙 DARK MODE - CARD DE CONSULTA
+   ========================================== */
+
+/* Card de consulta principal */
+[data-theme="dark"] .consulta-card,
+body.dark-mode .consulta-card {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .consulta-card:hover,
+body.dark-mode .consulta-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 10px 25px rgba(11, 213, 240, 0.3);
+}
+
+[data-theme="dark"] .consulta-card::after,
+body.dark-mode .consulta-card::after {
+    background: linear-gradient(135deg, 
+        rgba(112, 246, 17, 0.1) 0%,
+        rgba(11, 213, 240, 0.05) 25%, 
+        rgba(112, 246, 17, 0.05) 50%,
+        rgba(11, 213, 240, 0.05) 75%,
+        rgba(112, 246, 17, 0.1) 100%
+    );
+}
+
+/* Header do card de consulta */
+[data-theme="dark"] .consulta-card .card-header,
+body.dark-mode .consulta-card .card-header {
+    background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+    background-size: 400% 400%;
+    animation: gradientConsulta 8s ease infinite;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .consulta-card .card-header i,
+body.dark-mode .consulta-card .card-header i {
+    color: #ffffff;
+}
+
+/* Body do card de consulta */
+[data-theme="dark"] .consulta-card .card-body,
+body.dark-mode .consulta-card .card-body {
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.1), rgba(61, 52, 80, 1));
+}
+
+/* Formulário de consulta */
+[data-theme="dark"] #consultaClienteForm,
+body.dark-mode #consultaClienteForm {
+    background-color: transparent;
+}
+
+/* Container do CPF */
+[data-theme="dark"] .consulta-cpf::after,
+body.dark-mode .consulta-cpf::after {
+    background: linear-gradient(90deg, #70f611, #0bd5f0);
+}
+
+/* Labels do card de consulta */
+[data-theme="dark"] .consulta-card .form-label,
+body.dark-mode .consulta-card .form-label {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .consulta-card .form-label i,
+body.dark-mode .consulta-card .form-label i {
+    color: #70f611;
+}
+
+/* Input CPF */
+[data-theme="dark"] #cpf_cliente,
+body.dark-mode #cpf_cliente {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] #cpf_cliente:focus,
+body.dark-mode #cpf_cliente:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+[data-theme="dark"] #cpf_cliente::placeholder,
+body.dark-mode #cpf_cliente::placeholder {
+    color: #8a85a0;
+}
+
+/* Botão do card de consulta */
+[data-theme="dark"] .consulta-card .btn-primary,
+body.dark-mode .consulta-card .btn-primary {
+    background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBG 8s ease infinite !important;
+    color: #ffffff !important;
+    border-color: #70f611;
+    box-shadow: 0 2px 8px rgba(11, 213, 240, 0.3);
+}
+
+[data-theme="dark"] .consulta-card .btn-primary:hover,
+body.dark-mode .consulta-card .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(11, 213, 240, 0.4);
+}
+
+[data-theme="dark"] .consulta-card .btn-primary::before,
+body.dark-mode .consulta-card .btn-primary::before {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ==========================================
+   🌙 DARK MODE - FORMULÁRIOS GERAIS
+   ========================================== */
+
+/* Formulários gerais */
+[data-theme="dark"] form#consultaClienteForm,
+[data-theme="dark"] form#appointment-form,
+body.dark-mode form#consultaClienteForm,
+body.dark-mode form#appointment-form {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Botões gerais */
+[data-theme="dark"] .btn,
+body.dark-mode .btn {
+    background: linear-gradient(-45deg, #70f611, #0bd5f0, #4c9fb4, #70f611);
+    background-size: 400% 400%;
+    animation: metallicShift 10s ease infinite;
+    color: #ffffff;
+    border-color: #70f611;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .btn::before,
+body.dark-mode .btn::before {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.1) 40%,
+        rgba(255,255,255,0.4) 50%,
+        rgba(255,255,255,0.1) 60%,
+        rgba(255,255,255,0) 100%
+    );
+}
+
+[data-theme="dark"] .btn:hover,
+body.dark-mode .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(112, 246, 17, 0.3);
+    background: linear-gradient(-45deg, #70f611, #0bd5f0, #4c9fb4, #70f611);
+    background-size: 400% 400%;
+    animation: metallicShift 5s ease infinite;
+}
+
+/* Grupo de botões */
+[data-theme="dark"] .btn-group,
+body.dark-mode .btn-group {
+    background-color: transparent;
+}
+
+[data-theme="dark"] .btn-group .btn,
+body.dark-mode .btn-group .btn {
+    background: rgba(112, 246, 17, 0.1);
+    border-color: rgba(112, 246, 17, 0.4);
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .btn-group .btn:hover,
+body.dark-mode .btn-group .btn:hover {
+    background: rgba(112, 246, 17, 0.2);
+    border-color: #70f611;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .btn-group .btn.active,
+body.dark-mode .btn-group .btn.active {
+    background: linear-gradient(-45deg, #70f611, #0bd5f0, #4c9fb4, #70f611) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBG 6s ease infinite !important;
+    color: #ffffff !important;
+    border-color: #70f611;
+}
+
+/* ==========================================
+   🌙 DARK MODE - ELEMENTOS ESPECÍFICOS
+   ========================================== */
+
+/* Inputs específicos */
+[data-theme="dark"] .form-control,
+body.dark-mode .form-control {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .form-control:focus,
+body.dark-mode .form-control:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+[data-theme="dark"] .form-control::placeholder,
+body.dark-mode .form-control::placeholder {
+    color: #8a85a0;
+}
+
+/* Selects */
+[data-theme="dark"] .form-select,
+body.dark-mode .form-select {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .form-select:focus,
+body.dark-mode .form-select:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+/* Labels gerais */
+[data-theme="dark"] .form-label,
+body.dark-mode .form-label {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .form-label i,
+body.dark-mode .form-label i {
+    color: #70f611;
+}
+
+/* Checkbox e radio buttons */
+[data-theme="dark"] .form-check-input,
+body.dark-mode .form-check-input {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .form-check-input:checked,
+body.dark-mode .form-check-input:checked {
+    background-color: #70f611;
+    border-color: #70f611;
+}
+
+[data-theme="dark"] .form-check-label,
+body.dark-mode .form-check-label {
+    color: #b8b5c0;
+}
+
+/* Textarea */
+[data-theme="dark"] textarea.form-control,
+body.dark-mode textarea.form-control {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] textarea.form-control:focus,
+body.dark-mode textarea.form-control:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+/* Botões específicos */
+[data-theme="dark"] .btn-primary,
+body.dark-mode .btn-primary {
+    background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBG 8s ease infinite !important;
+    color: #ffffff !important;
+    border-color: #70f611;
+}
+
+[data-theme="dark"] .btn-primary:hover,
+body.dark-mode .btn-primary:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .btn-outline-secondary,
+body.dark-mode .btn-outline-secondary {
+    background: transparent;
+    border-color: rgba(112, 246, 17, 0.4);
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .btn-outline-secondary:hover,
+body.dark-mode .btn-outline-secondary:hover {
+    background: rgba(112, 246, 17, 0.15);
+    border-color: #70f611;
+    color: #ffffff;
+}
+
+/* ==========================================
+   🌙 DARK MODE - RESPONSIVIDADE
+   ========================================== */
+
+@media (max-width: 768px) {
+    [data-theme="dark"] .consulta-card .card-header,
+    body.dark-mode .consulta-card .card-header {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    [data-theme="dark"] .consulta-card .card-body,
+    body.dark-mode .consulta-card .card-body {
+        padding: 0.8rem;
+    }
+    
+    [data-theme="dark"] #cpf_cliente,
+    [data-theme="dark"] .form-control,
+    [data-theme="dark"] .form-select,
+    body.dark-mode #cpf_cliente,
+    body.dark-mode .form-control,
+    body.dark-mode .form-select {
+        padding: 0.65rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    [data-theme="dark"] .consulta-card .form-label,
+    [data-theme="dark"] .form-label,
+    body.dark-mode .consulta-card .form-label,
+    body.dark-mode .form-label {
+        font-size: 0.85rem;
+    }
+    
+    [data-theme="dark"] .btn,
+    [data-theme="dark"] .consulta-card .btn-primary,
+    body.dark-mode .btn,
+    body.dark-mode .consulta-card .btn-primary {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    [data-theme="dark"] .consulta-card,
+    body.dark-mode .consulta-card {
+        margin: 0.5rem;
+    }
+    
+    [data-theme="dark"] #consultaClienteForm,
+    body.dark-mode #consultaClienteForm {
+        max-width: 100%;
+        padding: 0.5rem;
+    }
+    
+    [data-theme="dark"] .btn-group,
+    body.dark-mode .btn-group {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    [data-theme="dark"] .btn-group .btn,
+    body.dark-mode .btn-group .btn {
+        width: 100%;
+        margin: 0;
+    }
+} 

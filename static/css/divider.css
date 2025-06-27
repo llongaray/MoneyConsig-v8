@@ -1,0 +1,4 @@
+.divider {
+    background-color: var(--azul-escuro-500); /* Fundo do cabeçalho do modal */
+    width: 2px; /* Largura ligeiramente maior para mais visibilidade */
+}

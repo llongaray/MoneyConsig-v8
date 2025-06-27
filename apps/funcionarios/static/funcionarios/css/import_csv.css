@@ -1,0 +1,157 @@
+/* Estilo geral do container para centralizar horizontalmente */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilo para os sections */
+section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px 0;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    flex-direction: column; /* Alterado para coluna para melhor organização */
+    padding: 20px;
+}
+
+
+/* Estilo para os cards dentro dos sections */
+section .card {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    max-width: 750px; /* Ajusta a largura máxima dos cards */
+    min-width: 450px;
+    padding: 20px;
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+    margin: 10px; /* Espaçamento entre cards */
+    border: 1px solid #ddd; /* Adiciona uma borda leve */
+    border-radius: 8px; /* Cantos arredondados */
+    background-color: #f9f9f9; /* Cor de fundo mais clara */
+}
+
+section .card-tabela {
+    width: 100%;
+}
+
+/* Estilo para os sub-cards dentro dos cards */
+.card .sub-card {
+    margin-bottom: 20px; /* Espaçamento entre sub-cards */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 15px;
+}
+
+/* Estilo para os sub-cards dentro dos cards */
+.card .sub-card > form {
+    display: flex;
+    flex-direction: column; /* Alinha os itens verticalmente */
+    align-items: stretch; /* Expande os itens para preencher o espaço */
+}
+
+/* Estilo para labels e inputs dentro de forms */
+.card .sub-card > form label,
+.card .sub-card > form input,
+.card .sub-card > form select {
+    margin-bottom: 10px; /* Espaçamento entre campos do formulário */
+}
+
+.card .sub-card > form input,
+.card .sub-card > form select {
+    padding: 10px;
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+/* Estilo para cards de metas */
+section.metas .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Ajuste a altura conforme necessário */
+    width: 100%;
+    max-width: 500px; /* Limite máximo de largura */
+    margin: 10px auto; /* Espaçamento automático centralizado horizontalmente */
+    padding: 20px;
+}
+
+/* Formulários dentro dos cards */
+.card form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Expande os itens para preencher o espaço */
+}
+
+/* Estilo para inputs e selects */
+input[type="file"],
+input[type="date"],
+select {
+    width: 100%;
+    max-width: 300px; /* Limite máximo de largura para inputs e selects */
+    padding: 10px;
+    margin-top: 5px;
+}
+
+/* Estilo para botões */
+button.btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px; /* Espaçamento superior para botões */
+}
+
+button.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para o cabeçalho do card */
+.card-header {
+    font-size: 18px; /* Tamanho da fonte para o cabeçalho */
+    font-weight: bold; /* Negrito para o cabeçalho */
+    margin-bottom: 10px; /* Espaçamento abaixo do cabeçalho */
+    padding-bottom: 10px; /* Espaçamento inferior do cabeçalho */
+    border-bottom: 1px solid #ddd; /* Linha abaixo do cabeçalho */
+}
+
+/* Estilo para a tabela */
+.table {
+    width: 100%; /* Largura total da tabela */
+    border-collapse: collapse; /* Remove espaçamentos entre células */
+}
+
+/* Estilo para as células do cabeçalho da tabela */
+.table thead th {
+    background-color: #007bff; /* Cor de fundo do cabeçalho */
+    color: #fff; /* Cor do texto do cabeçalho */
+    padding: 10px; /* Espaçamento interno das células do cabeçalho */
+    text-align: left; /* Alinhamento do texto no cabeçalho */
+    border: 1px solid #ddd; /* Borda leve ao redor das células do cabeçalho */
+}
+
+/* Estilo para as células do corpo da tabela */
+.table tbody td {
+    padding: 10px; /* Espaçamento interno das células */
+    border: 1px solid #ddd; /* Borda leve ao redor das células */
+}
+
+/* Estilo para as linhas alternadas do corpo da tabela */
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Cor de fundo para linhas alternadas */
+}
+
+/* Estilo para a célula que ocupa toda a linha quando não há registros */
+.table tbody tr td[colspan="6"] {
+    text-align: center; /* Centraliza o texto */
+    font-style: italic; /* Itálico para o texto */
+    color: #999; /* Cor do texto para indicar que não há registros */
+}
+

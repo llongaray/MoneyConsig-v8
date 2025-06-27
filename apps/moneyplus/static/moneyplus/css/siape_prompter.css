@@ -1,0 +1,1673 @@
+/* ==========================================
+   CSS para layout de 3 colunas (Consulta, Ficha, Agendamento)
+   ========================================== */
+
+/* ---------- Variáveis de Cores e Sombreamentos ---------- */
+:root {
+  --color-primary-dark: #142650;
+  --color-secondary: #70f611;
+  --color-tertiary: #0bd5f0;
+  --color-accent: #b4874c;
+  --color-white: #fff;
+  --color-gray: #ddd;
+  --color-light-gray: #f0f0f0;
+  --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+  --box-shadow-medium: 0 2px 6px rgba(0,0,0,0.1);
+  --gradient-metallic: linear-gradient(135deg, #0bd5f0 0%, #70f611 25%, #ffffff 50%, #70f611 75%, #0bd5f0 100%);
+  --gradient-metallic-inverted: linear-gradient(135deg, #70f611 0%, #0bd5f0 25%, #ffffff 50%, #0bd5f0 75%, #70f611 100%);
+  --gradient-metallic-hover: linear-gradient(135deg, #ffffff 0%, #70f611 30%, #0bd5f0 50%, #70f611 70%, #ffffff 100%);
+}
+
+/* ================================
+ Ajustes de Proporção das Colunas - Espaçamento reduzido
+ ================================ */
+#three-col-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Comportamento quando col3 está visível */
+#three-col-layout.all-columns-visible {
+  justify-content: space-around;
+}
+
+/* Colunas laterais mais compactas */
+#col1, #col3 {
+  flex: 0 1 auto;
+  max-width: 420px;
+  min-width: 300px;
+  padding: 5px;
+}
+
+#col2 {
+  flex: 1;
+  max-width: 840px;
+  padding: 5px;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+/* ===================================
+ Responsividade: controlar altura
+ =================================== */
+@media (max-width: 767px) {
+  #three-col-layout {
+    flex-direction: column;
+  }
+  
+  #col1, #col2, #col3 {
+    height: auto;
+  }
+}
+
+/* ==========================================
+ Estilos Gerais de Cards
+ ========================================== */
+.card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow-light);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow-medium);
+}
+
+.card-header {
+  background: linear-gradient(-45deg, #70f611, #4c9fb4, #0bd5f0, #70f611) !important;
+  background-size: 400% 400% !important;
+  animation: gradientBG 15s ease infinite !important;
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 1.25em;
+  padding: 18px 25px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Efeito de brilho metálico que se move sobre o header */
+.card-header::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.1) 40%,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0.1) 60%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+}
+
+.card:hover .card-header::before {
+  top: 100%;
+  left: 100%;
+}
+
+/* Estilo para card-body com display flex e wrap */
+.card-body {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Para os elementos dentro do card-body */
+.card-body p {
+  flex: 1 1 auto;
+  margin: 0.25rem 0;
+  white-space: normal;
+  text-align: center;
+}
+
+/* ==========================================
+ Estilos para o Card de Consulta de Cliente
+ ========================================== */
+.consulta-card {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 5px 15px rgba(11, 213, 240, 0.1);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.consulta-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(11, 213, 240, 0.05) 25%, 
+    rgba(112, 246, 17, 0.05) 50%,
+    rgba(11, 213, 240, 0.05) 75%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.consulta-card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 10px 25px rgba(11, 213, 240, 0.2);
+}
+
+.consulta-card:hover::after {
+  opacity: 1;
+}
+
+.consulta-card .card-header {
+  background: linear-gradient(135deg, 
+    var(--color-tertiary) 0%, 
+    var(--color-primary-dark) 50%, 
+    var(--color-tertiary) 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientConsulta 8s ease infinite;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.consulta-card .card-header i {
+  margin-right: 8px;
+  font-size: 1.1rem;
+  animation: pulseIcon 2s infinite;
+}
+
+.consulta-card .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 1) 0%,
+    rgba(240, 240, 240, 0.8) 100%
+  );
+}
+
+/* Estilização do formulário de consulta */
+#consultaClienteForm {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.consulta-cpf {
+  width: 100%;
+  position: relative;
+}
+
+.consulta-cpf::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    var(--color-tertiary),
+    var(--color-secondary)
+  );
+  transition: width 0.4s ease;
+}
+
+.consulta-cpf:focus-within::after {
+  width: 100%;
+}
+
+.consulta-card .form-label {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: 0.7rem;
+  transition: transform 0.3s ease;
+}
+
+.consulta-card .form-label i {
+  margin-right: 8px;
+  color: var(--color-tertiary);
+  font-size: 1.2rem;
+}
+
+#cpf_cliente {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid rgba(11, 213, 240, 0.2);
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+#cpf_cliente:focus {
+  border-color: var(--color-tertiary);
+  box-shadow: 0 0 0 3px rgba(11, 213, 240, 0.1);
+  transform: translateY(-2px);
+  background-color: white;
+}
+
+#cpf_cliente:focus + .form-label {
+  transform: translateY(-5px) scale(1.05);
+}
+
+/* Botão de Consulta estilizado */
+.consulta-card .btn-primary {
+  background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+  background-size: 300% 300% !important;
+  animation: gradientBG 8s ease infinite !important;
+  border: none;
+  border-radius: 8px;
+  color: #fff !important;
+  font-weight: 600;
+  padding: 12px 25px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(11, 213, 240, 0.2);
+}
+
+.consulta-card .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(11, 213, 240, 0.3);
+}
+
+.consulta-card .btn-primary:active {
+  transform: translateY(1px);
+}
+
+.consulta-card .btn-primary::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(30deg);
+  transition: all 0.6s ease;
+}
+
+.consulta-card .btn-primary:hover::before {
+  left: 100%;
+}
+
+.consulta-card .btn-primary i {
+  margin-right: 8px;
+  font-size: 1.1rem;
+}
+
+/* Animação especial para Consulta */
+@keyframes gradientConsulta {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseIcon {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Dark mode para card de consulta */
+html.dark .consulta-card {
+  background-color: #222;
+}
+
+html.dark .consulta-card .card-body {
+  background: linear-gradient(135deg, 
+    rgba(35, 35, 35, 1) 0%,
+    rgba(25, 25, 25, 0.8) 100%
+  );
+}
+
+html.dark #cpf_cliente {
+  background-color: rgba(50, 50, 50, 0.7);
+  border-color: rgba(11, 213, 240, 0.3);
+  color: white;
+}
+
+html.dark #cpf_cliente:focus {
+  background-color: rgba(60, 60, 60, 0.9);
+}
+
+html.dark .consulta-card .form-label {
+  color: #eee;
+}
+
+/* Card especiais com variações de cores */
+#card-margem5 .card-header,
+#card-margem5-beneficio .card-header,
+#card-margem35 .card-header {
+  background: var(--gradient-metallic-inverted);
+  background-size: 400% 400%;
+  animation: metallicShift 10s ease infinite;
+}
+
+#card-totais .card-header {
+  background: linear-gradient(135deg, #0bd5f0 0%, #142650 25%, #ffffff 50%, #142650 75%, #0bd5f0 100%);
+  background-size: 400% 400%;
+  animation: metallicShift 10s ease infinite;
+  color: var(--color-white);
+}
+
+/* Container dos cards lado a lado (para margens) */
+.margem5-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.margem5-container .card {
+  /* Forço dois cards lado a lado, com gap de 0.75rem */
+  flex: 0 0 48%;
+  max-width: 48%;
+}
+
+/* ==========================================
+ Estilos para o Card de Detalhes do Agendamento
+ ========================================== */
+.observacao-agendamento-card .card-header {
+  background: linear-gradient(135deg, #0bd5f0 0%, #142650 25%, #ffffff 50%, #142650 75%, #0bd5f0 100%);
+  background-size: 400% 400%;
+  animation: metallicShift 15s ease infinite;
+  color: var(--color-white);
+}
+
+.observacao-agendamento-card .card-body {
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(11, 213, 240, 0.05), rgba(255, 255, 255, 1));
+}
+
+.observacao-agendamento-card .card-body p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.6rem;
+  border-radius: 6px;
+  border-left: 3px solid var(--color-tertiary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.observacao-agendamento-card .card-body p:hover {
+  transform: translateX(3px);
+  background: rgba(255, 255, 255, 0.9);
+  border-left-width: 5px;
+}
+
+.observacao-agendamento-card .card-body i {
+  font-size: 1.2rem;
+  color: var(--color-tertiary);
+  animation: pulse 2s infinite;
+}
+
+.observacao-agendamento-card .card-body strong {
+  margin-right: 0.5rem;
+  color: var(--color-primary-dark);
+}
+
+.observacao-agendamento-card .card-body span {
+  font-weight: 500;
+  color: #444;
+}
+
+.observacao-texto {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(11, 213, 240, 0.1));
+  border-radius: 8px;
+  padding: 1rem !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(11, 213, 240, 0.2);
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.observacao-texto::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 3s infinite;
+}
+
+.observacao-texto:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.observacao-texto p {
+  border-left: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ==========================================
+ Estilos para o Card da Calculadora
+ ========================================== */
+.calculadora-card .card-header {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 0.8rem 1rem;
+  transition: background-color 0.3s ease;
+  background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+  background-size: 400% 400%;
+  animation: metallicShift 15s ease infinite;
+  color: var(--color-white);
+}
+
+.calculadora-card .card-header:hover {
+  background-color: rgba(112, 246, 17, 0.15);
+  box-shadow: 0 0 15px rgba(112, 246, 17, 0.2);
+}
+
+.calculadora-card .card-header::after {
+  content: "\25BC"; /* Seta para baixo */
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
+}
+
+.calculadora-card.collapsed .card-header::after {
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+/* Animação para o card-body da calculadora */
+#card-body-calculadora {
+  flex-direction: column;
+  align-items: stretch;
+  background: linear-gradient(135deg, rgba(112, 246, 17, 0.05), rgba(255, 255, 255, 1));
+  padding: 1rem;
+  transition: max-height 0.5s ease, opacity 0.3s ease, transform 0.3s ease;
+  max-height: 600px;
+  overflow: hidden;
+  transform-origin: top;
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.calculadora-card.collapsed #card-body-calculadora {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+.calculadora-card .form-group {
+  margin-bottom: 1rem;
+  position: relative;
+  width: 100%;
+}
+
+.calculadora-card .form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: 0.5rem;
+  transform-origin: left;
+  transition: all 0.3s ease;
+}
+
+.calculadora-card .form-label i {
+  font-size: 1.2rem;
+  color: var(--color-secondary);
+}
+
+.calculadora-card .form-control {
+  padding: 0.75rem;
+  border: 2px solid rgba(112, 246, 17, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.calculadora-card .form-control:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.1);
+  transform: translateY(-2px);
+  background: white;
+}
+
+.calculadora-card .form-control:focus + .form-label {
+  transform: scale(1.05);
+}
+
+/* Botões da calculadora */
+.calculadora-card .btn-group {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.calculadora-card .btn-primary {
+  background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+  background-size: 300% 300% !important;
+  animation: gradientBG 8s ease infinite !important;
+  transform-origin: center;
+  transition: all 0.3s ease;
+}
+
+.calculadora-card .btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 10px rgba(112, 246, 17, 0.2);
+}
+
+.calculadora-card .btn-outline-secondary {
+  background: transparent;
+  border: 2px solid rgba(112, 246, 17, 0.3);
+  color: var(--color-primary-dark);
+  transition: all 0.3s ease;
+}
+
+.calculadora-card .btn-outline-secondary:hover {
+  background: rgba(112, 246, 17, 0.1);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
+
+/* Resultados da calculadora */
+.resultado-calculo {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(112, 246, 17, 0.05));
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  width: 100%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(112, 246, 17, 0.2);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards;
+}
+
+.resultado-calculo hr {
+  border-color: rgba(112, 246, 17, 0.2);
+  margin: 0.5rem 0 1rem;
+}
+
+.resultado-calculo .d-flex {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.05);
+}
+
+.resultado-calculo .d-flex:last-child {
+  border-bottom: none;
+}
+
+.resultado-calculo .d-flex p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.resultado-final {
+  font-size: 1.1rem !important;
+  margin-top: 0.5rem !important;
+  background: linear-gradient(90deg, rgba(112, 246, 17, 0.1), rgba(11, 213, 240, 0.1));
+  padding: 0.5rem !important;
+  border-radius: 6px;
+  border-left: 4px solid var(--color-secondary);
+}
+
+.resultado-final p strong {
+  color: var(--color-primary-dark);
+}
+
+.resultado-final span {
+  font-weight: bold;
+  color: var(--color-primary-dark);
+  font-size: 1.2rem;
+  animation: pulsateText 2s infinite;
+}
+
+/* Estilos para formulários */
+form#consultaClienteForm,
+form#appointment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background-color: var(--color-white);
+  border-radius: 8px;
+  box-shadow: var(--box-shadow-light);
+  width: 100%;
+}
+
+/* Botões com gradiente e animação */
+.btn {
+  background: var(--gradient-metallic);
+  background-size: 400% 400%;
+  animation: metallicShift 10s ease infinite;
+  color: var(--color-primary-dark);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de brilho metálico que se move sobre o botão */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.1) 40%,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0.1) 60%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+}
+
+.btn:hover::before {
+  top: 100%;
+  left: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  background: var(--gradient-metallic-hover);
+  background-size: 400% 400%;
+  animation: metallicShift 5s ease infinite;
+}
+
+/* Grupo de botões com flex */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Dark mode */
+html.dark .card {
+  background-color: #2c2c2c;
+  border-color: #444;
+}
+
+html.dark .card-header {
+  background: var(--gradient-metallic-inverted);
+  color: var(--color-white);
+}
+
+html.dark .btn {
+  background: var(--gradient-metallic-inverted);
+  color: var(--color-white);
+}
+
+/* Dark mode para cards especiais */
+html.dark .observacao-agendamento-card .card-body {
+  background: linear-gradient(135deg, rgba(11, 213, 240, 0.1), rgba(20, 20, 20, 1));
+}
+
+html.dark .observacao-agendamento-card .card-body p {
+  background: rgba(40, 40, 40, 0.7);
+  border-left-color: var(--color-tertiary);
+}
+
+html.dark .observacao-texto {
+  background: linear-gradient(to right, rgba(40, 40, 40, 0.9), rgba(11, 213, 240, 0.1));
+  border-color: rgba(11, 213, 240, 0.4);
+}
+
+html.dark #card-body-calculadora {
+  background: linear-gradient(135deg, rgba(112, 246, 17, 0.1), rgba(20, 20, 20, 1));
+}
+
+html.dark .calculadora-card .form-control {
+  background: rgba(40, 40, 40, 0.7);
+  border-color: rgba(112, 246, 17, 0.3);
+  color: white;
+}
+
+html.dark .resultado-calculo {
+  background: linear-gradient(to bottom, rgba(40, 40, 40, 0.9), rgba(112, 246, 17, 0.05));
+  border-color: rgba(112, 246, 17, 0.3);
+}
+
+/* Responsividade */
+@media (max-width: 767px) {
+  #three-col-layout {
+    flex-direction: column;
+  }
+  
+  #col1, #col2, #col3 {
+    max-width: 100%;
+  }
+  
+  .card-body {
+    flex-direction: column;
+  }
+  
+  .card-body p {
+    min-width: 100%;
+  }
+}
+
+/* Animações */
+@keyframes metallicShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes slideUp {
+  from { 
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulsateText {
+0% { opacity: 1; }
+50% { opacity: 0.7; }
+100% { opacity: 1; }
+}
+
+/* Toast com gradiente metálico */
+.toast-success {
+position: fixed;
+top: 20px;
+right: 20px;
+background: var(--gradient-metallic);
+background-size: 400% 400%;
+animation: metallicShift 10s ease infinite;
+color: var(--color-primary-dark);
+padding: 12px 24px;
+border-radius: 4px;
+z-index: 9999;
+box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+animation: fadeInMetallic 0.3s;
+}
+
+@keyframes fadeInMetallic {
+from { 
+  opacity: 0; 
+  transform: translateY(-10px); 
+  background-position: 0% 50%;
+}
+to { 
+  opacity: 1; 
+  transform: translateY(0); 
+  background-position: 100% 50%;
+}
+}
+
+/* Estilo especial para card de débitos */
+#col2 #card-debitos .card-body {
+overflow-x: auto;
+display: block; /* Para permitir scroll horizontal na tabela */
+padding: 0.5rem;
+}
+
+/* Tabela de Débitos estilizada */
+#col2 #card-debitos table {
+width: 100%;
+border-collapse: collapse;
+border-spacing: 0;
+font-size: 0.9rem;
+background-color: var(--color-white);
+border-radius: 6px;
+overflow: hidden;
+}
+
+#col2 #card-debitos th {
+padding: 0.8rem 0.5rem;
+background: linear-gradient(to right, rgba(11, 213, 240, 0.1), rgba(112, 246, 17, 0.1));
+color: var(--color-primary-dark);
+font-weight: bold;
+text-align: left;
+border-bottom: 2px solid rgba(112, 246, 17, 0.2);
+white-space: nowrap;
+}
+
+#col2 #card-debitos td {
+padding: 0.7rem 0.5rem;
+border-bottom: 1px solid var(--color-light-gray);
+white-space: nowrap;
+}
+
+#col2 #card-debitos tbody tr:hover {
+background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(11, 213, 240, 0.1), rgba(112, 246, 17, 0.1));
+transform: translateY(-2px);
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+#col2 #card-debitos tbody tr:last-child td {
+border-bottom: none;
+}
+
+/* Destaque para inputs de formulários */
+.form-control:focus {
+border-color: var(--color-tertiary);
+box-shadow: 0 0 0 3px rgba(76, 159, 180, 0.2);
+background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(11, 213, 240, 0.05));
+}
+
+/* ==========================================
+ Estilos para o Card de Lista de Agendamentos
+ ========================================== */
+.agendamentos-list-card {
+position: relative;
+overflow: hidden;
+z-index: 1;
+box-shadow: 0 5px 15px rgba(11, 213, 240, 0.1);
+transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.agendamentos-list-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 12px 30px rgba(11, 213, 240, 0.15);
+}
+
+.agendamentos-list-card .card-header {
+background: linear-gradient(135deg, 
+  var(--color-tertiary) 0%, 
+  var(--color-primary-dark) 35%, 
+  var(--color-tertiary) 100%
+);
+background-size: 200% 200%;
+animation: gradientAgendamentos 12s ease infinite;
+color: white;
+text-transform: uppercase;
+letter-spacing: 1px;
+text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+font-weight: bold;
+}
+
+.agendamentos-list-card .card-header i {
+font-size: 1.2rem;
+animation: pulseAgendamentos 2s infinite;
+margin-right: 0.5rem;
+}
+
+.agendamentos-list-card .card-body {
+padding: 0;
+background: linear-gradient(135deg, 
+  rgba(255, 255, 255, 0.95) 0%,
+  rgba(240, 250, 255, 0.95) 100%
+);
+overflow: hidden;
+}
+
+/* Estilo para a lista de agendamentos */
+#lista-agendamentos {
+width: 100%;
+}
+
+.list-group {
+list-style: none;
+padding: 0;
+margin: 0;
+width: 100%;
+}
+
+/* Item de agendamento */
+.agendamento-item {
+position: relative;
+padding: 1rem;
+border: none !important;
+border-bottom: 1px solid rgba(11, 213, 240, 0.1) !important;
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: transparent;
+transition: all 0.3s ease;
+overflow: hidden;
+}
+
+.agendamento-item::before {
+content: "";
+position: absolute;
+left: 0;
+top: 0;
+height: 100%;
+width: 4px;
+background: linear-gradient(to bottom, var(--color-tertiary), var(--color-secondary));
+opacity: 0;
+transition: opacity 0.3s ease;
+}
+
+.agendamento-item:hover {
+background-color: rgba(11, 213, 240, 0.05);
+transform: translateX(5px);
+box-shadow: 0 5px 15px rgba(11, 213, 240, 0.1);
+z-index: 2;
+}
+
+.agendamento-item:hover::before {
+opacity: 1;
+}
+
+.agendamento-item:last-child {
+border-bottom: none !important;
+}
+
+/* Informações do cliente no agendamento - MAIS DESTAQUE */
+.agendamento-info-cliente {
+flex: 3;
+min-width: 0;
+padding-right: 1rem;
+}
+
+.agendamento-nome {
+display: block;
+font-size: 0.8rem;
+font-weight: 600;
+color: var(--color-primary-dark);
+margin-bottom: 0.25rem;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+cursor: pointer;
+transition: all 0.3s ease;
+position: relative;
+max-width: 100%;
+}
+
+.agendamento-nome::after {
+content: "";
+position: absolute;
+bottom: -3px;
+left: 0;
+width: 0;
+height: 2px;
+background: linear-gradient(to right, var(--color-tertiary), transparent);
+transition: width 0.3s ease;
+}
+
+.agendamento-nome:hover {
+color: var(--color-tertiary);
+transform: translateX(3px);
+}
+
+.agendamento-nome:hover::after {
+width: 100%;
+}
+
+.agendamento-cpf {
+font-size: 0.85rem;
+color: #888;
+margin-top: 0.2rem;
+}
+
+/* Data e hora do agendamento - MENOS DESTAQUE */
+.agendamento-data-hora {
+flex: 1;
+padding: 0.4rem 0.6rem;
+background: rgba(240, 240, 240, 0.5);
+border-radius: 6px;
+transition: all 0.3s ease;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+margin-right: 0.5rem;
+text-align: center;
+font-size: 0.85rem;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+.agendamento-item:hover .agendamento-data-hora {
+background: rgba(240, 240, 240, 0.8);
+}
+
+.agendamento-data {
+display: block;
+font-size: 0.75rem;
+color: #777;
+width: 100%;
+text-align: center;
+}
+
+.agendamento-hora {
+display: block;
+font-size: 0.9rem;
+color: var(--color-primary-dark);
+margin-top: 0.1rem;
+width: 100%;
+text-align: center;
+}
+
+/* Botões de ação - MANTÉM DESTAQUE */
+.agendamento-acoes {
+display: flex;
+align-items: center;
+margin-left: 0.3rem;
+flex: 0 0 auto;
+}
+
+.agendamento-confirmar {
+background-color: transparent;
+border: none;
+width: 42px;
+height: 42px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.3s ease;
+position: relative;
+overflow: hidden;
+}
+
+.agendamento-confirmar::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: radial-gradient(
+  circle,
+  rgba(112, 246, 17, 0.15) 0%,
+  transparent 70%
+);
+opacity: 0;
+transition: opacity 0.3s ease;
+}
+
+.agendamento-confirmar:hover {
+transform: scale(1.15);
+}
+
+.agendamento-confirmar:hover::before {
+opacity: 1;
+}
+
+.agendamento-icone {
+font-size: 1.5rem;
+color: #aaa;
+transition: all 0.3s ease;
+}
+
+.agendamento-confirmar:hover .agendamento-icone {
+color: var(--color-secondary);
+}
+
+/* Layout refinado para melhor visualização do nome */
+@media (min-width: 480px) {
+.agendamento-info-cliente {
+  flex: 4;
+  max-width: 60%;
+}
+
+.agendamento-data-hora {
+  flex: 1;
+  max-width: 25%;
+}
+}
+
+/* Responsividade para telas pequenas */
+@media (max-width: 479px) {
+.agendamento-item {
+  flex-wrap: wrap;
+  padding: 0.75rem;
+}
+
+.agendamento-info-cliente {
+  flex: 1 1 100%;
+  margin-bottom: 0.5rem;
+  padding-right: 0;
+}
+
+.agendamento-data-hora {
+  flex: 1 1 auto;
+  margin-right: 0.5rem;
+}
+
+.agendamento-acoes {
+  flex: 0 0 auto;
+}
+}
+
+/* Animação de entrada para os itens */
+@keyframes fadeSlideIn {
+from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+to {
+  opacity: 1;
+  transform: translateY(0);
+}
+}
+
+.agendamento-item {
+animation: fadeSlideIn 0.5s ease forwards;
+opacity: 0;
+}
+
+.agendamento-item:nth-child(1) { animation-delay: 0.1s; }
+.agendamento-item:nth-child(2) { animation-delay: 0.2s; }
+.agendamento-item:nth-child(3) { animation-delay: 0.3s; }
+.agendamento-item:nth-child(4) { animation-delay: 0.4s; }
+.agendamento-item:nth-child(5) { animation-delay: 0.5s; }
+.agendamento-item:nth-child(6) { animation-delay: 0.6s; }
+.agendamento-item:nth-child(7) { animation-delay: 0.7s; }
+.agendamento-item:nth-child(8) { animation-delay: 0.8s; }
+
+/* Estado de carregamento */
+#lista-agendamentos .text-center {
+color: #888;
+}
+
+#lista-agendamentos .bx-loader-alt {
+font-size: 2rem;
+color: var(--color-tertiary);
+margin-bottom: 1rem;
+}
+
+/* Mensagem de nenhum agendamento */
+.empty-message {
+padding: 3rem 1rem;
+text-align: center;
+color: #888;
+background: linear-gradient(135deg, 
+  rgba(255, 255, 255, 0.5) 0%,
+  rgba(240, 250, 255, 0.5) 100%
+);
+border-radius: 10px;
+margin: 1rem;
+box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.03);
+}
+
+.empty-message i {
+font-size: 3rem;
+color: rgba(11, 213, 240, 0.5);
+margin-bottom: 1rem;
+display: block;
+animation: pulse 2s infinite;
+}
+
+.empty-message p {
+font-size: 1.1rem;
+margin: 0;
+}
+
+@keyframes gradientAgendamentos {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseAgendamentos {
+0% { transform: scale(1); }
+50% { transform: scale(1.1); }
+100% { transform: scale(1); }
+}
+
+/* Dark mode para lista de agendamentos */
+html.dark .agendamentos-list-card .card-body {
+background: linear-gradient(135deg, 
+  rgba(40, 40, 40, 0.95) 0%,
+  rgba(30, 30, 35, 0.95) 100%
+);
+}
+
+html.dark .agendamento-item {
+border-bottom-color: rgba(70, 70, 70, 0.2) !important;
+}
+
+html.dark .agendamento-item:hover {
+background-color: rgba(11, 213, 240, 0.1);
+}
+
+html.dark .agendamento-nome {
+color: #eee;
+}
+
+html.dark .agendamento-cpf {
+color: #aaa;
+}
+
+html.dark .agendamento-data-hora {
+background: linear-gradient(135deg, 
+  rgba(112, 246, 17, 0.1) 0%,
+  rgba(11, 213, 240, 0.1) 100%
+);
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+html.dark .agendamento-data {
+color: #aaa;
+}
+
+html.dark .agendamento-hora {
+color: #eee;
+}
+
+html.dark .empty-message {
+background: linear-gradient(135deg, 
+  rgba(40, 40, 40, 0.5) 0%,
+  rgba(30, 30, 35, 0.5) 100%
+);
+color: #aaa;
+}
+
+/* Ajustes para telas de 1280px a 1920px: reduzir tamanhos para caber na tela */
+@media (min-width: 1280px) and (max-width: 1920px) {
+/* Reduz o tamanho base da fonte */
+html {
+  font-size: 12.5px;
+}
+/* Ajusta larguras das colunas para caber no espaço */
+#col1, #col3 {
+  max-width: 270px;
+  min-width: 225px;
+}
+#col2 {
+  max-width: 630px;
+}
+/* Reduz paddings e fontes dos cards */
+.card-header {
+  padding: 11px 18px;
+  font-size: 1em;
+}
+.card-body {
+  padding: 0.45rem;
+}
+.consulta-card .btn-primary {
+  padding: 7px 18px;
+}
+/* Ajusta input do CPF */
+#cpf_cliente {
+  padding: 9px 11px;
+  font-size: 0.8rem;
+}
+}
+
+/* Ajustes de cores col1 e col3 header e botões em azul */
+#col1 .card-header,
+#col3 .card-header {
+background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-tertiary) 100%) !important;
+color: var(--color-white) !important;
+}
+
+#col1 .btn-primary,
+#col3 .btn-info {
+background: linear-gradient(-45deg, var(--color-primary-dark) 0%, var(--color-tertiary) 100%) !important;
+border-color: var(--color-primary-dark) !important;
+color: var(--color-white) !important;
+}
+
+#col1 .btn-primary:hover,
+#col3 .btn-info:hover {
+background: linear-gradient(-45deg, var(--color-tertiary) 0%, var(--color-primary-dark) 100%) !important;
+}
+
+/* ==========================================
+ Estilos para a Calculadora de Coeficiente
+ ========================================== */
+.calculadora-coeficiente-card .card-header {
+cursor: pointer;
+display: flex;
+justify-content: space-between;
+align-items: center;
+position: relative;
+padding: 0.8rem 1rem;
+background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+background-size: 400% 400%;
+animation: metallicShift 15s ease infinite;
+color: var(--color-white);
+}
+.calculadora-coeficiente-card .card-header:hover {
+background-color: rgba(112, 246, 17, 0.15);
+box-shadow: 0 0 15px rgba(112, 246, 17, 0.2);
+}
+.calculadora-coeficiente-card .card-header::after {
+content: "\25BC"; /* Seta para baixo */
+position: absolute;
+right: 15px;
+top: 50%;
+transform: translateY(-50%);
+transition: transform 0.3s ease;
+}
+.calculadora-coeficiente-card.collapsed .card-header::after {
+transform: translateY(-50%) rotate(-90deg);
+}
+.calculadora-coeficiente-card .card-body {
+flex-direction: column;
+align-items: stretch;
+background: linear-gradient(135deg, rgba(112, 246, 17, 0.05), rgba(255, 255, 255, 1));
+padding: 1rem;
+transition: max-height 0.5s ease, opacity 0.3s ease, transform 0.3s ease;
+max-height: 600px;
+overflow: hidden;
+transform-origin: top;
+opacity: 1;
+transform: scaleY(1);
+}
+.calculadora-coeficiente-card.collapsed .card-body {
+max-height: 0;
+padding-top: 0;
+padding-bottom: 0;
+opacity: 0;
+transform: scaleY(0);
+}
+.calculadora-coeficiente-card .form-group {
+margin-bottom: 1rem;
+width: 100%;
+}
+.calculadora-coeficiente-card .form-label {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+font-weight: 600;
+color: var(--color-primary-dark);
+margin-bottom: 0.5rem;
+}
+.calculadora-coeficiente-card .form-label i {
+font-size: 1.2rem;
+color: var(--color-secondary);
+}
+.calculadora-coeficiente-card .form-control {
+padding: 0.75rem;
+border: 2px solid rgba(112, 246, 17, 0.2);
+border-radius: 8px;
+background: rgba(255, 255, 255, 0.9);
+width: 100%;
+transition: all 0.3s ease;
+}
+.calculadora-coeficiente-card .form-control:focus {
+border-color: var(--color-secondary);
+box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.1);
+transform: translateY(-2px);
+background: white;
+}
+.calculadora-coeficiente-card .btn-group {
+display: flex;
+gap: 0.5rem;
+width: 100%;
+margin-top: 1rem;
+}
+.calculadora-coeficiente-card .btn-primary {
+background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+background-size: 300% 300% !important;
+animation: gradientBG 8s ease infinite !important;
+color: #fff !important;
+border: none;
+border-radius: 8px;
+padding: 0.75rem;
+transition: all 0.3s ease;
+}
+.calculadora-coeficiente-card .btn-primary:hover {
+transform: translateY(-2px) scale(1.03);
+box-shadow: 0 4px 10px rgba(112, 246, 17, 0.2);
+}
+.calculadora-coeficiente-card .btn-outline-secondary {
+background: transparent;
+border: 2px solid rgba(112, 246, 17, 0.3);
+color: var(--color-primary-dark);
+transition: all 0.3s ease;
+}
+.calculadora-coeficiente-card .btn-outline-secondary:hover {
+background: rgba(112, 246, 17, 0.1);
+border-color: var(--color-secondary);
+transform: translateY(-2px);
+}
+.resultado-coeficiente {
+background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(112, 246, 17, 0.05));
+border-radius: 8px;
+padding: 1rem;
+margin-top: 1rem;
+width: 100%;
+box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+border: 1px solid rgba(112, 246, 17, 0.2);
+position: relative;
+overflow: hidden;
+transform: translateY(10px);
+opacity: 0;
+animation: slideUp 0.5s ease forwards;
+}
+.resultado-coeficiente hr {
+border-color: rgba(112, 246, 17, 0.2);
+margin: 0.5rem 0;
+}
+.resultado-coeficiente p {
+margin: 0;
+font-size: 1rem;
+}
+
+/* ==========================================
+ Estilos para a Calculadora de Cartão Benefício
+ ========================================== */
+.calculadora-beneficio-card .card-header {
+cursor: pointer;
+display: flex;
+justify-content: space-between;
+align-items: center;
+position: relative;
+padding: 0.8rem 1rem;
+background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+background-size: 400% 400%;
+animation: metallicShift 15s ease infinite;
+color: var(--color-white);
+}
+.calculadora-beneficio-card .card-header:hover {
+background-color: rgba(112, 246, 17, 0.15);
+box-shadow: 0 0 15px rgba(112, 246, 17, 0.2);
+}
+.calculadora-beneficio-card .card-header::after {
+content: "\25BC"; /* Seta para baixo */
+position: absolute;
+right: 15px;
+top: 50%;
+transform: translateY(-50%);
+transition: transform 0.3s ease;
+}
+.calculadora-beneficio-card.collapsed .card-header::after {
+transform: translateY(-50%) rotate(-90deg);
+}
+.calculadora-beneficio-card .card-body {
+flex-direction: column;
+align-items: stretch;
+background: linear-gradient(135deg, rgba(112, 246, 17, 0.05), rgba(255, 255, 255, 1));
+padding: 1rem;
+transition: max-height 0.5s ease, opacity 0.3s ease, transform 0.3s ease;
+max-height: 600px;
+overflow: hidden;
+transform-origin: top;
+opacity: 1;
+transform: scaleY(1);
+}
+.calculadora-beneficio-card.collapsed .card-body {
+max-height: 0;
+padding-top: 0;
+padding-bottom: 0;
+opacity: 0;
+transform: scaleY(0);
+}
+.calculadora-beneficio-card .form-group {
+margin-bottom: 1rem;
+width: 100%;
+}
+.calculadora-beneficio-card .form-label {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+font-weight: 600;
+color: var(--color-primary-dark);
+margin-bottom: 0.5rem;
+}
+.calculadora-beneficio-card .form-control {
+padding: 0.75rem;
+border: 2px solid rgba(112, 246, 17, 0.2);
+border-radius: 8px;
+background: rgba(255, 255, 255, 0.9);
+width: 100%;
+transition: all 0.3s ease;
+}
+.calculadora-beneficio-card .form-control:focus {
+border-color: var(--color-secondary);
+box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.1);
+transform: translateY(-2px);
+background: white;
+}
+.calculadora-beneficio-card .btn-group {
+display: flex;
+gap: 0.5rem;
+width: 100%;
+margin-top: 1rem;
+}
+.calculadora-beneficio-card .btn-primary {
+background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+background-size: 300% 300% !important;
+animation: gradientBG 8s ease infinite !important;
+color: #fff !important;
+border: none;
+border-radius: 8px;
+padding: 0.75rem;
+transition: all 0.3s ease;
+}
+.calculadora-beneficio-card .btn-primary:hover {
+transform: translateY(-2px) scale(1.03);
+box-shadow: 0 4px 10px rgba(112, 246, 17, 0.2);
+}
+.calculadora-beneficio-card .btn-outline-secondary {
+background: transparent;
+border: 2px solid rgba(112, 246, 17, 0.3);
+color: var(--color-primary-dark);
+transition: all 0.3s ease;
+}
+.calculadora-beneficio-card .btn-outline-secondary:hover {
+background: rgba(112, 246, 17, 0.1);
+border-color: var(--color-secondary);
+transform: translateY(-2px);
+}
+.resultado-beneficio {
+background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(112, 246, 17, 0.05));
+border-radius: 8px;
+padding: 1rem;
+margin-top: 1rem;
+width: 100%;
+box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+border: 1px solid rgba(112, 246, 17, 0.2);
+position: relative;
+overflow: hidden;
+transform: translateY(10px);
+opacity: 0;
+animation: slideUp 0.5s ease forwards;
+}
+.resultado-beneficio hr {
+border: none;
+border-top: 1px solid rgba(112, 246, 17, 0.4);
+margin: 0 0 1rem;
+}
+.resultado-beneficio p {
+margin: 0;
+font-size: 1rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 0.5rem 0;
+}
+.resultado-beneficio p:not(:last-child) {
+border-bottom: 1px dashed rgba(112, 246, 17, 0.2);
+}
+.resultado-beneficio p strong {
+color: var(--color-primary-dark);
+font-weight: 600;
+}
+.resultado-beneficio span {
+font-weight: bold;
+color: var(--color-secondary);
+font-size: 1.2rem;
+}

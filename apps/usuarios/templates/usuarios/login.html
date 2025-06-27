@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+    <link rel="stylesheet" href="{% static 'usuarios/css/login.css' %}">
+</head>
+<body>
+    <main class="container">
+        <div class="title">Login</div>
+        <div class="subtitle">Digite seus dados para acessar.</div>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <form action="{% url 'usuarios:login' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-fields">
+                {% for field in form.visible_fields %}
+                <div class="field-container input-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <div class="error">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div>
+                <button type="submit">Logar</button>
+            </div>
+        </form>
+    </main>
+    <!-- Inserção da marca d'água -->
+    <img src="{% static 'img/geral/logo.png' %}" alt="" class="watermark">
+</body>
+</html>

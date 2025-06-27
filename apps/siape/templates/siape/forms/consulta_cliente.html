@@ -1,0 +1,819 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Consulta Cliente - SIAPE (Em Desenvolvimento)<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'siape/css/forms/consulta_cliente.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <div class="row" id="three-col-layout">
+    <!-- COLUNA 1: Consulta -->
+    <div class="col-md-4" id="col1">
+      <div class="card consulta-card mb-4">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-search me-2'></i> Consulta de Cliente
+        </div>
+        <div class="card-body">
+          <form id="consultaClienteForm" method="POST">
+            {% csrf_token %}
+            <div class="consulta-cpf mb-3">
+              <label for="cpf_cliente" class="form-label">
+                <i class='bx bx-id-card me-2'></i>CPF do Cliente
+              </label>
+              <input type="text" id="cpf_cliente" name="cpf_cliente"
+                     class="form-control"
+                     placeholder="000.000.000-00"
+                     required maxlength="14">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-search me-2'></i> Consultar
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Card principal para detalhes do agendamento (inicialmente oculto) -->
+      <div class="card observacao-agendamento-card mb-4" style="display: none;">
+        <div class="card-header bg-info text-white">
+          <i class='bx bx-comment-detail me-2'></i> Detalhes do Agendamento
+        </div>
+        <div class="card-body">
+          <input type="hidden" id="agendamento_id_edicao" value="">
+          <input type="hidden" id="cliente_cpf_atual" value="">
+          
+          <!-- Subcard: Informações Gerais -->
+          <div class="subcard mb-3">
+            <div class="subcard-header">
+              <i class='bx bx-info-circle me-2'></i> Informações Gerais
+            </div>
+            <div class="subcard-body">
+              <p><i class='bx bx-calendar me-2'></i><strong>Data:</strong> <span id="detalhe_agendamento_data"></span></p>
+              <p><i class='bx bx-time me-2'></i><strong>Hora:</strong> <span id="detalhe_agendamento_hora"></span></p>
+              <p><i class='bx bx-phone me-2'></i><strong>Telefone Contato:</strong> <span id="detalhe_agendamento_telefone"></span></p>
+            </div>
+          </div>
+
+
+
+          <!-- Subcard: Tabulação Atual -->
+          <div class="subcard mb-3">
+            <div class="subcard-header">
+              <i class='bx bx-tag me-2'></i> Tabulação Atual
+            </div>
+            <div class="subcard-body">
+              <div class="p-2 rounded bg-light">
+                <span id="detalhe_tabulacao_status" class="badge bg-secondary">Em Negociação</span>
+                <div class="mt-2">
+                  <small class="text-muted" id="detalhe_tabulacao_atualizacao">Aguardando primeira tabulação</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subcard: Observação do Agendamento -->
+          <div class="subcard mb-3">
+            <div class="subcard-header">
+              <i class='bx bx-comment me-2'></i> Observação do Agendamento
+            </div>
+            <div class="subcard-body">
+              <div class="observacao-texto p-2 rounded bg-light">
+                <p id="detalhe_agendamento_observacao" class="mb-0"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botões de ação -->
+          <div class="mt-4 pt-3 border-top">
+            <div class="d-flex gap-2 flex-wrap">
+              <button type="button" class="btn btn-sm btn-outline-primary" id="btn-editar-detalhes" title="Editar detalhes">
+                <i class='bx bx-edit me-1'></i>Editar Agendamento
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card para calculadora de saldo devedor - adicione na coluna 1 após o card de consulta -->
+      <div class="card calculadora-card collapsed mb-4">
+        <div class="card-header">
+          <i class='bx bx-calculator me-2'></i> Calculadora de Saldo Devedor
+        </div>
+        <div class="card-body" id="card-body-calculadora">
+          <div class="form-group mb-3">
+            <label for="calc_parcela" class="form-label">
+              <i class='bx bx-money me-2'></i>Valor da Parcela (R$)
+            </label>
+            <input type="number" id="calc_parcela" class="form-control" step="0.01" min="0" placeholder="0.00">
+          </div>
+          <div class="form-group mb-3">
+            <label for="calc_prazo" class="form-label">
+              <i class='bx bx-time me-2'></i>Prazo Restante (meses)
+            </label>
+            <input type="number" id="calc_prazo" class="form-control" min="1" max="96" placeholder="0">
+          </div>
+          <div class="btn-group w-100 mt-2">
+            <button id="calcular_saldo" class="btn btn-primary w-75">
+              <i class='bx bx-calculator me-2'></i>Calcular
+            </button>
+            <button id="limpar_calculadora" class="btn btn-outline-secondary w-25">
+              <i class='bx bx-eraser me-2'></i>Limpar
+            </button>
+          </div>
+          
+          <div class="resultado-calculo mt-3">
+            <hr>
+            <div class="d-flex justify-content-between">
+              <p><strong>Saldo Total:</strong></p>
+              <p>R$ <span id="calc_saldo_total">0.00</span></p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p><strong>Desconto (<span id="calc_percentual">0</span>%):</strong></p>
+              <p>R$ <span id="calc_desconto">0.00</span></p>
+            </div>
+            <div class="d-flex justify-content-between resultado-final">
+              <p><strong>Saldo Final:</strong></p>
+              <p>R$ <span id="calc_saldo_final">0.00</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Card para calculadora de coeficiente -->
+      <div class="card calculadora-coeficiente-card collapsed mb-4">
+        <div class="card-header"><i class='bx bx-calculator me-2'></i>Calculadora de Coeficiente</div>
+        <div class="card-body">
+          <div class="form-group mb-3">
+            <label for="coef_parcela" class="form-label"><i class='bx bx-money me-2'></i>Parcela</label>
+            <input type="number" id="coef_parcela" name="coef_parcela" class="form-control" placeholder="0.00" step="0.01" min="0">
+          </div>
+          <div class="form-group mb-3">
+            <label for="coef_coeficiente" class="form-label"><i class='bx bx-calculator me-2'></i>Coeficiente</label>
+            <input type="number" id="coef_coeficiente" name="coef_coeficiente" class="form-control" placeholder="0.00" step="0.01" min="0">
+          </div>
+          <div class="btn-group w-100 mt-2">
+            <button type="button" id="calcular_coeficiente" class="btn btn-primary w-75">
+              <i class='bx bx-calculator me-2'></i>Calcular
+            </button>
+            <button type="button" id="limpar_coeficiente" class="btn btn-outline-secondary w-25">
+              <i class='bx bx-eraser me-2'></i>Limpar
+            </button>
+          </div>
+          <div class="resultado-coeficiente mt-3" style="display: none;">
+            <hr>
+            <p><strong>Resultado:</strong> <span id="resultado_coeficiente"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card para calculadora de Cartão Benefício -->
+      <div class="card calculadora-beneficio-card collapsed mb-4">
+        <div class="card-header"><i class='bx bx-credit-card me-2'></i>Calculadora Cartão Benefício</div>
+        <div class="card-body">
+          <div class="form-group mb-3">
+            <label for="beneficio_margemLiq" class="form-label"><i class='bx bx-wallet me-2'></i>Margem Líquida</label>
+            <input type="number" id="beneficio_margemLiq" class="form-control" placeholder="0.00" step="0.01" min="0">
+          </div>
+          <div class="btn-group w-100 mt-2">
+            <button type="button" id="calcular_beneficio" class="btn btn-primary w-75"><i class='bx bx-calculator me-2'></i>Calcular</button>
+            <button type="button" id="limpar_beneficio" class="btn btn-outline-secondary w-25"><i class='bx bx-eraser me-2'></i>Limpar</button>
+          </div>
+          <div class="resultado-beneficio mt-3" style="display: none;">
+            <hr>
+            <p><strong>Parcela do Cartão:</strong> R$ <span id="beneficio_parcela"></span></p>
+            <p><strong>Limite do Cartão:</strong> R$ <span id="beneficio_limite"></span></p>
+            <p><strong>Saque Disponível:</strong> R$ <span id="beneficio_saque"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUNA 2: Ficha do Cliente -->
+    <div class="col-md-4" id="col2">
+      <div class="header-title mb-3">
+        <h1 class="titulo-pagina ficha-cliente-title">
+          <i class='bx bx-folder-open me-2'></i>Ficha do Cliente
+        </h1>
+      </div>
+      <div class="container-ficha_cliente">
+        <!-- CARD: Informações Pessoais -->
+        <div class="card mb-4" id="card-info-pessoal">
+          <div class="card-header">
+            <i class='bx bx-user me-2'></i> Informações Pessoais
+          </div>
+          <div class="card-body">
+            <p><i class='bx bx-user me-2'></i><strong>Nome:</strong> <span id="cliente_nome"></span></p>
+            <p><i class='bx bx-id-card me-2'></i><strong>CPF:</strong> <span id="cliente_cpf"></span></p>
+            <p><i class='bx bx-map me-2'></i><strong>UF:</strong> <span id="cliente_uf"></span></p>
+            <p><i class='bx bx-building me-2'></i><strong>RJur:</strong> <span id="cliente_rjur"></span></p>
+            <p><i class='bx bx-user-check me-2'></i><strong>Situação Funcional:</strong> <span id="cliente_situacao"></span></p>
+            <p><i class='bx bx-money me-2'></i><strong>Renda Bruta:</strong> R$ <span id="cliente_renda_bruta"></span></p>
+          </div>
+        </div>
+
+        <!-- CARDS: Margens 5% e 5% Benefício lado a lado -->
+        <div class="flex-container margem5-container mb-4">
+          <!-- Margem 5% -->
+          <div class="card" id="card-margem5">
+            <div class="card-header">
+              <i class='bx bx-percentage me-2'></i> Margem 5%
+            </div>
+            <div class="card-body">
+              <p><i class='bx bx-coin me-2'></i><strong>Bruta:</strong> R$ <span id="cliente_bruta_5"></span></p>
+              <p><i class='bx bx-money me-2'></i><strong>Utilizado:</strong> R$ <span id="cliente_utilizado_5"></span></p>
+              <p><i class='bx bx-wallet me-2'></i><strong>Saldo:</strong> R$ <span id="cliente_saldo_5"></span></p>
+            </div>
+          </div>
+          <!-- Margem 5% Benefício -->
+          <div class="card" id="card-margem5-beneficio">
+            <div class="card-header">
+              <i class='bx bx-money me-2'></i> Margem 5% Benefício
+            </div>
+            <div class="card-body">
+              <p><i class='bx bx-coin me-2'></i><strong>Bruta:</strong> R$ <span id="cliente_brutaBeneficio_5"></span></p>
+              <p><i class='bx bx-money me-2'></i><strong>Utilizado:</strong> R$ <span id="cliente_utilizadoBeneficio_5"></span></p>
+              <p><i class='bx bx-wallet me-2'></i><strong>Saldo:</strong> R$ <span id="cliente_saldoBeneficio_5"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: Margem 35% -->
+        <div class="card mb-4" id="card-margem35">
+          <div class="card-header">
+            <i class='bx bx-percentage me-2'></i> Margem 35%
+          </div>
+          <div class="card-body">
+            <p><i class='bx bx-coin me-2'></i><strong>Bruta:</strong> R$ <span id="cliente_bruta_35"></span></p>
+            <p><i class='bx bx-money me-2'></i><strong>Utilizado:</strong> R$ <span id="cliente_utilizado_35"></span></p>
+            <p><i class='bx bx-wallet me-2'></i><strong>Saldo:</strong> R$ <span id="cliente_saldo_35"></span></p>
+          </div>
+        </div>
+
+        <!-- CARD: Totais -->
+        <div class="card mb-4" id="card-totais">
+          <div class="card-header">
+            <i class='bx bx-calculator me-2'></i> Totais
+          </div>
+          <div class="card-body">
+            <p><i class='bx bx-money me-2'></i><strong>Total Utilizado:</strong> R$ <span id="cliente_total_util"></span></p>
+            <p><i class='bx bx-wallet me-2'></i><strong>Total Disponível:</strong> R$ <span id="cliente_total_saldo"></span></p>
+          </div>
+        </div>
+
+        <!-- CARD: Débitos -->
+        <div class="card mb-4" id="card-debitos">
+          <div class="card-header">
+            <i class='bx bx-file me-2'></i> Débitos
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Matrícula</th>
+                  <th>Banco</th>
+                  <th>Órgão</th>
+                  <th>Parcela</th>
+                  <th>Prazo</th>
+                  <th>Tipo de Contrato</th>
+                  <th>Saldo Devedor</th>
+                </tr>
+              </thead>
+              <tbody id="tabelaDebitosBody">
+                <!-- JS popula aqui -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CARD: Telefones do Cliente -->
+        <div class="card mb-4" id="card-telefones-cliente">
+          <div class="card-header">
+            <i class='bx bx-phone me-2'></i> Telefones do Cliente
+          </div>
+          <div class="card-body">
+            <div id="lista-telefones" class="telefones-flex-container">
+              <!-- Será populado via jQuery -->
+              <div class="text-center text-muted w-100">
+                <i class='bx bx-loader-alt bx-spin'></i> Carregando telefones...
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- .container-ficha_cliente -->
+    </div>
+
+    <!-- COLUNA 3: Agendamentos -->
+    <div class="col-md-4" id="col3">
+      <!-- Card para criar novo agendamento -->
+      <div class="card agendamento-card mb-4">
+        <div class="card-header bg-info text-white">
+          <i class='bx bx-calendar me-2'></i> Agendamento
+        </div>
+        <div class="card-body">
+          <form id="appointment-form" method="POST" style="width: 100%;">
+            {% csrf_token %}
+            <input type="hidden" name="cliente_id" id="agendamento_cliente_id" value="">
+
+            <div class="mb-3">
+              <label for="data_agendamento" class="form-label"><i class='bx bx-calendar-event me-2'></i>Data</label>
+              <input type="date" id="data_agendamento" name="data"
+                     class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="hora_agendamento" class="form-label"><i class='bx bx-time-five me-2'></i>Hora</label>
+              <input type="time" id="hora_agendamento" name="hora"
+                     class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="telefone_contato_agendamento" class="form-label"><i class='bx bx-phone me-2'></i>Telefone de Contato (Opcional)</label>
+              <input type="text" id="telefone_contato_agendamento" name="telefone_contato"
+                     class="form-control" placeholder="(XX) XXXXX-XXXX">
+              <small class="form-text text-muted">Telefone para contato relacionado a este agendamento</small>
+            </div>
+            <div class="mb-3">
+              <label for="observacao_agendamento" class="form-label"><i class='bx bx-comment-detail me-2'></i>Observação</label>
+              <textarea id="observacao_agendamento" name="observacao"
+                        class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-info w-100">
+              <i class="fas fa-calendar-check me-2"></i> Agendar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card para listar agendamentos -->
+      <div class="card agendamentos-list-card mb-4">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-list-ul me-2'></i> Meus Agendamentos
+        </div>
+        <div class="card-body">
+          <div id="lista-agendamentos">
+            <!-- Será populado via jQuery -->
+            <div class="text-center text-muted">
+              <i class='bx bx-loader-alt bx-spin'></i> Carregando agendamentos...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- .row -->
+</div><!-- .container -->
+
+<!-- Modal de Dados de Negociação -->
+<div class="modal fade" id="modalDadosNegociacao" tabindex="-1" aria-labelledby="modalDadosNegociacaoLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title" id="modalDadosNegociacaoLabel">
+          <i class='bx bx-clipboard-data me-2'></i>Dados de Negociação - Checagem
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formDadosNegociacao">
+          <input type="hidden" id="negociacao_agendamento_id" name="agendamento_id">
+          
+          <!-- Informações da Negociação -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="negociacao_banco_nome" class="form-label">
+                <i class='bx bx-bank me-2'></i>Nome do Banco
+              </label>
+              <input type="text" class="form-control" id="negociacao_banco_nome" name="banco_nome" required>
+            </div>
+            <div class="col-md-6">
+              <label for="negociacao_valor_liberado" class="form-label">
+                <i class='bx bx-money me-2'></i>Valor Liberado (R$)
+              </label>
+              <input type="number" class="form-control" id="negociacao_valor_liberado" name="valor_liberado" step="0.01" min="0" required>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="negociacao_saldo_devedor" class="form-label">
+                <i class='bx bx-calculator me-2'></i>Saldo Devedor (R$)
+              </label>
+              <input type="number" class="form-control" id="negociacao_saldo_devedor" name="saldo_devedor" step="0.01" min="0" required>
+            </div>
+            <div class="col-md-6">
+              <label for="negociacao_tc" class="form-label">
+                <i class='bx bx-money me-2'></i>TC (R$)
+              </label>
+              <input type="number" class="form-control" id="negociacao_tc" name="tc" step="0.01" min="0">
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="negociacao_parcela_atual" class="form-label">
+                <i class='bx bx-calendar me-2'></i>Parcela Atual (R$)
+              </label>
+              <input type="number" class="form-control" id="negociacao_parcela_atual" name="parcela_atual" step="0.01" min="0" required>
+            </div>
+            <div class="col-md-6">
+              <label for="negociacao_parcela_nova" class="form-label">
+                <i class='bx bx-calendar-plus me-2'></i>Parcela Nova (R$)
+              </label>
+              <input type="number" class="form-control" id="negociacao_parcela_nova" name="parcela_nova" step="0.01" min="0" required>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <label for="negociacao_troco" class="form-label">
+                <i class='bx bx-coin me-2'></i>Troco (R$)
+              </label>
+              <input type="number" class="form-control" id="negociacao_troco" name="troco" step="0.01" min="0">
+            </div>
+            <div class="col-md-4">
+              <label for="negociacao_prazo_atual" class="form-label">
+                <i class='bx bx-time me-2'></i>Prazo Atual (meses)
+              </label>
+              <input type="number" class="form-control" id="negociacao_prazo_atual" name="prazo_atual" min="1" max="96">
+            </div>
+            <div class="col-md-4">
+              <label for="negociacao_prazo_acordado" class="form-label">
+                <i class='bx bx-time-five me-2'></i>Prazo Acordado (meses)
+              </label>
+              <input type="number" class="form-control" id="negociacao_prazo_acordado" name="prazo_acordado" min="1" max="96">
+            </div>
+          </div>
+
+          <!-- Descrição -->
+          <div class="mb-3">
+            <label for="negociacao_descricao" class="form-label">
+              <i class='bx bx-comment-detail me-2'></i>Descrição da Negociação
+            </label>
+            <textarea class="form-control" id="negociacao_descricao" name="descricao" rows="3" placeholder="Descreva os detalhes da negociação..."></textarea>
+          </div>
+
+          <!-- Upload de Arquivos -->
+          <div class="mb-3">
+            <label for="negociacao_arquivos" class="form-label">
+              <i class='bx bx-file me-2'></i>Arquivos da Negociação
+            </label>
+            <input type="file" class="form-control" id="negociacao_arquivos" name="arquivos" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx">
+            <div class="form-text">
+              <small>Você pode selecionar múltiplos arquivos. Formatos aceitos: PDF, imagens (JPG, PNG), documentos do Office. Tamanho máximo: 20MB por arquivo.</small>
+            </div>
+            
+            <!-- Lista de arquivos selecionados -->
+            <div id="lista-arquivos-selecionados" class="mt-2"></div>
+            
+            <!-- Lista de arquivos já salvos -->
+            <div id="lista-arquivos-salvos" class="mt-3">
+              <h6 class="mb-2"><i class='bx bx-folder me-2'></i>Arquivos Salvos:</h6>
+              <div id="arquivos-salvos-container">
+                <!-- Será populado via JavaScript -->
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class='bx bx-x me-2'></i>Cancelar
+        </button>
+        <button type="button" class="btn btn-warning" id="btn-salvar-negociacao">
+          <i class='bx bx-save me-2'></i>Salvar Dados
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Edição de Agendamento -->
+<div class="modal fade" id="modalEditarAgendamento" tabindex="-1" aria-labelledby="modalEditarAgendamentoLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" style="display: none;">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="modalEditarAgendamentoLabel">
+          <i class='bx bx-edit me-2'></i>Editar Agendamento
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditarAgendamento">
+          <input type="hidden" id="modal_agendamento_id" name="agendamento_id">
+          
+          <!-- Seção: Informações Básicas -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h6 class="border-bottom pb-2 mb-3">
+                <i class='bx bx-info-circle me-2'></i>Informações Básicas
+              </h6>
+            </div>
+            <div class="col-md-6">
+              <label for="modal_data_agendamento" class="form-label">
+                <i class='bx bx-calendar me-2'></i>Data do Agendamento
+              </label>
+              <input type="date" id="modal_data_agendamento" name="data" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label for="modal_hora_agendamento" class="form-label">
+                <i class='bx bx-time me-2'></i>Hora do Agendamento
+              </label>
+              <input type="time" id="modal_hora_agendamento" name="hora" class="form-control" required>
+            </div>
+            <div class="col-12 mt-3">
+              <label for="modal_telefone_contato" class="form-label">
+                <i class='bx bx-phone me-2'></i>Telefone de Contato
+              </label>
+              <input type="text" id="modal_telefone_contato" name="telefone_contato" class="form-control" placeholder="(XX) XXXXX-XXXX">
+              <small class="form-text text-muted">Telefone para contato relacionado a este agendamento</small>
+            </div>
+          </div>
+
+          <!-- Seção: Tabulação -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h6 class="border-bottom pb-2 mb-3">
+                <i class='bx bx-tag me-2'></i>Tabulação
+              </h6>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Status Atual da Tabulação</label>
+              <div id="modal_tabulacao_atual" class="form-control bg-light" style="min-height: 38px; display: flex; align-items: center;">
+                <span id="modal_tabulacao_atual_text">Sem tabulação</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="modal_tabulacao_select" class="form-label">Alterar Status</label>
+              <select id="modal_tabulacao_select" class="form-select">
+                <option value="SEM_RESPOSTA">Sem Resposta</option>
+                <option value="EM_NEGOCIACAO">Em Negociação</option>
+                <option value="REVERSAO">Reversão</option>
+                <option value="CHECAGEM">Checagem</option>
+                <option value="CONCLUIDO_PG">Concluído PG</option>
+              </select>
+            </div>
+            <div class="col-12 mt-3">
+              <label for="modal_tabulacao_observacoes" class="form-label">Observação da Tabulação</label>
+              <textarea id="modal_tabulacao_observacoes" class="form-control" rows="3" placeholder="Observações da tabulação..."></textarea>
+            </div>
+          </div>
+
+          <!-- Seção: Agendamento de Horário de Checagem/Reversão -->
+          <div class="row mb-4" id="modal_secao_horario_checagem" style="display: none;">
+            <div class="col-12">
+              <h6 class="border-bottom pb-2 mb-3">
+                <i class='bx bx-calendar-check me-2'></i>Agendamento de Horário de Checagem/Reversão
+              </h6>
+            </div>
+            <div class="col-md-6">
+              <label for="modal_coordenador_checagem_select" class="form-label">
+                <i class='bx bx-user-check me-2'></i>Selecionar Coordenador
+              </label>
+              <select id="modal_coordenador_checagem_select" class="form-select" required>
+                <option value="">Carregando coordenadores...</option>
+              </select>
+              <small class="form-text text-muted">Selecione um coordenador ou supervisor geral disponível</small>
+            </div>
+            <div class="col-md-6">
+              <label for="modal_data_checagem" class="form-label">
+                <i class='bx bx-calendar me-2'></i>Data da Checagem/Reversão
+              </label>
+              <input type="date" id="modal_data_checagem" class="form-control" required>
+              <small class="form-text text-muted">Selecione a data para a checagem/reversão (não pode ser no passado)</small>
+            </div>
+            <div class="col-md-6 mt-3">
+              <label for="modal_horario_checagem" class="form-label">
+                <i class='bx bx-time me-2'></i>Horário Disponível
+              </label>
+              <select id="modal_horario_checagem" class="form-select" required disabled>
+                <option value="">Primeiro selecione um coordenador e uma data</option>
+              </select>
+              <small class="form-text text-muted">Horários de 15 em 15 minutos entre 10:00 e 16:45</small>
+            </div>
+            <div class="col-12 mt-3">
+              <label for="modal_observacao_checagem" class="form-label">
+                <i class='bx bx-comment-detail me-2'></i>Observação da Checagem/Reversão (Opcional)
+              </label>
+              <textarea id="modal_observacao_checagem" class="form-control" rows="3" placeholder="Observações sobre a checagem/reversão..."></textarea>
+            </div>
+          </div>
+
+          <!-- Seção: Dados de Negociação -->
+          <div class="row mb-4" id="modal_secao_dados_negociacao" style="display: none;">
+            <div class="col-12">
+              <h6 class="border-bottom pb-2 mb-3">
+                <i class='bx bx-clipboard-data me-2'></i>Dados de Negociação
+              </h6>
+            </div>
+            
+            <!-- Campos para CHECAGEM - Todos os campos completos -->
+            <div id="modal_dados_negociacao_checagem" style="display: none;">
+              <!-- Primeira linha: Banco e Valor Liberado -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="modal_banco_nome" class="form-label">
+                    <i class='bx bx-bank me-2'></i>Nome do Banco <span class="text-danger">*</span>
+                  </label>
+                  <input type="text" id="modal_banco_nome" class="form-control" placeholder="Ex: Caixa Econômica Federal" required>
+                  <small class="form-text text-muted">Nome completo do banco</small>
+                </div>
+                <div class="col-md-6">
+                  <label for="modal_valor_liberado" class="form-label">
+                    <i class='bx bx-money me-2'></i>Valor Liberado (R$) <span class="text-danger">*</span>
+                  </label>
+                  <input type="number" id="modal_valor_liberado" class="form-control" step="0.01" min="0" placeholder="0.00" required>
+                  <small class="form-text text-muted">Valor total liberado para o cliente</small>
+                </div>
+              </div>
+
+              <!-- Segunda linha: Saldo Devedor e TC -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="modal_saldo_devedor" class="form-label">
+                    <i class='bx bx-calculator me-2'></i>Saldo Devedor (R$) <span class="text-danger">*</span>
+                  </label>
+                  <input type="number" id="modal_saldo_devedor" class="form-control" step="0.01" min="0" placeholder="0.00" required>
+                  <small class="form-text text-muted">Valor do saldo devedor atual</small>
+                </div>
+                <div class="col-md-6">
+                  <label for="modal_tc" class="form-label">
+                    <i class='bx bx-money me-2'></i>TC (R$)
+                  </label>
+                  <input type="number" id="modal_tc" class="form-control" step="0.01" min="0" placeholder="0.00">
+                  <small class="form-text text-muted">Valor TC (quanto a empresa recebe na operação)</small>
+                </div>
+              </div>
+
+              <!-- Terceira linha: Parcelas -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="modal_parcela_atual" class="form-label">
+                    <i class='bx bx-calendar me-2'></i>Parcela Atual (R$) <span class="text-danger">*</span>
+                  </label>
+                  <input type="number" id="modal_parcela_atual" class="form-control" step="0.01" min="0" placeholder="0.00" required>
+                  <small class="form-text text-muted">Valor da parcela atual</small>
+                </div>
+                <div class="col-md-6">
+                  <label for="modal_parcela_nova" class="form-label">
+                    <i class='bx bx-calendar-plus me-2'></i>Parcela Nova (R$) <span class="text-danger">*</span>
+                  </label>
+                  <input type="number" id="modal_parcela_nova" class="form-control" step="0.01" min="0" placeholder="0.00" required>
+                  <small class="form-text text-muted">Valor da nova parcela negociada</small>
+                </div>
+              </div>
+
+              <!-- Quarta linha: Troco e Prazos -->
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label for="modal_troco" class="form-label">
+                    <i class='bx bx-coin me-2'></i>Troco (R$)
+                  </label>
+                  <input type="number" id="modal_troco" class="form-control" step="0.01" min="0" placeholder="0.00">
+                  <small class="form-text text-muted">Valor do troco se houver</small>
+                </div>
+                <div class="col-md-4">
+                  <label for="modal_prazo_atual" class="form-label">
+                    <i class='bx bx-time me-2'></i>Prazo Atual (meses)
+                  </label>
+                  <input type="number" id="modal_prazo_atual" class="form-control" min="1" max="96" placeholder="0">
+                  <small class="form-text text-muted">Prazo atual em meses</small>
+                </div>
+                <div class="col-md-4">
+                  <label for="modal_prazo_acordado" class="form-label">
+                    <i class='bx bx-time-five me-2'></i>Prazo Acordado (meses) <span class="text-danger">*</span>
+                  </label>
+                  <input type="number" id="modal_prazo_acordado" class="form-control" min="1" max="96" placeholder="0" required>
+                  <small class="form-text text-muted">Novo prazo acordado</small>
+                </div>
+              </div>
+
+              <!-- Descrição da Negociação -->
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label for="modal_descricao_negociacao" class="form-label">
+                    <i class='bx bx-comment-detail me-2'></i>Descrição da Negociação <span class="text-danger">*</span>
+                  </label>
+                  <textarea id="modal_descricao_negociacao" class="form-control" rows="3" placeholder="Descreva os detalhes da negociação realizada..." required></textarea>
+                  <small class="form-text text-muted">Mínimo de 10 caracteres</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Campo para REVERSAO (apenas observações) -->
+            <div id="modal_dados_negociacao_reversao" style="display: none;">
+              <div class="row mb-3">
+                <div class="col-12">
+                  <label for="modal_observacoes_reversao" class="form-label">
+                    <i class='bx bx-comment-detail me-2'></i>Motivo da Reversão <span class="text-danger">*</span>
+                  </label>
+                  <textarea id="modal_observacoes_reversao" class="form-control" rows="3" placeholder="Descreva detalhadamente o motivo da reversão..." required></textarea>
+                  <small class="form-text text-muted">Mínimo de 10 caracteres</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Seção de Upload de Arquivos (comum para ambos) -->
+            <div class="row mb-3">
+              <div class="col-12">
+                <label for="modal_arquivos_negociacao" class="form-label">
+                  <i class='bx bx-file me-2'></i>Arquivos <span class="text-danger">*</span>
+                </label>
+                <input type="file" id="modal_arquivos_negociacao" class="form-control" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" required>
+                <small class="form-text text-muted">Adicione pelo menos um arquivo. Múltiplos arquivos permitidos. Formatos aceitos: PDF, DOC, DOCX, XLS, XLSX, PNG, JPG, JPEG (máx 20MB por arquivo)</small>
+              </div>
+            </div>
+            
+            <!-- Lista de arquivos selecionados -->
+            <div class="row" id="modal_lista_arquivos_container" style="display: none;">
+              <div class="col-12">
+                <label class="form-label">
+                  <i class='bx bx-list-ul me-2'></i>Arquivos Selecionados
+                </label>
+                <div id="modal_lista_arquivos_selecionados" class="border rounded p-3" style="max-height: 200px; overflow-y: auto; background-color: #f8f9fa;">
+                  <!-- Arquivos serão listados aqui via JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seção: Agendamento de Supervisão -->
+          <div class="row mb-4" id="modal_secao_supervisao" style="display: none;">
+            <div class="col-12">
+              <h6 class="border-bottom pb-2 mb-3">
+                <i class='bx bx-calendar-check me-2'></i>Agendamento de Supervisão
+              </h6>
+            </div>
+            <div class="col-md-6">
+              <label for="modal_coordenador_select" class="form-label">
+                <i class='bx bx-user-check me-2'></i>Selecionar Coordenador/Supervisor
+              </label>
+              <select id="modal_coordenador_select" class="form-select" required>
+                <option value="">Carregando coordenadores...</option>
+              </select>
+              <small class="form-text text-muted">Selecione um coordenador ou supervisor geral disponível</small>
+            </div>
+            <div class="col-md-6">
+              <label for="modal_data_supervisao" class="form-label">
+                <i class='bx bx-calendar me-2'></i>Data da Supervisão
+              </label>
+              <input type="date" id="modal_data_supervisao" class="form-control" required>
+              <small class="form-text text-muted">Selecione a data para a supervisão (não pode ser no passado)</small>
+            </div>
+            <div class="col-md-6 mt-3">
+              <label for="modal_horario_supervisao" class="form-label">
+                <i class='bx bx-time me-2'></i>Horário Disponível
+              </label>
+              <select id="modal_horario_supervisao" class="form-select" required disabled>
+                <option value="">Primeiro selecione um coordenador e uma data</option>
+              </select>
+              <small class="form-text text-muted">Horários de 15 em 15 minutos entre 10:00 e 16:45</small>
+            </div>
+            <div class="col-12 mt-3">
+              <label for="modal_observacao_supervisao" class="form-label">
+                <i class='bx bx-comment-detail me-2'></i>Observação da Supervisão (Opcional)
+              </label>
+              <textarea id="modal_observacao_supervisao" class="form-control" rows="3" placeholder="Observações sobre a supervisão/revisão..."></textarea>
+            </div>
+          </div>
+
+          <!-- Seção: Observação do Agendamento -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <h6 class="border-bottom pb-2 mb-3">
+                <i class='bx bx-comment me-2'></i>Observação do Agendamento
+              </h6>
+            </div>
+            <div class="col-12">
+              <label for="modal_observacao_agendamento" class="form-label">
+                <i class='bx bx-comment-detail me-2'></i>Observação
+              </label>
+              <textarea id="modal_observacao_agendamento" class="form-control" rows="4" placeholder="Digite a observação sobre o agendamento..."></textarea>
+            </div>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class='bx bx-x me-2'></i>Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" id="btn-salvar-edicao-agendamento">
+          <i class='bx bx-save me-2'></i>Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'siape/js/forms/consulta_cliente.js' %}"></script>
+{% endblock %}

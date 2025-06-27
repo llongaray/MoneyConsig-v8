@@ -1,0 +1,252 @@
+:root { 
+    /* Cores Básicas */
+    --cor-preto: #000000;
+    --cor-branco: #ffffff;
+    --cor-branco-50: #f6f6f6; /* Branco suave para fundo */
+    --cor-branco-100: #e7e7e7; /* Branco com leve tom cinza */
+    --cor-branco-200: #d1d1d1; /* Branco mais escuro */
+    --cor-branco-300: #b0b0b0; /* Branco muito suave */
+    --cor-branco-400: #888888; /* Cinza claro */
+    --cor-branco-500: #6d6d6d; /* Cinza médio */
+    --cor-branco-600: #5d5d5d; /* Cinza escuro */
+    --cor-branco-700: #4f4f4f; /* Cinza mais escuro */
+    --cor-branco-800: #454545; /* Quase preto */
+    --cor-branco-900: #3d3d3d; /* Preto suave */
+    --cor-branco-950: #0d0d0d; /* Preto profundo */
+
+    /* Paleta de Azul Escuro */
+    --azul-escuro-50: #ecaaa;
+    --azul-escuro-100: #daedff;
+    --azul-escuro-200: #bde0ff;
+    --azul-escuro-300: #90cdff;
+    --azul-escuro-400: #5cb0fe;
+    --azul-escuro-500: #368ffb;
+    --azul-escuro-600: #2070f0;
+    --azul-escuro-700: #185add;
+    --azul-escuro-800: #1a49b3;
+    --azul-escuro-900: #1b418d;
+    --azul-escuro-950: #142650; /* Azul Escuro principal para menu, footer, scroll e h */
+
+    /* Paleta de Verde Neon */
+    --verde-neon-50: #f3ffe5;
+    --verde-neon-100: #e2ffc6;
+    --verde-neon-200: #c6ff94;
+    --verde-neon-300: #9fff57;
+    --verde-neon-400: #70f611; /* Verde Neon principal */
+    --verde-neon-500: #5bdd05;
+    --verde-neon-600: #42b100;
+    --verde-neon-700: #338605;
+    --verde-neon-800: #2c6a0a;
+    --verde-neon-900: #27590e;
+    --verde-neon-950: #103201;
+
+    /* Paleta de Azul Claro */
+    --azul-claro-50: #e0f7fa;
+    --azul-claro-100: #b2ebf2;
+    --azul-claro-200: #80deea;
+    --azul-claro-300: #4dd0e1;
+    --azul-claro-400: #26c6da;
+    --azul-claro-500: #0bd5f0; /* Azul Claro principal */
+    --azul-claro-600: #00acc1;
+    --azul-claro-700: #0097a7;
+    --azul-claro-800: #00838f;
+    --azul-claro-900: #006064;
+
+    /* Derivações para Fundo */
+    --fundo-claro: var(--cor-branco-50); /* Fundo claro para main */
+    --fundo-azul-claro: var(--azul-claro-50); /* Azul clarinho para fundo */
+
+    /* Cores de Texto */
+    --cor-texto-principal: var(--cor-cinza); /* Texto principal */
+    --cor-texto-claro: var(--cor-branco); /* Texto claro sobre fundo escuro */
+    --cor-texto-azul-escuro: var(--azul-escuro-950); /* Texto azul escuro */
+
+    /* Cores para Botões */
+    --cor-botao-primario: var(--azul-escuro-600);
+    --cor-botao-primario-hover: var(--azul-escuro-400);
+    --cor-botao-secundario: var(--verde-neon-400);
+    --cor-botao-secundario-hover: var(--verde-neon-300);
+
+    /* Cores de Modal */
+    --cor-fundo-modal: rgba(0, 0, 0, 0.7); /* Fundo preto com transparência */
+    --cor-fundo-modal-conteudo: var(--cor-branco); /* Conteúdo do modal em branco */
+    --cor-borda-modal: var(--azul-escuro-500); /* Borda em azul escuro */
+
+    /* Cores para Tabelas */
+    --cor-tabela-cabecalho: var(--azul-escuro-600); /* Cabeçalho da tabela */
+    --cor-tabela-linha: var(--cor-branco-100); /* Fundo das linhas da tabela */
+    --cor-tabela-linha-hover: var(--azul-claro-50); /* Linha com hover em azul claro */
+
+    /* Box Shadow */
+    --cor-box-shadow: rgba(0, 0, 0, 0.15);
+
+    /* Fontes */
+    --fonte-padrao: Arial, sans-serif;
+    --tamanho-titulo: 36pt;
+    --tamanho-subtitulo: 27pt;
+    --tamanho-texto: 16px;
+    
+    /* Radius */
+    --border-radius-pequeno: 5px;
+    --border-radius-medio: 10px;
+
+    /* Estilos para o modo claro */
+    --background-fundo: #f0f0f1;
+    --background-container: #ffffff;
+    --title-color: #23282d;
+    --text-color: #32373c;
+    --border-color: #e5e5e5;
+    --primary-color: #0085ba;
+    --primary-color-dark: #006799;
+    --secondary-color: #ffffff;
+    --hover-color: #008ec2;
+    --links-color: #0073aa;
+    --input-background: #ffffff;
+    --table-odd-row: #f9f9f9;
+    --table-hover: #f5f5f5;
+
+    /* Estilos para o modo escuro */
+    --dark-background-fundo: #2a2a2a; /* Fundo do main em um tom mais claro */
+    --dark-container-background: #1e1e1e; /* Cor de fundo do container */
+    --dark-options-background: #1e1e1e; /* Cor de fundo dos options_modais */
+    --dark-options-hover: #2a2a2a; /* Cor de fundo dos options_modais ao hover/focus */
+    --dark-text-color: var(--cor-branco-200); /* Texto em um branco suave */
+    --dark-secondary-text-color: var(--cor-branco-400); /* Texto secundário em cinza claro */
+    --dark-modal-background: rgba(30, 30, 30, 0.9); /* Fundo do modal em cinza escuro */
+    --dark-border-color: #444; /* Borda em cinza claro */
+    --dark-box-shadow: rgba(0, 0, 0, 0.2); /* Sombra suave para profundidade */
+
+    /* Cores para Botões */
+    --cor-botao-primario: var(--azul-escuro-600);
+    --cor-botao-primario-hover: var(--azul-escuro-400);
+    --cor-botao-secundario: var(--verde-neon-400);
+    --cor-botao-secundario-hover: var(--verde-neon-300);
+
+    /* Cores de Modal */
+    --cor-fundo-modal: rgba(0, 0, 0, 0.7); /* Fundo preto com transparência */
+    --cor-fundo-modal-conteudo: var(--cor-branco); /* Conteúdo do modal em branco */
+    --cor-borda-modal: var(--azul-escuro-500); /* Borda em azul escuro */
+
+    /* Cores para Tabelas */
+    --cor-tabela-cabecalho: var(--azul-escuro-600); /* Cabeçalho da tabela */
+    --cor-tabela-linha: var(--cor-branco-100); /* Fundo das linhas da tabela */
+    --cor-tabela-linha-hover: var(--azul-claro-50); /* Linha com hover em azul claro */
+
+    /* Box Shadow */
+    --cor-box-shadow: rgba(0, 0, 0, 0.15);
+
+    /* Fontes */
+    --fonte-padrao: Arial, sans-serif;
+    --tamanho-titulo: 36pt;
+    --tamanho-subtitulo: 27pt;
+    --tamanho-texto: 16px;
+    
+    /* Radius */
+    --border-radius-pequeno: 5px;
+    --border-radius-medio: 10px;
+
+    /* Estilos para o modo claro */
+    --background-fundo: #f0f0f1;
+    --background-container: #ffffff;
+    --title-color: #23282d;
+    --text-color: #32373c;
+    --border-color: #e5e5e5;
+    --primary-color: #0085ba;
+    --primary-color-dark: #006799;
+    --secondary-color: #ffffff;
+    --hover-color: #008ec2;
+    --links-color: #0073aa;
+    --input-background: #ffffff;
+    --table-odd-row: #f9f9f9;
+    --table-hover: #f5f5f5;
+
+    /* Cores Básicas */
+    --cor-preto: #000000;
+    --cor-branco: #ffffff;
+    --cor-branco-50: #f6f6f6; /* Branco suave para fundo */
+    --cor-branco-100: #e7e7e7; /* Branco com leve tom cinza */
+    --cor-branco-200: #d1d1d1; /* Branco mais escuro */
+    --cor-branco-300: #b0b0b0; /* Branco muito suave */
+    --cor-branco-400: #888888; /* Cinza claro */
+    --cor-branco-500: #6d6d6d; /* Cinza médio */
+    --cor-branco-600: #5d5d5d; /* Cinza escuro */
+    --cor-branco-700: #4f4f4f; /* Cinza mais escuro */
+    --cor-branco-800: #454545; /* Quase preto */
+    --cor-branco-900: #3d3d3d; /* Preto suave */
+    --cor-branco-950: #0d0d0d; /* Preto profundo */
+
+    /* Estilos para o modo escuro */
+    --dark-background-fundo: #1e1e1e; /* Fundo escuro, mas não preto */
+    --dark-text-color: var(--cor-branco-200); /* Texto em um branco suave */
+    --dark-secondary-text-color: var(--cor-branco-400); /* Texto secundário em cinza claro */
+    --dark-modal-background: rgba(30, 30, 30, 0.9); /* Fundo do modal em cinza escuro */
+    --dark-border-color: #444; /* Borda em cinza claro */
+    --dark-box-shadow: rgba(0, 0, 0, 0.2); /* Sombra suave para profundidade */
+
+    /* Cores para Botões */
+    --cor-botao-primario: var(--azul-escuro-600);
+    --cor-botao-primario-hover: var(--azul-escuro-400);
+    --cor-botao-secundario: var(--verde-neon-400);
+    --cor-botao-secundario-hover: var(--verde-neon-300);
+
+    /* Cores de Modal */
+    --cor-fundo-modal: rgba(0, 0, 0, 0.7); /* Fundo preto com transparência */
+    --cor-fundo-modal-conteudo: var(--cor-branco); /* Conteúdo do modal em branco */
+    --cor-borda-modal: var(--azul-escuro-500); /* Borda em azul escuro */
+
+    /* Cores para Tabelas */
+    --cor-tabela-cabecalho: var(--azul-escuro-600); /* Cabeçalho da tabela */
+    --cor-tabela-linha: var(--cor-branco-100); /* Fundo das linhas da tabela */
+    --cor-tabela-linha-hover: var(--azul-claro-50); /* Linha com hover em azul claro */
+
+    /* Box Shadow */
+    --cor-box-shadow: rgba(0, 0, 0, 0.15);
+
+    /* Fontes */
+    --fonte-padrao: Arial, sans-serif;
+    --tamanho-titulo: 36pt;
+    --tamanho-subtitulo: 27pt;
+    --tamanho-texto: 16px;
+    
+    /* Radius */
+    --border-radius-pequeno: 5px;
+    --border-radius-medio: 10px;
+
+    /* Estilos para o modo claro */
+    --background-fundo: #f0f0f1;
+    --background-container: #ffffff;
+    --title-color: #23282d;
+    --text-color: #32373c;
+    --border-color: #e5e5e5;
+    --primary-color: #0085ba;
+    --primary-color-dark: #006799;
+    --secondary-color: #ffffff;
+    --hover-color: #008ec2;
+    --links-color: #0073aa;
+    --input-background: #ffffff;
+    --table-odd-row: #f9f9f9;
+    --table-hover: #f5f5f5;
+
+    /* Cores Básicas */
+    --cor-preto: #000000;
+    --cor-branco: #ffffff;
+    --cor-branco-50: #f6f6f6; /* Branco suave para fundo */
+    --cor-branco-100: #e7e7e7; /* Branco com leve tom cinza */
+    --cor-branco-200: #d1d1d1; /* Branco mais escuro */
+    --cor-branco-300: #b0b0b0; /* Branco muito suave */
+    --cor-branco-400: #888888; /* Cinza claro */
+    --cor-branco-500: #6d6d6d; /* Cinza médio */
+    --cor-branco-600: #5d5d5d; /* Cinza escuro */
+    --cor-branco-700: #4f4f4f; /* Cinza mais escuro */
+    --cor-branco-800: #454545; /* Quase preto */
+    --cor-branco-900: #3d3d3d; /* Preto suave */
+    --cor-branco-950: #0d0d0d; /* Preto profundo */
+
+    /* Estilos para o modo escuro */
+    --dark-background-fundo: #1e1e1e; /* Fundo escuro, mas não preto */
+    --dark-text-color: var(--cor-branco-200); /* Texto em um branco suave */
+    --dark-secondary-text-color: var(--cor-branco-400); /* Texto secundário em cinza claro */
+    --dark-modal-background: rgba(30, 30, 30, 0.9); /* Fundo do modal em cinza escuro */
+    --dark-border-color: #444; /* Borda em cinza claro */
+    --dark-box-shadow: rgba(0, 0, 0, 0.2); /* Sombra suave para profundidade */
+}

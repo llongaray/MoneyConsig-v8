@@ -1,0 +1,941 @@
+/* ==========================================
+   Estilos para o Card da Calculadora
+   ========================================== */
+.calculadora-card .card-header {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 0.8rem 1rem;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+  background-size: 400% 400%;
+  animation: metallicShift 15s ease infinite;
+  color: var(--color-white);
+}
+
+.calculadora-card .card-header:hover {
+  background-color: rgba(112, 246, 17, 0.15);
+  box-shadow: 0 0 15px rgba(112, 246, 17, 0.2);
+}
+
+.calculadora-card .card-header::after {
+  content: '\ea0a'; /* bx-chevron-down */
+  font-family: 'boxicons';
+  font-size: 1.3rem;
+  color: var(--color-white);
+  transition: transform 0.3s ease;
+}
+
+.calculadora-card.collapsed .card-header::after {
+  transform: rotate(-90deg);
+}
+
+/* Animação para o card-body da calculadora */
+#card-body-calculadora {
+  flex-direction: column;
+  align-items: stretch;
+  background: linear-gradient(135deg, rgba(112, 246, 17, 0.05), rgba(255, 255, 255, 1));
+  padding: 0.75rem;
+  transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+  max-height: 480px;
+  overflow: hidden;
+  transform-origin: top;
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.calculadora-card.collapsed #card-body-calculadora {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+.calculadora-card .form-group {
+  margin-bottom: 0.75rem;
+  position: relative;
+  width: 100%;
+}
+
+.calculadora-card .form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: 0.4rem;
+  transform-origin: left;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+}
+
+.calculadora-card .form-label i {
+  font-size: 1rem;
+  color: var(--color-secondary);
+}
+
+.calculadora-card .form-control {
+  padding: 0.6rem;
+  border: 2px solid rgba(112, 246, 17, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+}
+
+.calculadora-card .form-control:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.1);
+  transform: translateY(-2px);
+  background: white;
+}
+
+.calculadora-card .form-control:focus + .form-label {
+  transform: scale(1.05);
+}
+
+/* Botões da calculadora */
+.calculadora-card .btn-group {
+  display: flex;
+  gap: 0.4rem;
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.calculadora-card .btn-primary {
+  background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+  background-size: 300% 300% !important;
+  animation: gradientBG 8s ease infinite !important;
+  transform-origin: center;
+  transition: all 0.3s ease;
+}
+
+.calculadora-card .btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 10px rgba(112, 246, 17, 0.2);
+}
+
+.calculadora-card .btn-outline-secondary {
+  background: transparent;
+  border: 2px solid rgba(112, 246, 17, 0.3);
+  color: var(--color-primary-dark);
+  transition: all 0.3s ease;
+}
+
+.calculadora-card .btn-outline-secondary:hover {
+  background: rgba(112, 246, 17, 0.1);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
+
+/* Resultados da calculadora */
+.resultado-calculo {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(112, 246, 17, 0.05));
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(112, 246, 17, 0.2);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: slideUp 0.4s ease forwards;
+}
+
+.resultado-calculo hr {
+  border-color: rgba(112, 246, 17, 0.2);
+  margin: 0.5rem 0 1rem;
+}
+
+.resultado-calculo .d-flex {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.05);
+}
+
+.resultado-calculo .d-flex:last-child {
+  border-bottom: none;
+}
+
+.resultado-calculo .d-flex p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.resultado-final {
+  font-size: 1.1rem !important;
+  margin-top: 0.5rem !important;
+  background: linear-gradient(90deg, rgba(112, 246, 17, 0.1), rgba(11, 213, 240, 0.1));
+  padding: 0.5rem !important;
+  border-radius: 6px;
+  border-left: 4px solid var(--color-secondary);
+}
+
+.resultado-final p strong {
+  color: var(--color-primary-dark);
+}
+
+.resultado-final span {
+  font-weight: bold;
+  color: var(--color-primary-dark);
+  font-size: 1.2rem;
+  animation: pulsateText 2s infinite;
+}
+
+/* ==========================================
+   Estilos para a Calculadora de Coeficiente
+   ========================================== */
+.calculadora-coeficiente-card .card-header {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+  background-size: 400% 400%;
+  animation: metallicShift 15s ease infinite;
+  color: var(--color-white);
+}
+
+.calculadora-coeficiente-card .card-header:hover {
+  background-color: rgba(112, 246, 17, 0.15);
+  box-shadow: 0 0 15px rgba(112, 246, 17, 0.2);
+}
+
+.calculadora-coeficiente-card .card-header::after {
+  content: '\ea0a'; /* bx-chevron-down */
+  font-family: 'boxicons';
+  font-size: 1.3rem;
+  color: var(--color-white);
+  transition: transform 0.3s ease;
+}
+
+.calculadora-coeficiente-card.collapsed .card-header::after {
+  transform: rotate(-90deg);
+}
+
+.calculadora-coeficiente-card .card-body {
+  flex-direction: column;
+  align-items: stretch;
+  background: linear-gradient(135deg, rgba(112, 246, 17, 0.05), rgba(255, 255, 255, 1));
+  padding: 1rem;
+  transition: max-height 0.5s ease, opacity 0.3s ease, transform 0.3s ease;
+  max-height: 600px;
+  overflow: hidden;
+  transform-origin: top;
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.calculadora-coeficiente-card.collapsed .card-body {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+.calculadora-coeficiente-card .form-group {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.calculadora-coeficiente-card .form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.calculadora-coeficiente-card .form-label i {
+  font-size: 1.2rem;
+  color: var(--color-secondary);
+}
+
+.calculadora-coeficiente-card .form-control {
+  padding: 0.75rem;
+  border: 2px solid rgba(112, 246, 17, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.calculadora-coeficiente-card .form-control:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.1);
+  transform: translateY(-2px);
+  background: white;
+}
+
+.calculadora-coeficiente-card .btn-group {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.calculadora-coeficiente-card .btn-primary {
+  background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+  background-size: 300% 300% !important;
+  animation: gradientBG 8s ease infinite !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.calculadora-coeficiente-card .btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 10px rgba(112, 246, 17, 0.2);
+}
+
+.calculadora-coeficiente-card .btn-outline-secondary {
+  background: transparent;
+  border: 2px solid rgba(112, 246, 17, 0.3);
+  color: var(--color-primary-dark);
+  transition: all 0.3s ease;
+}
+
+.calculadora-coeficiente-card .btn-outline-secondary:hover {
+  background: rgba(112, 246, 17, 0.1);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
+
+.resultado-coeficiente {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(112, 246, 17, 0.05));
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(112, 246, 17, 0.2);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards;
+}
+
+.resultado-coeficiente hr {
+  border-color: rgba(112, 246, 17, 0.2);
+  margin: 0.5rem 0;
+}
+
+.resultado-coeficiente p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* ==========================================
+   Estilos para a Calculadora de Cartão Benefício
+   ========================================== */
+.calculadora-beneficio-card .card-header {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+  background-size: 400% 400%;
+  animation: metallicShift 15s ease infinite;
+  color: var(--color-white);
+}
+
+.calculadora-beneficio-card .card-header:hover {
+  background-color: rgba(112, 246, 17, 0.15);
+  box-shadow: 0 0 15px rgba(112, 246, 17, 0.2);
+}
+
+.calculadora-beneficio-card .card-header::after {
+  content: '\ea0a'; /* bx-chevron-down */
+  font-family: 'boxicons';
+  font-size: 1.3rem;
+  color: var(--color-white);
+  transition: transform 0.3s ease;
+}
+
+.calculadora-beneficio-card.collapsed .card-header::after {
+  transform: rotate(-90deg);
+}
+
+.calculadora-beneficio-card .card-body {
+  flex-direction: column;
+  align-items: stretch;
+  background: linear-gradient(135deg, rgba(112, 246, 17, 0.05), rgba(255, 255, 255, 1));
+  padding: 1rem;
+  transition: max-height 0.5s ease, opacity 0.3s ease, transform 0.3s ease;
+  max-height: 600px;
+  overflow: hidden;
+  transform-origin: top;
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.calculadora-beneficio-card.collapsed .card-body {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+.calculadora-beneficio-card .form-group {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.calculadora-beneficio-card .form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.calculadora-beneficio-card .form-control {
+  padding: 0.75rem;
+  border: 2px solid rgba(112, 246, 17, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.calculadora-beneficio-card .form-control:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.1);
+  transform: translateY(-2px);
+  background: white;
+}
+
+.calculadora-beneficio-card .btn-group {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.calculadora-beneficio-card .btn-primary {
+  background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+  background-size: 300% 300% !important;
+  animation: gradientBG 8s ease infinite !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.calculadora-beneficio-card .btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 10px rgba(112, 246, 17, 0.2);
+}
+
+.calculadora-beneficio-card .btn-outline-secondary {
+  background: transparent;
+  border: 2px solid rgba(112, 246, 17, 0.3);
+  color: var(--color-primary-dark);
+  transition: all 0.3s ease;
+}
+
+.calculadora-beneficio-card .btn-outline-secondary:hover {
+  background: rgba(112, 246, 17, 0.1);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
+
+.resultado-beneficio {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), rgba(112, 246, 17, 0.05));
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(112, 246, 17, 0.2);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards;
+}
+
+.resultado-beneficio hr {
+  border: none;
+  border-top: 1px solid rgba(112, 246, 17, 0.4);
+  margin: 0 0 1rem;
+}
+
+.resultado-beneficio p {
+  margin: 0;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.resultado-beneficio p:not(:last-child) {
+  border-bottom: 1px dashed rgba(112, 246, 17, 0.2);
+}
+
+.resultado-beneficio p strong {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.resultado-beneficio span {
+  font-weight: bold;
+  color: var(--color-secondary);
+  font-size: 1.2rem;
+}
+
+/* Animações */
+@keyframes slideUp {
+  from { 
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulsateText {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Dark mode */
+html.dark #card-body-calculadora {
+  background: linear-gradient(135deg, rgba(112, 246, 17, 0.1), rgba(20, 20, 20, 1));
+}
+
+html.dark .calculadora-card .form-control {
+  background: rgba(40, 40, 40, 0.7);
+  border-color: rgba(112, 246, 17, 0.3);
+  color: white;
+}
+
+html.dark .resultado-calculo {
+  background: linear-gradient(to bottom, rgba(40, 40, 40, 0.9), rgba(112, 246, 17, 0.05));
+  border-color: rgba(112, 246, 17, 0.3);
+}
+
+.calculadora-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.calculadora-coeficiente-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.calculadora-beneficio-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   🌙 DARK MODE - CALCULADORAS
+   ========================================== */
+
+/* Calculadora principal */
+[data-theme="dark"] .calculadora-card,
+body.dark-mode .calculadora-card {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .calculadora-card:hover,
+body.dark-mode .calculadora-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Header da calculadora */
+[data-theme="dark"] .calculadora-card .card-header,
+body.dark-mode .calculadora-card .card-header {
+    background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+    background-size: 400% 400%;
+    animation: metallicShift 15s ease infinite;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .calculadora-card .card-header:hover,
+body.dark-mode .calculadora-card .card-header:hover {
+    background-color: rgba(112, 246, 17, 0.2);
+    box-shadow: 0 0 15px rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .calculadora-card .card-header::after,
+body.dark-mode .calculadora-card .card-header::after {
+    color: #ffffff;
+}
+
+/* Body da calculadora */
+[data-theme="dark"] #card-body-calculadora,
+body.dark-mode #card-body-calculadora {
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.1), rgba(61, 52, 80, 1));
+}
+
+/* Labels da calculadora */
+[data-theme="dark"] .calculadora-card .form-label,
+body.dark-mode .calculadora-card .form-label {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .calculadora-card .form-label i,
+body.dark-mode .calculadora-card .form-label i {
+    color: #70f611;
+}
+
+/* Controles da calculadora */
+[data-theme="dark"] .calculadora-card .form-control,
+body.dark-mode .calculadora-card .form-control {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .calculadora-card .form-control:focus,
+body.dark-mode .calculadora-card .form-control:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+/* Botões da calculadora */
+[data-theme="dark"] .calculadora-card .btn-primary,
+body.dark-mode .calculadora-card .btn-primary {
+    background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBG 8s ease infinite !important;
+    color: #ffffff !important;
+    border-color: #70f611;
+}
+
+[data-theme="dark"] .calculadora-card .btn-primary:hover,
+body.dark-mode .calculadora-card .btn-primary:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .calculadora-card .btn-outline-secondary,
+body.dark-mode .calculadora-card .btn-outline-secondary {
+    background: transparent;
+    border-color: rgba(112, 246, 17, 0.4);
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .calculadora-card .btn-outline-secondary:hover,
+body.dark-mode .calculadora-card .btn-outline-secondary:hover {
+    background: rgba(112, 246, 17, 0.15);
+    border-color: #70f611;
+    color: #ffffff;
+}
+
+/* Resultados da calculadora */
+[data-theme="dark"] .resultado-calculo,
+body.dark-mode .resultado-calculo {
+    background: linear-gradient(to bottom, rgba(61, 52, 80, 0.9), rgba(112, 246, 17, 0.08));
+    border-color: rgba(112, 246, 17, 0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .resultado-calculo hr,
+body.dark-mode .resultado-calculo hr {
+    border-color: rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .resultado-calculo .d-flex,
+body.dark-mode .resultado-calculo .d-flex {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .resultado-calculo .d-flex p,
+body.dark-mode .resultado-calculo .d-flex p {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .resultado-final,
+body.dark-mode .resultado-final {
+    background: linear-gradient(90deg, rgba(112, 246, 17, 0.15), rgba(11, 213, 240, 0.15));
+    border-left-color: #70f611;
+}
+
+[data-theme="dark"] .resultado-final p strong,
+body.dark-mode .resultado-final p strong {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .resultado-final span,
+body.dark-mode .resultado-final span {
+    color: #ffffff;
+}
+
+/* Calculadora de Coeficiente */
+[data-theme="dark"] .calculadora-coeficiente-card,
+body.dark-mode .calculadora-coeficiente-card {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .card-header,
+body.dark-mode .calculadora-coeficiente-card .card-header {
+    background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+    background-size: 400% 400%;
+    animation: metallicShift 15s ease infinite;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .card-header:hover,
+body.dark-mode .calculadora-coeficiente-card .card-header:hover {
+    background-color: rgba(112, 246, 17, 0.2);
+    box-shadow: 0 0 15px rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .card-header::after,
+body.dark-mode .calculadora-coeficiente-card .card-header::after {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .card-body,
+body.dark-mode .calculadora-coeficiente-card .card-body {
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.1), rgba(61, 52, 80, 1));
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .form-label,
+body.dark-mode .calculadora-coeficiente-card .form-label {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .form-label i,
+body.dark-mode .calculadora-coeficiente-card .form-label i {
+    color: #70f611;
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .form-control,
+body.dark-mode .calculadora-coeficiente-card .form-control {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .form-control:focus,
+body.dark-mode .calculadora-coeficiente-card .form-control:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .btn-primary,
+body.dark-mode .calculadora-coeficiente-card .btn-primary {
+    background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBG 8s ease infinite !important;
+    color: #ffffff !important;
+    border-color: #70f611;
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .btn-primary:hover,
+body.dark-mode .calculadora-coeficiente-card .btn-primary:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .btn-outline-secondary,
+body.dark-mode .calculadora-coeficiente-card .btn-outline-secondary {
+    background: transparent;
+    border-color: rgba(112, 246, 17, 0.4);
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .calculadora-coeficiente-card .btn-outline-secondary:hover,
+body.dark-mode .calculadora-coeficiente-card .btn-outline-secondary:hover {
+    background: rgba(112, 246, 17, 0.15);
+    border-color: #70f611;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .resultado-coeficiente,
+body.dark-mode .resultado-coeficiente {
+    background: linear-gradient(to bottom, rgba(61, 52, 80, 0.9), rgba(112, 246, 17, 0.08));
+    border-color: rgba(112, 246, 17, 0.3);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .resultado-coeficiente hr,
+body.dark-mode .resultado-coeficiente hr {
+    border-color: rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .resultado-coeficiente p,
+body.dark-mode .resultado-coeficiente p {
+    color: #b8b5c0;
+}
+
+/* Calculadora de Cartão Benefício */
+[data-theme="dark"] .calculadora-beneficio-card,
+body.dark-mode .calculadora-beneficio-card {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .card-header,
+body.dark-mode .calculadora-beneficio-card .card-header {
+    background: linear-gradient(135deg, #70f611 0%, #142650 25%, #ffffff 50%, #142650 75%, #70f611 100%);
+    background-size: 400% 400%;
+    animation: metallicShift 15s ease infinite;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .card-header:hover,
+body.dark-mode .calculadora-beneficio-card .card-header:hover {
+    background-color: rgba(112, 246, 17, 0.2);
+    box-shadow: 0 0 15px rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .card-header::after,
+body.dark-mode .calculadora-beneficio-card .card-header::after {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .card-body,
+body.dark-mode .calculadora-beneficio-card .card-body {
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.1), rgba(61, 52, 80, 1));
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .form-label,
+body.dark-mode .calculadora-beneficio-card .form-label {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .form-control,
+body.dark-mode .calculadora-beneficio-card .form-control {
+    background-color: #2d2438;
+    border-color: rgba(112, 246, 17, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .form-control:focus,
+body.dark-mode .calculadora-beneficio-card .form-control:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .btn-primary,
+body.dark-mode .calculadora-beneficio-card .btn-primary {
+    background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBG 8s ease infinite !important;
+    color: #ffffff !important;
+    border-color: #70f611;
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .btn-primary:hover,
+body.dark-mode .calculadora-beneficio-card .btn-primary:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .btn-outline-secondary,
+body.dark-mode .calculadora-beneficio-card .btn-outline-secondary {
+    background: transparent;
+    border-color: rgba(112, 246, 17, 0.4);
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .calculadora-beneficio-card .btn-outline-secondary:hover,
+body.dark-mode .calculadora-beneficio-card .btn-outline-secondary:hover {
+    background: rgba(112, 246, 17, 0.15);
+    border-color: #70f611;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .resultado-beneficio,
+body.dark-mode .resultado-beneficio {
+    background: linear-gradient(to bottom, rgba(61, 52, 80, 0.9), rgba(112, 246, 17, 0.08));
+    border-color: rgba(112, 246, 17, 0.3);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .resultado-beneficio hr,
+body.dark-mode .resultado-beneficio hr {
+    border-color: rgba(112, 246, 17, 0.4);
+}
+
+[data-theme="dark"] .resultado-beneficio p,
+body.dark-mode .resultado-beneficio p {
+    color: #b8b5c0;
+    border-bottom-color: rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .resultado-beneficio p:not(:last-child),
+body.dark-mode .resultado-beneficio p:not(:last-child) {
+    border-bottom-color: rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .resultado-beneficio p strong,
+body.dark-mode .resultado-beneficio p strong {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .resultado-beneficio span,
+body.dark-mode .resultado-beneficio span {
+    color: #70f611;
+}
+
+/* Responsividade no dark mode */
+@media (max-width: 768px) {
+    [data-theme="dark"] .calculadora-card .card-header,
+    [data-theme="dark"] .calculadora-coeficiente-card .card-header,
+    [data-theme="dark"] .calculadora-beneficio-card .card-header,
+    body.dark-mode .calculadora-card .card-header,
+    body.dark-mode .calculadora-coeficiente-card .card-header,
+    body.dark-mode .calculadora-beneficio-card .card-header {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    [data-theme="dark"] .calculadora-card .form-control,
+    [data-theme="dark"] .calculadora-coeficiente-card .form-control,
+    [data-theme="dark"] .calculadora-beneficio-card .form-control,
+    body.dark-mode .calculadora-card .form-control,
+    body.dark-mode .calculadora-coeficiente-card .form-control,
+    body.dark-mode .calculadora-beneficio-card .form-control {
+        padding: 0.65rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    [data-theme="dark"] .calculadora-card .form-label,
+    [data-theme="dark"] .calculadora-coeficiente-card .form-label,
+    [data-theme="dark"] .calculadora-beneficio-card .form-label,
+    body.dark-mode .calculadora-card .form-label,
+    body.dark-mode .calculadora-coeficiente-card .form-label,
+    body.dark-mode .calculadora-beneficio-card .form-label {
+        font-size: 0.85rem;
+    }
+} 

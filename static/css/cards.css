@@ -1,0 +1,193 @@
+/* Importando variáveis de cores */
+@import url('colors.css');
+
+/* Estilos para os cards */
+.container-slides h2 {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+.customer-logos.slider {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.customer-logos.slider .slide {
+    padding: 0 10px;
+    margin-top: 50px;
+}
+
+.customer-logos.slider .slide .gallery-cell {
+    background-color: var(--cor-fundo-card);
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.customer-logos.slider .slide .gallery-cell:hover {
+    transform: scale(1.05);
+}
+
+.customer-logos.slider .slide .gallery-cell i {
+    font-size: 36px;
+    margin-bottom: 10px;
+    display: block;
+    color: var(--cor-texto);
+}
+
+.customer-logos.slider .slide .gallery-cell h3 {
+    font-size: 20px;
+    margin: 10px 0;
+    color: var(--cor-texto);
+}
+
+.customer-logos.slider .slide .gallery-cell p {
+    font-size: 16px;
+    margin: 0;
+    color: var(--cor-texto);
+}
+
+.customer-logos.slider .slide .gallery-cell .button-modal {
+    background-color: var(--cor-botao);
+    color: red;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: 5px solid red;
+}
+
+.customer-logos.slider .slide .gallery-cell.button-poa {
+    background-color: #3498db; /* Azul */
+}
+
+.customer-logos.slider .slide .gallery-cell.button-sm {
+    background-color: #2ecc71; /* Verde */
+}
+
+.customer-logos.slider .slide .gallery-cell.button-sle {
+    background-color: #f39c12; /* Laranja */
+}
+
+.customer-logos.slider .slide .gallery-cell.button-guaiba {
+    background-color: #9b59b6; /* Roxo */
+}
+
+.customer-logos.slider .slide .gallery-cell.button-boletos {
+    background-color: #e74c3c; /* Vermelho */
+}
+
+.customer-logos.slider .slide .gallery-cell.button-comprovante {
+    background-color: #1abc9c; /* Verde água */
+}
+
+.customer-logos.slider .slide .gallery-cell.button-cadastro {
+    background-color: #f1c40f; /* Amarelo */
+}
+
+.customer-logos.slider .slide .gallery-cell.button-documentos {
+    background-color: #34495e; /* Cinza azulado */
+}
+
+.customer-logos.slider .slide .gallery-cell.button-atestado {
+    background-color: #95a5a6; /* Cinza */
+}
+
+.customer-logos.slider .slide .gallery-cell.button-advertencia {
+    background-color: #f39c12; /* Laranja */
+}
+
+.customer-logos.slider .slide .gallery-cell.button-demissao {
+    background-color: #c0392b; /* Vermelho escuro */
+}
+
+.customer-logos.slider .slide .gallery-cell button:hover,
+.customer-logos.slider .slide .gallery-cell button:focus {
+    background-color: #fff;
+    color: var(--cor-texto);
+}
+
+/* Modais */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.container-close-btn {
+    text-align: right;
+}
+
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-content form input[type="file"] {
+    margin-bottom: 10px;
+}
+
+.modal-content form button[type="submit"] {
+    background-color: var(--cor-botao);
+    color: var(--cor-texto);
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.modal-content form button[type="submit"]:hover,
+.modal-content form button[type="submit"]:focus {
+    background-color: #fff;
+    color: var(--cor-texto);
+}

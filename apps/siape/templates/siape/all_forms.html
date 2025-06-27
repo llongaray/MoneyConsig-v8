@@ -1,0 +1,593 @@
+{% extends 'base-plus.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block title %}SIAPE - Todos os Formulários{% endblock %}
+{% block header_title %}SIAPE - Todos os Formulários{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'modais.css' %}">
+<link rel="stylesheet" href="{% static 'divider.css' %}">
+<link rel="stylesheet" href="{% static 'geral_forms.css' %}">
+<link rel="stylesheet" href="{% static 'mensagens.css' %}">
+<link rel="stylesheet" href="{% static 'darkmode.css' %}">
+<link rel="stylesheet" href="{% static 'siape/css/cartao_benf.css' %}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% endblock %}
+
+{% block pre_content %}
+{% include 'partials/_dark_mode_toggle.html' %}
+{% include 'partials/_messages.html' %}
+{% endblock %}
+{% block content %}
+
+<!--***************************SELETOR DE MODAIS***************************-->
+
+<!-- FORMULÁRIOS -->
+<div class="container mb-4">
+    <!-- Botões para abrir os modais -->
+    <div class="options_modais mb-5">
+        {% can_view_button user 'consulta' as can_consult %}
+        {% if can_consult %}
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalConsultaCliente')">
+                Consulta de Cliente
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalCalculadoraCartaoBeneficio')">
+                Calculadora Cartão Benefício
+            </button>
+        {% endif %}
+        
+        {% can_view_button user 'campanha' as can_manage_campaign %}
+        {% if can_manage_campaign %}
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalCriarCampanha')">
+                Criar Campanha
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalEditarCampanha')">
+                Editar Campanha
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalImportarCSV')">
+                Importar Base
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalImportarSituacao')">
+                Atualizar Situação
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalImportarCSV_money')">
+                Importar CSV para Registros de Dinheiro
+            </button>
+        {% endif %}
+        
+        {% can_view_button user 'registro' as can_manage_register %}
+        {% if can_manage_register %}
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalAdicionarRegistro')">
+                Adicionar Registro de Dinheiro
+            </button>
+        {% endif %}
+        
+        {% can_view_button user 'meta' as can_manage_meta %}
+        {% if can_manage_meta %}
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalAdicionarMeta')">
+                Adicionar Meta
+            </button>
+        {% endif %}
+    </div>
+
+
+    <div class="divider mb-5"></div>
+<!--***************************MODAIS***************************-->
+
+
+    <!-- Modal para Consulta de Cliente -->
+    <div class="modal active mb-5" id="modalConsultaCliente">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Consulta de Cliente</h5>
+                    
+                </div>
+                <div class="modal-body">
+                    <form id="consultaClienteForm" class="wp-style-form" method="POST" action="{% url 'siape:all_forms' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="consulta_cliente">
+                        
+                        <div class="form-row">
+                            <label for="cpf_cliente">CPF do Cliente:</label>
+                            <input type="text" id="cpf_cliente" name="cpf_cliente" required maxlength="14" placeholder="000.000.000-00">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-submit">Consultar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal para Calculadora Cartão Benefício -->
+    <div class="modal mb-5" id="modalCalculadoraCartaoBeneficio">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Calculadora Cartão Benefício</h5>
+                    
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="margemLiq">Margem Líquida do Cartão Benefício:</label>
+                        <input type="number" id="margemLiq" class="form-control" placeholder="Digite a margem líquida" step="0.01">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="calcularCartao">Calcular</button>
+                    <div id="resultadoCalculo" class="mt-3"></div>
+                    <hr>
+                    <h6>Dicas e Observações:</h6>
+                    <ul>
+                        <li>Taxa de juros: Aproximadamente 3% A.M. (Um cartão normal possui taxa de aprox. 12% a.m.)</li>
+                        <li>Disponível somente 1 por servidor.</li>
+                        <li>O prazo é de até 96x, mas o cliente pode antecipar parcelas ou quitar a fatura total quando quiser.</li>
+                        <li>Para saber os valores exatos liberados, peça o extrato de consignados ATUAL.</li>
+                        <li>Bancos que simulamos: Futuro, Quero mais crédito, Banco Master, Banco Cash Card.</li>
+                        <li>O que é o cartão? É um cartão de crédito comum, com parte do limite disponível para saque, descontado diretamente no contracheque.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal para Criar Campanha -->
+    <div class="modal mb-5" id="modalCriarCampanha">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Criar Campanha</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'siape:all_forms' %}" class="wp-style-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="criar_campanha">  <!-- Campo oculto para identificar o tipo de formulário -->
+                        <div class="form-row">
+                            <label for="nome_campanha">Nome da Campanha:</label>
+                            <input type="text" id="nome_campanha" name="nome_campanha" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="departamento">Departamento:</label>
+                            <select id="departamento" name="departamento" required>
+                                <option value="">Selecione um departamento</option>
+                                {% for departamento in departamentos %}
+                                    <option value="{{ departamento.id_departamento }}">{{ departamento.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit">Criar Campanha</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Campanha -->
+    <div class="modal mb-5" id="modalEditarCampanha">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">EDIT CAMPANHA</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditCampanha" method="POST" action="{% url 'siape:all_forms' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="filtro_campanha" class="form-label">Selecionar Campanha:</label>
+                            <select id="filtro_campanha" name="filtro_campanha" class="form-select" onchange="atualizarInfoCampanha(this.value)">
+                                <option value="">Selecione uma campanha</option>
+                                {% for campanha in campanhas.values %}
+                                    <option value="{{ campanha.id }}">{{ campanha.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3" id="infoCampanha" style="display: none;">
+                            <label for="numero_debito" class="form-label">Número de Débitos Associados:</label>
+                            <input type="number" id="numero_debito" name="numero_debito" class="form-control" required readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status:</label>
+                            <select id="status" name="status" class="form-select">
+                                <option value="ativo">Ativo</option>
+                                <option value="inativo">Inativo</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Modal para Importar CSV -->
+    <div class="modal mb-5" id="modalImportarCSV">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Importe Base</h5>
+                </div>
+                <div class="modal-body">
+                    <a href="{% static 'files/modelo_siape_camp.xlsx' %}" download class="btn btn-secondary mb-3">
+                        Baixar Modelo Excel
+                    </a>
+                    <form method="POST" action="{% url 'siape:all_forms' %}" enctype="multipart/form-data" class="wp-style-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="importar_csv">
+
+                        <div class="mb-3">
+                            <label for="filtro_campanha" class="form-label">Campanha:</label>
+                            <select id="filtro_campanha" name="campanha_id" class="form-select" required>
+                                <option value="">Selecione uma campanha</option>
+                                {% for campanha in campanhas.values %}
+                                    <option value="{{ campanha.id }}">{{ campanha.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="csv_file" class="form-label">Arquivo CSV ou Excel:</label>
+                            <input type="file" id="csv_file" name="csv_file" required accept=".csv,.xlsx,.xls" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="data_hora" class="form-label">Data e Hora:</label>
+                            <input type="datetime-local" id="data_hora" name="data_hora" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-submit">Importar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para importar situação funcional -->
+    <div class="modal" id="modalImportarSituacao">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Importar Situação Funcional</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'siape:all_forms' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="importar_situacao">
+                        
+                        <div class="form-group">
+                            <label for="arquivo_situacao">Selecione o arquivo CSV:</label>
+                            <input type="file" 
+                                class="form-control-file" 
+                                id="arquivo_situacao" 
+                                name="arquivo_situacao" 
+                                accept=".csv"
+                                required>
+                            <small class="form-text text-muted">
+                                O arquivo deve conter as colunas: CPF e SITUACAO_FUNCIONAL
+                            </small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Importar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Importar CSV -->
+    <div class="modal" id="modalImportarCSV_money" tabindex="-1" aria-labelledby="modalImportarCSVLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalImportarCSVLabel">Importar CSV para Registros de Dinheiro</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'siape:all_forms' %}" enctype="multipart/form-data" class="wp-style-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="importar_csv_money">
+                        
+                        <div class="mb-3">
+                            <label for="csv_file" class="form-label">Arquivo CSV:</label>
+                            <input type="file" id="csv_file" name="csv_file" required accept=".csv" class="form-control">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Importar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ... código existente ... -->
+
+    
+    <!-- Modal para Adicionar Registro de Dinheiro -->
+    <div class="modal" id="modalAdicionarRegistro">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Registro de Dinheiro</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'siape:all_forms' %}" class="wp-style-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="adicionar_registro">  <!-- Campo oculto para identificar o tipo de formulário -->
+                        
+                        <div class="form-row">
+                            <label for="funcionario_id">Funcionário:</label>
+                            <select id="funcionario_id" name="funcionario_id" required>
+                                <option value="">Selecione um Funcionário</option>
+                                {% for funcionario in funcionarios %}
+                                    <option value="{{ funcionario.id }}">{{ funcionario.nome }} - {{ funcionario.cpf }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="cpf_cliente">CPF do Cliente:</label>
+                            <input type="text" id="cpf_cliente" name="cpf_cliente" required placeholder="Digite o CPF do Cliente" maxlength="11" pattern="\d{11}" title="O CPF deve ter 11 dígitos.">
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="valor_est">Valor Estimado:</label>
+                            <input type="number" id="valor_est" name="valor_est" required step="0.01" placeholder="0.00">
+                        </div>
+                        
+                        <div class="form-row">
+                            <label for="status">Status:</label>
+                            <select id="status" name="status" required>
+                                <option value="True">Ativo</option>
+                                <option value="False">Inativo</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-submit">Adicionar Registro</button>
+                    </form>
+                    <!-- Tabela de Registros de Dinheiro -->
+                    <div class="table-responsive mt-4">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nome do Vendedor</th>
+                                    <th>Valor</th>
+                                    <th>Cliente</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for registro in registros %}
+                                    <tr>
+                                        <td>{{ registro.nome }}</td>          <!-- Nome do funcionário -->
+                                        <td>{{ registro.valor }}</td>         <!-- Valor estimado -->
+                                        <td>{{ registro.cliente }}</td>       <!-- Nome do cliente ou CPF -->
+                                        <td>{{ registro.data|date:"d/m/Y H:i" }}</td>
+                                        <td>
+                                            <form method="POST" action="{% url 'siape:all_forms' %}" style="display: inline;">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="form_type" value="excluir_registro">
+                                                <input type="hidden" name="registro_id" value="{{ registro.id }}">
+                                                <button type="submit" class="btn btn-link text-danger" 
+                                                        onclick="return confirm('Tem certeza que deseja excluir este registro?')">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="5" class="text-center">Nenhum registro encontrado.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para Adicionar Meta -->
+    <div class="modal" id="modalAdicionarMeta">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Meta</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'siape:all_forms' %}" class="wp-style-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="adicionar_meta">
+                        
+                        <div class="form-row">
+                            <label for="titulo">Título:</label>
+                            <input type="text" id="titulo" name="titulo" required maxlength="100" value="Ranking Geral">
+                        </div>
+
+                        <div class="form-row">
+                            <label for="valor">Valor da Meta:</label>
+                            <input type="number" id="valor" name="valor" required step="0.01" min="0">
+                        </div>
+
+                        <div class="form-row">
+                            <label for="tipo">Tipo de Meta:</label>
+                            <select id="tipo" name="tipo" required onchange="toggleSetorField()">
+                                <option value="GERAL">Geral - Todas as equipes</option>
+                                <option value="EQUIPE">Equipe - Setor específico</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row" id="setorContainer" style="display: none;">
+                            <label for="setor">Departamento:</label>
+                            <select id="setor" name="setor">
+                                <option value="">Selecione um departamento</option>
+                                {% for departamento in departamentos %}
+                                    <option value="{{ departamento.nome }}">{{ departamento.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-row" id="lojaContainer" style="display: none;">
+                            <label for="loja">Loja INSS:</label>
+                            <select id="loja" name="loja">
+                                <option value="">Selecione uma loja</option>
+                                {% for loja in lojas %}
+                                    <option value="{{ loja.nome }}">{{ loja.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <label for="range_data_inicio">Data Início:</label>
+                            <input type="date" id="range_data_inicio" name="range_data_inicio" required>
+                        </div>
+
+                        <div class="form-row">
+                            <label for="range_data_final">Data Final:</label>
+                            <input type="date" id="range_data_final" name="range_data_final" required>
+                        </div>
+
+                        <div class="form-row">
+                            <label for="status">Status:</label>
+                            <select id="status" name="status" required>
+                                <option value="True">Ativo</option>
+                                <option value="False">Inativo</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label for="descricao">Descrição:</label>
+                            <textarea id="descricao" name="descricao" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-submit">Adicionar Meta</button>
+                    </form>
+
+                    <!-- Tabela de Metas -->
+                    <div class="table-responsive mt-4">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Valor</th>
+                                    <th>Tipo</th>
+                                    <th>Setor</th>
+                                    <th>Loja</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for meta in metas %}
+                                    <tr>
+                                        <td>{{ meta.titulo }}</td>
+                                        <td>{{ meta.valor }}</td>
+                                        <td>{{ meta.tipo }}</td>
+                                        <td>{{ meta.setor|default:"-" }}</td>
+                                        <td>{{ meta.loja|default:"-" }}</td>
+                                        <td>{{ meta.get_status_display }}</td>
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                <form method="POST" action="{% url 'siape:all_forms' %}" class="me-2">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="form_type" value="alterar_status_meta">
+                                                    <input type="hidden" name="meta_id" value="{{ meta.id }}">
+                                                    <button type="submit" class="btn btn-sm {% if meta.status %}btn-warning{% else %}btn-success{% endif %}">
+                                                        {% if meta.status %}
+                                                            Desativar
+                                                        {% else %}
+                                                            Ativar
+                                                        {% endif %}
+                                                    </button>
+                                                </form>
+                                                <form method="POST" action="{% url 'siape:all_forms' %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="form_type" value="excluir_meta">
+                                                    <input type="hidden" name="meta_id" value="{{ meta.id }}">
+                                                    <button type="submit" class="btn btn-sm btn-danger" 
+                                                            onclick="return confirm('Tem certeza que deseja excluir esta meta?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="7" class="text-center">Nenhuma meta encontrada.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+{% endblock %}
+
+{% block addjs_extra %}
+<!-- Início dos Scripts JS -->
+
+<!-- Bibliotecas Externas -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<!-- Dicionários e Dados Iniciais -->
+<script>
+    // Dicionário de débitos por campanha disponível no contexto
+    const debitosPorCampanha = {{ debitos_por_campanha|safe }};
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        // Função para calcular os valores do cartão benefício
+        function calcularCartaoBeneficio() {
+            var margemLiq = parseFloat($("#margemLiq").val());
+            if (isNaN(margemLiq) || margemLiq <= 0) {
+                $("#resultadoCalculo").html("<p class='text-danger'>Por favor, insira um valor válido para a margem líquida.</p>");
+                return;
+            }
+    
+            // Cálculos
+            var parcelaCartao = margemLiq * 0.90;
+            var limiteCartao = parcelaCartao * 23;
+            var saque = limiteCartao * 0.70; // Ajuste conforme necessário para 90% ou 100%
+    
+            // Exibir resultados
+            var resultadoHtml = `
+                <p>Parcela do Cartão: R$ ${parcelaCartao.toFixed(2)}</p>
+                <p>Limite do Cartão: R$ ${limiteCartao.toFixed(2)}</p>
+                <p>Saque Disponível: R$ ${saque.toFixed(2)}</p>
+            `;
+    
+            $("#resultadoCalculo").html(resultadoHtml);
+        }
+    
+        // Event listener para o bot��o de calcular
+        $("#calcularCartao").on("click", calcularCartaoBeneficio);
+    });
+</script>
+
+<!-- Scripts Externos e Módulos -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'modal-core.js' %}"></script>
+<script src="{% static 'darkmode.js' %}"></script>
+<script src="{% static 'conjunto/initialConfig.js' %}"></script> 
+<script src="{% static 'siape/js/modal-specific.js' %}"></script>
+
+<!-- Fim dos Scripts JS -->
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

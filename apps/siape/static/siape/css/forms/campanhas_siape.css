@@ -1,0 +1,170 @@
+/* 🎨 Estilo Moderno com Gradiente e Animações */
+
+/* Fundo geral da página */
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+}
+
+/* Estilização das Cards */
+.card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 25px;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Cabeçalho das Cards com gradiente animado */
+.card-header {
+  background: linear-gradient(-45deg, #70f611, #4c9fb4, #0bd5f0, #70f611);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.25em;
+  padding: 18px 25px;
+  letter-spacing: 0.5px;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Corpo das Cards */
+.card-body {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 25px;
+  transition: all 0.3s ease;
+}
+
+/* Estilos para os formulários */
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.form-label {
+  color: #142650;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.form-control,
+.form-select {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #4c9fb4;
+  box-shadow: 0 0 0 3px rgba(76, 159, 180, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Botões Primários com gradiente animado */
+.btn-primary {
+  background: linear-gradient(-45deg, #0bd5f0, #70f611, #4c9fb4, #0bd5f0);
+  background-size: 300% 300%;
+  animation: gradientBG 8s ease infinite;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 25px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(11, 213, 240, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* Botões Secundários com efeito de brilho */
+.btn-secondary {
+  background: linear-gradient(-45deg, #092e8c, #00ff48, #092e8c);
+  background-size: 200% 200%;
+  animation: gradientBG 6s ease infinite;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 25px;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(9, 46, 140, 0.3);
+}
+
+/* Formulário de importação CSV */
+form#form-importar-csv {
+  margin-top: 25px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Container flex para os cards */
+.flex-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;
+}
+
+/* Estilo para os cards dentro do container flex */
+.flex-cards-container .card {
+  flex: 1 1 300px; /* Grow, shrink, base width */
+  min-width: 280px;
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efeito hover para cards */
+.flex-cards-container .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .flex-cards-container {
+    justify-content: center;
+  }
+  
+  .flex-cards-container .card {
+    flex: 1 1 100%;
+  }
+}
+i.bi.bi-download.me-2 {
+  margin-right: 8px;
+}

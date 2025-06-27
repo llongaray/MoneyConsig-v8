@@ -1,0 +1,431 @@
+/* Estilos para o Sistema de Presença */
+
+body {
+    font-family: 'Poppins', sans-serif; /* Fonte mais moderna */
+    background-color: #f4f7f6; /* Fundo suave */
+    color: #333;
+}
+
+/* Título da Página */
+.titulo-pagina {
+    color: #2c3e50;
+    font-weight: 700; /* Mais peso para o título */
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+
+/* Cards */
+.card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra mais suave e moderna */
+    margin-bottom: 2rem; /* Mais espaçamento */
+    border: none; /* Remover borda padrão */
+    border-radius: 8px; /* Bordas mais arredondadas */
+}
+
+.card-header {
+    background-color: #ffffff; /* Fundo branco para header */
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem 1.5rem; /* Mais padding */
+    font-size: 1.1rem; /* Ajuste de fonte */
+    font-weight: 600; /* Texto do header mais forte */
+    color: #343a40;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.card-body {
+    padding: 1.5rem; /* Mais padding no corpo */
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+/* Registros */
+.registros-container {
+    min-height: 200px;
+}
+
+/* Estilos para itens de registro (exemplo, caso use em outro lugar ou no modal) */
+.registro-item {
+    padding: 1rem;
+    margin-bottom: 0.75rem; /* Ajuste de margem */
+    border-radius: 6px; /* Bordas arredondadas */
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.registro-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.registro-item.entrada {
+    border-left: 5px solid #28a745; /* Borda mais grossa */
+}
+
+.registro-item.saida {
+    border-left: 5px solid #dc3545; /* Borda mais grossa */
+}
+
+.registro-tipo {
+    font-weight: 600; /* Tipo de registro mais destacado */
+    color: #495057;
+}
+
+.registro-hora {
+    color: #6c757d;
+    font-size: 0.9rem; /* Tamanho da fonte da hora */
+}
+
+/* Botões */
+.btn {
+    margin-right: 0.5rem;
+    border-radius: 5px; /* Bordas arredondadas para botões */
+    padding: 0.5rem 1rem; /* Padding ajustado */
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+}
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn:last-child {
+    margin-right: 0;
+}
+
+/* Tabela de Relatórios */
+.table th {
+    background-color: #f8f9fa;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Filtros */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .btn {
+        width: 100%;
+        margin-bottom: 0.75rem; /* Ajuste de margem */
+    }
+    
+    .btn:last-child {
+        margin-bottom: 0;
+    }
+
+    .registro-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .registro-hora {
+        margin-top: 0.5rem;
+    }
+}
+
+/* Animações */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Status */
+.status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.status-presente {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-ausente {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Loading */
+.loading {
+    color: #6c757d;
+    padding: 2rem 0;
+    text-align: center; /* Centralizar loading */
+}
+
+/* Estilos gerais */
+
+/* Estilos do Calendário */
+.calendar-container {
+    background: #fff; /* Fundo branco para o container */
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.07); /* Sombra mais sutil */
+    padding: 1.5rem; /* Mais padding */
+    margin-bottom: 2rem;
+}
+
+/* Cabeçalho do Calendário (Navegação Mês) */
+#mes-atual {
+    font-size: 1.5rem; /* Tamanho maior para o mês/ano */
+    font-weight: 600;
+    color: #343a40;
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem; /* Espaçamento entre os dias da semana */
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+    color: #6c757d; /* Cor mais suave para os dias da semana */
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.75rem; /* Aumentar o espaçamento entre os dias */
+}
+
+.dia-card {
+    aspect-ratio: 1; /* Manter proporção quadrada */
+    padding: 0.75rem; /* Padding interno */
+    border: 1px solid #e0e0e0;
+    border-radius: 6px; /* Bordas mais arredondadas */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Alinhar conteúdo ao topo */
+    align-items: center; /* Centralizar horizontalmente */
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background-color: #fff; /* Fundo branco padrão */
+}
+
+.dia-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12); /* Sombra mais pronunciada no hover */
+    transform: translateY(-3px); /* Efeito de elevação */
+    border-color: #007bff; /* Borda azul no hover */
+}
+
+.dia-vazio {
+    background: #f8f9fa;
+    border: 1px dashed #e0e0e0; /* Borda tracejada para dias vazios */
+    cursor: default;
+}
+.dia-vazio:hover {
+    box-shadow: none;
+    transform: none;
+    border-color: #e0e0e0;
+}
+
+.numero-dia {
+    font-size: 1.1rem; /* Tamanho do número do dia */
+    font-weight: 600; /* Peso da fonte */
+    color: #333;
+    margin-bottom: 0.25rem; /* Pequeno espaço abaixo do número */
+}
+
+.status-registro {
+    font-size: 0.75rem; /* Tamanho do status */
+    text-align: center;
+    width: 100%; /* Ocupar toda a largura */
+    margin-top: auto; /* Empurrar para baixo */
+    padding-top: 0.25rem;
+}
+
+/* Estados dos dias */
+.dia-atual {
+    background: #e3f2fd; /* Fundo azul claro para dia atual */
+    border: 2px solid #007bff; /* Borda azul mais forte */
+    font-weight: 700;
+}
+.dia-atual .numero-dia {
+    color: #007bff;
+}
+
+.dia-passado {
+    background: #f5f5f5;
+    color: #757575;
+}
+.dia-passado .numero-dia {
+    color: #757575;
+    opacity: 0.7;
+}
+.dia-passado:hover {
+    border-color: #ccc;
+}
+
+.dia-futuro {
+    background: #fff;
+    color: #bdbdbd;
+}
+.dia-futuro .numero-dia {
+    color: #bdbdbd;
+    opacity: 0.7;
+}
+.dia-futuro:hover {
+    border-color: #ddd;
+}
+
+/* Botões e badges dentro do calendário */
+.btn-registrar {
+    width: 100%;
+    font-size: 0.8rem; /* Tamanho da fonte do botão registrar */
+    padding: 0.3rem 0.4rem; /* Padding do botão */
+    margin-top: 0.5rem; /* Espaço acima do botão */
+}
+
+/* Ajustes para badges de status dentro do dia-card */
+.status-registro .badge {
+    font-size: 0.7rem; /* Tamanho da fonte do badge */
+    padding: 0.3rem 0.5rem; /* Padding do badge */
+    width: 100%;
+    display: inline-block;
+}
+
+.badge.bg-success {
+    background-color: #d4edda !important; /* Usar !important se necessário para sobrepor bootstrap */
+    color: #155724 !important;
+    border: 1px solid #c3e6cb;
+}
+
+.badge.bg-danger {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+    border: 1px solid #f5c6cb;
+}
+
+/* Novo estilo para badge de Falta */
+.badge.bg-falta {
+    background-color: #fff3cd !important; /* Amarelo claro Bootstrap para warnings */
+    color: #664d03 !important; /* Texto escuro para contraste */
+    border: 1px solid #ffe69c;
+}
+
+/* Modal - ESTILOS REMOVIDOS POIS O MODAL FOI REMOVIDO DA PÁGINA PRESENCA.HTML */
+/*
+.modal-content {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+    border: none;
+}
+
+.modal-header {
+    background: #007bff; 
+    color: #fff; 
+    border-bottom: none; 
+    padding: 1rem 1.5rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.modal-header .modal-title {
+    font-weight: 600;
+}
+.btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%); 
+}
+
+
+.modal-body {
+    padding: 1.5rem; 
+}
+*/
+
+/* Ajuste final para o cabeçalho de dias da semana no calendário */
+.calendar-container .d-flex.justify-content-between.align-items-center.mb-4 {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1.5rem !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .calendar-header div {
+        font-size: 0.75rem; /* Fonte menor para dias da semana em mobile */
+    }
+
+    .numero-dia {
+        font-size: 1rem;
+    }
+
+    .btn-registrar {
+        font-size: 0.75rem; /* Botão de registro menor */
+        padding: 0.25rem 0.4rem;
+    }
+    #mes-atual {
+        font-size: 1.2rem; /* Mês/ano menor em mobile */
+        margin: 0 0.5rem !important; /* Ajustar margens */
+    }
+    .card-header, .card-body /* Removido .modal-body, .modal-header da regra responsiva */ {
+        padding: 1rem; /* Menos padding em mobile */
+    }
+    .calendar-container {
+        padding: 1rem;
+    }
+    .dia-card {
+        padding: 0.5rem;
+        gap: 0.25rem;
+    }
+}
+
+/* Estilo para quando apenas um dia é mostrado */
+.calendar-grid-single-day {
+    grid-template-columns: minmax(0, 1fr); /* Faz o card único ocupar a largura disponível */
+    max-width: 200px; /* Define uma largura máxima para o card do dia */
+    margin: 0 auto; /* Centraliza o card na tela */
+}
+
+.calendar-grid-single-day .dia-card {
+    /* Ajustes específicos para o card de dia único, se necessário */
+    /* Por exemplo, se quiser que ele seja maior ou tenha mais padding */
+    padding: 1rem; 
+}
+
+/* Adicionar Poppins do Google Fonts se não estiver globalmente no projeto */
+/* Se já estiver no base.html ou similar, pode remover esta linha */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); 

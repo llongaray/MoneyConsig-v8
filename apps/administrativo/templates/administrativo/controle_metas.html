@@ -1,0 +1,257 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Administrativo - Controle de Metas<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+  {# Boxicons for icons #}
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  {# Reutilizando o CSS do administrativo de funcionários, ajuste se necessário #}
+  <link rel="stylesheet" href="{% static 'funcionarios/css/forms/administrativo.css' %}">
+  {# CSS específico para esta página #}
+  <link rel="stylesheet" href="{% static 'administrativo/css/controle_metas.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h1 class="titulo-pagina mb-4"><i class='bx bx-target-lock me-2'></i>Controle de Metas</h1>
+
+  {# Container para mensagens de feedback (gerenciado pelo JS) #}
+  <div id="message-container"></div>
+
+  <div class="row">
+
+    <!-- Coluna 1: Cadastro de Nova Meta -->
+    <div class="col-lg-5 mb-4">
+      <div class="card" id="card-nova-meta">
+        <div class="card-header bg-success text-white"> {# Usando cor verde para nova meta #}
+          <i class='bx bx-plus-circle me-2'></i> Cadastrar Nova Meta
+        </div>
+        <div class="card-body">
+          <form id="form-nova-meta" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="nova_meta">
+
+            <div class="mb-3 full-width">
+              <label for="meta_titulo" class="form-label"><i class='bx bx-label me-2'></i>Título da Meta *</label>
+              <input type="text" id="meta_titulo" name="titulo" class="form-control" required placeholder="Ex: Ranking Vendas Mensal">
+            </div>
+
+            <div class="mb-3">
+              <label for="meta_valor" class="form-label"><i class='bx bx-dollar-circle me-2'></i>Valor da Meta (R$) *</label>
+              <input type="number" id="meta_valor" name="valor" class="form-control" required min="0" step="0.01" placeholder="15000.00">
+            </div>
+
+            <div class="mb-3">
+              <label for="meta_categoria" class="form-label"><i class='bx bx-category-alt me-2'></i>Categoria *</label>
+              <select id="meta_categoria" name="categoria" class="form-select" required>
+                <option value="">--- Selecione ---</option>
+                {# Opções populadas via JS com dados da API #}
+              </select>
+            </div>
+
+            {# Campo Setor (condicional) #}
+            <div class="mb-3 full-width campo-condicional" id="campo-meta-setor">
+              <label for="meta_setor" class="form-label"><i class='bx bx-hive me-2'></i>Setor Específico *</label>
+              <select id="meta_setor" name="setor_id" class="form-select">
+                <option value="">--- Selecione o Setor ---</option>
+                {# Opções populadas via JS com dados da API #}
+              </select>
+            </div>
+
+            {# Campo Equipes (condicional) #}
+            <div class="mb-3 full-width campo-condicional" id="campo-meta-equipes">
+              <label for="meta_equipes" class="form-label"><i class='bx bx-group me-2'></i>Equipe(s) Específica(s) *</label>
+              <select id="meta_equipes" name="equipe_ids" class="form-select" multiple>
+                {# Opções populadas via JS com dados da API #}
+              </select>
+              <small class="text-muted">Segure Ctrl (ou Cmd) para selecionar múltiplas.</small>
+            </div>
+
+            <div class="mb-3">
+              <label for="meta_data_inicio" class="form-label"><i class='bx bx-calendar-play me-2'></i>Data Início *</label>
+              <input type="datetime-local" id="meta_data_inicio" name="data_inicio" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="meta_data_fim" class="form-label"><i class='bx bx-calendar-check me-2'></i>Data Fim *</label>
+              <input type="datetime-local" id="meta_data_fim" name="data_fim" class="form-control" required>
+            </div>
+
+            <div class="mb-3 form-check form-switch full-width">
+              <input class="form-check-input" type="checkbox" role="switch" id="meta_status" name="status" checked>
+              <label class="form-check-label" for="meta_status">Meta Ativa</label>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">
+              <i class='bx bx-save me-2'></i> Salvar Nova Meta
+            </button>
+          </form>
+        </div>
+      </div>
+    </div><!-- /col-lg-5 -->
+
+    <!-- Coluna 2: Listagem de Metas Cadastradas -->
+    <div class="col-lg-7">
+      <div class="card" id="card-lista-metas">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-list-ul me-2'></i> Metas Cadastradas
+        </div>
+        <div class="card-body">
+          <div id="loading-indicator">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Carregando...</span>
+            </div>
+            <p class="mt-2">Carregando metas...</p>
+          </div>
+          <div class="table-responsive" id="tabela-container" style="display: none;">
+            <table class="table table-striped table-hover table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th>Título</th>
+                  <th>Valor (R$)</th>
+                  <th>Categoria</th>
+                  <th>Detalhe</th> {# Setor ou Equipes #}
+                  <th>Início</th>
+                  <th>Fim</th>
+                  <th>Status</th>
+                  {# <th>Ações</th> #} {# Espaço para futuras ações #}
+                </tr>
+              </thead>
+              <tbody id="tabela-metas-body">
+                {# Linhas da tabela serão inseridas aqui via JS #}
+              </tbody>
+            </table>
+          </div>
+          <div id="no-data-indicator" class="alert alert-warning" style="display: none;">
+            Nenhuma meta cadastrada ainda.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /col-lg-7 -->
+
+  <!-- Sessão para Formulário de Nova Campanha -->
+  <div class="col-lg-5">
+    <div class="card">
+      <div class="card-header bg-success text-white">
+        <i class='bx bx-plus me-2'></i> Nova Campanha
+      </div>
+      <div class="card-body">
+        <form id="form-nova-campanha">
+          <div class="mb-3">
+            <label for="campanha-titulo" class="form-label">Título da Campanha</label>
+            <input type="text" class="form-control" id="campanha-titulo" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="campanha-banner" class="form-label">Banner da Campanha</label>
+            <input type="file" class="form-control" id="campanha-banner" accept="image/*">
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="campanha-data-inicio" class="form-label">Data de Início</label>
+              <input type="date" class="form-control" id="campanha-data-inicio" required>
+            </div>
+            <div class="col-md-6">
+              <label for="campanha-hora-inicio" class="form-label">Hora de Início</label>
+              <input type="time" class="form-control" id="campanha-hora-inicio" required>
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="campanha-data-final" class="form-label">Data Final</label>
+              <input type="date" class="form-control" id="campanha-data-final" required>
+            </div>
+            <div class="col-md-6">
+              <label for="campanha-hora-final" class="form-label">Hora Final</label>
+              <input type="time" class="form-control" id="campanha-hora-final" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="campanha-categoria" class="form-label">Categoria</label>
+            <select class="form-select" id="campanha-categoria" required>
+              <option value="" disabled selected>Selecione uma categoria</option>
+              <option value="GERAL">Geral</option>
+              <option value="EMPRESA">Empresa</option>
+              <option value="DEPARTAMENTO">Departamento</option>
+              <option value="SETOR">Setor</option>
+              <option value="LOJA">Loja</option>
+              <option value="EQUIPE">Equipe</option>
+              <option value="CARGO">Cargo</option>
+            </select>
+            <small class="form-text text-muted">Selecione o escopo da campanha</small>
+          </div>
+
+          <div id="scope-options" class="mt-3 mb-3 full-width" style="display:none;">
+            <div class="alert alert-info mb-3">
+              <i class='bx bx-info-circle me-2'></i>
+              Selecione os itens específicos para esta categoria
+            </div>
+            <div id="options-EMPRESA"      class="options-panel checkbox-grid mb-3"></div>
+            <div id="options-DEPARTAMENTO" class="options-panel checkbox-grid mb-3"></div>
+            <div id="options-SETOR"        class="options-panel checkbox-grid mb-3"></div>
+            <div id="options-LOJA"         class="options-panel checkbox-grid mb-3"></div>
+            <div id="options-EQUIPE"       class="options-panel checkbox-grid mb-3"></div>
+            <div id="options-CARGO"        class="options-panel checkbox-grid mb-3"></div>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100 mt-4">
+            <i class='bx bx-save me-2'></i> Criar Nova Campanha
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sessão para Listagem de Campanhas Cadastradas -->
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <i class='bx bx-list-ul me-2'></i> Campanhas Cadastradas
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Categoria</th>
+                <th>Início</th>
+                <th>Término</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="lista-campanhas">
+              <!-- As campanhas serão carregadas aqui via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+        <div id="sem-campanhas" class="alert alert-warning" style="display: none;">
+          Nenhuma campanha cadastrada ainda.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /row -->
+</div><!-- .container -->
+{% endblock %}
+
+{% block addjs_extra %}
+  {# jQuery é necessário #}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  {# JavaScript específico para esta página #}
+  <script id="controle-metas-script"
+          src="{% static 'administrativo/js/controle_metas.js' %}"
+          data-get-metas-url="{% url 'administrativo:api_get_metas' %}"
+          data-post-novameta-url="{% url 'administrativo:api_post_novameta' %}"
+          defer>
+  </script>
+  <script src="{% static 'js/campanhas.js' %}"></script>
+{% endblock %}

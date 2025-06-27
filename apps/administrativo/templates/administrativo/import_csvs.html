@@ -1,0 +1,120 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Administrativo - Importação de CSV<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+  {# Boxicons for icons #}
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  {# CSS específico para esta página #}
+  <link rel="stylesheet" href="{% static 'administrativo/css/import_csvs.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h1 class="titulo-pagina mb-4"><i class='bx bx-import me-2'></i>Importação de CSV</h1>
+
+  {# Container para mensagens de feedback (gerenciado pelo JS) #}
+  <div id="message-container"></div>
+
+  <div class="row">
+
+    <!-- Coluna 1: Recursos Humanos -->
+    <div class="col-lg-4 mb-4">
+      <div class="card" id="card-rh">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-group me-2'></i> Recursos Humanos
+        </div>
+        <div class="card-body">
+          <h5 class="card-subtitle mb-3">Importar Funcionários</h5>
+          <form method="POST" enctype="multipart/form-data" id="form-importar-funcionarios">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="csv_funcionarios" class="form-label">Arquivo CSV</label>
+              <input type="file" id="csv_funcionarios" name="csv_file" class="form-control" accept=".csv" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-upload me-2'></i> Importar Funcionários
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna 2: INSS -->
+    <div class="col-lg-4 mb-4">
+      <div class="card" id="card-inss">
+        <div class="card-header bg-success text-white">
+          <i class='bx bx-building me-2'></i> INSS
+        </div>
+        <div class="card-body">
+          
+          <!-- Subseção Cliente C2 -->
+          <div class="mb-4">
+            <h5 class="card-subtitle mb-3">Cliente C2</h5>
+            <form method="POST" enctype="multipart/form-data" id="form-importar-c2">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="csv_c2" class="form-label">Arquivo CSV</label>
+                <input type="file" id="csv_c2" name="csv_file" class="form-control" accept=".csv" required>
+              </div>
+              <button type="submit" class="btn btn-success w-100">
+                <i class='bx bx-upload me-2'></i> Importar Cliente C2
+              </button>
+            </form>
+          </div>
+
+          <!-- Subseção Agendamentos -->
+          <div>
+            <h5 class="card-subtitle mb-3">Agendamentos</h5>
+            <form method="POST" enctype="multipart/form-data" id="form-importar-agendamentos">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="csv_agendamentos" class="form-label">Arquivo CSV</label>
+                <input type="file" id="csv_agendamentos" name="csv_file" class="form-control" accept=".csv" required>
+              </div>
+              <button type="submit" class="btn btn-success w-100">
+                <i class='bx bx-upload me-2'></i> Importar Agendamentos
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna 3: Financeiro -->
+    <div class="col-lg-4 mb-4">
+      <div class="card" id="card-financeiro">
+        <div class="card-header bg-warning text-dark">
+          <i class='bx bx-money me-2'></i> Financeiro
+        </div>
+        <div class="card-body">
+          <h5 class="card-subtitle mb-3">Importar RegisterMoney</h5>
+          <form method="POST" enctype="multipart/form-data" id="form-importar-registermoney">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="csv_registermoney" class="form-label">Arquivo CSV</label>
+              <input type="file" id="csv_registermoney" name="csv_file" class="form-control" accept=".csv" required>
+            </div>
+            <button type="submit" class="btn btn-warning w-100">
+              <i class='bx bx-upload me-2'></i> Importar RegisterMoney
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /row -->
+</div><!-- .container -->
+{% endblock %}
+
+{% block addjs_extra %}
+  {# jQuery é necessário #}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {# JavaScript específico para esta página #}
+  <script src="{% static 'administrativo/js/import_csvs.js' %}" defer></script>
+{% endblock %}
+

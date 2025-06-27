@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}<title>Perfil do Funcionário</title>{% endblock %}
+
+{% block addcss_extra %}
+  <link rel="stylesheet" href="{% static 'usuarios/css/perfil.css' %}">
+<link rel="stylesheet" href="{% static 'darkmode.css' %}">
+{% endblock %}
+
+{% block pre_content %}
+{% include 'partials/_dark_mode_toggle.html' %}
+{% include 'partials/_messages.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="perfil-container">
+    <!-- Seção de Informações do Funcionário -->
+    <section class="perfil-info">
+        <div class="perfil-foto">
+            <img id="foto-perfil" src="{% static 'images/user_placeholder.png' %}" alt="Foto do Funcionário">
+        </div>
+        <div class="perfil-dados">
+            <h2 id="nome-funcionario">Carregando...</h2>
+            <p><strong>Data de Nascimento:</strong> <span id="data-nascimento">Carregando...</span></p>
+            <p><strong>Gênero:</strong> <span id="genero">Carregando...</span></p>
+            <p><strong>Empresa:</strong> <span id="empresa">Carregando...</span></p>
+            <p id="loja-container" style="display: none;"><strong>Loja:</strong> <span id="loja">Carregando...</span></p>
+            <p><strong>Departamento:</strong> <span id="departamento">Carregando...</span></p>
+            <p><strong>Cargo:</strong> <span id="cargo">Carregando...</span></p>
+        </div>
+    </section>
+    
+    <!-- Dashboard do Funcionário -->
+    <section class="perfil-dashboard">
+        <h2>Dashboard</h2>
+        <div class="dashboard-cards">
+            <div class="card">
+                <h3>Faturamento Total</h3>
+                <p id="faturamento-total">Carregando...</p>
+            </div>
+            <div class="card">
+                <h3>Faturamento Mensal</h3>
+                <p id="faturamento-mensal">Carregando...</p>
+            </div>
+            <div class="card">
+                <h3>Posição no Ranking</h3>
+                <h4>Mensal</h4>
+                <p id="ranking-posicao">Carregando...</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'usuarios/js/perfil.js' %}"></script>
+<script src="{% static 'darkmode.js' %}"></script>
+{% endblock %}

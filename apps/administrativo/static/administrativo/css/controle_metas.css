@@ -1,0 +1,1075 @@
+/* Estilos para a página de Controle de Metas */
+
+/* Estilos rápidos para visibilidade dos campos condicionais */
+.campo-condicional {
+  display: none; /* Escondido por padrão */
+}
+/* Adicionar classe 'visivel' para mostrar */
+.campo-condicional.visivel {
+  display: block;
+}
+
+/* Estilo para selects múltiplos */
+#meta_equipes {
+    min-height: 120px;
+}
+
+/* Alinhar ícone de carregamento */
+#loading-indicator {
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Tornar a tabela responsiva */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Adicionar mais estilos específicos se necessário */
+
+/* ==========================================
+   CSS para a página de Cadastros Administrativos
+   Baseado no estilo de consulta_cliente.css
+   Foco: Verde e Azul, com ênfase no Verde
+   ========================================== */
+
+/* ---------- Variáveis de Cores e Sombreamentos ---------- */
+:root {
+    --color-primary-dark: #142650; /* Azul escuro */
+    --color-secondary: #70f611; /* Verde */
+    --color-tertiary: #0bd5f0; /* Azul claro (ciano) */
+    --color-accent: #b4874c; /* Tom terroso */
+    --color-white: #fff;
+    --color-gray: #ddd;
+    --color-light-gray: #f0f0f0;
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-danger: #dc3545;
+    --color-success: #198754; /* Verde escuro para sucesso */
+
+    --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-card-hover: 0 6px 18px rgba(112, 246, 17, 0.15); /* Sombra verde no hover */
+
+    /* Gradientes com foco no verde */
+    --gradient-primary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary-dark) 100%);
+    --gradient-secondary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+    --gradient-metallic-green-focus: linear-gradient(135deg, #ffffff 0%, var(--color-secondary) 30%, var(--color-tertiary) 50%, var(--color-secondary) 70%, #ffffff 100%);
+    --gradient-card-header: linear-gradient(-45deg, var(--color-secondary), #5cb85c, var(--color-primary-dark), var(--color-secondary)); /* Verde, verde mais escuro, azul, verde */
+
+    /* Animação do Gradiente */
+    --gradient-animation: gradientBG 12s ease infinite;
+}
+
+/* ==========================================
+   Estilos Gerais da Página
+   ========================================== */
+body {
+    background-color: var(--color-light-gray);
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.titulo-pagina {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    border-bottom: 3px solid var(--color-secondary);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.titulo-pagina i {
+    color: var(--color-secondary);
+}
+
+/* ==========================================
+   Estilos Gerais de Cards
+   ========================================== */
+.card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray);
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-card-hover);
+}
+
+.card .card-header {
+    background: var(--gradient-card-header) !important;
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: var(--color-white) !important;
+    font-weight: 600;
+    font-size: 1.1em;
+    padding: 1rem 1.25rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    position: relative; /* Necessário para o z-index do ::before */
+    z-index: 1; /* Garante que o conteúdo fique acima do ::before */
+}
+
+.card .card-header i {
+    margin-right: 0.75rem;
+    font-size: 1.3rem;
+    vertical-align: middle;
+}
+
+/* Efeito de brilho metálico */
+.card .card-header::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.05) 40%,
+      rgba(255,255,255,0.3) 50%,
+      rgba(255,255,255,0.05) 60%,
+      rgba(255,255,255,0) 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.7s ease;
+    z-index: -1; /* Fica atrás do conteúdo */
+}
+
+.card:hover .card-header::before {
+    top: 100%;
+    left: 100%;
+}
+
+.card .card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column; /* Mantém os forms em coluna por padrão */
+    gap: 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(245, 255, 245, 0.8) 100%);
+}
+
+/* ==========================================
+   Estilos Gerais para Formulários dentro dos Cards
+   ========================================== */
+.card form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Espaça os itens */
+    gap: 1rem; /* Espaço entre os itens do formulário */
+}
+
+/* Grupo de formulário (div com .mb-3) */
+.card form .mb-3 {
+    flex: 1 1 45%; /* Ocupa quase metade, permitindo 2 por linha */
+    min-width: 250px; /* Largura mínima para não ficar muito estreito */
+    /* Remove width: fit-content; o flex-basis controla a largura */
+}
+
+/* Para campos que devem ocupar a linha inteira (como endereço, select multiple) */
+.card form .mb-3.full-width {
+    flex-basis: 100%;
+}
+
+/* Especificidade para Labels */
+.card form .form-label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.card form .form-label i {
+    margin-right: 0.5rem;
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+}
+
+/* Especificidade para Inputs e Selects */
+.card form .form-control,
+.card form .form-select {
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    background-color: var(--color-white);
+    width: 100%; /* Garante que ocupem o espaço do .mb-3 */
+}
+
+.card form .form-control:focus,
+.card form .form-select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+    background-color: #fafffa;
+    outline: none;
+}
+
+/* Animação sutil para labels ao focar no input */
+.card form .form-control:focus ~ .form-label,
+.card form .form-select:focus ~ .form-label {
+    color: var(--color-secondary);
+}
+
+/* Switches */
+.card form .form-check.form-switch {
+    padding-left: 3em;
+    display: flex;
+    align-items: center;
+    min-height: auto;
+    flex-basis: 100%; /* Switch geralmente ocupa a linha toda */
+    margin-top: 0.5rem; /* Adiciona espaço acima */
+}
+
+.card form .form-switch .form-check-input {
+    width: 2.5em;
+    height: 1.25em;
+    margin-left: -3em;
+    background-color: var(--color-gray);
+    border-color: #bbb;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23bbb'/%3e%3c/svg%3e");
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, background-position 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.card form .form-switch .form-check-input:focus {
+    border-color: var(--color-secondary);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(112, 246, 17, 0.2);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(112, 246, 17, 0.8)'/%3e%3c/svg%3e");
+}
+
+.card form .form-switch .form-check-input:checked {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    background-position: right center;
+}
+
+.card form .form-switch .form-check-label {
+    padding-top: 0.1em;
+    color: var(--color-text-dark);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Botão de Submissão */
+.card form button[type="submit"] {
+    background: var(--gradient-secondary-green) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBGButton 10s ease infinite !important;
+    border: none;
+    border-radius: 8px;
+    color: var(--color-primary-dark) !important;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.15);
+    width: 100%; /* Ocupa a largura total do container flex do form */
+    margin-top: 1rem; /* Espaço acima do botão */
+    flex-basis: 100%; /* Garante que o botão fique em linha própria */
+}
+
+.card form button[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(112, 246, 17, 0.25);
+}
+
+.card form button[type="submit"]:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(112, 246, 17, 0.2);
+}
+
+.card form button[type="submit"] i {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* Efeito de brilho no botão */
+.card form button[type="submit"]::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(30deg);
+    transition: all 0.6s ease;
+}
+
+.card form button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+/* Estado de Carregamento do Botão */
+.card form button[type="submit"]:disabled {
+    background: var(--color-gray) !important;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.card form button[type="submit"]:disabled .spinner-border {
+    width: 1rem;
+    height: 1rem;
+    border-width: .2em;
+    color: var(--color-primary-dark);
+}
+
+/* ==========================================
+   Estilos Específicos por Card (Exemplos)
+   ========================================== */
+
+/* Card Empresa */
+#card-empresa #empresa_endereco.mb-3 {
+    flex-basis: 100%; /* Endereço ocupa linha inteira */
+}
+
+/* Card Loja */
+#card-loja #loja_logo.mb-3 {
+    flex-basis: 100%;
+}
+#card-loja .row.mb-3 { /* Linha com Franquia/Filial */
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+}
+#card-loja .row.mb-3 .col-auto {
+    flex: 1;
+}
+
+/* Card Setor */
+#card-setor #setor_empresa_filtro.mb-3 {
+    flex-basis: 100%;
+}
+
+/* Card Equipe */
+#card-equipe #equipe_participantes.mb-3 {
+    flex-basis: 100%;
+}
+#card-equipe #equipe_participantes {
+    min-height: 120px;
+}
+#card-equipe .text-muted {
+    flex-basis: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+/* Card Horario */
+#card-horario .row.mb-3 { /* Linhas com horários */
+    flex-basis: 100%;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+#card-horario .row.mb-3 .col-md-6 {
+    flex: 1 1 45%;
+    padding: 0; /* Remove padding extra do Bootstrap se houver */
+}
+
+/* Card Comissão */
+#card-comissao #comissao_entidades_container {
+    display: none !important; /* Força invisibilidade por padrão */
+}
+
+#card-comissao .comissao-entidades {
+    display: none !important; /* Garante que todos os containers de entidades fiquem ocultos por padrão */
+}
+
+/* Quando a classe .d-none é removida via JavaScript */
+#card-comissao #comissao_entidades_container.d-none {
+    display: none !important;
+}
+#card-comissao #comissao_entidades_container:not(.d-none) {
+    display: block !important;
+}
+
+#card-comissao .comissao-entidades.d-none {
+    display: none !important;
+}
+#card-comissao .comissao-entidades:not(.d-none) {
+    display: block !important;
+}
+
+/* Ajuste para container de checkboxes */
+#card-comissao .form-check-inline {
+    margin-right: 0.5rem;
+}
+#card-comissao .form-check-label.small {
+    font-size: 0.85rem;
+}
+
+/* Garante que o input group do percentual não quebre */
+#card-comissao .input-group {
+    /* Estilos visuais do input aplicados ao grupo */
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    background-color: var(--color-white);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    flex-wrap: nowrap !important;
+    overflow: hidden; /* Esconde bordas internas que possam vazar */
+    padding: 0; /* Remove padding do grupo, será nos elementos internos */
+}
+
+/* Efeito de foco no grupo quando o input interno está focado */
+#card-comissao .input-group:focus-within {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+    background-color: #fafffa;
+    outline: none;
+}
+
+#card-comissao .input-group .form-control {
+    /* Remove estilos visuais do input interno */
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    outline: none;
+    /* Mantém o padding interno original para espaçamento do texto */
+    padding: 0.75rem 1rem;
+    /* Controle flex */
+    flex: 1 1 auto; /* Permite que o input cresça e encolha */
+    width: 1%; /* Ajuda o flex-grow a funcionar corretamente em alguns casos */
+    min-width: 0; /* Permite encolher abaixo do tamanho padrão */
+}
+
+/* Remove efeito de foco redundante do input interno */
+#card-comissao .input-group .form-control:focus {
+    box-shadow: none;
+    border-color: transparent; /* Garante que não haja borda no foco do input */
+}
+
+#card-comissao .input-group .input-group-text {
+    /* Remove estilos visuais do span interno */
+    border: none;
+    background-color: transparent;
+    /* Mantém padding para alinhar com o texto do input */
+    padding: 0.75rem 1rem;
+    /* Controle flex */
+    flex-shrink: 0; /* Impede que o span encolha */
+    /* Alinhamento e cor */
+    display: flex;
+    align-items: center;
+    color: var(--color-text-light); /* Cor para o '%' */
+}
+
+/* ==========================================
+   Mensagens de Feedback (Toast Notifications)
+   ========================================== */
+#toast-container-fixed { /* ID usado pelo JS */
+    position: fixed; /* Fixo na viewport */
+    top: 20px; /* Espaço do topo */
+    right: 20px; /* Espaço da direita */
+    z-index: 1056; /* Acima da maioria dos elementos Bootstrap */
+    width: auto; /* Largura automática */
+    max-width: 400px; /* Largura máxima */
+}
+
+#toast-container-fixed .alert { /* Target alertas dentro do container correto */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1.25rem;
+    font-weight: 500;
+    box-shadow: var(--box-shadow-medium);
+    border: none;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    position: relative;
+}
+
+/* Animação de entrada */
+#toast-container-fixed .alert.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#toast-container-fixed .alert-success {
+    background: linear-gradient(135deg, #d1e7dd, var(--color-success));
+    color: #0a3622;
+}
+
+#toast-container-fixed .alert-danger {
+    background: linear-gradient(135deg, #f8d7da, var(--color-danger));
+    color: #58151c;
+}
+
+#toast-container-fixed .alert i {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+#toast-container-fixed .alert-dismissible .btn-close {
+    padding: 0.8rem;
+    opacity: 0.8;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    line-height: 1;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: inherit;
+}
+
+#toast-container-fixed .alert-dismissible .btn-close:hover {
+    opacity: 1;
+}
+
+/* ==========================================
+   Layout e Responsividade
+   ========================================== */
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+}
+
+/* Responsividade */
+@media (max-width: 767px) {
+    .col-md-6 {
+        width: 100%;
+    }
+    .card .card-body {
+        padding: 1rem;
+    }
+    .card .card-header {
+        font-size: 1em;
+        padding: 0.8rem 1rem;
+    }
+    .card form .mb-3 {
+        flex-basis: 100%; /* Em telas pequenas, cada campo ocupa uma linha */
+        min-width: unset;
+    }
+    .card form button[type="submit"] {
+        padding: 0.7rem 1.2rem;
+    }
+}
+
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes gradientBGButton {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==========================================
+   ESTILOS ESPECÍFICOS PARA CONTROLE_METAS.HTML (Se necessário)
+   ========================================== */
+
+/* Estilos rápidos para visibilidade dos campos condicionais */
+.campo-condicional {
+  display: none; /* Escondido por padrão */
+}
+/* Adicionar classe 'visivel' para mostrar */
+.campo-condicional.visivel {
+  display: block;
+}
+
+/* Estilo para selects múltiplos */
+#meta_equipes {
+    min-height: 120px;
+}
+
+/* Alinhar ícone de carregamento */
+#loading-indicator {
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Tornar a tabela responsiva */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* ==========================================
+   Estilos para a Tabela de Metas
+   ========================================== */
+.table-striped {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-striped thead th {
+    background: linear-gradient(to right, rgba(10, 158, 69, 0.08), rgba(11, 213, 240, 0.08));
+    color: var(--color-primary-dark);
+    padding: 14px 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: left;
+    border-bottom: 2px solid var(--color-primary);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table-striped tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    font-size: 0.88rem;
+}
+
+.table-striped tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table-striped tbody tr:hover {
+    background-color: rgba(112, 246, 17, 0.08);
+}
+
+.table-striped tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Efeito hover para células da tabela */
+.table-striped td::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transition: left 0.4s ease;
+}
+
+.table-striped tr:hover td::after {
+    left: 100%;
+}
+
+/* ==========================================
+   🌙 DARK MODE - CONTROLE DE METAS
+   ========================================== */
+
+/* Body e container principal */
+[data-theme="dark"] body,
+body.dark-mode {
+    background-color: #1a1625;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .container,
+body.dark-mode .container {
+    background-color: #1a1625;
+}
+
+/* Título da página */
+[data-theme="dark"] .titulo-pagina,
+body.dark-mode .titulo-pagina {
+    color: #ffffff;
+    border-bottom-color: #70f611;
+}
+
+[data-theme="dark"] .titulo-pagina i,
+body.dark-mode .titulo-pagina i {
+    color: #70f611;
+}
+
+/* Cards */
+[data-theme="dark"] .card,
+body.dark-mode .card {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .card:hover,
+body.dark-mode .card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background-color: rgba(134, 89, 212, 0.1);
+    transform: translateY(-4px);
+}
+
+/* Headers dos cards */
+[data-theme="dark"] .card .card-header,
+body.dark-mode .card .card-header {
+    background: linear-gradient(-45deg, #70f611, #5cb85c, #6e42c1, #70f611) !important;
+    background-size: 400% 400% !important;
+    animation: gradientBG 12s ease infinite !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .card .card-header i,
+body.dark-mode .card .card-header i {
+    color: #ffffff;
+}
+
+/* Body dos cards */
+[data-theme="dark"] .card .card-body,
+body.dark-mode .card .card-body {
+    background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.05) 100%);
+    color: #ffffff;
+}
+
+/* Labels dos formulários */
+[data-theme="dark"] .card form .form-label,
+body.dark-mode .card form .form-label {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .card form .form-label i,
+body.dark-mode .card form .form-label i {
+    color: #70f611;
+}
+
+/* Inputs e selects */
+[data-theme="dark"] .card form .form-control,
+[data-theme="dark"] .card form .form-select,
+body.dark-mode .card form .form-control,
+body.dark-mode .card form .form-select {
+    background-color: #2d2438;
+    border-color: #3d3450;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .card form .form-control:focus,
+[data-theme="dark"] .card form .form-select:focus,
+body.dark-mode .card form .form-control:focus,
+body.dark-mode .card form .form-select:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #3d3450;
+}
+
+[data-theme="dark"] .card form .form-control::placeholder,
+body.dark-mode .card form .form-control::placeholder {
+    color: #8a85a0;
+}
+
+/* Switches */
+[data-theme="dark"] .card form .form-switch .form-check-input,
+body.dark-mode .card form .form-switch .form-check-input {
+    background-color: #3d3450;
+    border-color: #3d3450;
+}
+
+[data-theme="dark"] .card form .form-switch .form-check-input:checked,
+body.dark-mode .card form .form-switch .form-check-input:checked {
+    background-color: #70f611;
+    border-color: #70f611;
+}
+
+[data-theme="dark"] .card form .form-switch .form-check-label,
+body.dark-mode .card form .form-switch .form-check-label {
+    color: #b8b5c0;
+}
+
+/* Botões */
+[data-theme="dark"] .card form button[type="submit"],
+body.dark-mode .card form button[type="submit"] {
+    background: linear-gradient(135deg, #70f611 0%, #6e42c1 50%, #70f611 100%) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBGButton 10s ease infinite !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.25);
+}
+
+[data-theme="dark"] .card form button[type="submit"]:hover,
+body.dark-mode .card form button[type="submit"]:hover {
+    box-shadow: 0 6px 15px rgba(112, 246, 17, 0.35);
+}
+
+[data-theme="dark"] .card form button[type="submit"] i,
+body.dark-mode .card form button[type="submit"] i {
+    color: #ffffff;
+}
+
+/* Tabelas */
+[data-theme="dark"] .table,
+body.dark-mode .table {
+    background-color: #2d2438;
+    border-color: #3d3450;
+}
+
+[data-theme="dark"] .table thead th,
+body.dark-mode .table thead th {
+    background: linear-gradient(to right, rgba(112, 246, 17, 0.15), rgba(110, 66, 193, 0.15));
+    color: #ffffff;
+    border-bottom-color: #70f611;
+}
+
+[data-theme="dark"] .table tbody td,
+body.dark-mode .table tbody td {
+    border-bottom-color: #3d3450;
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .table tbody tr:hover,
+body.dark-mode .table tbody tr:hover {
+    background-color: rgba(112, 246, 17, 0.1);
+}
+
+/* Tabela específica de metas */
+[data-theme="dark"] .table-striped thead th,
+body.dark-mode .table-striped thead th {
+    background: linear-gradient(to right, rgba(112, 246, 17, 0.15), rgba(11, 213, 240, 0.15));
+    color: #ffffff;
+    border-bottom-color: #70f611;
+}
+
+[data-theme="dark"] .table-striped tbody td,
+body.dark-mode .table-striped tbody td {
+    border-bottom-color: #3d3450;
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .table-striped tbody tr:hover,
+body.dark-mode .table-striped tbody tr:hover {
+    background-color: rgba(112, 246, 17, 0.1);
+}
+
+/* Loading indicator */
+[data-theme="dark"] #loading-indicator,
+body.dark-mode #loading-indicator {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .spinner-border,
+body.dark-mode .spinner-border {
+    color: #70f611 !important;
+}
+
+/* Alertas */
+[data-theme="dark"] .alert,
+body.dark-mode .alert {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .alert-warning,
+body.dark-mode .alert-warning {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 193, 7, 0.05));
+    border-color: rgba(255, 193, 7, 0.3);
+    color: #ffc107;
+}
+
+[data-theme="dark"] .alert-info,
+body.dark-mode .alert-info {
+    background: linear-gradient(135deg, rgba(23, 162, 184, 0.15), rgba(23, 162, 184, 0.05));
+    border-color: rgba(23, 162, 184, 0.3);
+    color: #17a2b8;
+}
+
+/* Texto pequeno */
+[data-theme="dark"] .text-muted,
+body.dark-mode .text-muted {
+    color: #8a85a0 !important;
+}
+
+/* Campos condicionais */
+[data-theme="dark"] .campo-condicional.visivel,
+body.dark-mode .campo-condicional.visivel {
+    background-color: rgba(112, 246, 17, 0.05);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Checkbox grid */
+[data-theme="dark"] .checkbox-grid,
+body.dark-mode .checkbox-grid {
+    background-color: #2d2438;
+    border: 1px solid #3d3450;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+[data-theme="dark"] .checkbox-grid .form-check-label,
+body.dark-mode .checkbox-grid .form-check-label {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .checkbox-grid .form-check-input:checked,
+body.dark-mode .checkbox-grid .form-check-input:checked {
+    background-color: #70f611;
+    border-color: #70f611;
+}
+
+/* Toast notifications */
+[data-theme="dark"] #toast-container-fixed .alert,
+body.dark-mode #toast-container-fixed .alert {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    color: #ffffff;
+}
+
+[data-theme="dark"] #toast-container-fixed .alert-success,
+body.dark-mode #toast-container-fixed .alert-success {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(40, 167, 69, 0.05));
+    border-color: rgba(40, 167, 69, 0.3);
+    color: #28a745;
+}
+
+[data-theme="dark"] #toast-container-fixed .alert-danger,
+body.dark-mode #toast-container-fixed .alert-danger {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(220, 53, 69, 0.05));
+    border-color: rgba(220, 53, 69, 0.3);
+    color: #dc3545;
+}
+
+/* Input groups */
+[data-theme="dark"] .input-group,
+body.dark-mode .input-group {
+    background-color: #2d2438;
+    border-color: #3d3450;
+}
+
+[data-theme="dark"] .input-group:focus-within,
+body.dark-mode .input-group:focus-within {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+}
+
+[data-theme="dark"] .input-group .input-group-text,
+body.dark-mode .input-group .input-group-text {
+    background-color: transparent;
+    border-color: transparent;
+    color: #8a85a0;
+}
+
+/* Animações e transições */
+[data-theme="dark"] .card,
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .btn,
+body.dark-mode .card,
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .btn {
+    transition: all 0.3s ease;
+}
+
+/* Responsividade no dark mode */
+@media (max-width: 767px) {
+    [data-theme="dark"] .card .card-body,
+    body.dark-mode .card .card-body {
+        background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.03) 100%);
+    }
+    
+    [data-theme="dark"] .card form .mb-3,
+    body.dark-mode .card form .mb-3 {
+        background-color: rgba(112, 246, 17, 0.02);
+        border-radius: 8px;
+        padding: 10px;
+    }
+}
+
+/* Scroll customizado para dark mode */
+[data-theme="dark"] ::-webkit-scrollbar,
+body.dark-mode ::-webkit-scrollbar {
+    width: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track,
+body.dark-mode ::-webkit-scrollbar-track {
+    background: #3d3450;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb,
+body.dark-mode ::-webkit-scrollbar-thumb {
+    background: #6e42c1;
+    border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: #8659d4;
+}
+
+/* ============================ */
+/* 🔧 CORREÇÕES ESPECÍFICAS     */
+/* ============================ */
+
+/* Garantir que o main tenha o fundo correto */
+[data-theme="dark"] main,
+body.dark-mode main {
+    background-color: #1a1625 !important;
+}
+
+/* Garantir que os valores sejam visíveis */
+[data-theme="dark"] .value,
+body.dark-mode .value {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* Garantir que os títulos sejam visíveis */
+[data-theme="dark"] .title,
+body.dark-mode .title {
+    color: #b8b5c0 !important;
+}
+
+/* Garantir que os selects sejam visíveis */
+[data-theme="dark"] .form-select,
+body.dark-mode .form-select {
+    background-color: #2d2438 !important;
+    color: #ffffff !important;
+    border-color: #3d3450 !important;
+}
+
+/* Garantir que os labels sejam visíveis */
+[data-theme="dark"] .form-label,
+body.dark-mode .form-label {
+    color: #b8b5c0 !important;
+}
+
+/* Garantir que o texto pequeno seja visível */
+[data-theme="dark"] small,
+body.dark-mode small {
+    color: #8a85a0 !important;
+}
+
+/* Garantir que os ícones tenham cores adequadas */
+[data-theme="dark"] .icon i,
+body.dark-mode .icon i {
+    color: inherit !important;
+}
+
+/* Garantir que os ícones de funcionários tenham cores adequadas */
+[data-theme="dark"] .icon-container i,
+body.dark-mode .icon-container i {
+    color: #8659d4 !important;
+} 

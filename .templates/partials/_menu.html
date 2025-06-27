@@ -1,0 +1,67 @@
+{% load static %}
+{% load custom_tags %}
+
+<nav id="menu-navbar">
+    <!-- Seção do Logo -->
+    <div id="logo">
+        <a href="/">
+            <img src="{% static 'logo-horizontal.png' %}" alt="Logo Money System">
+        </a>
+    </div>
+
+    <!-- Seção do Menu de Navegação -->
+    <div id="menu">
+        <ul>
+            {% if user.is_authenticated %}
+                {% get_user_groups user as user_access %}
+                
+                {% if user_access.is_admin %}
+                    <!-- Menu para Administração -->
+                    <li><a href="{% url 'siape:all_forms' %}">Consulta SIAPE</a></li>
+                    <li><a href="{% url 'siape:ranking' %}">Ranking SIAPE</a></li>
+                    <li><a href="{% url 'funcionarios:all_forms' %}">Recursos Humanos</a></li>
+                    <li><a href="{% url 'inss:all_forms' %}">Consulta INSS</a></li>
+                    <li><a href="{% url 'inss:ranking' %}">Ranking LOJAS</a></li>
+                    <li><a href="{% url 'moneyplus:render_moneyplus' %}">MoneyPlus</a></li>
+                {% else %}
+                    <!-- Menu SIAPE -->
+                    {% if 'SIAPE' in user_access.groups %}
+                        <li><a href="{% url 'siape:all_forms' %}">Consulta SIAPE</a></li>
+                        <li><a href="{% url 'siape:ranking' %}">Ranking SIAPE</a></li>
+                    {% endif %}
+                    
+                    <!-- Menu RH -->
+                    {% if 'RH' in user_access.groups %}
+                        <li><a href="{% url 'funcionarios:all_forms' %}">Recursos Humanos</a></li>
+                    {% endif %}
+                    
+                    <!-- Menu INSS -->
+                    {% if 'INSS' in user_access.groups %}
+                        <li><a href="{% url 'inss:all_forms' %}">Consulta INSS</a></li>
+                        <li><a href="{% url 'inss:ranking' %}">Ranking LOJAS</a></li>
+                    {% endif %}
+                    <!-- Menu MONEYPLUS -->
+                        {% can_view_moneyplus user as pode_ver_moneyplus %}
+                        {% if pode_ver_moneyplus %}
+                            <li><a href="{% url 'moneyplus:render_moneyplus' %}">💸 MoneyPlus</a></li>
+                        {% endif %}
+                    
+                {% endif %}
+            {% else %}
+                <li><a href="{% url 'usuarios:login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- Seção de Login/Logout -->
+    <div id="login-logout">
+        {% if user.is_authenticated %}
+            <p>
+                <a href="{% url 'usuarios:perfil_usuario' %}">{{ user.get_username }}</a>
+                <a href="{% url 'usuarios:logout' %}"><i class="fas fa-sign-out-alt"></i></a>
+            </p>
+        {% else %}
+            <p><a href="{% url 'usuarios:login' %}">Entrar</a></p>
+        {% endif %}
+    </div>
+</nav>

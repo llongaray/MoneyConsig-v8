@@ -1,0 +1,755 @@
+/* ==========================================
+   CSS para a página de Materiais de Marketing
+   Baseado no estilo de administrativo.css
+   Foco: Verde e Azul, com ênfase no Verde
+   ========================================== */
+
+/* ---------- Variáveis de Cores e Sombreamentos ---------- */
+:root {
+    --color-primary-dark: #142650; /* Azul escuro */
+    --color-secondary: #70f611; /* Verde */
+    --color-tertiary: #0bd5f0; /* Azul claro (ciano) */
+    --color-accent: #b4874c; /* Tom terroso */
+    --color-white: #fff;
+    --color-gray: #ddd;
+    --color-light-gray: #f0f0f0;
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-danger: #dc3545;
+    --color-success: #198754; /* Verde escuro para sucesso */
+
+    --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-card-hover: 0 6px 18px rgba(112, 246, 17, 0.15); /* Sombra verde no hover */
+
+    /* Gradientes com foco no verde */
+    --gradient-primary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary-dark) 100%);
+    --gradient-secondary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+    --gradient-metallic-green-focus: linear-gradient(135deg, #ffffff 0%, var(--color-secondary) 30%, var(--color-tertiary) 50%, var(--color-secondary) 70%, #ffffff 100%);
+    --gradient-card-header: linear-gradient(-45deg, var(--color-secondary), #5cb85c, var(--color-primary-dark), var(--color-secondary)); /* Verde, verde mais escuro, azul, verde */
+
+    /* Animação do Gradiente */
+    --gradient-animation: gradientBG 12s ease infinite;
+}
+
+/* ==========================================
+   Estilos Gerais da Página
+   ========================================== */
+body {
+    background-color: var(--color-light-gray);
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.titulo-pagina {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    border-bottom: 3px solid var(--color-secondary);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.titulo-pagina i {
+    color: var(--color-secondary);
+}
+
+/* ==========================================
+   Estilos Gerais de Cards
+   ========================================== */
+.card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray);
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-card-hover);
+}
+
+.card .card-header {
+    background: var(--gradient-card-header) !important;
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: var(--color-white) !important;
+    font-weight: 600;
+    font-size: 1.1em;
+    padding: 1rem 1.25rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.card .card-header i {
+    margin-right: 0.75rem;
+    font-size: 1.3rem;
+    vertical-align: middle;
+}
+
+/* Efeito de brilho metálico */
+.card .card-header::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.05) 40%,
+      rgba(255,255,255,0.3) 50%,
+      rgba(255,255,255,0.05) 60%,
+      rgba(255,255,255,0) 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.7s ease;
+    z-index: -1;
+}
+
+.card:hover .card-header::before {
+    top: 100%;
+    left: 100%;
+}
+
+.card .card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(245, 255, 245, 0.8) 100%);
+}
+
+/* ==========================================
+   Estilos Gerais para Formulários dentro dos Cards
+   ========================================== */
+.card form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* Grupo de formulário (div com .mb-3) */
+.card form .mb-3 {
+    flex: 1 1 45%;
+    min-width: 250px;
+}
+
+/* Para campos que devem ocupar a linha inteira */
+.card form .mb-3.full-width {
+    flex-basis: 100%;
+}
+
+/* Labels */
+.card form .form-label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.card form .form-label i {
+    margin-right: 0.5rem;
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+}
+
+/* Inputs e Selects */
+.card form .form-control,
+.card form .form-select {
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    background-color: var(--color-white);
+    width: 100%;
+}
+
+.card form .form-control:focus,
+.card form .form-select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+    background-color: #fafffa;
+    outline: none;
+}
+
+/* ==========================================
+   Upload de Banner (Mantendo o estilo incrível)
+   ========================================== */
+.banner-upload {
+    cursor: pointer;
+    border: 2px dashed var(--color-gray);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: var(--color-white);
+    overflow: hidden;
+    position: relative;
+}
+
+.banner-upload:hover {
+    border-color: var(--color-secondary);
+    background: #fafffa;
+    box-shadow: 0 4px 12px rgba(112, 246, 17, 0.1);
+}
+
+.banner-preview {
+    padding: 40px 20px;
+    text-align: center;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    aspect-ratio: 840/360;
+    border-radius: 6px;
+}
+
+.banner-preview i {
+    font-size: 2.5rem;
+    color: var(--color-secondary);
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.banner-preview p {
+    margin: 0;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    font-size: 1.1rem;
+}
+
+.banner-preview small {
+    color: var(--color-text-light);
+    font-size: 0.875rem;
+    margin-top: 4px;
+}
+
+.banner-preview.has-image {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.banner-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ==========================================
+   Upload de Arquivo (Mantendo o estilo incrível)
+   ========================================== */
+.arquivo-upload {
+    cursor: pointer;
+    border: 2px dashed var(--color-gray);
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: var(--color-white);
+    position: relative;
+}
+
+.arquivo-upload:hover {
+    border-color: var(--color-success);
+    background: #f0fff0;
+    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.1);
+}
+
+.arquivo-preview i {
+    font-size: 2.5rem;
+    color: var(--color-success);
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.arquivo-preview p {
+    margin: 0;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    font-size: 1.1rem;
+}
+
+.arquivo-preview small {
+    color: var(--color-text-light);
+    font-size: 0.875rem;
+    margin-top: 4px;
+}
+
+.arquivo-preview.has-file {
+    background: #e8f5e8;
+    border-color: var(--color-success);
+}
+
+.arquivo-preview.has-file i {
+    color: var(--color-success);
+}
+
+/* Estados de upload */
+.upload-success {
+    border-color: var(--color-secondary) !important;
+    background-color: #fafffa !important;
+    box-shadow: 0 4px 12px rgba(112, 246, 17, 0.15) !important;
+}
+
+.upload-error {
+    border-color: var(--color-danger) !important;
+    background-color: #fdf2f2 !important;
+}
+
+/* ==========================================
+   Switches
+   ========================================== */
+.card form .form-check.form-switch {
+    padding-left: 3em;
+    display: flex;
+    align-items: center;
+    min-height: auto;
+    flex-basis: 100%;
+    margin-top: 0.5rem;
+}
+
+.card form .form-switch .form-check-input {
+    width: 2.5em;
+    height: 1.25em;
+    margin-left: -3em;
+    background-color: var(--color-gray);
+    border-color: #bbb;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23bbb'/%3e%3c/svg%3e");
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, background-position 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.card form .form-switch .form-check-input:focus {
+    border-color: var(--color-secondary);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(112, 246, 17, 0.2);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(112, 246, 17, 0.8)'/%3e%3c/svg%3e");
+}
+
+.card form .form-switch .form-check-input:checked {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    background-position: right center;
+}
+
+.card form .form-switch .form-check-label {
+    padding-top: 0.1em;
+    color: var(--color-text-dark);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* ==========================================
+   Botões
+   ========================================== */
+.card form button[type="submit"] {
+    background: var(--gradient-secondary-green) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBGButton 10s ease infinite !important;
+    border: none;
+    border-radius: 8px;
+    color: var(--color-primary-dark) !important;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.15);
+    width: 100%;
+    margin-top: 1rem;
+    flex-basis: 100%;
+}
+
+.card form button[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(112, 246, 17, 0.25);
+}
+
+.card form button[type="submit"]:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(112, 246, 17, 0.2);
+}
+
+.card form button[type="submit"] i {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* Efeito de brilho no botão */
+.card form button[type="submit"]::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(30deg);
+    transition: all 0.6s ease;
+}
+
+.card form button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+/* Botões de filtro */
+.btn-info {
+    background: linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-secondary) 100%) !important;
+    border: none;
+    color: var(--color-primary-dark) !important;
+    font-weight: 600;
+}
+
+.btn-outline-info {
+    border: 2px solid var(--color-tertiary);
+    color: var(--color-tertiary);
+    background: transparent;
+}
+
+.btn-outline-info:hover {
+    background: var(--color-tertiary);
+    color: var(--color-primary-dark);
+}
+
+/* Botão de órgão (warning) */
+.btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%) !important;
+    border: none;
+    color: #212529 !important;
+    font-weight: 600;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+/* Header do card órgão */
+.card .card-header.bg-warning {
+    background: linear-gradient(-45deg, #ffc107, #fd7e14, #e0a800, #ffc107) !important;
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: #212529 !important;
+    font-weight: 600;
+}
+
+/* ==========================================
+   Lista de Materiais
+   ========================================== */
+#lista-materiais .container-orgao {
+    background: var(--color-white);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: var(--box-shadow-medium);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+#lista-materiais .container-orgao:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+#lista-materiais .container-orgao-header {
+    background: linear-gradient(-45deg, #ffc107, #fd7e14, #e0a800, #ffc107);
+    background-size: 400% 400%;
+    animation: gradientBG 18s ease infinite;
+    color: #212529;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+#lista-materiais .container-orgao-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    letter-spacing: 0.5px;
+}
+
+#lista-materiais .container-orgao-header .badge {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #212529 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#lista-materiais .container-orgao-body {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 248, 230, 0.3) 100%);
+}
+
+#lista-materiais .container-produto {
+    background: var(--color-white);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+#lista-materiais .container-produto:hover {
+    box-shadow: var(--box-shadow-medium);
+}
+
+#lista-materiais .container-produto-header {
+    background: var(--gradient-primary-green);
+    background-size: 200% 200%;
+    animation: gradientBG 15s ease infinite;
+    color: var(--color-white);
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+#lista-materiais .container-produto-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+#lista-materiais .container-produto-header .badge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+}
+
+#lista-materiais .container-produto-body {
+    padding: 1.25rem;
+}
+
+/* Cards de materiais individuais */
+#lista-materiais .card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-bottom: 0;
+    height: 100%;
+}
+
+#lista-materiais .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#lista-materiais .card-header-material {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    height: 120px;
+}
+
+#lista-materiais .material-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#lista-materiais .material-banner-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--color-light-gray);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-light);
+}
+
+#lista-materiais .btn-download-header {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#lista-materiais .btn-download-header:hover {
+    background: var(--color-secondary);
+    transform: scale(1.1);
+}
+
+#lista-materiais .card-body {
+    padding: 1rem;
+}
+
+#lista-materiais .card-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+#lista-materiais .card-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+#lista-materiais .card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#lista-materiais .card-actions .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+}
+
+/* Status badges */
+.status-badge-small {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.status-active {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.status-inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ==========================================
+   Mensagens de Feedback (Toast Notifications)
+   ========================================== */
+.alert-floating {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    min-width: 300px;
+    max-width: 400px;
+    box-shadow: var(--box-shadow-medium);
+    border-radius: 8px;
+    border: none;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.alert-floating.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.alert-floating.alert-success {
+    background: linear-gradient(135deg, #d1e7dd, var(--color-success));
+    color: #0a3622;
+}
+
+.alert-floating.alert-danger {
+    background: linear-gradient(135deg, #f8d7da, var(--color-danger));
+    color: #58151c;
+}
+
+.alert-floating i {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+/* ==========================================
+   Responsividade
+   ========================================== */
+@media (max-width: 767px) {
+    .col-md-6 {
+        width: 100%;
+    }
+    .card .card-body {
+        padding: 1rem;
+    }
+    .card .card-header {
+        font-size: 1em;
+        padding: 0.8rem 1rem;
+    }
+    .card form .mb-3 {
+        flex-basis: 100%;
+        min-width: unset;
+    }
+    .banner-preview {
+        padding: 20px 15px;
+        min-height: 80px;
+    }
+    .arquivo-upload {
+        padding: 20px 15px;
+    }
+}
+
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes gradientBGButton {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}

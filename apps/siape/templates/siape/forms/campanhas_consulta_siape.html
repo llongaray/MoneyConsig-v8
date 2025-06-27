@@ -1,0 +1,148 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}Gerenciar Campanhas{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'siape/css/forms/campanhas_siape.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4 ficha-cliente-container">
+  <div class="flex-cards-container">
+
+    <!-- Card: Criar Campanha -->
+    <div id="col-criar-campanha">
+      <div class="card shadow-sm" id="card-criar-campanha">
+        <div class="card-header d-flex align-items-center" id="header-criar-campanha">
+          <i class="bi bi-plus-circle me-2"></i>
+          Criar Nova Campanha
+        </div>
+        <div class="card-body" id="body-criar-campanha">
+          <form method="POST" action="#" id="form-criar-campanha" class="wp-style-form">
+            <input type="hidden" name="form_type" value="criar_campanha">
+            <div class="form-group mb-3" id="group-nome-campanha">
+              <label for="nome_campanha" class="form-label">Nome da Campanha:</label>
+              <input type="text" id="nome_campanha" name="nome_campanha" class="form-control" required>
+            </div>
+            <div class="form-group mb-3" id="group-setor">
+              <label for="setor_id" class="form-label">Setor:</label>
+              <select id="setor_id" name="setor_id" class="form-select" required>
+                <option value="">Selecione um setor</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" id="btn-criar-campanha">
+              <i class="bi bi-check-circle me-2"></i>Criar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Editar Campanha -->
+    <div id="col-editar-campanha">
+      <div class="card shadow-sm" id="card-editar-campanha">
+        <div class="card-header d-flex align-items-center" id="header-editar-campanha">
+          <i class="bi bi-pencil-square me-2"></i>
+          Editar Campanha
+        </div>
+        <div class="card-body" id="body-editar-campanha">
+          <form method="POST" action="#" id="form-editar-campanha">
+            <div class="form-group mb-3" id="group-campanha-selecionar">
+              <label for="filtro_campanha" class="form-label">Selecionar Campanha:</label>
+              <select id="filtro_campanha" name="filtro_campanha" class="form-select">
+                <option value="">Selecione uma campanha</option>
+              </select>
+            </div>
+            <div class="form-group mb-3" id="group-numero-debito">
+              <label for="numero_debito" class="form-label">Número de Débitos Associados:</label>
+              <input type="number" id="numero_debito" name="numero_debito" class="form-control" readonly>
+            </div>
+            <div class="form-group mb-3" id="group-status">
+              <label for="status" class="form-label">Status:</label>
+              <select id="status" name="status" class="form-select">
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" id="btn-editar-campanha">
+              <i class="bi bi-save me-2"></i>Salvar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Importar Base CSV -->
+    <div id="col-importar-csv">
+      <div class="card shadow-sm" id="card-importar-csv">
+        <div class="card-header d-flex align-items-center" id="header-importar-csv">
+          <i class="bi bi-file-earmark-arrow-up me-2"></i>
+          Importar Base CSV
+        </div>
+        <div class="card-body" id="body-importar-csv">
+          <a href="#" download class="btn btn-secondary mb-3" id="btn-baixar-modelo">
+            <i class="bi bi-download me-2"></i>Baixar Modelo Excel
+          </a>
+          <form method="POST" action="#" enctype="multipart/form-data" id="form-importar-csv" class="wp-style-form">
+            <input type="hidden" name="form_type" value="importar_csv">
+            <div class="form-group mb-3" id="group-campanha-id">
+              <label for="campanha_id" class="form-label">Campanha:</label>
+              <select id="campanha_id" name="campanha_id" class="form-select" required>
+                <option value="">Selecione uma campanha</option>
+              </select>
+            </div>
+            <div class="form-group mb-3" id="group-arquivo-csv">
+              <label for="csv_file" class="form-label">Arquivo CSV ou Excel:</label>
+              <input type="file" id="csv_file" name="csv_file" accept=".csv,.xlsx,.xls" class="form-control" required>
+            </div>
+            <div class="form-group mb-3" id="group-data-hora">
+              <label for="data_hora" class="form-label">Data e Hora:</label>
+              <input type="datetime-local" id="data_hora" name="data_hora" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" id="btn-importar-csv">
+              <i class="bi bi-upload me-2"></i>Importar
+            </button>
+          </form>
+          <!-- place to show the file size -->
+          <p id="upload-size"></p>
+
+          <!-- progress bar e texto -->
+          <progress id="conversion-progress" max="100" value="0" style="width:100%;"></progress>
+          <p id="conversion-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Excluir Débitos da Campanha -->
+    <div id="col-excluir-debitos">
+      <div class="card shadow-sm" id="card-excluir-debitos">
+        <div class="card-header d-flex align-items-center text-white bg-danger" id="header-excluir-debitos">
+          <i class="bi bi-trash-fill me-2"></i>
+          Excluir Débitos de Campanha
+        </div>
+        <div class="card-body" id="body-excluir-debitos">
+          <form id="form-excluir-debitos-campanha">
+            <div class="form-group mb-3" id="group-campanha-excluir">
+              <label for="campanha_id_excluir" class="form-label">Selecionar Campanha:</label>
+              <select id="campanha_id_excluir" name="campanha_id_excluir" class="form-select" required>
+                <option value="">Selecione uma campanha para limpar os débitos...</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-danger w-100" id="btn-excluir-debitos-campanha">
+              <i class="bi bi-trash me-2"></i>Excluir Débitos desta Campanha
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'siape/js/forms/edit_campanha.js' %}"></script>
+{% endblock %}

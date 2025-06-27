@@ -1,0 +1,273 @@
+/* ==========================================
+   CSS Melhorado para Permissões de Acesso
+   Baseado no estilo de consulta_cliente.css e aprimorando o original
+   Foco em Azul Escuro e Verde, com toques de Ciano e Dourado
+   ========================================== */
+
+   :root {
+    --color-primary-dark: #142650;
+    --color-secondary: #70f611;
+    --color-tertiary: #0bd5f0;
+    --color-accent: #b4874c;
+    --color-white: #fff;
+    --color-gray: #ddd;
+    --color-light-gray: #f0f0f0;
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-danger: #dc3545;
+    --color-success: #198754;
+
+    --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-hover: 0 6px 18px rgba(112,246,17,0.15);
+
+    --gradient-card-header: linear-gradient(-45deg, var(--color-secondary) 0%, var(--color-success) 50%, var(--color-secondary) 100%);
+    --gradient-button: linear-gradient(135deg, var(--color-secondary), var(--color-tertiary), var(--color-secondary));
+
+    --gradient-animation: gradientBG 12s ease infinite;
+}
+
+/* ==========================================
+   Layout Geral
+   ========================================== */
+body {
+    background-color: var(--color-light-gray);
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.titulo-pagina {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    border-bottom: 3px solid var(--color-secondary);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+/* ==========================================
+   Cards
+   ========================================== */
+.card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray);
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 30px;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.card-header {
+    background: var(--gradient-card-header) !important;
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: var(--color-white) !important;
+    font-weight: 600;
+    font-size: 1.1em;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.card-header i {
+    margin-right: 0.75rem;
+    font-size: 1.3rem;
+}
+.card-header {
+    background: var(--gradient-card-header) !important;
+    background-size: 400% 400% !important;
+    animation: gradientBG 8s ease infinite !important;
+    color: var(--color-white) !important;
+}
+
+.card-header::before {
+    content: '';
+    position: absolute;
+    top: -120%;
+    left: -120%;
+    width: 240%;
+    height: 240%;
+    background: linear-gradient(
+        45deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.2) 25%,
+        rgba(255,255,255,0.5) 50%,
+        rgba(255,255,255,0.2) 75%,
+        rgba(255,255,255,0) 100%
+    );
+    transform: rotate(45deg);
+    transition: all 1s ease-in-out;
+    z-index: -1;
+}
+
+.card:hover .card-header::before {
+    top: 100%;
+    left: 100%;
+}
+/* Ajuste na animação para o brilho do header */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.card-body {
+    padding: 1.25rem;
+    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(245,255,245,0.8) 100%);
+}
+
+/* ==========================================
+   Formulários
+   ========================================== */
+.card form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.card form .mb-3 {
+    flex: 1 1 45%;
+    min-width: 250px;
+}
+.card form .mb-3.full-width {
+    flex-basis: 100%;
+}
+
+.card form .form-label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.5rem;
+}
+.card form .form-label i {
+    margin-right: 0.5rem;
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+}
+
+.card form .form-control,
+.card form .form-select {
+    width: 100%;
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--color-white);
+}
+.card form .form-control:focus,
+.card form .form-select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112,246,17,0.15);
+    outline: none;
+}
+
+/* Switch */
+.card form .form-switch {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+.card form .form-switch .form-check-input {
+    width: 2.5em;
+    height: 1.25em;
+}
+.card form .form-switch .form-check-input:checked {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+/* Checkbox Container */
+.acessos-checkbox-container {
+    flex-basis: 100%;
+    border: 1px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: var(--color-light-gray);
+    max-height: 200px;
+    overflow-y: auto;
+}
+.acessos-checkbox-container .form-check {
+    margin-bottom: 0.5rem;
+}
+
+/* ==========================================
+   Botões
+   ========================================== */
+.card form button[type="submit"] {
+    flex-basis: 100%;
+    background: var(--gradient-button) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBGButton 10s ease infinite !important;
+    border: none;
+    border-radius: 8px;
+    color: var(--color-primary-dark) !important;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    box-shadow: 0 4px 10px rgba(112,246,17,0.15);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card form button[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(112,246,17,0.25);
+}
+.card form button[type="submit"]:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(112,246,17,0.2);
+}
+.card form button[type="submit"]::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.15);
+    transform: rotate(30deg);
+    transition: all 0.6s ease;
+}
+.card form button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+/* ==========================================
+   Responsividade
+   ========================================== */
+@media (max-width: 767px) {
+    .card form .mb-3 {
+        flex-basis: 100%;
+        min-width: unset;
+    }
+    .card .card-header {
+        font-size: 1em;
+        padding: 0.8rem 1rem;
+    }
+    .card form button[type="submit"] {
+        padding: 0.7rem 1.2rem;
+    }
+}
+
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+@keyframes gradientBGButton {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

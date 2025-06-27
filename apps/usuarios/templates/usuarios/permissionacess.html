@@ -1,0 +1,228 @@
+{% extends 'base-plus.html' %}
+{% load static %}
+
+{% block header_title %}Permissões de Acesso{% endblock %}
+
+{% block addcss_extra %}
+  <link rel="stylesheet" href="{% static 'usuarios/css/permissionacess.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <!-- Coluna 1 -->
+    <div class="col-md-6">
+
+      <!-- Card Cadastrar Novo Acesso -->
+      <div class="card mb-4" id="card-acesso">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-lock-alt me-2'></i> Cadastrar Novo Acesso
+        </div>
+        <div class="card-body">
+          <form id="form-acesso" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="acesso">
+            <div class="mb-3">
+              <label for="acesso_nome" class="form-label"><i class='bx bx-label me-2'></i>Nome do Acesso *</label>
+              <input type="text" id="acesso_nome" name="nome" class="form-control" placeholder="Ex: usuarios.render_permissionacess" required>
+            </div>
+            <div class="mb-3">
+              <label for="acesso_tipo" class="form-label"><i class='bx bx-category me-2'></i>Tipo *</label>
+              <select id="acesso_tipo" name="tipo" class="form-select" required>
+                <option value="">--- Selecione o Tipo ---</option>
+                {% comment %} Os tipos devem vir do backend ou ser definidos aqui {% endcomment %}
+                <option value="CT">Categoria - APP</option>
+                <option value="SCT">SubCategoria - Render/Template</option>
+                <option value="SS">Sessão - Section/Container</option>
+                <option value="SSS">SubSessão - Div/Content</option>
+                <option value="CX">Caixa - div/span/box/card</option>
+              </select>
+            </div>
+            <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="acesso_status" name="status" checked>
+                <label class="form-check-label" for="acesso_status">Acesso Ativo</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Acesso
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card Cadastrar Novo Grupo de Acessos -->
+      <div class="card mb-4" id="card-grupo-acesso">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-group me-2'></i> Cadastrar Novo Grupo de Acessos
+        </div>
+        <div class="card-body">
+          <form id="form-grupo-acesso" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="grupo_acesso">
+            <div class="mb-3">
+              <label for="grupo_acesso_titulo" class="form-label"><i class='bx bx-label me-2'></i>Título do Grupo *</label>
+              <input type="text" id="grupo_acesso_titulo" name="titulo" class="form-control" placeholder="Ex: Acessos Administrativos" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label"><i class='bx bx-lock-open me-2'></i>Acessos do Grupo *</label>
+              <div id="grupo_acesso_acessos_container" class="acessos-checkbox-container">
+                {% comment %} Checkboxes de acessos serão carregados via JS/API {% endcomment %}
+                <p class="text-muted text-center">Carregando acessos...</p>
+              </div>
+            </div>
+            <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="grupo_acesso_status" name="status" checked>
+                <label class="form-check-label" for="grupo_acesso_status">Grupo Ativo</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Grupo
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div><!-- /col-md-6 -->
+
+    <!-- Coluna 2 -->
+    <div class="col-md-6">
+
+      <!-- Card Registrar Acessos para Usuários -->
+      <div class="card mb-4" id="card-controle-acesso">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-user-check me-2'></i> Registrar Acessos para Usuários
+        </div>
+        <div class="card-body">
+          <form id="form-controle-acesso" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="controle_acesso">
+            <div class="mb-3">
+              <label class="form-label"><i class='bx bx-user me-2'></i>Usuários *</label>
+              <div id="controle_acesso_usuarios_container" class="acessos-checkbox-container">
+                {% comment %} Checkboxes de usuários serão carregados via JS/API {% endcomment %}
+                <p class="text-muted text-center">Carregando usuários...</p>
+              </div>
+            </div>
+            <div class="mb-3">
+                <label for="controle_acesso_metodo" class="form-label"><i class='bx bx-cog me-2'></i>Método de Seleção *</label>
+                <select id="controle_acesso_metodo" class="form-select" required>
+                  <option value="">--- Selecione o Método ---</option>
+                  <option value="manual">Manual</option>
+                  <option value="favoritos">Favoritos (Grupos)</option>
+                </select>
+            </div>
+
+            <div id="controle_acesso_manual_container" class="mb-3 d-none">
+                <label class="form-label"><i class='bx bx-lock-open me-2'></i>Acessos Manuais *</label>
+                <div id="controle_acesso_acessos_container" class="acessos-checkbox-container">
+                    {% comment %} Checkboxes de acessos serão carregados via JS/API {% endcomment %}
+                    <p class="text-muted text-center">Carregando acessos...</p>
+                </div>
+            </div>
+
+            <div id="controle_acesso_favoritos_container" class="mb-3 d-none"> {# Inicialmente oculto #}
+                <label for="controle_acesso_grupo_favorito" class="form-label"><i class='bx bx-bookmark me-2'></i>Selecionar Grupo Favorito *</label>
+                <select id="controle_acesso_grupo_favorito" class="form-select">
+                    <option value="">--- Selecione um Grupo ---</option>
+                    {% comment %} Opções de grupos de acessos serão carregadas via JS/API {% endcomment %}
+                    <p class="text-muted text-center">Carregando grupos...</p>
+                </select>
+                 <div id="controle_acesso_favoritos_acessos_container" class="acessos-checkbox-container mt-3">
+                    {% comment %} Checkboxes de acessos do grupo favorito serão exibidos aqui (desabilitados) {% endcomment %}
+                    <p class="text-muted text-center">Selecione um grupo para ver os acessos.</p>
+                </div>
+            </div>
+
+            <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="controle_acesso_status" name="status" checked>
+                <label class="form-check-label" for="controle_acesso_status">Controle Ativo</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Controle
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card Adicionar Acessos para Usuários -->
+      <div class="card mb-4" id="card-adicionar-acesso">
+        <div class="card-header bg-success text-white">
+          <i class='bx bx-user-plus me-2'></i> Adicionar Acessos para Usuários
+        </div>
+        <div class="card-body">
+          <form id="form-adicionar-acesso" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="adicionar_acesso">
+            <div class="mb-3">
+              <label class="form-label"><i class='bx bx-user me-2'></i>Usuários *</label>
+              <div class="mb-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="adicionar_select_all_users">
+                  <label class="form-check-label fw-bold text-primary" for="adicionar_select_all_users">
+                    <i class='bx bx-check-square me-1'></i> Selecionar Todos os Usuários
+                  </label>
+                </div>
+              </div>
+              <div id="adicionar_acesso_usuarios_container" class="acessos-checkbox-container">
+                {% comment %} Checkboxes de usuários serão carregados via JS/API {% endcomment %}
+                <p class="text-muted text-center">Carregando usuários...</p>
+              </div>
+            </div>
+            <div class="mb-3">
+                <label for="adicionar_acesso_metodo" class="form-label"><i class='bx bx-cog me-2'></i>Método de Seleção *</label>
+                <select id="adicionar_acesso_metodo" class="form-select" required>
+                  <option value="">--- Selecione o Método ---</option>
+                  <option value="manual">Manual</option>
+                  <option value="favoritos">Favoritos (Grupos)</option>
+                </select>
+            </div>
+
+            <div id="adicionar_acesso_manual_container" class="mb-3 d-none">
+                <label class="form-label"><i class='bx bx-lock-open me-2'></i>Acessos para Adicionar *</label>
+                <div class="mb-2">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="adicionar_select_all_acessos">
+                    <label class="form-check-label fw-bold text-success" for="adicionar_select_all_acessos">
+                      <i class='bx bx-check-square me-1'></i> Selecionar Todos os Acessos
+                    </label>
+                  </div>
+                </div>
+                <div id="adicionar_acesso_acessos_container" class="acessos-checkbox-container">
+                    {% comment %} Checkboxes de acessos serão carregados via JS/API {% endcomment %}
+                    <p class="text-muted text-center">Carregando acessos...</p>
+                </div>
+            </div>
+
+            <div id="adicionar_acesso_favoritos_container" class="mb-3 d-none"> {# Inicialmente oculto #}
+                <label for="adicionar_acesso_grupo_favorito" class="form-label"><i class='bx bx-bookmark me-2'></i>Selecionar Grupo Favorito *</label>
+                <select id="adicionar_acesso_grupo_favorito" class="form-select">
+                    <option value="">--- Selecione um Grupo ---</option>
+                    {% comment %} Opções de grupos de acessos serão carregadas via JS/API {% endcomment %}
+                    <p class="text-muted text-center">Carregando grupos...</p>
+                </select>
+                 <div id="adicionar_acesso_favoritos_acessos_container" class="acessos-checkbox-container mt-3">
+                    {% comment %} Checkboxes de acessos do grupo favorito serão exibidos aqui (desabilitados) {% endcomment %}
+                    <p class="text-muted text-center">Selecione um grupo para ver os acessos.</p>
+                </div>
+            </div>
+
+            <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="adicionar_acesso_status" name="status" checked>
+                <label class="form-check-label" for="adicionar_acesso_status">Controle Ativo</label>
+            </div>
+            <button type="submit" class="btn btn-success w-100">
+              <i class='bx bx-plus me-2'></i> Adicionar Acessos
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div><!-- /col-md-6 -->
+  </div><!-- /row -->
+</div><!-- .container -->
+{% endblock %}
+
+{% block addjs_extra %}
+  {# Assuming jQuery is loaded in base-plus.html or needed by other scripts #}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {# Optional: Add custom JS for this specific page (e.g., form validation, AJAX submission, dynamic loading of accesses/users/groups) #}
+  <script src="{% static 'usuarios/js/permissionacess.js' %}"></script>
+{% endblock %}

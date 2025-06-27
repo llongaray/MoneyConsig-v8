@@ -1,0 +1,98 @@
+{% extends 'base-plus.html' %}
+{% load static %}
+
+{% block title %}Alertas TI - MoneyConsig{% endblock %}
+
+{% block addcss_extra %}
+  {# Boxicons for icons used in the form #}
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  {# Select2 CSS #}
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'usuarios/css/forms_alert_ti.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="alert-ti-container">
+    <h2><i class='bx bx-bell-ring me-2'></i>Enviar Alerta</h2>
+    <form id="alertForm" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="mensagem">Mensagem:</label>
+            <textarea id="mensagem" name="mensagem" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">
+                <i class='bx bx-user-plus me-2'></i>Destinatários *
+            </label>
+            
+            <!-- Seletor de Destinatários -->
+            <div class="destinatarios-selector">
+                <select id="tipo-destinatario" class="form-select">
+                    <option value="">Selecione o tipo de destinatário</option>
+                    <option value="empresas">Empresas</option>
+                    <option value="departamentos">Departamentos</option>
+                    <option value="setores">Setores</option>
+                    <option value="lojas">Lojas</option>
+                    <option value="equipes">Equipes</option>
+                    <option value="funcionarios">Funcionários</option>
+                </select>
+            </div>
+
+            <!-- Container dos Checkboxes -->
+            <div class="checkbox-container" id="container-checkboxes">
+                <!-- Botão Marcar Todos -->
+                <div class="marcar-todos-container">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="marcar-todos">
+                        <label class="form-check-label" for="marcar-todos">
+                            Marcar Todos
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Container das Colunas -->
+                <div class="checkbox-columns">
+                    <div id="coluna-esquerda"></div>
+                    <div id="coluna-direita"></div>
+                </div>
+
+                <!-- Loading Spinner -->
+                <div class="loading-spinner">
+                    <i class='bx bx-loader-alt bx-spin'></i>
+                </div>
+
+                <!-- Mensagem de Erro -->
+                <div class="error-message">
+                    Erro ao carregar dados. Tente novamente.
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="audio">
+                <i class='bx bx-music me-2'></i>Áudio de Alerta:
+            </label>
+            <input type="file" id="audio" name="audio" accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg,audio/mpeg4" required>
+            <small class="text-muted">
+                Formatos aceitos: MP3, WAV, OGG, MPEG, MPEG4
+                <br>
+                <i class='bx bx-info-circle'></i> Recomendado: MP3 para melhor compatibilidade
+            </small>
+        </div>
+        
+        <button type="submit">
+            <i class='bx bx-send me-2'></i>Enviar Alerta
+        </button>
+    </form>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+  {# jQuery #}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {# Select2 JS #}
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  {# Nosso script #}
+  <script src="{% static 'usuarios/js/forms_alert_ti.js' %}"></script>
+{% endblock %}

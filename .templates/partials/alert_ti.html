@@ -1,0 +1,15 @@
+<div id="alert-ti-floating" class="alert-ti-floating">
+    <div class="alert-ti-content">
+        <div class="alert-ti-header">
+            <h3>
+                <i class='bx bx-bell-ring'></i>
+                Alerta Importante
+            </h3>
+            <button class="close-alert" aria-label="Fechar alerta">&times;</button>
+        </div>
+        <div class="alert-ti-message">
+            {{ mensagem }}
+        </div>
+        <audio id="alertAudio" src="{{ audio_url }}" preload="auto"></audio>
+    </div>
+</div>

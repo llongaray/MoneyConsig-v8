@@ -1,0 +1,176 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Nova Ação INSS<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'juridico/css/adicionar_acao.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <i class='bx bx-plus-circle me-2'></i> Nova Ação INSS
+                </div>
+                <div class="card-body">
+                    <form id="formNovaAcao" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- SEÇÃO: INFORMAÇÕES DO CLIENTE -->
+                        <h6 class="section-title"><i class='bx bx-user-detail me-2'></i>Informações do Cliente</h6>
+                        <div class="divider mb-3"></div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="nome_cliente" class="form-label required">Nome do Cliente</label>
+                                <input type="text" id="nome_cliente" name="nome_cliente" class="form-control" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="cpf_cliente" class="form-label required">CPF do Cliente</label>
+                                <input type="text" id="cpf_cliente" name="cpf_cliente" class="form-control" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="contato" class="form-label required">Contato</label>
+                                <input type="text" id="contato" name="contato" class="form-control" placeholder="(XX) XXXXX-XXXX" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="data_acao" class="form-label required">Data da Ação</label>
+                                <input type="date" id="data_acao" name="data_acao" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="funcionario" class="form-label required">Funcionário</label>
+                                <select id="funcionario" name="funcionario" class="form-select" required>
+                                    <option value="">Selecione um funcionário</option>
+                                    {% for funcionario in funcionarios %}
+                                        <option value="{{ funcionario.id }}">{{ funcionario.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tipo_acao" class="form-label required">Tipo de Ação</label>
+                                <select id="tipo_acao" name="tipo_acao" class="form-select" required>
+                                    <option value="">Selecione o tipo de ação</option>
+                                    <option value="ASSOCIACAO">Associação</option>
+                                    <option value="CARTAO">Cartão</option>
+                                    <option value="DEBITO_CONTA">Débito em Conta</option>
+                                    <option value="LIMPANOME">Limpa Nome</option>
+                                    <option value="REVISIONAL">Revisional</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="senha_inss" class="form-label">Senha INSS</label>
+                                <input type="text" id="senha_inss" name="senha_inss" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tipo_pagamento" class="form-label required">Tipo de Pagamento</label>
+                                <select id="tipo_pagamento" name="tipo_pagamento" class="form-select" required>
+                                    <option value="">Selecione o tipo de pagamento</option>
+                                    <option value="SEM_PAGAMENTO">Sem Pagamento</option>
+                                    <option value="A_VISTA">À vista</option>
+                                    <option value="PARCELADO">Parcelado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Campos condicionais para pagamento -->
+                        <div id="camposPagamento">
+                            <!-- Campos para pagamento à vista -->
+                            <div id="camposAVista" class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="valor_total" class="form-label">Valor Total</label>
+                                    <input type="text" id="valor_total" name="valor_total" class="form-control money" placeholder="0,00">
+                                </div>
+                            </div>
+
+                            <!-- Campos para pagamento parcelado -->
+                            <div id="camposParcelado" class="row mb-3">
+                                <div class="col-md-4">
+                                    <label for="valor_entrada" class="form-label">Valor Entrada</label>
+                                    <input type="text" id="valor_entrada" name="valor_entrada" class="form-control money" placeholder="0,00">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="qtd_parcelas" class="form-label">Qtd. Parcelas</label>
+                                    <input type="number" id="qtd_parcelas" name="qtd_parcelas" class="form-control" min="1">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="valor_parcela" class="form-label">Valor Parcela</label>
+                                    <input type="text" id="valor_parcela" name="valor_parcela" class="form-control money" placeholder="0,00">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SEÇÃO: DOCUMENTOS -->
+                        <div class="box">
+                            <h6 class="section-title mt-4"><i class='bx bx-file me-2'></i>Documentos</h6>
+                            <div class="divider mb-3"></div>
+
+                            <div class="documentos-container">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="section-title-produto m-0">Documentos da Ação</h6>
+                                    <button type="button" class="btn btn-secondary btn-sm" id="btnAddDocumento">
+                                        <i class='bx bx-plus-circle me-1'></i> Adicionar Documento
+                                    </button>
+                                </div>
+                                <div id="documentosList">
+                                    <!-- Documentos serão adicionados aqui -->
+                                </div>
+                            </div>
+
+                            <!-- Template para documento -->
+                            <template id="documentoTemplate">
+                                <div class="documento-item mb-3 p-3 border rounded">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="section-title-produto m-0">Documento</h6>
+                                        <button type="button" class="btn btn-danger btn-sm btn-remove-documento">
+                                            <i class='bx bx-trash'></i>
+                                        </button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="titulo_documento___INDEX__" class="form-label">Título do Documento</label>
+                                            <input type="text" id="titulo_documento___INDEX__" name="documentos[__INDEX__][titulo]" class="form-control">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="arquivo_documento___INDEX__" class="form-label">Arquivo</label>
+                                            <input type="file" id="arquivo_documento___INDEX__" name="documentos[__INDEX__][file]" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+
+                        <div class="divider mt-4"></div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{% url 'juridico:acoes' %}" class="btn btn-secondary">
+                                <i class='bx bx-x me-2'></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class='bx bx-save me-2'></i> Salvar Ação
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script src="{% static 'juridico/js/adicionar_acao.js' %}"></script>
+{% endblock %}

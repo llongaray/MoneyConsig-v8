@@ -1,0 +1,261 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Ações INSS<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'inss/css/acoes.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<style>
+    /* Estilo para os tooltips */
+    [data-tooltip] {
+        position: relative;
+        cursor: pointer;
+    }
+
+    [data-tooltip]:before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 5px 10px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        border-radius: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s, visibility 0.3s;
+        z-index: 1000;
+    }
+
+    [data-tooltip]:hover:before {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    /* Ajuste para tooltips que ficariam fora da tela */
+    [data-tooltip].tooltip-top:before {
+        bottom: 100%;
+        margin-bottom: 5px;
+    }
+
+    [data-tooltip].tooltip-bottom:before {
+        top: 100%;
+        bottom: auto;
+        margin-top: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <!-- Container de Toasts -->
+    <div id="toastContainer" class="position-absolute top-0 end-0 p-3" style="z-index: 98989898; right: 0;"></div>
+
+    <!-- Lista de Ações -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class='bx bx-list-ul me-2'></i> Lista de Ações INSS
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Filtros -->
+                    <form id="formFiltroAcoes" class="form-filtros mb-4">
+                        <div class="form-row row g-3">
+                            <div class="form-group col-md-3">
+                                <input type="text" id="filtroNome" class="form-control" placeholder="Nome do Cliente...">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="text" id="filtroCPF" class="form-control" placeholder="CPF...">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <select id="filtroStatus" class="form-select">
+                                    <option value="">Status do Processo...</option>
+                                    <option value="EM_ESPERA">Em Espera</option>
+                                    <option value="INCOMPLETO">Incompleto</option>
+                                    <option value="EM_DISPACHO">Em Despacho</option>
+                                    <option value="PROTOCOLADO">Protocolado</option>
+                                    <option value="FINALIZADO">Finalizado</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="text" id="filtroLoja" class="form-control" placeholder="Loja...">
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Tabela de Ações -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="tabelaAcoes">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"><i class='bx bx-user me-1'></i>Cliente</th>
+                                    <th class="text-center"><i class='bx bx-id-card me-1'></i>CPF</th>
+                                    <th class="text-center"><i class='bx bx-phone me-1'></i>Contato</th>
+                                    <th class="text-center"><i class='bx bx-user-circle me-1'></i>Atendente</th>
+                                    <th class="text-center"><i class='bx bx-store-alt me-1'></i>Loja</th>
+                                    <th class="text-center"><i class='bx bx-info-circle me-1'></i>Status</th>
+                                    <th class="text-center"><i class='bx bx-cog me-1'></i>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Linhas inseridas via JavaScript/API -->
+                            </tbody>
+                        </table>
+                        <div id="nenhumResultadoAcoes" class="alert alert-warning text-center" style="display: none;">
+                            Nenhuma ação encontrada com os filtros aplicados.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Envio de Arquivos -->
+<div class="modal-sec" id="modalEnviarArquivos" tabindex="-1" role="dialog" aria-labelledby="modalEnviarArquivosLabel">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEnviarArquivosLabel">
+                    <i class='bx bx-upload me-2'></i>Enviar Arquivos
+                </h5>
+                <button type="button" class="btn-close" onclick="fecharModal('#modalEnviarArquivos')" aria-label="Fechar">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEnviarArquivos" class="needs-validation" novalidate>
+                    <input type="hidden" id="acaoIdEnviarArquivos" name="acao_id">
+                    
+                    <div class="form-section">
+                        <h6 class="form-section-title"><i class='bx bx-file me-2'></i>Detalhes do Arquivo</h6>
+                        <div class="form-fields-container">
+                            <div class="form-field full-width">
+                                <label for="tipoArquivo" class="form-label">Tipo de Arquivo <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="tipoArquivo" name="tipo_arquivo" placeholder="Ex: Documento, Comprovante, RG, CPF..." required>
+                                <div class="invalid-feedback">
+                                    Por favor, informe o tipo de arquivo.
+                                </div>
+                            </div>
+
+                            <div class="form-field full-width">
+                                <label for="arquivo" class="form-label">Arquivo <span class="text-danger">*</span></label>
+                                <input type="file" class="form-control" id="arquivo" name="arquivo" required>
+                                <div class="invalid-feedback">
+                                    Por favor, selecione um arquivo.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary w-100" id="btnEnviarArquivoSubmit" onclick="enviarArquivo()">
+                    <i class='bx bx-upload me-1'></i>Enviar Arquivo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Visualização de Arquivos -->
+<div class="modal-sec" id="modalVerArquivos" tabindex="-1" role="dialog" aria-labelledby="modalVerArquivosLabel">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalVerArquivosLabel">
+                    <i class='bx bx-file me-2'></i>Arquivos da Ação
+                </h5>
+                <button type="button" class="btn-close" onclick="fecharModal('#modalVerArquivos')" aria-label="Fechar">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class='bx bx-file me-1'></i>Título</th>
+                                <th><i class='bx bx-category me-1'></i>Tipo</th>
+                                <th><i class='bx bx-calendar me-1'></i>Data de Upload</th>
+                                <th><i class='bx bx-cog me-1'></i>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaArquivos">
+                            <!-- Arquivos serão inseridos aqui via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="nenhumArquivo" class="alert alert-info text-center" style="display: none;">
+                    <i class='bx bx-info-circle me-2'></i>Nenhum arquivo encontrado para esta ação.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Informações do Processo -->
+<div class="modal-sec" id="modalInfoProcesso" tabindex="-1" role="dialog" aria-labelledby="modalInfoProcessoLabel">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalInfoProcessoLabel">
+                    <i class='bx bx-info-circle me-2'></i>Informações do Processo
+                </h5>
+                <button type="button" class="btn-close" onclick="fecharModal('#modalInfoProcesso')" aria-label="Fechar">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="infoProcessoConteudo">
+                    <!-- Conteúdo será carregado via JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="fecharModal('#modalInfoProcesso')">
+                    <i class='bx bx-x me-1'></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Novo Modal para Ver Motivo Incompleto -->
+<div class="modal-sec" id="modalVerMotivoIncompleto" tabindex="-1" role="dialog" aria-labelledby="modalVerMotivoIncompletoLabel">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalVerMotivoIncompletoLabel">
+                    <i class='bx bx-comment-error me-2'></i>Motivo da Incompletude
+                </h5>
+                <button type="button" class="btn-close" onclick="fecharModal('#modalVerMotivoIncompleto')" aria-label="Fechar">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="motivoIncompletoTexto"></p>
+            </div>
+            <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" onclick="fecharModal('#modalVerMotivoIncompleto')">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script src="{% static 'inss/js/acoes.js' %}"></script>
+{% endblock %}

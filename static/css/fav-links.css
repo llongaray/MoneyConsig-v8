@@ -1,0 +1,52 @@
+/* fav-links.css */
+.fav-links-container {
+    position: fixed;
+    bottom: 70px;
+    right: 15px;
+    width: min-content;
+    height: min-content;
+    border-radius: 10px; /* Ajuste conforme necessário */
+    background-color: #f1f1f1; /* Ajuste conforme o tema */
+    padding: 10px; /* Ajuste conforme necessário */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fav-links-container .btn-open,
+.fav-links-container .btn-close {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    cursor: pointer;
+    width: min-content;
+    height: min-content;
+    text-decoration: none;
+    width: 25px;
+    height: 25px;
+}
+.fav-links-container .btn-open {
+    color: #007bff;
+}
+.fav-links-container .btn-close {
+    color: red;
+}
+
+.fav-links-container .box-links {
+    display: none; /* Inicialmente oculto */
+    flex-direction: column;
+    padding: 5px 5px;
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+}
+
+.fav-links-container .box-links a {
+    margin: 5px 0;
+    text-decoration: none;
+    color: #333; /* Ajuste conforme o tema */
+    transition: color 0.3s;
+}
+
+.fav-links-container .box-links a:hover {
+    color: #007bff; /* Ajuste conforme o tema */
+}

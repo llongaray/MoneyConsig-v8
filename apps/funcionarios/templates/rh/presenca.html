@@ -1,0 +1,93 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Presença Gincana<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="{% static 'rh/css/presenca.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+    <!-- Card do Calendário -->
+    <div class="card mb-4 mt-4">
+        {% if can_view_full_calendar %}
+        <div class="card-header bg-primary text-white">
+            <i class='bx bx-calendar me-2'></i> Calendário da Gincana
+        </div>
+        {% else %}
+        <div class="card-header bg-primary text-white">
+            <i class='bx bx-calendar-day me-2'></i> Dia Atual da Gincana
+        </div>
+        {% endif %}
+        <div class="card-body">
+            {% if can_view_full_calendar %}
+            <!-- Cabeçalho do Calendário -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex gap-2">
+                    <button id="btn-mes-anterior" class="btn btn-outline-primary">
+                        <i class='bx bx-chevron-left'></i> Mês Anterior
+                    </button>
+                    <h3 id="mes-atual" class="mb-0 mx-3"></h3>
+                    <button id="btn-mes-proximo" class="btn btn-outline-primary">
+                        Próximo Mês <i class='bx bx-chevron-right'></i>
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Grid do Calendário -->
+            <div class="calendar-container">
+                {% if can_view_full_calendar %}
+                <!-- Cabeçalho dos dias da semana -->
+                <div class="calendar-header">
+                    <div>Domingo</div>
+                    <div>Segunda</div>
+                    <div>Terça</div>
+                    <div>Quarta</div>
+                    <div>Quinta</div>
+                    <div>Sexta</div>
+                    <div>Sábado</div>
+                </div>
+                {% endif %}
+                
+                <!-- Grid dos dias -->
+                <div id="grid-calendario" class="calendar-grid {% if not can_view_full_calendar %}calendar-grid-single-day{% endif %}">
+                    <!-- Dias serão inseridos via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Registros do Dia REMOVIDO -->
+    <!-- 
+    <div class="modal fade" id="modal-registros" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title"><i class='bx bx-time me-2'></i>Registros do Dia <span id="modal-data-selecionada"></span></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modal-registros-body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script>
+    const gCanViewFullCalendar = {{ can_view_full_calendar|yesno:"true,false" }};
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'rh/js/presenca.js' %}"></script>
+{% endblock %} 

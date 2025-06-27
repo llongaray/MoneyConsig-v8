@@ -1,0 +1,93 @@
+/* Estilos para o menu de navegação */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap'); /* Importa a fonte Poppins */
+
+#menu-navbar {
+    background-color: var(--azul-escuro-950); /* Fundo do menu com azul escuro principal */
+    color: var(--cor-branco); /* Texto em branco */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    font-family: 'Poppins', sans-serif; /* Aplicando a fonte Poppins */
+}
+
+/* Logotipo */
+#logo {
+    flex: 1;
+}
+
+#logo a {
+    display: block;
+    text-decoration: none;
+    color: var(--cor-branco); /* Link do logo em branco */
+}
+
+#logo img {
+    max-width: 100px;
+}
+
+/* Estilo para o menu */
+#menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 3;
+}
+
+#menu ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+#menu ul li {
+    font-size: 14px; /* Diminuído de 16px para 14px */
+    font-weight: 500; /* Usando peso médio da fonte para os itens do menu */
+}
+
+#menu ul li a {
+    text-decoration: none;
+    color: var(--cor-branco); /* Links em branco */
+    padding: 8px 12px; /* Diminuído de 10px 15px para 8px 12px */
+    border-radius: var(--border-radius-pequeno); /* Border-radius pequeno */
+    font-weight: 600; /* Fonte mais grossa para destaque */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#menu ul li a:hover {
+    background-color: var(--azul-escuro-600); /* Hover com tom mais claro de azul escuro */
+    color: var(--cor-branco); /* Texto permanece branco */
+}
+
+/* Área de login e logout */
+#login-logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    font-size: 16px;
+    font-weight: 500; /* Peso médio na área de login/logout */
+}
+
+#login-logout p {
+    margin: 0;
+}
+
+#login-logout a {
+    text-decoration: none;
+    color: var(--cor-branco); /* Links em branco */
+    padding: 10px 15px;
+    border-radius: var(--border-radius-pequeno); /* Border-radius */
+    font-weight: 600; /* Fonte mais grossa para destaque */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#login-logout a:hover {
+    background-color: var(--verde-neon-400); /* Hover com verde neon */
+    color: var(--azul-escuro-950); /* Texto em azul escuro no hover */
+}

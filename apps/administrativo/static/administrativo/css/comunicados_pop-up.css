@@ -1,0 +1,239 @@
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* ==========================================
+   Estilos do Container de Notificações
+   ========================================== */
+.notificacao-container {
+    position: relative;
+    margin-right: 20px;
+}
+
+#btn-comunicados {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding: 5px;
+}
+
+#btn-comunicados i {
+    font-size: 24px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+#btn-comunicados.tem-notificacao i {
+    color: #007bff;
+    animation: shake 1s ease-in-out infinite;
+}
+
+#contador-comunicados {
+    position: absolute;
+    top: -12px;
+    right: -10px;
+    background: #ff4444;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* ==========================================
+   Estilos do Modal de Comunicados
+   ========================================== */
+.comunicados-popup {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 1000;
+    margin-top: 10px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.comunicados-popup.active {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.comunicados-popup__tabs {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    padding: 0 15px;
+}
+
+.comunicados-popup__tab {
+    flex: 1;
+    padding: 12px 15px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.comunicados-popup__tab:hover {
+    color: #007bff;
+}
+
+.comunicados-popup__tab--active {
+    color: #007bff;
+}
+
+.comunicados-popup__tab--active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #007bff;
+}
+
+.comunicados-popup__content {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px 0;
+}
+
+.comunicados-popup__content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.comunicados-popup__content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.comunicados-popup__content::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.comunicados-popup__content::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* Estilos para os itens do submodal */
+.submodal-comunicado-item {
+    border-bottom: 1px solid #eee;
+    padding: 12px 15px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.submodal-comunicado-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.submodal-comunicado-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.submodal-comunicado-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    height: auto;
+}
+
+.submodal-comunicado-header h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #007bff;
+    font-weight: 500;
+    line-height: 1.4;
+    max-width: 75%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-align: left;
+}
+
+.submodal-data {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.submodal-nao-lido {
+    background: #f0f7ff;
+}
+
+.submodal-nao-lido .submodal-comunicado-header h3 {
+    font-weight: 600;
+    color: #0056b3;
+}
+
+.submodal-nao-lido::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #007bff;
+    border-radius: 0 2px 2px 0;
+}
+
+/* Responsividade */
+@media (max-width: 767px) {
+    .comunicados-popup {
+        width: 300px;
+        min-width: 300px;
+        max-width: 300px;
+    }
+    
+    .submodal-comunicado-header h3 {
+        font-size: 13px;
+    }
+    
+    .submodal-data {
+        font-size: 11px;
+    }
+}

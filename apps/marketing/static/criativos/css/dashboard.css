@@ -1,0 +1,535 @@
+/* ==========================================
+   CSS para Dashboard de Materiais de Marketing
+   Baseado no padrão do dashboard de ações
+   Tema: Verde e Azul com gradientes modernos
+   ========================================== */
+
+/* ---------- Variáveis de Cores ---------- */
+:root {
+    --color-primary-dark: #142650; /* Azul escuro */
+    --color-secondary: #70f611; /* Verde */
+    --color-tertiary: #0bd5f0; /* Azul claro (ciano) */
+    --color-accent: #b4874c; /* Tom terroso */
+    --color-white: #fff;
+    --color-gray: #ddd;
+    --color-light-gray: #f0f0f0;
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-success: #198754;
+    --color-warning: #ffc107;
+    --color-danger: #dc3545;
+    --color-info: #0dcaf0;
+
+    /* Cores do dashboard */
+    --color-primary: var(--color-secondary);
+    --color-primary-light: #8af622;
+    --color-primary-lighter: rgba(112, 246, 17, 0.1);
+
+    /* Sombras */
+    --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-card-hover: 0 6px 18px rgba(112, 246, 17, 0.15);
+
+    /* Gradientes */
+    --gradient-primary: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary-dark) 100%);
+    --gradient-secondary: linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-secondary) 100%);
+    --gradient-warning: linear-gradient(135deg, var(--color-warning) 0%, #fd7e14 100%);
+    --gradient-success: linear-gradient(135deg, var(--color-success) 0%, #28a745 100%);
+    --gradient-info: linear-gradient(135deg, var(--color-info) 0%, #1ba2f6 100%);
+}
+
+/* ==========================================
+   Layout Geral do Dashboard
+   ========================================== */
+body {
+    background-color: var(--color-light-gray);
+}
+
+#dashboard-marketing-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ==========================================
+   Seções do Dashboard
+   ========================================== */
+.dashboard-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: var(--color-white);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow-light);
+    transition: box-shadow 0.3s ease;
+}
+
+.dashboard-section:hover {
+    box-shadow: var(--box-shadow-medium);
+}
+
+.section-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--color-secondary);
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+}
+
+.section-title i {
+    margin-right: 10px;
+    font-size: 1.6rem;
+    color: var(--color-secondary);
+}
+
+/* ==========================================
+   Blocos de Categoria e Boxes
+   ========================================== */
+.category-block {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.box {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+/* ==========================================
+   Cards do Dashboard
+   ========================================== */
+.card {
+    background: linear-gradient(135deg, #fdfdfd 0%, #f8f9fa 100%);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.02) 0%, rgba(11, 213, 240, 0.02) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-card-hover);
+    border-color: var(--color-secondary);
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card .icon {
+    font-size: 2.5rem;
+    color: var(--color-white);
+    padding: 15px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    min-height: 70px;
+    box-shadow: 0 4px 12px rgba(112, 246, 17, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+/* Cores específicas para diferentes tipos de ícones */
+.card:nth-child(1) .icon {
+    background: var(--gradient-warning);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.card:nth-child(2) .icon {
+    background: var(--gradient-success);
+    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
+}
+
+.card:nth-child(3) .icon {
+    background: var(--gradient-primary);
+    box-shadow: 0 4px 12px rgba(112, 246, 17, 0.3);
+}
+
+.card:nth-child(4) .icon {
+    background: var(--gradient-info);
+    box-shadow: 0 4px 12px rgba(13, 202, 240, 0.3);
+}
+
+.card .container-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.card .title {
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    margin-bottom: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card .value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    margin-bottom: 4px;
+}
+
+.card .percentage {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: inline-block;
+    max-width: fit-content;
+}
+
+.card .percentage.positive {
+    background: linear-gradient(135deg, #d1e7dd 0%, #a3d9a4 100%);
+    color: #0f5132;
+}
+
+.card .percentage.negative {
+    background: linear-gradient(135deg, #f8d7da 0%, #f1aeb5 100%);
+    color: #721c24;
+}
+
+.card .percentage.neutral {
+    background: linear-gradient(135deg, #e2e3e5 0%, #d3d3d4 100%);
+    color: #383d41;
+}
+
+/* ==========================================
+   Container de Gráfico
+   ========================================== */
+.card.chart-container {
+    padding: 25px;
+    min-height: 400px;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.card.chart-container canvas {
+    max-height: 350px;
+    width: 100% !important;
+    height: auto !important;
+}
+
+/* ==========================================
+   Lista de Downloads Recentes
+   ========================================== */
+.downloads-list {
+    background: var(--color-white);
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+}
+
+.download-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f3f4;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.download-item:hover {
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.05) 0%, rgba(11, 213, 240, 0.05) 100%);
+}
+
+.download-item:last-child {
+    border-bottom: none;
+}
+
+.download-info {
+    flex: 1;
+}
+
+.download-material {
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 2px;
+}
+
+.download-meta {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+}
+
+.download-date {
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    background: #f8f9fa;
+    padding: 3px 8px;
+    border-radius: 8px;
+    min-width: fit-content;
+}
+
+/* ==========================================
+   Sub-seções do Dashboard
+   ========================================== */
+.dashboard-subsection {
+    width: 100%;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+}
+
+.subsection-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--color-secondary);
+    position: relative;
+}
+
+.subsection-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--gradient-primary);
+    border-radius: 1px;
+}
+
+/* ==========================================
+   Timestamp
+   ========================================== */
+.timestamp-container {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.05) 0%, rgba(11, 213, 240, 0.05) 100%);
+    border-radius: 8px;
+    border: 1px solid rgba(112, 246, 17, 0.1);
+}
+
+.timestamp-container small {
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+/* ==========================================
+   Estados de Loading
+   ========================================== */
+.loading-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px dashed #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    color: var(--color-text-light);
+}
+
+.loading-spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 3px solid #e9ecef;
+    border-top: 3px solid var(--color-secondary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   Responsividade
+   ========================================== */
+@media (max-width: 1200px) {
+    .box {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-section {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .section-title {
+        font-size: 1.2rem;
+    }
+    
+    .box {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+    
+    .card {
+        padding: 15px;
+        gap: 12px;
+    }
+    
+    .card .icon {
+        min-width: 60px;
+        min-height: 60px;
+        font-size: 2rem;
+        padding: 12px;
+    }
+    
+    .card .value {
+        font-size: 1.5rem;
+    }
+    
+    .card.chart-container {
+        padding: 15px;
+        min-height: 300px;
+    }
+    
+    .download-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .download-date {
+        align-self: flex-end;
+    }
+}
+
+@media (max-width: 576px) {
+    #dashboard-marketing-container {
+        padding: 10px;
+    }
+    
+    .box {
+        grid-template-columns: 1fr;
+    }
+    
+    .card {
+        padding: 12px;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .section-title i {
+        margin-right: 5px;
+    }
+}
+
+/* ==========================================
+   Dark Mode Support
+   ========================================== */
+html.dark .dashboard-section {
+    background-color: #2c2c2c;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+html.dark .section-title {
+    color: #e0e0e0;
+    border-bottom-color: var(--color-secondary);
+}
+
+html.dark .card {
+    background: linear-gradient(135deg, #353535 0%, #2c2c2c 100%);
+    border-color: #454545;
+}
+
+html.dark .card .title {
+    color: #bbb;
+}
+
+html.dark .card .value {
+    color: #f0f0f0;
+}
+
+html.dark .dashboard-subsection {
+    background: linear-gradient(135deg, #2f2f2f 0%, #404040 100%);
+    border-color: #404040;
+}
+
+html.dark .subsection-title {
+    color: #d0d0d0;
+    border-bottom-color: var(--color-secondary);
+}
+
+html.dark .downloads-list {
+    background: #2c2c2c;
+    border-color: #404040;
+}
+
+html.dark .download-item {
+    border-bottom-color: #404040;
+}
+
+html.dark .download-item:hover {
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.1) 0%, rgba(11, 213, 240, 0.1) 100%);
+}
+
+html.dark .download-material {
+    color: #e0e0e0;
+}
+
+html.dark .download-meta,
+html.dark .download-date {
+    color: #a0a0a0;
+}
+
+html.dark .download-date {
+    background: #404040;
+}
+
+html.dark .timestamp-container {
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.1) 0%, rgba(11, 213, 240, 0.1) 100%);
+    border-color: rgba(112, 246, 17, 0.2);
+}
+
+html.dark .timestamp-container small {
+    color: #a0a0a0;
+}
+
+html.dark .loading-card {
+    background: linear-gradient(135deg, #2f2f2f 0%, #404040 100%);
+    border-color: #555;
+    color: #a0a0a0;
+}

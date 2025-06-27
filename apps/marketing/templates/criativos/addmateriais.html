@@ -1,0 +1,188 @@
+{% extends "base-plus.html" %}
+{% load static %}
+{% load permissionsacess %}
+
+{% block header_title %}
+Marketing - Gerenciar Materiais de Apoio<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+  {# Boxicons for icons used in the form #}
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  {# Custom CSS for this specific page #}
+  <link rel="stylesheet" href="{% static 'criativos/css/add_material.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h1 class="titulo-pagina mb-4"><i class='bx bx-folder-plus me-2'></i>Gerenciar Materiais de Marketing</h1>
+
+  <div class="row">
+    
+    <!-- Coluna 1: Formulários -->
+    <div class="col-md-6">
+      
+      <!-- Card Material de Apoio -->
+      {% has_access user "SS73" as can_novo_material %}
+      {% if can_novo_material %}
+      <div class="card mb-4" id="card-material">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <span>
+            <i class='bx bx-file-plus me-2'></i>
+            <span id="card-material-title">Cadastrar Novo Material</span>
+          </span>
+        </div>
+        <div class="card-body">
+          <form id="formMaterial" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="material_id" name="material_id">
+            
+            <!-- Título -->
+            <div class="mb-3">
+              <label for="titulo_material" class="form-label">
+                <i class='bx bx-text me-2'></i>Título do Material *
+              </label>
+              <input type="text" class="form-control" id="titulo_material" name="titulo" required>
+            </div>
+            
+            <!-- Produto -->
+            <div class="mb-3">
+              <label for="produto_id" class="form-label">
+                <i class='bx bx-package me-2'></i>Produto *
+              </label>
+              <select class="form-select" id="produto_id" name="produto_id" required>
+                <option value="">Selecione um produto</option>
+              </select>
+            </div>
+            
+            <!-- Banner -->
+            <div class="mb-3 full-width">
+              <label for="banner" class="form-label">
+                <i class='bx bx-image me-2'></i>Banner (840x360px) <span id="banner-required">*</span>
+              </label>
+              <div class="banner-upload" onclick="document.getElementById('banner').click()">
+                <div class="banner-preview" id="banner-preview">
+                  <i class='bx bx-image-add'></i>
+                  <p>Clique para selecionar banner</p>
+                  <small>Recomendado: 840x360px | JPG, PNG</small>
+                </div>
+              </div>
+              <input type="file" class="d-none" id="banner" name="banner" accept="image/*" required>
+              <div id="banner_atual" class="mt-2"></div>
+            </div>
+            
+            <!-- Arquivo -->
+            <div class="mb-3 full-width">
+              <label for="arquivo" class="form-label">
+                <i class='bx bx-file me-2'></i>Arquivo <span id="arquivo-required">*</span>
+              </label>
+              <div class="arquivo-upload" onclick="document.getElementById('arquivo').click()">
+                <div class="arquivo-preview" id="arquivo-preview">
+                  <i class='bx bx-file-plus'></i>
+                  <p>Clique para selecionar arquivo</p>
+                  <small>Será convertido para ZIP automaticamente</small>
+                </div>
+              </div>
+              <input type="file" class="d-none" id="arquivo" name="arquivo" required>
+              <div id="arquivo_atual" class="mt-2"></div>
+            </div>
+            
+            <!-- Status (só aparece na edição) -->
+            <div class="mb-3 d-none" id="status-container">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="material_status" name="status">
+                <label class="form-check-label" for="material_status">Material Ativo</label>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100" id="btn-salvar-material">
+              <i class='bx bx-save me-2'></i>Salvar Material
+            </button>
+            
+            <!-- Botões de ação para edição (ocultos por padrão) -->
+            <div class="mt-3 d-none" id="material-actions">
+              <button type="button" class="btn btn-secondary w-100" onclick="cancelarEdicaoMaterial()">
+                <i class='bx bx-x me-2'></i>Cancelar Edição
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      {% endif %}
+      
+      <!-- Card Novo Produto -->
+      {% has_access user "SS74" as can_novo_produto %}
+      {% if can_novo_produto %}
+      <div class="card mb-4" id="card-produto">
+        <div class="card-header bg-success text-white">
+          <i class='bx bx-package me-2'></i> Cadastrar Novo Produto
+        </div>
+        <div class="card-body">
+          <form id="formProduto">
+            {% csrf_token %}
+            
+            <!-- Órgão -->
+            <div class="mb-3">
+              <label for="orgao_id" class="form-label">
+                <i class='bx bx-building me-2'></i>Órgão *
+              </label>
+              <select class="form-select" id="orgao_id" name="orgao_id" required>
+                <option value="">Selecione um órgão</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="titulo_produto" class="form-label">
+                <i class='bx bx-text me-2'></i>Título do Produto *
+              </label>
+              <input type="text" class="form-control" id="titulo_produto" name="titulo" required>
+            </div>
+            
+            <button type="submit" class="btn btn-success w-100">
+              <i class='bx bx-plus me-2'></i>Criar Produto
+            </button>
+          </form>
+        </div>
+      </div>
+      {% endif %}
+      
+      <!-- Card Novo Órgão -->
+      {% has_access user "SS75" as can_novo_orgao %}
+      {% if can_novo_orgao %}
+      <div class="card mb-4" id="card-orgao">
+        <div class="card-header bg-warning text-dark">
+          <i class='bx bx-building me-2'></i> Cadastrar Novo Órgão
+        </div>
+        <div class="card-body">
+          <form id="formOrgao">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label for="titulo_orgao" class="form-label">
+                <i class='bx bx-text me-2'></i>Nome do Órgão *
+              </label>
+              <input type="text" class="form-control" id="titulo_orgao" name="titulo" required>
+            </div>
+            
+            <button type="submit" class="btn btn-warning w-100">
+              <i class='bx bx-plus me-2'></i>Criar Órgão
+            </button>
+          </form>
+        </div>
+      </div>
+      {% endif %}
+      
+    </div>
+    
+    
+    
+  </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="{% static 'criativos/js/add_material.js' %}"></script>
+{% endblock %} 

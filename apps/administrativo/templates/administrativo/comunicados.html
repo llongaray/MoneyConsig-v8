@@ -1,0 +1,82 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Comunicados - Visualização<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+  {# Boxicons for icons used in the form #}
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  {# Optional: Add custom CSS for this specific page if needed #}
+  <link rel="stylesheet" href="{% static 'administrativo/css/comunicados.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="titulo-pagina mb-4"><i class='bx bx-pin me-2'></i>Comunicados</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3 mb-md-0">
+            <div class="card dashboard-card text-center border-success">
+                <div class="card-header bg-success text-white">
+                    <i class='bx bx-envelope-open me-2'></i> Comunicados Não Lidos
+                </div>
+                <div class="card-body">
+                    <p class="text-success" id="valor-contador-nao-lidos">1</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card dashboard-card text-center border-info">
+                <div class="card-header bg-info text-white">
+                    <i class='bx bx-envelope me-2'></i> Comunicados Lidos
+                </div>
+                <div class="card-body">
+                    <p class="text-info" id="valor-contador-lidos">2</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Labels de Navegação -->
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-center gap-4">
+            <button class="btn btn-label btn-label-red active" data-target="modal-nao-lidos">
+                <i class='bx bx-envelope-open me-2'></i>Não Lidos
+            </button>
+            <button class="btn btn-label btn-label-blue" data-target="modal-lidos">
+                <i class='bx bx-envelope me-2'></i>Lidos
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Comunicados Não Lidos -->
+    <div class="modal-comunicados" id="modal-nao-lidos">
+        <div class="email-container">
+            <div class="email-content">
+                <div class="lista-comunicados" id="lista-nao-lidos">
+                    <!-- Comunicados serão inseridos aqui via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Comunicados Lidos -->
+    <div class="modal-comunicados" id="modal-lidos" style="display: none;">
+        <div class="email-container">
+            <div class="email-content">
+                <div class="lista-comunicados" id="lista-lidos">
+                    <!-- Comunicados serão inseridos aqui via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+  <!-- Depois nosso script -->
+  <script src="{% static 'administrativo/js/comunicados.js' %}"></script>
+{% endblock %}

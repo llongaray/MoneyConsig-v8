@@ -1,0 +1,462 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Administrativo - Cadastro<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+  {# Boxicons for icons used in the form #}
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  {# Optional: Add custom CSS for this specific page if needed #}
+  <link rel="stylesheet" href="{% static 'funcionarios/css/forms/administrativo.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h1 class="titulo-pagina mb-4"><i class='bx bxs-cog me-2'></i>Cadastros Administrativos</h1>
+
+  <div class="row">
+
+    <!-- Coluna 1 -->
+    <div class="col-md-6">
+
+      <!-- Card Empresa -->
+      <div class="card mb-4" id="card-empresa">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-building-house me-2'></i> Cadastrar Nova Empresa
+        </div>
+        <div class="card-body">
+          <form id="form-empresa" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="empresa"> {# Identificador do form #}
+            <div class="mb-3">
+              <label for="empresa_nome" class="form-label"><i class='bx bx-id-card me-2'></i>Nome da Empresa *</label>
+              <input type="text" id="empresa_nome" name="nome" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="empresa_cnpj" class="form-label"><i class='bx bx-barcode me-2'></i>CNPJ *</label>
+              <input type="text" id="empresa_cnpj" name="cnpj" class="form-control" placeholder="00.000.000/0000-00" required>
+              {# Adicionar máscara JS #}
+            </div>
+            <div class="mb-3">
+              <label for="empresa_endereco" class="form-label"><i class='bx bx-map-alt me-2'></i>Endereço *</label>
+              <input type="text" id="empresa_endereco" name="endereco" class="form-control" required>
+            </div>
+             <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="empresa_status" name="status" checked>
+                <label class="form-check-label" for="empresa_status">Empresa Ativa</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Empresa
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card Loja -->
+      <div class="card mb-4" id="card-loja">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-store-alt me-2'></i> Cadastrar Nova Loja
+        </div>
+        <div class="card-body">
+          <form id="form-loja" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="loja">
+            <div class="mb-3">
+              <label for="loja_nome" class="form-label"><i class='bx bx-label me-2'></i>Nome da Loja *</label>
+              <input type="text" id="loja_nome" name="nome" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="loja_empresa" class="form-label"><i class='bx bx-building-house me-2'></i>Empresa *</label>
+              <select id="loja_empresa" name="empresa" class="form-select" required>
+                <option value="">--- Selecione a Empresa ---</option>
+                {% for empresa in empresas %}
+                  <option value="{{ empresa.pk }}">{{ empresa.nome }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+                <label for="loja_logo" class="form-label"><i class='bx bx-image me-2'></i>Logo</label>
+                <input type="file" id="loja_logo" name="logo" class="form-control" accept="image/*">
+            </div>
+            <div class="row mb-3">
+                <div class="col-auto">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="loja_franquia" name="franquia">
+                        <label class="form-check-label" for="loja_franquia">É Franquia?</label>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="loja_filial" name="filial">
+                        <label class="form-check-label" for="loja_filial">É Filial?</label>
+                    </div>
+                 </div>
+             </div>
+             <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="loja_status" name="status" checked>
+                <label class="form-check-label" for="loja_status">Loja Ativa</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Loja
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card Departamento -->
+      <div class="card mb-4" id="card-departamento">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-buildings me-2'></i> Cadastrar Novo Departamento
+        </div>
+        <div class="card-body">
+          <form id="form-departamento" method="POST">
+            {% csrf_token %}
+             <input type="hidden" name="form_type" value="departamento">
+            <div class="mb-3">
+              <label for="departamento_nome" class="form-label"><i class='bx bx-label me-2'></i>Nome do Departamento *</label>
+              <input type="text" id="departamento_nome" name="nome" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="departamento_empresa" class="form-label"><i class='bx bx-building-house me-2'></i>Empresa *</label>
+              <select id="departamento_empresa" name="empresa" class="form-select" required>
+                 <option value="">--- Selecione a Empresa ---</option>
+                {% for empresa in empresas %}
+                  <option value="{{ empresa.pk }}">{{ empresa.nome }}</option>
+                {% endfor %}
+              </select>
+            </div>
+             <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="departamento_status" name="status" checked>
+                <label class="form-check-label" for="departamento_status">Departamento Ativo</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Departamento
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card Setor -->
+      <div class="card mb-4" id="card-setor">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-hive me-2'></i> Cadastrar Novo Setor
+        </div>
+        <div class="card-body">
+          <form id="form-setor" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="setor">
+             <div class="mb-3">
+                <label for="setor_empresa_filtro" class="form-label"><i class='bx bx-filter me-2'></i>Filtrar Departamento por Empresa</label>
+                <select id="setor_empresa_filtro" class="form-select">
+                   <option value="">--- Selecione para Filtrar ---</option>
+                  {% for empresa in empresas %}
+                    <option value="{{ empresa.pk }}">{{ empresa.nome }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            <div class="mb-3">
+              <label for="setor_departamento" class="form-label"><i class='bx bx-buildings me-2'></i>Departamento *</label>
+              <select id="setor_departamento" name="departamento" class="form-select" required>
+                 <option value="">--- Selecione o Departamento ---</option>
+                 {# Opções populadas pela view ou filtradas por JS #}
+                 {% for depto in departamentos %}
+                    <option value="{{ depto.pk }}" data-empresa="{{ depto.empresa_id }}">{{ depto.nome }} ({{ depto.empresa.nome }})</option>
+                 {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="setor_nome" class="form-label"><i class='bx bx-label me-2'></i>Nome do Setor *</label>
+              <input type="text" id="setor_nome" name="nome" class="form-control" required>
+            </div>
+             <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="setor_status" name="status" checked>
+                <label class="form-check-label" for="setor_status">Setor Ativo</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Setor
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div><!-- /col-md-6 -->
+
+    <!-- Coluna 2 -->
+    <div class="col-md-6">
+
+      <!-- Card Equipe -->
+      <div class="card mb-4" id="card-equipe">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-group me-2'></i> Cadastrar Nova Equipe
+        </div>
+        <div class="card-body">
+          <form id="form-equipe" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="equipe">
+            <div class="mb-3">
+              <label for="equipe_nome" class="form-label"><i class='bx bx-label me-2'></i>Nome da Equipe *</label>
+              <input type="text" id="equipe_nome" name="nome" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="equipe_participantes" class="form-label"><i class='bx bx-user-plus me-2'></i>Participantes (Opcional)</label>
+                <select id="equipe_participantes" name="participantes" class="form-select" multiple>
+                    {# Popule com usuários do sistema (User model) #}
+                    {% for user in users %}
+                        <option value="{{ user.pk }}">{{ user.get_full_name|default:user.username }}</option>
+                    {% endfor %}
+                </select>
+                <small class="text-muted">Segure Ctrl (ou Cmd) para selecionar múltiplos.</small>
+            </div>
+             <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="equipe_status" name="status" checked>
+                <label class="form-check-label" for="equipe_status">Equipe Ativa</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Equipe
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card Cargo -->
+      <div class="card mb-4" id="card-cargo">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-briefcase-alt-2 me-2'></i> Cadastrar Novo Cargo
+        </div>
+        <div class="card-body">
+          <form id="form-cargo" method="POST">
+            {% csrf_token %}
+             <input type="hidden" name="form_type" value="cargo">
+            <div class="mb-3">
+              <label for="cargo_empresa" class="form-label"><i class='bx bx-building-house me-2'></i>Empresa *</label>
+              <select id="cargo_empresa" name="empresa" class="form-select" required>
+                 <option value="">--- Selecione a Empresa ---</option>
+                {% for empresa in empresas %}
+                  <option value="{{ empresa.pk }}">{{ empresa.nome }}</option>
+                {% endfor %}
+              </select>
+            </div>
+             <div class="mb-3">
+              <label for="cargo_nome" class="form-label"><i class='bx bx-label me-2'></i>Nome do Cargo *</label>
+              <input type="text" id="cargo_nome" name="nome" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="cargo_hierarquia" class="form-label"><i class='bx bx-layer me-2'></i>Nível Hierárquico *</label>
+              <select id="cargo_hierarquia" name="hierarquia" class="form-select" required>
+                 <option value="">--- Selecione o Nível ---</option> {# Opção padrão adicionada pelo JS #}
+                 {# As opções serão populadas pelo administrativo.js #}
+              </select>
+            </div>
+             <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="cargo_status" name="status" checked>
+                <label class="form-check-label" for="cargo_status">Cargo Ativo</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Cargo
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card HorarioTrabalho -->
+      <div class="card mb-4" id="card-horario">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-time-five me-2'></i> Cadastrar Novo Horário de Trabalho
+        </div>
+        <div class="card-body">
+          <form id="form-horario" method="POST">
+            {% csrf_token %}
+             <input type="hidden" name="form_type" value="horario">
+            <div class="mb-3">
+              <label for="horario_nome" class="form-label"><i class='bx bx-label me-2'></i>Nome do Horário *</label>
+              <input type="text" id="horario_nome" name="nome" class="form-control" placeholder="Ex: Comercial Padrão" required>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="horario_entrada" class="form-label"><i class='bx bx-log-in-circle me-2'></i>Entrada *</label>
+                    <input type="time" id="horario_entrada" name="entrada" class="form-control" required>
+                </div>
+                 <div class="col-md-6">
+                    <label for="horario_saida_almoco" class="form-label"><i class='bx bx-restaurant me-2'></i>Saída Almoço *</label>
+                    <input type="time" id="horario_saida_almoco" name="saida_almoco" class="form-control" required>
+                </div>
+            </div>
+             <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="horario_volta_almoco" class="form-label"><i class='bx bx-food-menu me-2'></i>Volta Almoço *</label>
+                    <input type="time" id="horario_volta_almoco" name="volta_almoco" class="form-control" required>
+                </div>
+                 <div class="col-md-6">
+                    <label for="horario_saida" class="form-label"><i class='bx bx-log-out-circle me-2'></i>Saída *</label>
+                    <input type="time" id="horario_saida" name="saida" class="form-control" required>
+                </div>
+            </div>
+             <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="horario_status" name="status" checked>
+                <label class="form-check-label" for="horario_status">Horário Ativo</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Horário
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card Comissionamento -->
+      <div class="card mb-4" id="card-comissao">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-money-withdraw me-2'></i> Cadastrar Nova Regra de Comissionamento
+        </div>
+        <div class="card-body">
+          <form id="form-comissao" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="comissao">
+            <div class="mb-3">
+              <label for="comissao_titulo" class="form-label"><i class='bx bx-label me-2'></i>Título da Regra *</label>
+              <input type="text" id="comissao_titulo" name="titulo" class="form-control" placeholder="Ex: Comissão Vendedores 2024" required>
+            </div>
+            <div class="mb-3">
+              <label for="comissao_escopo" class="form-label"><i class='bx bx-target-lock me-2'></i>Escopo da Base de Cálculo *</label>
+              <select id="comissao_escopo" name="escopo_base" class="form-select" required>
+                <option value="">--- Selecione o Escopo ---</option>
+                <option value="GERAL">Geral (Valor Total)</option>
+                <option value="EMPRESA">Por Empresa(s)</option>
+                <option value="DEPARTAMENTO">Por Departamento</option>
+                <option value="SETOR">Por Setor</option>
+                <option value="EQUIPE">Por Equipe</option>
+                <option value="LOJA">Por Loja(s)</option>
+                <option value="PESSOAL">Individual (Pessoal)</option>
+              </select>
+            </div>
+
+            <!-- Container para checkboxes dinâmicos baseados no escopo -->
+            <div id="comissao_entidades_container" class="mb-3 d-none">
+              <label class="form-label"><i class='bx bx-checkbox-checked me-2'></i>Entidades Aplicáveis</label>
+              <div class="border rounded p-3 bg-light" style="max-height: 200px; overflow-y: auto;">
+                <!-- Container para Empresas (mostrar se escopo for EMPRESA) -->
+                <div id="comissao_empresas_container" class="comissao-entidades d-none">
+                  <p class="fw-bold small mb-2">Selecione as Empresas:</p>
+                  <div id="comissao_empresas_checkboxes" class="d-flex flex-wrap gap-2">
+                    <!-- Checkboxes de empresas serão inseridos aqui via JavaScript -->
+                  </div>
+                </div>
+                
+                <!-- Container para Lojas (mostrar quando relevante) -->
+                <div id="comissao_lojas_container" class="comissao-entidades d-none">
+                  <p class="fw-bold small mb-2">Selecione as Lojas:</p>
+                  <div id="comissao_lojas_checkboxes" class="d-flex flex-wrap gap-2">
+                    <!-- Checkboxes de lojas serão inseridos aqui via JavaScript -->
+                  </div>
+                </div>
+                
+                <!-- Container para Departamentos (mostrar se escopo for DEPARTAMENTO) -->
+                <div id="comissao_departamentos_container" class="comissao-entidades d-none">
+                  <p class="fw-bold small mb-2">Selecione os Departamentos:</p>
+                  <div id="comissao_departamentos_checkboxes" class="d-flex flex-wrap gap-2">
+                    <!-- Checkboxes de departamentos serão inseridos aqui via JavaScript -->
+                  </div>
+                </div>
+                
+                <!-- Container para Setores (mostrar se escopo for SETOR) -->
+                <div id="comissao_setores_container" class="comissao-entidades d-none">
+                  <p class="fw-bold small mb-2">Selecione os Setores:</p>
+                  <div id="comissao_setores_checkboxes" class="d-flex flex-wrap gap-2">
+                    <!-- Checkboxes de setores serão inseridos aqui via JavaScript -->
+                  </div>
+                </div>
+                
+                <!-- Container para Equipes (mostrar se escopo for EQUIPE) -->
+                <div id="comissao_equipes_container" class="comissao-entidades d-none">
+                  <p class="fw-bold small mb-2">Selecione as Equipes:</p>
+                  <div id="comissao_equipes_checkboxes" class="d-flex flex-wrap gap-2">
+                    <!-- Checkboxes de equipes serão inseridos aqui via JavaScript -->
+                  </div>
+                </div>
+              </div>
+              <small class="text-muted">Se nenhuma entidade for selecionada, a regra se aplicará a todas as entidades do tipo escolhido.</small>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="comissao_valor_de" class="form-label"><i class='bx bx-trending-up me-2'></i>Valor Base De</label>
+                <div class="input-group">
+                  <span class="input-group-text">R$</span>
+                  <input type="number" id="comissao_valor_de" name="valor_de" class="form-control" min="0" step="0.01" placeholder="0.00">
+                </div>
+                <small class="text-muted">Deixe em branco se não houver valor mínimo.</small>
+              </div>
+              <div class="col-md-6">
+                <label for="comissao_valor_ate" class="form-label"><i class='bx bx-trending-down me-2'></i>Valor Base Até</label>
+                <div class="input-group">
+                  <span class="input-group-text">R$</span>
+                  <input type="number" id="comissao_valor_ate" name="valor_ate" class="form-control" min="0" step="0.01" placeholder="0.00">
+                </div>
+                <small class="text-muted">Deixe em branco se não houver valor máximo.</small>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="comissao_percentual" class="form-label"><i class='bx bx-percentage me-2'></i>Percentual da Comissão *</label>
+              <div class="input-group">
+                <input type="number" id="comissao_percentual" name="percentual" class="form-control" min="0" max="200" step="1" required placeholder="5">
+                <span class="input-group-text">%</span>
+              </div>
+              <small class="text-muted">Valor inteiro entre 0 e 200%.</small>
+            </div>
+
+            <div class="mb-3 form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="comissao_status" name="status" checked>
+              <label class="form-check-label" for="comissao_status">Regra Ativa</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Regra de Comissionamento
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Card Produto -->
+      <div class="card mb-4" id="card-produto">
+        <div class="card-header bg-success text-white"> {# Mudando a cor para diferenciar #}
+          <i class='bx bx-package me-2'></i> Cadastrar Novo Produto
+        </div>
+        <div class="card-body">
+          <form id="form-produto" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="produto"> {# Identificador do form #}
+            <div class="mb-3">
+              <label for="produto_nome" class="form-label"><i class='bx bx-label me-2'></i>Nome do Produto *</label>
+              <input type="text" id="produto_nome" name="nome" class="form-control" required>
+            </div>
+            <div class="mb-3 full-width"> {# Ocupa linha inteira #}
+              <label for="produto_descricao" class="form-label"><i class='bx bx-detail me-2'></i>Descrição (Opcional)</label>
+              <textarea id="produto_descricao" name="descricao" class="form-control" rows="3"></textarea>
+            </div>
+             <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="produto_status" name="status" checked>
+                <label class="form-check-label" for="produto_status">Produto Ativo</label>
+            </div>
+            <button type="submit" class="btn btn-success w-100"> {# Botão verde #}
+              <i class='bx bx-save me-2'></i> Salvar Produto
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div><!-- /col-md-6 -->
+
+  </div><!-- /row -->
+</div><!-- .container -->
+{% endblock %}
+
+{% block addjs_extra %}
+  {# Assuming jQuery is loaded in base-plus.html or needed by other scripts #}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {# InputMask library for CNPJ field mask #}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+  {# Optional: Add custom JS for this specific page (e.g., form validation, AJAX submission, department filtering, CNPJ mask initialization) #}
+  <script src="{% static 'funcionarios/js/administrativo.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,871 @@
+/* ==========================================
+   CSS Dashboard INSS - Layout dinâmico e interativo
+   ========================================== */
+
+/* ---------- Variáveis de Cores e Sombreamentos ---------- */
+:root {
+    --primary-color: #007bff;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+    --secondary-color: #6c757d;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* ==========================================
+   Estilos do Cabeçalho do Dashboard
+   ========================================== */
+.dashboard-header {
+    margin-bottom: 2rem;
+}
+
+.dashboard-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dashboard-title i {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+}
+
+/* ==========================================
+   Layout do Dashboard
+   ========================================== */
+#dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    border-radius: var(--border-radius);
+    padding-bottom: 80px;
+}
+
+/* ==========================================
+   Boxes de agrupamento
+   ========================================== */
+.box {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+#box-contagens, #box-financeiro {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+#box-metricas-detalhadas {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+#box-tacs {
+    grid-template-columns: 1fr;
+}
+
+/* ==========================================
+   Cards
+   ========================================== */
+.card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--box-shadow);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 100px;
+}
+
+#box-tacs .card {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 400px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================
+   Ícones dos Cards
+   ========================================== */
+.icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.card:hover .icon {
+    transform: scale(1.1);
+}
+
+/* Ícones por tipo de card */
+#card-total-agendamentos .icon {
+    color: var(--primary-color);
+}
+
+#card-confirmados .icon {
+    color: var(--success-color);
+}
+
+#card-finalizados .icon {
+    color: var(--info-color);
+}
+
+#card-atrasados .icon {
+    color: var(--danger-color);
+}
+
+#card-clientes-unicos .icon {
+    color: var(--secondary-color);
+}
+
+#card-tac-medio .icon {
+    color: var(--warning-color);
+}
+
+#card-tac-menor .icon {
+    color: var(--danger-color);
+}
+
+#card-tac-maior .icon {
+    color: var(--success-color);
+}
+
+#card-efetividade .icon {
+    color: var(--info-color);
+}
+
+#card-total-vendas .icon {
+    color: var(--success-color);
+}
+
+#card-valor-total-vendas .icon {
+    color: var(--primary-color);
+}
+
+#card-presencas-agendadas .icon {
+    color: var(--info-color);
+}
+
+#card-presencas-rua .icon {
+    color: var(--secondary-color);
+}
+
+#card-com-acao .icon {
+    color: var(--danger-color);
+}
+
+#card-com-associacao .icon {
+    color: var(--primary-color);
+}
+
+#card-com-aumento .icon {
+    color: var(--success-color);
+}
+
+#card-com-subsidio .icon {
+    color: var(--warning-color);
+}
+
+/* ==========================================
+   Informações dos Cards
+   ========================================== */
+.container-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    line-height: 1;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--light-color);
+}
+
+/* ==========================================
+   Tabela de TACs
+   ========================================== */
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: var(--border-radius);
+}
+
+.table {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+.table th {
+    background-color: var(--light-color);
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    color: var(--secondary-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table td {
+    border: none;
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.table tbody tr {
+    transition: var(--transition);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table td::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), var(--info-color));
+    transition: width 0.3s ease;
+}
+
+.table tr:hover td::after {
+    width: 100%;
+}
+
+/* ==========================================
+   Timestamp
+   ========================================== */
+.timestamp-container {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInFromLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Animação para itens específicos */
+#box-contagens { animation-delay: 0.1s; }
+#box-financeiro { animation-delay: 0.2s; }
+#box-metricas-detalhadas { animation-delay: 0.3s; }
+#box-tacs { animation-delay: 0.4s; }
+
+/* Cards específicos */
+#card-total-agendamentos { animation-delay: 0.1s; }
+#card-confirmados { animation-delay: 0.2s; }
+#card-finalizados { animation-delay: 0.3s; }
+#card-atrasados { animation-delay: 0.4s; }
+#card-clientes-unicos { animation-delay: 0.5s; }
+
+#card-tac-medio { animation-delay: 0.1s; }
+#card-tac-menor { animation-delay: 0.2s; }
+#card-tac-maior { animation-delay: 0.3s; }
+#card-efetividade { animation-delay: 0.4s; }
+#card-total-vendas { animation-delay: 0.5s; }
+#card-valor-total-vendas { animation-delay: 0.6s; }
+
+/* Efeito metálico */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        var(--primary-color) 0%, 
+        var(--info-color) 25%, 
+        var(--success-color) 50%, 
+        var(--warning-color) 75%, 
+        var(--danger-color) 100%);
+    background-size: 200% 100%;
+    animation: gradientBG 3s ease infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+/* Garantir que o conteúdo fique acima do efeito de brilho */
+.container-info, .icon {
+    position: relative;
+    z-index: 2;
+}
+
+/* ==========================================
+   Responsividade
+   ========================================== */
+@media (max-width: 1200px) {
+    #box-contagens, #box-financeiro {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    #dashboard-container {
+        padding: 0.5rem;
+    }
+    
+    .card {
+        padding: 1rem;
+        min-height: 80px;
+    }
+    
+    .icon {
+        font-size: 2rem;
+    }
+    
+    .value {
+        font-size: 1.5rem;
+    }
+    
+    .table-container {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    #box-contagens, #box-financeiro {
+        grid-template-columns: 1fr;
+    }
+    
+    .card {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .table-container {
+        font-size: 0.8rem;
+    }
+}
+
+/* ==========================================
+   Modo Escuro
+   ========================================== */
+html.dark body {
+    background-color: var(--dark-color);
+    color: white;
+}
+
+html.dark .card {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: white;
+}
+
+html.dark .title {
+    color: #a0aec0;
+}
+
+html.dark .value,
+html.dark .header {
+    color: white;
+}
+
+html.dark .table th {
+    background-color: #4a5568;
+    color: #a0aec0;
+}
+
+html.dark .table td {
+    border-bottom-color: #4a5568;
+    color: white;
+}
+
+html.dark .table tbody tr:hover {
+    background-color: rgba(66, 153, 225, 0.1);
+}
+
+html.dark .timestamp-container {
+    background: rgba(45, 55, 72, 0.8);
+    border-color: #4a5568;
+}
+
+/* ==========================================
+   Header do card tabela
+   ========================================== */
+.header i {
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+
+/* Seletor de período */
+.periodo-selector {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
+}
+
+.periodo-selector label {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin: 0;
+}
+
+.periodo-selector .form-select {
+    min-width: 150px;
+    border-radius: var(--border-radius);
+    border: 1px solid #dee2e6;
+}
+
+.periodo-display {
+    font-weight: 600;
+    color: var(--primary-color);
+    background: rgba(0, 123, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(0, 123, 255, 0.2);
+}
+
+/* Cards de tabelas */
+.card .card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+    color: white;
+    border: none;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    padding: 1rem 1.5rem;
+}
+
+.card .card-header h6 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.card .card-body {
+    padding: 1.5rem;
+}
+
+/* Insights */
+.analise-section {
+    background: rgba(248, 249, 250, 0.8);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.analise-section h6 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.analise-section p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Status colors */
+.text-success {
+    color: var(--success-color) !important;
+}
+
+.text-danger {
+    color: var(--danger-color) !important;
+}
+
+.text-warning {
+    color: var(--warning-color) !important;
+}
+
+.text-info {
+    color: var(--info-color) !important;
+}
+
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.text-secondary {
+    color: var(--secondary-color) !important;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Scrollbar personalizada */
+.table-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+}
+
+/* Hover effects para cards */
+.card:hover .container-info .title {
+    color: var(--primary-color);
+}
+
+.card:hover .container-info .value {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+/* Efeitos de destaque */
+.card:focus-within {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Animações de entrada para tabelas */
+.table tbody tr {
+    animation: slideInFromLeft 0.5s ease-out;
+}
+
+.table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+
+/* Sessões customizadas para dashboard */
+.sessao {
+    margin-bottom: 2.5rem;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+}
+.sessao-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: linear-gradient(90deg, var(--primary-color), var(--info-color));
+    color: white;
+    padding: 1.2rem 2rem 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--light-color);
+}
+.sessao-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: transparent;
+    justify-content: flex-start;
+}
+.sessao-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 1.5rem 2rem;
+    min-width: 220px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+    flex: 1 1 220px;
+    max-width: 320px;
+}
+.sessao-card .titulo {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 0.3rem;
+}
+.sessao-card .valor {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--dark-color);
+}
+.sessao-card .subinfo {
+    font-size: 0.95rem;
+    color: var(--info-color);
+}
+
+/* Espaçamento entre sessões */
+.sessao + .sessao { margin-top: 2.5rem; }
+
+/* Darkmode com data-theme */
+[data-theme="dark"] body,
+html[data-theme="dark"] body {
+    background: #181825;
+    color: #e0e0e0;
+}
+[data-theme="dark"] #dashboard-container {
+    background: linear-gradient(135deg, #232136 0%, #181825 100%);
+}
+[data-theme="dark"] .box,
+[data-theme="dark"] .sessao,
+html[data-theme="dark"] .sessao {
+    background: #232136;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    border: 1px solid #282a36;
+}
+[data-theme="dark"] .sessao-header,
+html[data-theme="dark"] .sessao-header {
+    background: linear-gradient(90deg, #3b3b5b, #1e90ff);
+    color: #fff;
+    border-bottom: 2px solid #232136;
+}
+[data-theme="dark"] .sessao-body {
+    background: transparent;
+}
+[data-theme="dark"] .sessao-card,
+html[data-theme="dark"] .sessao-card {
+    background: #232136;
+    color: #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    border: 1px solid #282a36;
+}
+[data-theme="dark"] .sessao-card .titulo {
+    color: #a0aec0;
+}
+[data-theme="dark"] .sessao-card .valor {
+    color: #fff;
+}
+[data-theme="dark"] .sessao-card .subinfo {
+    color: #7fdfff;
+}
+[data-theme="dark"] .card,
+html[data-theme="dark"] .card {
+    background: #232136;
+    color: #e0e0e0;
+    border: 1px solid #282a36;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+}
+[data-theme="dark"] .icon {
+    color: #7fdfff;
+}
+[data-theme="dark"] .title,
+[data-theme="dark"] .header {
+    color: #a0aec0;
+}
+[data-theme="dark"] .value {
+    color: #fff;
+}
+[data-theme="dark"] .table th {
+    background-color: #232136;
+    color: #7fdfff;
+    border-bottom: 1px solid #282a36;
+}
+[data-theme="dark"] .table td {
+    color: #e0e0e0;
+    background: #232136;
+    border-bottom: 1px solid #282a36;
+}
+[data-theme="dark"] .table tbody tr:hover {
+    background-color: #1e293b;
+}
+[data-theme="dark"] .table-container::-webkit-scrollbar-thumb {
+    background: #1e90ff;
+}
+[data-theme="dark"] .periodo-selector {
+    background: #232136;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    border: 1px solid #282a36;
+}
+[data-theme="dark"] .periodo-selector label {
+    color: #a0aec0;
+}
+[data-theme="dark"] .periodo-selector .form-select {
+    background: #232136;
+    color: #e0e0e0;
+    border: 1px solid #282a36;
+}
+[data-theme="dark"] .periodo-display {
+    color: #7fdfff;
+    background: #232136;
+    border: 1px solid #1e90ff;
+}
+[data-theme="dark"] .timestamp-container {
+    background: #232136;
+    border: 1px solid #282a36;
+    color: #a0aec0;
+}
+[data-theme="dark"] .analise-section {
+    background: #232136;
+    border-left: 4px solid #1e90ff;
+    color: #e0e0e0;
+}
+[data-theme="dark"] .text-success { color: #7fdfff !important; }
+[data-theme="dark"] .text-danger { color: #ff7f7f !important; }
+[data-theme="dark"] .text-warning { color: #ffd966 !important; }
+[data-theme="dark"] .text-info { color: #7fdfff !important; }
+[data-theme="dark"] .text-primary { color: #1e90ff !important; }
+[data-theme="dark"] .text-secondary { color: #a0aec0 !important; }
+[data-theme="dark"] .loading { opacity: 0.7; }
+[data-theme="dark"] .table tbody tr { background: #232136; }
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) { background: #232136; }
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(even) { background: #181825; }
+[data-theme="dark"] .table-hover > tbody > tr:hover { background: #1e293b; }
+[data-theme="dark"] .form-select:focus, [data-theme="dark"] input:focus, [data-theme="dark"] button:focus {
+    outline: 2px solid #1e90ff;
+    outline-offset: 2px;
+}
+[data-theme="dark"] input, [data-theme="dark"] button, [data-theme="dark"] select {
+    background: #232136;
+    color: #e0e0e0;
+    border: 1px solid #282a36;
+}
+[data-theme="dark"] .message.success { background: #232136; color: #7fdfff; border: 1px solid #1e90ff; }
+[data-theme="dark"] .message.error { background: #232136; color: #ff7f7f; border: 1px solid #dc3545; }
+
+/* Responsividade para sessões */
+@media (max-width: 900px) {
+    .sessao-body { flex-direction: column; gap: 1rem; padding: 1rem; }
+    .sessao-card { min-width: 100%; max-width: 100%; }
+}
+@media (max-width: 600px) {
+    .sessao-header { font-size: 1rem; padding: 1rem; }
+    .sessao-body { padding: 0.5rem; }
+    .sessao-card { padding: 1rem; }
+}
+
+/* Tabelas de Situação TACs ocupando 100% do container */
+.tacs-tabelas-group,
+.tabela-tac-bloco,
+.table-container,
+.tabela-tac-bloco table {
+    width: 100% !important;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.tabela-tac-bloco table {
+    table-layout: fixed;
+}
+
+.tabela-tac-bloco th, .tabela-tac-bloco td {
+    word-break: break-word;
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    .tacs-tabelas-group, .tabela-tac-bloco, .table-container, .tabela-tac-bloco table {
+        width: 100% !important;
+    }
+}
+
+/* Reduzir font-size dos cards gerais */
+.card .value, .sessao-card .valor {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    line-height: 1.1;
+}
+.card .title, .sessao-card .titulo {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 900px) {
+    .card .value, .sessao-card .valor { font-size: 1.1rem; }
+    .card .title, .sessao-card .titulo { font-size: 0.8rem; }
+}
+@media (max-width: 600px) {
+    .card .value, .sessao-card .valor { font-size: 1rem; }
+    .card .title, .sessao-card .titulo { font-size: 0.75rem; }
+}
+
+[data-theme="dark"] .card .value, [data-theme="dark"] .sessao-card .valor {
+    color: #fff;
+}
+[data-theme="dark"] .card .title, [data-theme="dark"] .sessao-card .titulo {
+    color: #e0e0e0;
+}

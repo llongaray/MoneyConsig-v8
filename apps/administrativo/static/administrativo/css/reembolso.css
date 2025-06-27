@@ -1,0 +1,1408 @@
+/* Estilos para a página de Controle de Metas */ /* TODO: Verificar se estes estilos são realmente necessários aqui ou se pertencem a outro arquivo */
+
+/* Estilos rápidos para visibilidade dos campos condicionais */
+.campo-condicional {
+    display: none; /* Escondido por padrão */
+  }
+  /* Adicionar classe 'visivel' para mostrar */
+  .campo-condicional.visivel {
+    display: block;
+  }
+
+  /* Estilo para selects múltiplos */
+  #meta_equipes {
+      min-height: 120px;
+  }
+
+  /* Alinhar ícone de carregamento */
+  #loading-indicator {
+      text-align: center;
+      padding: 2rem;
+  }
+
+  /* Tornar a tabela responsiva (já presente no Bootstrap, mas reforça) */
+  .table-responsive {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch; /* Melhora scroll em iOS */
+  }
+
+  /* ==========================================
+     CSS para a página de Cadastros Administrativos / Reembolso
+     Baseado no estilo de consulta_cliente.css e dashboard.css
+     Foco: Verde e Azul, com ênfase no Verde
+     ========================================== */
+
+  /* ---------- Variáveis de Cores e Sombreamentos ---------- */
+  :root {
+      --color-primary-dark: #142650; /* Azul escuro */
+      --color-secondary: #70f611; /* Verde */
+      --color-tertiary: #0bd5f0; /* Azul claro (ciano) */
+      --color-accent: #b4874c; /* Tom terroso */
+      --color-white: #fff;
+      --color-gray: #ddd;
+      --color-light-gray: #f0f0f0;
+      --color-text-dark: #333;
+      --color-text-light: #666;
+      --color-danger: #dc3545;
+      --color-success: #198754; /* Verde escuro para sucesso */
+      --color-warning: #ffc107; /* Amarelo para warning */
+
+      --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+      --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+      --box-shadow-card-hover: 0 6px 18px rgba(112, 246, 17, 0.15); /* Sombra verde no hover */
+
+      /* Gradientes com foco no verde */
+      --gradient-primary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary-dark) 100%);
+      --gradient-secondary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+      --gradient-metallic-green-focus: linear-gradient(135deg, #ffffff 0%, var(--color-secondary) 30%, var(--color-tertiary) 50%, var(--color-secondary) 70%, #ffffff 100%);
+      --gradient-card-header: linear-gradient(-45deg, var(--color-secondary), #5cb85c, var(--color-primary-dark), var(--color-secondary)); /* Verde, verde mais escuro, azul, verde */
+
+      /* Animação do Gradiente */
+      --gradient-animation: gradientBG 12s ease infinite;
+  }
+
+  /* ==========================================
+     Estilos Gerais da Página
+     ========================================== */
+  body {
+      background-color: var(--color-light-gray);
+      color: var(--color-text-dark);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte mais moderna */
+  }
+
+  .container, .container-fluid { /* Aplicar a ambos os containers */
+      max-width: 1400px; /* Aumenta um pouco a largura máxima */
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 15px; /* Espaçamento padrão Bootstrap */
+      padding-right: 15px;
+  }
+
+  /* Títulos da Página e Seções */
+  .reembolso-page-title, .reembolso-section-title {
+      color: var(--color-primary-dark);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+  }
+  .reembolso-page-title {
+      border-bottom: 3px solid var(--color-secondary);
+      padding-bottom: 0.5rem;
+      font-size: 1.8rem; /* Um pouco maior */
+  }
+  .reembolso-section-title {
+      font-size: 1.3rem;
+      color: var(--color-text-dark);
+      border-bottom: 1px solid var(--color-gray);
+      padding-bottom: 0.4rem;
+  }
+  .reembolso-page-title i, .reembolso-section-title i {
+      color: var(--color-secondary);
+      font-size: 1.2em; /* Relativo ao tamanho do texto */
+  }
+
+  /* ==========================================
+     Estilos Gerais de Cards (Aplicável a Reembolso e outros)
+     ========================================== */
+     .row.box.reembolso-cards { /* Container dos cards do dashboard */
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center; /* Centraliza os cards se houver espaço */
+        align-content: stretch; /* Alinha linhas */
+        align-items: stretch; /* Estica cards na mesma linha */
+        gap: 1.5rem; /* Espaço entre os cards */
+        padding: 1rem 0;
+    }
+
+  .card {
+      background-color: var(--color-white);
+      border: 1px solid var(--color-gray);
+      border-radius: 12px; /* Bordas mais arredondadas */
+      box-shadow: var(--box-shadow-light);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      width: 100%; /* Ocupa a coluna */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative; /* Para posicionamento de elementos internos como ::before */
+  }
+
+  /* Ajuste para colunas dos cards do dashboard */
+  .reembolso-dashboard-section .col-md-4 {
+      flex: 1 1 30%; /* Permite que cresçam mas base de ~30% */
+      min-width: 280px; /* Largura mínima */
+      margin-bottom: 1.5rem; /* Espaçamento inferior */
+      /* Removido margin-right: 21px; */
+  }
+
+  .card:hover {
+      transform: translateY(-5px); /* Efeito de levantar um pouco mais */
+      box-shadow: var(--box-shadow-card-hover);
+  }
+
+  .card .card-header {
+      background: var(--gradient-card-header) !important;
+      background-size: 400% 400% !important;
+      animation: var(--gradient-animation) !important;
+      color: var(--color-white) !important;
+      font-weight: 600;
+      font-size: 1.15em; /* Um pouco maior */
+      padding: 0.9rem 1.25rem; /* Ajuste padding */
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      position: relative; /* Necessário para o z-index do ::before */
+      z-index: 1; /* Garante que o conteúdo fique acima do ::before */
+      border-bottom: none; /* Remove borda padrão se houver */
+      border-radius: 12px 12px 0 0; /* Arredonda cantos superiores */
+  }
+
+  .card .card-header i {
+      margin-right: 0.75rem;
+      font-size: 1.3rem;
+      vertical-align: middle;
+  }
+
+  /* Efeito de brilho metálico no header */
+  .card .card-header::before {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: -100%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.05) 40%,
+        rgba(255,255,255,0.3) 50%,
+        rgba(255,255,255,0.05) 60%,
+        rgba(255,255,255,0) 100%
+      );
+      transform: rotate(45deg);
+      transition: all 0.7s ease;
+      z-index: -1; /* Fica atrás do conteúdo */
+      pointer-events: none; /* Não interfere com cliques */
+      opacity: 0; /* Começa invisível */
+  }
+
+  .card:hover .card-header::before {
+      top: 100%;
+      left: 100%;
+      opacity: 1; /* Aparece no hover */
+  }
+
+  .card .card-body {
+      padding: 1.5rem; /* Mais padding */
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem; /* Aumenta espaçamento interno */
+      background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(248, 255, 248, 0.9) 100%); /* Fundo sutil */
+      flex-grow: 1; /* Permite que o corpo do card cresça para preencher espaço */
+  }
+
+  /* ==========================================
+     Estilos Gerais para Formulários (Filtros)
+     ========================================== */
+  .reembolso-filter-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem; /* Espaço entre os elementos do form */
+      align-items: flex-end; /* Alinha itens na base (útil para botões) */
+      margin-bottom: 1.5rem !important; /* Garante espaço abaixo do form */
+      padding: 1rem;
+      background-color: #f9f9f9;
+      border: 1px solid var(--color-gray);
+      border-radius: 8px;
+  }
+
+  .reembolso-filter-form .form-group {
+      flex: 1 1 200px; /* Base flexível, mínimo 200px */
+      margin-bottom: 0; /* Remove margin padrão do Bootstrap, usa gap */
+  }
+
+  .reembolso-filter-form label {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      margin-bottom: 0.3rem;
+      display: block;
+  }
+
+  .reembolso-filter-form .form-control,
+  .reembolso-filter-form .form-select {
+      border: 1px solid var(--color-gray);
+      border-radius: 6px;
+      padding: 0.5rem 0.8rem; /* Padding menor para form de filtro */
+      font-size: 0.95rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .reembolso-filter-form .form-control:focus,
+  .reembolso-filter-form .form-select:focus {
+      border-color: var(--color-secondary);
+      box-shadow: 0 0 0 2px rgba(112, 246, 17, 0.15);
+      outline: none;
+  }
+
+  .reembolso-filter-form .btn {
+      padding: 0.5rem 1rem; /* Padding para botões de filtro */
+      font-size: 0.9rem;
+      border-radius: 6px;
+      margin-left: 0.5rem; /* Espaço entre botões */
+      white-space: nowrap; /* Evita quebra de linha no texto do botão */
+  }
+  .reembolso-filter-form .btn i {
+      margin-right: 0.3rem;
+  }
+
+  /* ==========================================
+     Estilos para as Tabelas de Reembolso
+     ========================================== */
+  .reembolso-table-wrapper {
+      margin-bottom: 1.5rem; /* Espaço abaixo da tabela */
+      border: 1px solid var(--color-gray);
+      border-radius: 8px;
+      overflow: hidden; /* Para conter a tabela e o a borda arredondada */
+  }
+
+  .reembolso-table {
+      width: 100%;
+      margin-bottom: 0; /* Removido pelo wrapper */
+      border-collapse: collapse; /* Garante que bordas funcionem bem */
+      font-size: 0.9rem; /* Tamanho de fonte base para tabelas */
+  }
+
+  /* Cabeçalho da Tabela */
+  .reembolso-table thead th {
+      background-color: #e9ecef; /* Cinza claro padrão Bootstrap */
+      color: var(--color-primary-dark);
+      font-weight: 600;
+      padding: 0.8rem 1rem;
+      text-align: left;
+      vertical-align: middle;
+      border-bottom: 2px solid var(--color-gray);
+      white-space: nowrap; /* Evita quebra de linha nos cabeçalhos */
+  }
+
+  /* Corpo da Tabela */
+  .reembolso-table tbody tr {
+      border-bottom: 1px solid var(--color-gray);
+      transition: background-color 0.2s ease;
+  }
+
+  .reembolso-table tbody tr:last-child {
+      border-bottom: none; /* Remove borda da última linha */
+  }
+
+  .reembolso-table tbody tr:nth-of-type(odd) {
+      background-color: #fdfdfd; /* Zebrado sutil */
+  }
+
+  .reembolso-table tbody tr:hover {
+      background-color: #eaf7e4; /* Verde bem claro no hover */
+  }
+
+  .reembolso-table tbody td {
+      padding: 0.7rem 1rem;
+      vertical-align: middle;
+      color: var(--color-text-dark);
+      line-height: 1.4;
+  }
+
+  /* Alinhamento específico para colunas comuns */
+  .reembolso-table td[data-field="valor"],
+  .reembolso-table td.text-end { /* Suporte para classe Bootstrap */
+      text-align: right;
+      font-family: 'Courier New', Courier, monospace; /* Fonte monoespaçada para números */
+  }
+  .reembolso-table td[data-field="data_registro"],
+  .reembolso-table td[data-field="data_reembolso"] {
+      white-space: nowrap;
+  }
+
+  /* Botões de Ação na Tabela */
+  .reembolso-table td form {
+      margin: 0; /* Remove margens do form dentro da célula */
+      padding: 0;
+      display: inline-block; /* Para que o form não ocupe a linha toda */
+  }
+  .reembolso-table td .btn {
+      padding: 0.3rem 0.6rem; /* Botões menores na tabela */
+      font-size: 0.85rem;
+      border-radius: 5px;
+      width: auto !important; /* Sobrescreve width: 100% se houver */
+      min-width: 90px; /* Largura mínima para caber texto e ícone */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+  }
+  .reembolso-table td .btn i {
+      font-size: 1rem;
+  }
+
+  /* Botão Reembolsar (Verde) */
+  .reembolso-register-form .btn-success {
+      background-color: var(--color-success);
+      border-color: var(--color-success);
+      color: var(--color-white);
+  }
+  .reembolso-register-form .btn-success:hover {
+      background-color: darken(var(--color-success), 10%);
+      border-color: darken(var(--color-success), 10%);
+  }
+
+  /* Botão Reverter (Amarelo) */
+  .reembolso-revert-form .btn-warning {
+      background-color: var(--color-warning);
+      border-color: var(--color-warning);
+      color: var(--color-text-dark); /* Texto escuro para contraste com amarelo */
+  }
+  .reembolso-revert-form .btn-warning:hover {
+      background-color: darken(var(--color-warning), 10%);
+      border-color: darken(var(--color-warning), 10%);
+  }
+
+  /* Linhas de Carregamento */
+  #reembolso-register-loading td,
+  #reembolso-revert-loading td,
+  #reembolso-recent-loading td {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--color-text-light);
+      font-style: italic;
+  }
+  #reembolso-register-loading i,
+  #reembolso-revert-loading i,
+  #reembolso-recent-loading i {
+      margin-right: 0.5rem;
+  }
+
+  /* Linha Template (oculta) */
+  .reembolso-table-row-template {
+      display: none !important;
+  }
+
+  /* ==========================================
+     Estilos para Paginação
+     ========================================== */
+  .reembolso-pagination {
+      display: flex;
+      justify-content: space-between; /* Info à esquerda, botões à direita */
+      align-items: center;
+      padding: 1rem 0; /* Espaçamento vertical */
+      font-size: 0.9rem;
+      color: var(--color-text-light);
+      flex-wrap: wrap; /* Permite quebrar linha em telas pequenas */
+      gap: 1rem; /* Espaço entre info e botões */
+  }
+
+  .reembolso-pagination .pagination-info {
+      flex-shrink: 0; /* Não encolhe */
+  }
+
+  .reembolso-pagination .pagination-controls {
+      display: flex;
+      gap: 0.5rem; /* Espaço entre botões de paginação */
+  }
+
+  .reembolso-pagination .btn {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+      border-radius: 5px;
+      background-color: var(--color-white);
+      border: 1px solid var(--color-gray);
+      color: var(--color-primary-dark);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .reembolso-pagination .btn:hover:not(:disabled) {
+      background-color: #f0f0f0;
+      border-color: #bbb;
+  }
+
+  .reembolso-pagination .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+  }
+
+  .reembolso-pagination .btn i {
+      margin: 0; /* Ícones sem margem extra */
+  }
+
+  /* ==========================================
+     Estilos Específicos por Card (Exemplos - Manter se aplicável)
+     ========================================== */
+
+  /* Card Empresa, Loja, Setor, Equipe, Horario, Comissão... */
+  /* (Estilos específicos para formulários de cadastros, se usados em outra página,
+     podem ser movidos para um arquivo CSS dedicado a cadastros) */
+  /* ... (mantendo os estilos específicos de #card-* como estavam) ... */
+
+  /* Card Empresa */
+  #card-empresa #empresa_endereco.mb-3 {
+      flex-basis: 100%; /* Endereço ocupa linha inteira */
+  }
+
+  /* Card Loja */
+  #card-loja #loja_logo.mb-3 {
+      flex-basis: 100%;
+  }
+  #card-loja .row.mb-3 { /* Linha com Franquia/Filial */
+      flex-basis: 100%;
+      display: flex;
+      justify-content: space-around;
+      gap: 1rem;
+  }
+  #card-loja .row.mb-3 .col-auto {
+      flex: 1;
+  }
+
+  /* Card Setor */
+  #card-setor #setor_empresa_filtro.mb-3 {
+      flex-basis: 100%;
+  }
+
+  /* Card Equipe */
+  #card-equipe #equipe_participantes.mb-3 {
+      flex-basis: 100%;
+  }
+  #card-equipe #equipe_participantes {
+      min-height: 120px;
+  }
+  #card-equipe .text-muted {
+      flex-basis: 100%;
+      text-align: center;
+      font-size: 0.85rem;
+  }
+
+  /* Card Horario */
+  #card-horario .row.mb-3 { /* Linhas com horários */
+      flex-basis: 100%;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      flex-wrap: wrap; /* Permite quebrar linha se necessário */
+  }
+  #card-horario .row.mb-3 .col-md-6 {
+      flex: 1 1 45%;
+      padding: 0; /* Remove padding extra do Bootstrap se houver */
+      min-width: 200px; /* Largura mínima para os campos de horário */
+  }
+
+  /* Card Comissão */
+  #card-comissao #comissao_entidades_container {
+      display: none !important; /* Força invisibilidade por padrão */
+  }
+
+  #card-comissao .comissao-entidades {
+      display: none !important; /* Garante que todos os containers de entidades fiquem ocultos por padrão */
+  }
+
+  /* Quando a classe .d-none é removida via JavaScript */
+  #card-comissao #comissao_entidades_container.d-none {
+      display: none !important;
+  }
+  #card-comissao #comissao_entidades_container:not(.d-none) {
+      display: block !important;
+      flex-basis: 100%; /* Garante que o container ocupe a largura */
+  }
+
+  #card-comissao .comissao-entidades.d-none {
+      display: none !important;
+  }
+  #card-comissao .comissao-entidades:not(.d-none) {
+      display: block !important;
+      flex-basis: 100%; /* Garante que o container ocupe a largura */
+      margin-top: 1rem; /* Espaço acima dos detalhes da entidade */
+      padding: 1rem;
+      border: 1px dashed var(--color-gray);
+      border-radius: 8px;
+      background-color: #fdfdfd;
+  }
+
+  /* Ajuste para container de checkboxes */
+  #card-comissao .form-check-inline {
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem; /* Espaçamento vertical entre checkboxes */
+  }
+  #card-comissao .form-check-label.small {
+      font-size: 0.85rem;
+  }
+
+  /* Garante que o input group do percentual não quebre */
+  #card-comissao .input-group {
+      /* Estilos visuais do input aplicados ao grupo */
+      border: 2px solid var(--color-gray);
+      border-radius: 8px;
+      background-color: var(--color-white);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      display: flex;
+      flex-wrap: nowrap !important;
+      overflow: hidden; /* Esconde bordas internas que possam vazar */
+      padding: 0; /* Remove padding do grupo, será nos elementos internos */
+      width: 100%; /* Ocupa a largura do container */
+  }
+
+  /* Efeito de foco no grupo quando o input interno está focado */
+  #card-comissao .input-group:focus-within {
+      border-color: var(--color-secondary);
+      box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+      background-color: #fafffa;
+      outline: none;
+  }
+
+  #card-comissao .input-group .form-control {
+      /* Remove estilos visuais do input interno */
+      border: none;
+      box-shadow: none;
+      background-color: transparent;
+      outline: none;
+      /* Mantém o padding interno original para espaçamento do texto */
+      padding: 0.75rem 1rem;
+      /* Controle flex */
+      flex: 1 1 auto; /* Permite que o input cresça e encolha */
+      width: 1%; /* Ajuda o flex-grow a funcionar corretamente em alguns casos */
+      min-width: 0; /* Permite encolher abaixo do tamanho padrão */
+      border-radius: 0; /* Remove border-radius individual */
+  }
+
+  /* Remove efeito de foco redundante do input interno */
+  #card-comissao .input-group .form-control:focus {
+      box-shadow: none;
+      border-color: transparent; /* Garante que não haja borda no foco do input */
+  }
+
+  #card-comissao .input-group .input-group-text {
+      /* Remove estilos visuais do span interno */
+      border: none;
+      background-color: transparent;
+      /* Mantém padding para alinhar com o texto do input */
+      padding: 0.75rem 1rem;
+      /* Controle flex */
+      flex-shrink: 0; /* Impede que o span encolha */
+      /* Alinhamento e cor */
+      display: flex;
+      align-items: center;
+      color: var(--color-text-light); /* Cor para o '%' */
+      border-radius: 0; /* Remove border-radius individual */
+  }
+
+
+  /* ==========================================
+     Mensagens de Feedback (Alerts e Toasts)
+     ========================================== */
+
+  /* Container para mensagens estáticas (no topo da página) */
+  .reembolso-messages .alert {
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.9rem 1.25rem;
+      font-weight: 500;
+      border: none;
+      margin-bottom: 1rem;
+      box-shadow: var(--box-shadow-light);
+  }
+  .reembolso-messages .alert i {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+  }
+  .reembolso-messages .alert-success { background: linear-gradient(135deg, #d1e7dd, var(--color-success)); color: #0a3622; }
+  .reembolso-messages .alert-danger { background: linear-gradient(135deg, #f8d7da, var(--color-danger)); color: #58151c; }
+  .reembolso-messages .alert-warning { background: linear-gradient(135deg, #fff3cd, var(--color-warning)); color: #664d03; }
+  .reembolso-messages .alert-info { background: linear-gradient(135deg, #cff4fc, var(--color-tertiary)); color: #055160; }
+
+
+  /* Container para Toasts (flutuantes) */
+  #toast-container-fixed { /* ID usado pelo JS */
+      position: fixed; /* Fixo na viewport */
+      top: 20px; /* Espaço do topo */
+      right: 20px; /* Espaço da direita */
+      z-index: 1056; /* Acima da maioria dos elementos Bootstrap */
+      width: auto; /* Largura automática */
+      max-width: 400px; /* Largura máxima */
+      min-width: 300px; /* Largura mínima */
+  }
+
+  #toast-container-fixed .alert { /* Target alertas dentro do container correto */
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.8rem 1.25rem;
+      font-weight: 500;
+      box-shadow: var(--box-shadow-medium);
+      border: none;
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: opacity 0.5s ease, transform 0.5s ease, margin-bottom 0.3s ease; /* Adiciona transição para margin */
+      position: relative;
+      overflow: hidden; /* Garante que o conteúdo não vaze */
+  }
+
+  /* Animação de entrada */
+  #toast-container-fixed .alert.show {
+      opacity: 1;
+      transform: translateX(0);
+  }
+
+  /* Animação de saída (exemplo, pode ser controlada por JS) */
+  #toast-container-fixed .alert.hide {
+      opacity: 0;
+      margin-bottom: -10px; /* Efeito de subir um pouco ao sumir */
+      /* transform: translateX(100%); */ /* Pode reativar se preferir deslizar para fora */
+  }
+
+
+  #toast-container-fixed .alert-success {
+      background: linear-gradient(135deg, #d1e7dd, var(--color-success));
+      color: #0a3622;
+  }
+
+  #toast-container-fixed .alert-danger {
+      background: linear-gradient(135deg, #f8d7da, var(--color-danger));
+      color: #58151c;
+  }
+
+   #toast-container-fixed .alert-warning {
+      background: linear-gradient(135deg, #fff3cd, var(--color-warning));
+      color: #664d03;
+  }
+
+   #toast-container-fixed .alert-info {
+      background: linear-gradient(135deg, #cff4fc, var(--color-tertiary));
+      color: #055160;
+  }
+
+  #toast-container-fixed .alert i {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+  }
+
+  #toast-container-fixed .alert-dismissible .btn-close {
+      padding: 0.8rem;
+      opacity: 0.8;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      line-height: 1;
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      color: inherit;
+      filter: invert(10%) sepia(10%) saturate(1000%) hue-rotate(180deg) brightness(1.1); /* Ajusta cor do X para contraste */
+      transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  #toast-container-fixed .alert-dismissible .btn-close:hover {
+      opacity: 1;
+      transform: scale(1.1);
+  }
+
+  /* ==========================================
+     Layout e Responsividade
+     ========================================== */
+  .row {
+      --bs-gutter-x: 1.5rem; /* Espaçamento horizontal padrão Bootstrap */
+      --bs-gutter-y: 1.5rem; /* Aumenta espaçamento vertical padrão entre colunas empilhadas */
+      margin-left: calc(-0.5 * var(--bs-gutter-x)); /* Ajuste padrão Bootstrap */
+      margin-right: calc(-0.5 * var(--bs-gutter-x));
+  }
+
+  /* Responsividade */
+  @media (max-width: 991px) { /* Abaixo de large */
+      /* Formulários dentro de cards (se houver) */
+      .card form .form-group,
+      .card form .mb-3 {
+          flex-basis: 100%; /* Campos ocupam linha inteira em telas médias/pequenas */
+          min-width: unset;
+      }
+      /* Filtros */
+      .reembolso-filter-form {
+          flex-direction: column;
+          align-items: stretch; /* Estica os elementos */
+      }
+      .reembolso-filter-form .form-group {
+          width: 100%;
+      }
+      .reembolso-filter-form .btn {
+          margin-left: 0;
+          margin-top: 0.5rem; /* Espaço acima dos botões */
+          width: 100%; /* Botões ocupam largura total */
+      }
+      .reembolso-filter-form div:has(> .btn) { /* Container dos botões */
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          width: 100%;
+      }
+  }
+
+  @media (max-width: 767px) { /* Abaixo de medium */
+      .reembolso-page-title {
+          font-size: 1.6rem; /* Reduz tamanho do título */
+      }
+      .reembolso-section-title {
+          font-size: 1.2rem;
+      }
+      .card .card-body {
+          padding: 1.2rem;
+      }
+      .card .card-header {
+          font-size: 1.1em;
+          padding: 0.8rem 1rem;
+      }
+      /* Tabelas */
+      .reembolso-table {
+          font-size: 0.85rem; /* Fonte menor em telas pequenas */
+      }
+      .reembolso-table thead th,
+      .reembolso-table tbody td {
+          padding: 0.6rem 0.8rem; /* Menos padding */
+      }
+      .reembolso-table td .btn {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.8rem;
+          min-width: 80px;
+      }
+      /* Paginação */
+      .reembolso-pagination {
+          flex-direction: column; /* Empilha info e controles */
+          align-items: center; /* Centraliza */
+          gap: 0.8rem;
+      }
+      .reembolso-pagination .pagination-controls {
+          justify-content: center; /* Centraliza botões */
+          width: 100%;
+      }
+
+      /* Toasts */
+      #toast-container-fixed {
+          top: 10px;
+          right: 10px;
+          left: 10px;
+          max-width: none;
+          width: auto;
+      }
+  }
+
+  @media (max-width: 575px) { /* Abaixo de small */
+       .reembolso-page-title {
+          font-size: 1.4rem;
+      }
+      .reembolso-section-title {
+          font-size: 1.1rem;
+      }
+      /* Forçar quebra de linha em células longas se necessário */
+      .reembolso-table td {
+          /* white-space: normal; */ /* Descomentar se precisar quebrar texto */
+      }
+  }
+
+
+  /* ==========================================
+     Animações
+     ========================================== */
+  @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+  }
+
+  @keyframes gradientBGButton {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+  }
+
+  /* Animação de Spin (para ícones de loading) */
+  .bx-spin {
+      animation: bx-spin 1.5s linear infinite;
+  }
+  @keyframes bx-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+  }
+
+  /* Remover estilos duplicados de Controle de Metas que estavam no final */
+  /* Os estilos iniciais para .campo-condicional, #meta_equipes, #loading-indicator foram mantidos no topo */
+  /* .table-responsive foi integrado/reforçado */
+
+  /* ==========================================
+     Estilos para Formulários de Filtro
+     ========================================== */
+
+  /* Estilo geral para os formulários de filtro */
+  .reembolso-filter-form {
+      display: flex;
+      flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha em telas menores */
+      align-items: flex-end; /* Alinha itens na base (inputs e botões) */
+      gap: 1rem; /* Espaçamento padrão entre os elementos do filtro */
+      margin-bottom: 1.5rem; /* Espaçamento abaixo do formulário */
+      padding: 1rem; /* Espaçamento interno */
+      background-color: var(--color-white); /* Fundo branco para destacar */
+      border-radius: 8px; /* Bordas arredondadas */
+      box-shadow: var(--box-shadow-light); /* Sombra leve */
+  }
+
+  /* Ajustes específicos para o formulário de registro (que não usa grid Bootstrap por padrão no HTML fornecido) */
+  #reembolso-register-filter-form .form-group {
+      flex: 1 1 auto; /* Permite que os grupos de formulário cresçam e encolham */
+      margin-bottom: 0; /* Remove margem inferior padrão do form-group quando em flex */
+      min-width: 200px; /* Largura mínima para evitar que fiquem muito espremidos */
+  }
+
+  #reembolso-register-filter-form label,
+  #reembolso-revert-filter-form .form-label { /* Aplica a ambos os forms */
+      margin-bottom: 0.3rem; /* Pequeno espaço abaixo do label */
+      font-size: 0.85rem; /* Tamanho de fonte menor para labels */
+      font-weight: 500;
+      color: var(--color-text-light);
+      display: block; /* Garante que o label fique acima do input */
+  }
+
+  /* Estilo para os botões dentro do formulário de registro */
+  #reembolso-register-filter-form .btn {
+      margin-bottom: 0; /* Alinha com a base dos inputs */
+      flex-shrink: 0; /* Impede que os botões encolham demais */
+      height: calc(1.5em + 0.5rem + 2px); /* Altura igual ao form-control-sm */
+      display: inline-flex; /* Para alinhar ícone e texto verticalmente */
+      align-items: center;
+  }
+
+  /* Ajustes para o formulário de reversão (que já usa grid Bootstrap) */
+  #reembolso-revert-filter-form {
+      padding: 1.25rem; /* Um pouco mais de padding */
+  }
+
+  #reembolso-revert-filter-form .row {
+      --bs-gutter-x: 1rem; /* Ajusta o espaçamento horizontal do grid */
+      --bs-gutter-y: 0.5rem; /* Ajusta o espaçamento vertical do grid (para wrap) */
+  }
+
+  #reembolso-revert-filter-form .form-control-sm,
+  #reembolso-register-filter-form .form-control-sm { /* Aplica a ambos */
+      /* Ajustes nos inputs se necessário, ex: */
+      /* border-color: var(--color-gray); */
+  }
+
+  /* Estilos gerais para botões de filtro */
+  .reembolso-filter-form .btn i {
+      /* vertical-align: middle; */ /* Removido, usando flex no botão */
+      /* margin-right: 0.3rem; */ /* Espaço entre ícone e texto já presente no HTML com me-1/me-2 */
+  }
+
+  /* Responsividade para os filtros */
+  @media (max-width: 991px) { /* Abaixo de large, quando o grid do revert pode começar a quebrar */
+       #reembolso-revert-filter-form .col-md-2,
+       #reembolso-revert-filter-form .col-md-3 {
+           min-width: 150px; /* Garante uma largura mínima antes de quebrar */
+       }
+       #reembolso-revert-filter-form .d-flex { /* Container dos botões */
+           flex-basis: 100%; /* Força quebra dos botões para linha seguinte se necessário */
+           margin-top: 0.5rem; /* Espaço acima dos botões quando quebram */
+       }
+  }
+
+
+  @media (max-width: 767px) { /* Abaixo de medium */
+      .reembolso-filter-form {
+          flex-direction: column; /* Empilha os filtros verticalmente */
+          align-items: stretch; /* Estica os itens para ocupar a largura */
+          gap: 0.8rem;
+          padding: 0.8rem;
+      }
+
+      #reembolso-register-filter-form .form-group {
+          min-width: 0; /* Reseta a largura mínima */
+          width: 100%; /* Ocupa toda a largura */
+      }
+
+      #reembolso-register-filter-form .btn {
+           width: auto; /* Largura automática para botões */
+           align-self: flex-start; /* Alinha botões à esquerda */
+           /* Considerar width: 100% se preferir botões de largura total */
+      }
+
+      /* Ajustes no grid do formulário de reversão em telas pequenas */
+      #reembolso-revert-filter-form .col-md-2,
+      #reembolso-revert-filter-form .col-md-3 {
+          width: 100%; /* Faz cada coluna ocupar 100% */
+          min-width: 0;
+      }
+       #reembolso-revert-filter-form .d-flex {
+          width: 100%;
+          justify-content: flex-start; /* Alinha botões à esquerda */
+          gap: 0.5rem; /* Espaço entre botões */
+          margin-top: 0.5rem;
+      }
+       #reembolso-revert-filter-form .d-flex .btn {
+          flex-grow: 0; /* Não deixa os botões crescerem */
+          /* width: auto; */ /* Largura automática */
+      }
+  }
+
+  /* ==========================================
+   🌙 DARK MODE - REEMBOLSO
+   ========================================== */
+
+  /* Body e container principal */
+  [data-theme="dark"] body,
+  body.dark-mode {
+      background-color: #1a1625;
+      color: #ffffff;
+  }
+
+  [data-theme="dark"] .container,
+  [data-theme="dark"] .container-fluid,
+  body.dark-mode .container,
+  body.dark-mode .container-fluid {
+      background-color: #1a1625;
+  }
+
+  /* Títulos da página */
+  [data-theme="dark"] .reembolso-page-title,
+  [data-theme="dark"] .reembolso-section-title,
+  body.dark-mode .reembolso-page-title,
+  body.dark-mode .reembolso-section-title {
+      color: #ffffff;
+      border-bottom-color: #70f611;
+  }
+
+  [data-theme="dark"] .reembolso-page-title i,
+  [data-theme="dark"] .reembolso-section-title i,
+  body.dark-mode .reembolso-page-title i,
+  body.dark-mode .reembolso-section-title i {
+      color: #70f611;
+  }
+
+  /* Cards */
+  [data-theme="dark"] .card,
+  body.dark-mode .card {
+      background-color: #3d3450;
+      border-color: #3d3450;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  [data-theme="dark"] .card:hover,
+  body.dark-mode .card:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      background-color: rgba(134, 89, 212, 0.1);
+      transform: translateY(-5px);
+  }
+
+  /* Headers dos cards */
+  [data-theme="dark"] .card .card-header,
+  body.dark-mode .card .card-header {
+      background: linear-gradient(-45deg, #70f611, #5cb85c, #6e42c1, #70f611) !important;
+      background-size: 400% 400% !important;
+      animation: gradientBG 12s ease infinite !important;
+      color: #ffffff !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  [data-theme="dark"] .card .card-header i,
+  body.dark-mode .card .card-header i {
+      color: #ffffff;
+  }
+
+  /* Body dos cards */
+  [data-theme="dark"] .card .card-body,
+  body.dark-mode .card .card-body {
+      background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.05) 100%);
+      color: #ffffff;
+  }
+
+  /* Cards específicos do dashboard */
+  [data-theme="dark"] .reembolso-dashboard-card,
+  body.dark-mode .reembolso-dashboard-card {
+      background-color: #3d3450;
+      border-color: #3d3450;
+  }
+
+  [data-theme="dark"] .reembolso-dashboard-card .card-title,
+  body.dark-mode .reembolso-dashboard-card .card-title {
+      color: #b8b5c0;
+  }
+
+  [data-theme="dark"] .reembolso-stats-value,
+  body.dark-mode .reembolso-stats-value {
+      color: #ffffff;
+      font-weight: 600;
+  }
+
+  /* Formulários de filtro */
+  [data-theme="dark"] .reembolso-filter-form,
+  body.dark-mode .reembolso-filter-form {
+      background-color: #2d2438;
+      border-color: #3d3450;
+  }
+
+  [data-theme="dark"] .reembolso-filter-form label,
+  body.dark-mode .reembolso-filter-form label {
+      color: #b8b5c0;
+  }
+
+  [data-theme="dark"] .reembolso-filter-form .form-control,
+  [data-theme="dark"] .reembolso-filter-form .form-select,
+  body.dark-mode .reembolso-filter-form .form-control,
+  body.dark-mode .reembolso-filter-form .form-select {
+      background-color: #3d3450;
+      border-color: #3d3450;
+      color: #ffffff;
+  }
+
+  [data-theme="dark"] .reembolso-filter-form .form-control:focus,
+  [data-theme="dark"] .reembolso-filter-form .form-select:focus,
+  body.dark-mode .reembolso-filter-form .form-control:focus,
+  body.dark-mode .reembolso-filter-form .form-select:focus {
+      border-color: #70f611;
+      box-shadow: 0 0 0 2px rgba(112, 246, 17, 0.25);
+      background-color: #3d3450;
+  }
+
+  [data-theme="dark"] .reembolso-filter-form .form-control::placeholder,
+  body.dark-mode .reembolso-filter-form .form-control::placeholder {
+      color: #8a85a0;
+  }
+
+  /* Tabelas */
+  [data-theme="dark"] .reembolso-table-wrapper,
+  body.dark-mode .reembolso-table-wrapper {
+      border-color: #3d3450;
+  }
+
+  [data-theme="dark"] .reembolso-table,
+  body.dark-mode .reembolso-table {
+      background-color: #2d2438;
+      border-color: #3d3450;
+  }
+
+  /* Headers das tabelas */
+  [data-theme="dark"] .reembolso-table thead th,
+  [data-theme="dark"] .table thead th,
+  body.dark-mode .reembolso-table thead th,
+  body.dark-mode .table thead th {
+      background: linear-gradient(to right, rgba(112, 246, 17, 0.15), rgba(110, 66, 193, 0.15));
+      color: #ffffff;
+      border-bottom-color: #70f611;
+  }
+
+  /* Corpo das tabelas */
+  [data-theme="dark"] .reembolso-table tbody tr,
+  body.dark-mode .reembolso-table tbody tr {
+      border-bottom-color: #3d3450;
+  }
+
+  [data-theme="dark"] .reembolso-table tbody tr:nth-of-type(odd),
+  body.dark-mode .reembolso-table tbody tr:nth-of-type(odd) {
+      background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  [data-theme="dark"] .reembolso-table tbody tr:hover,
+  [data-theme="dark"] .table tbody tr:hover,
+  body.dark-mode .reembolso-table tbody tr:hover,
+  body.dark-mode .table tbody tr:hover {
+      background-color: rgba(112, 246, 17, 0.1);
+  }
+
+  [data-theme="dark"] .reembolso-table tbody td,
+  [data-theme="dark"] .table tbody td,
+  body.dark-mode .reembolso-table tbody td,
+  body.dark-mode .table tbody td {
+      color: #b8b5c0;
+      border-bottom-color: #3d3450;
+  }
+
+  /* Botões nas tabelas */
+  [data-theme="dark"] .reembolso-table td .btn,
+  body.dark-mode .reembolso-table td .btn {
+      border-color: #3d3450;
+  }
+
+  [data-theme="dark"] .reembolso-register-form .btn-success,
+  body.dark-mode .reembolso-register-form .btn-success {
+      background-color: #28a745;
+      border-color: #28a745;
+      color: #ffffff;
+  }
+
+  [data-theme="dark"] .reembolso-register-form .btn-success:hover,
+  body.dark-mode .reembolso-register-form .btn-success:hover {
+      background-color: #218838;
+      border-color: #218838;
+  }
+
+  [data-theme="dark"] .reembolso-revert-form .btn-warning,
+  body.dark-mode .reembolso-revert-form .btn-warning {
+      background-color: #ffc107;
+      border-color: #ffc107;
+      color: #1a1625;
+  }
+
+  [data-theme="dark"] .reembolso-revert-form .btn-warning:hover,
+  body.dark-mode .reembolso-revert-form .btn-warning:hover {
+      background-color: #e0a800;
+      border-color: #e0a800;
+  }
+
+  /* Linhas de carregamento */
+  [data-theme="dark"] #reembolso-register-loading td,
+  [data-theme="dark"] #reembolso-revert-loading td,
+  [data-theme="dark"] #reembolso-recent-loading td,
+  body.dark-mode #reembolso-register-loading td,
+  body.dark-mode #reembolso-revert-loading td,
+  body.dark-mode #reembolso-recent-loading td {
+      color: #8a85a0;
+  }
+
+  /* Paginação */
+  [data-theme="dark"] .reembolso-pagination,
+  body.dark-mode .reembolso-pagination {
+      color: #b8b5c0;
+  }
+
+  [data-theme="dark"] .reembolso-pagination .btn,
+  body.dark-mode .reembolso-pagination .btn {
+      background-color: #3d3450;
+      border-color: #3d3450;
+      color: #ffffff;
+  }
+
+  [data-theme="dark"] .reembolso-pagination .btn:hover:not(:disabled),
+  body.dark-mode .reembolso-pagination .btn:hover:not(:disabled) {
+      background-color: rgba(112, 246, 17, 0.1);
+      border-color: #70f611;
+  }
+
+  [data-theme="dark"] .reembolso-pagination .btn:disabled,
+  body.dark-mode .reembolso-pagination .btn:disabled {
+      opacity: 0.4;
+      color: #8a85a0;
+  }
+
+  /* Alertas e mensagens */
+  [data-theme="dark"] .reembolso-messages .alert,
+  body.dark-mode .reembolso-messages .alert {
+      background-color: #3d3450;
+      border-color: #3d3450;
+      color: #ffffff;
+  }
+
+  [data-theme="dark"] .reembolso-messages .alert-success,
+  body.dark-mode .reembolso-messages .alert-success {
+      background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(40, 167, 69, 0.05));
+      border-color: rgba(40, 167, 69, 0.3);
+      color: #28a745;
+  }
+
+  [data-theme="dark"] .reembolso-messages .alert-danger,
+  body.dark-mode .reembolso-messages .alert-danger {
+      background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(220, 53, 69, 0.05));
+      border-color: rgba(220, 53, 69, 0.3);
+      color: #dc3545;
+  }
+
+  [data-theme="dark"] .reembolso-messages .alert-warning,
+  body.dark-mode .reembolso-messages .alert-warning {
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 193, 7, 0.05));
+      border-color: rgba(255, 193, 7, 0.3);
+      color: #ffc107;
+  }
+
+  [data-theme="dark"] .reembolso-messages .alert-info,
+  body.dark-mode .reembolso-messages .alert-info {
+      background: linear-gradient(135deg, rgba(23, 162, 184, 0.15), rgba(23, 162, 184, 0.05));
+      border-color: rgba(23, 162, 184, 0.3);
+      color: #17a2b8;
+  }
+
+  /* Toast notifications */
+  [data-theme="dark"] #toast-container-fixed .alert,
+  body.dark-mode #toast-container-fixed .alert {
+      background-color: #3d3450;
+      border-color: #3d3450;
+      color: #ffffff;
+  }
+
+  [data-theme="dark"] #toast-container-fixed .alert-success,
+  body.dark-mode #toast-container-fixed .alert-success {
+      background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(40, 167, 69, 0.05));
+      border-color: rgba(40, 167, 69, 0.3);
+      color: #28a745;
+  }
+
+  [data-theme="dark"] #toast-container-fixed .alert-danger,
+  body.dark-mode #toast-container-fixed .alert-danger {
+      background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(220, 53, 69, 0.05));
+      border-color: rgba(220, 53, 69, 0.3);
+      color: #dc3545;
+  }
+
+  [data-theme="dark"] #toast-container-fixed .alert-warning,
+  body.dark-mode #toast-container-fixed .alert-warning {
+      background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 193, 7, 0.05));
+      border-color: rgba(255, 193, 7, 0.3);
+      color: #ffc107;
+  }
+
+  [data-theme="dark"] #toast-container-fixed .alert-info,
+  body.dark-mode #toast-container-fixed .alert-info {
+      background: linear-gradient(135deg, rgba(23, 162, 184, 0.15), rgba(23, 162, 184, 0.05));
+      border-color: rgba(23, 162, 184, 0.3);
+      color: #17a2b8;
+  }
+
+  /* Texto pequeno */
+  [data-theme="dark"] .text-muted,
+  body.dark-mode .text-muted {
+      color: #8a85a0 !important;
+  }
+
+  /* Separadores */
+  [data-theme="dark"] hr,
+  body.dark-mode hr {
+      border-color: #3d3450;
+  }
+
+  /* Animações e transições */
+  [data-theme="dark"] .card,
+  [data-theme="dark"] .form-control,
+  [data-theme="dark"] .form-select,
+  [data-theme="dark"] .btn,
+  body.dark-mode .card,
+  body.dark-mode .form-control,
+  body.dark-mode .form-select,
+  body.dark-mode .btn {
+      transition: all 0.3s ease;
+  }
+
+  /* Responsividade no dark mode */
+  @media (max-width: 767px) {
+      [data-theme="dark"] .card .card-body,
+      body.dark-mode .card .card-body {
+          background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.03) 100%);
+      }
+      
+      [data-theme="dark"] .reembolso-filter-form,
+      body.dark-mode .reembolso-filter-form {
+          background-color: #2d2438;
+          border-color: #3d3450;
+      }
+  }
+
+  /* Scroll customizado para dark mode */
+  [data-theme="dark"] ::-webkit-scrollbar,
+  body.dark-mode ::-webkit-scrollbar {
+      width: 8px;
+  }
+
+  [data-theme="dark"] ::-webkit-scrollbar-track,
+  body.dark-mode ::-webkit-scrollbar-track {
+      background: #3d3450;
+  }
+
+  [data-theme="dark"] ::-webkit-scrollbar-thumb,
+  body.dark-mode ::-webkit-scrollbar-thumb {
+      background: #6e42c1;
+      border-radius: 4px;
+  }
+
+  [data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+  body.dark-mode ::-webkit-scrollbar-thumb:hover {
+      background: #8659d4;
+  }
+
+  /* ============================ */
+  /* 🔧 CORREÇÕES ESPECÍFICAS     */
+  /* ============================ */
+
+  /* Garantir que o main tenha o fundo correto */
+  [data-theme="dark"] main,
+  body.dark-mode main {
+      background-color: #1a1625 !important;
+  }
+
+  /* Garantir que os valores sejam visíveis */
+  [data-theme="dark"] .value,
+  body.dark-mode .value {
+      color: #ffffff !important;
+      font-weight: 600;
+  }
+
+  /* Garantir que os títulos sejam visíveis */
+  [data-theme="dark"] .title,
+  body.dark-mode .title {
+      color: #b8b5c0 !important;
+  }
+
+  /* Garantir que os selects sejam visíveis */
+  [data-theme="dark"] .form-select,
+  body.dark-mode .form-select {
+      background-color: #2d2438 !important;
+      color: #ffffff !important;
+      border-color: #3d3450 !important;
+  }
+
+  /* Garantir que os labels sejam visíveis */
+  [data-theme="dark"] .form-label,
+  body.dark-mode .form-label {
+      color: #b8b5c0 !important;
+  }
+
+  /* Garantir que o texto pequeno seja visível */
+  [data-theme="dark"] small,
+  body.dark-mode small {
+      color: #8a85a0 !important;
+  }
+
+  /* Garantir que os ícones tenham cores adequadas */
+  [data-theme="dark"] .icon i,
+  body.dark-mode .icon i {
+      color: inherit !important;
+  }
+
+  /* Garantir que os ícones de funcionários tenham cores adequadas */
+  [data-theme="dark"] .icon-container i,
+  body.dark-mode .icon-container i {
+      color: #8659d4 !important;
+  }
+
+  /* Garantir que as tabelas tenham cores adequadas */
+  [data-theme="dark"] .table-light,
+  body.dark-mode .table-light {
+      background-color: #2d2438 !important;
+      color: #ffffff !important;
+  }
+
+  [data-theme="dark"] .table-light th,
+  body.dark-mode .table-light th {
+      background-color: rgba(112, 246, 17, 0.15) !important;
+      color: #ffffff !important;
+      border-bottom-color: #70f611 !important;
+  }
+
+  [data-theme="dark"] .table-light td,
+  body.dark-mode .table-light td {
+      color: #b8b5c0 !important;
+      border-bottom-color: #3d3450 !important;
+  }
+
+  /* Garantir que os botões de fechar alertas sejam visíveis */
+  [data-theme="dark"] .btn-close,
+  body.dark-mode .btn-close {
+      filter: invert(1) brightness(0.8);
+  }
+
+  [data-theme="dark"] .btn-close:hover,
+  body.dark-mode .btn-close:hover {
+      filter: invert(1) brightness(1);
+  }

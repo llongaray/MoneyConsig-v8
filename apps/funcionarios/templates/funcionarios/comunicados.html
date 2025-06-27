@@ -1,0 +1,205 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Comunicados - Visualização<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+  {# Boxicons for icons used in the form #}
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  {# CSS específico para esta página #}
+  <link rel="stylesheet" href="{% static 'funcionarios/css/comunicados.css' %}">
+  <style>
+    /* Estilos específicos para a página de comunicados */
+    .dashboard-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .dashboard-card i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #0d6efd;
+    }
+
+    .dashboard-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #212529;
+    }
+
+    .dashboard-card p {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #0d6efd;
+      margin: 0;
+    }
+
+    .comunicados-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .comunicado-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .comunicado-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .comunicado-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .comunicado-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #212529;
+    }
+
+    .comunicado-date {
+      color: #6c757d;
+      font-size: 0.875rem;
+    }
+
+    .comunicado-content {
+      color: #495057;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .comunicado-files {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #dee2e6;
+    }
+
+    .comunicado-files a {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: #f8f9fa;
+      border-radius: 5px;
+      color: #0d6efd;
+      text-decoration: none;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .comunicado-files a:hover {
+      background: #e9ecef;
+    }
+
+    .comunicado-files i {
+      margin-right: 0.5rem;
+    }
+
+    .comunicados-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .comunicados-tab {
+      padding: 0.75rem 1.5rem;
+      background: #f8f9fa;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .comunicados-tab.active {
+      background: #0d6efd;
+      color: white;
+    }
+
+    .comunicados-tab:hover:not(.active) {
+      background: #e9ecef;
+    }
+
+    .comunicados-content {
+      display: none;
+    }
+
+    .comunicados-content.active {
+      display: block;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h1 class="titulo-pagina mb-4"><i class='bx bx-message-square-detail me-2'></i>Comunicados</h1>
+
+  <!-- Mini Dashboard -->
+  <div class="dashboard-cards">
+    <div class="dashboard-card">
+      <i class='bx bx-message-square-dots'></i>
+      <h3>Total de Comunicados</h3>
+      <p id="total-comunicados">0</p>
+    </div>
+    <div class="dashboard-card">
+      <i class='bx bx-message-square-check'></i>
+      <h3>Comunicados Lidos</h3>
+      <p id="comunicados-lidos">0</p>
+    </div>
+    <div class="dashboard-card">
+      <i class='bx bx-message-square-x'></i>
+      <h3>Comunicados Não Lidos</h3>
+      <p id="comunicados-nao-lidos">0</p>
+    </div>
+  </div>
+
+  <!-- Tabs de Comunicados -->
+  <div class="comunicados-tabs">
+    <div class="comunicados-tab active" data-tab="nao-lidos">
+      <i class='bx bx-message-square-x me-2'></i>Não Lidos
+    </div>
+    <div class="comunicados-tab" data-tab="lidos">
+      <i class='bx bx-message-square-check me-2'></i>Lidos
+    </div>
+  </div>
+
+  <!-- Conteúdo dos Comunicados -->
+  <div class="comunicados-container">
+    <div id="comunicados-nao-lidos" class="comunicados-content active">
+      <!-- Comunicados não lidos serão inseridos aqui via JavaScript -->
+    </div>
+    <div id="comunicados-lidos" class="comunicados-content">
+      <!-- Comunicados lidos serão inseridos aqui via JavaScript -->
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+  {# jQuery já está incluído no base-plus.html #}
+  <script src="{% static 'funcionarios/js/comunicados_pagina.js' %}"></script>
+{% endblock %} 

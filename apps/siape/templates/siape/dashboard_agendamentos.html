@@ -1,0 +1,333 @@
+{% extends "base-plus.html" %}
+{% load static %}
+{% load custom_tags %}
+{% load permissionsacess %}
+
+{% block title %}Dashboard de Agendamentos - SIAPE{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'css/cards.css' %}">
+<link rel="stylesheet" href="{% static 'css/celebration.css' %}">
+<link rel="stylesheet" href="{% static 'siape/css/dashboard_agendamentos.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/date-fns@2.28.0/index.min.js"></script>
+{% endblock %}
+
+{% block header_title %}
+Dashboard de Agendamentos - SIAPE
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-agendamentos">
+    <!-- Header Principal -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-2">
+                        <i class="fas fa-calendar-check me-3"></i>
+                        Dashboard de Agendamentos
+                    </h1>
+                    <p class="mb-0 opacity-90">
+                        Acompanhamento completo e análise detalhada dos agendamentos de clientes SIAPE
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div id="periodo-info" class="h4 mb-1 fw-bold"></div>
+                    <div class="opacity-75">Período analisado</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <!-- Filtros do Dashboard -->
+        <div class="filters-panel bg-primary text-white rounded p-3 mb-4">
+            <h5 class="mb-3 text-white">
+                <i class="fas fa-chart-bar me-2"></i>
+                Filtros do Dashboard (Estatísticas e Gráficos)
+            </h5>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label class="text-white">Data Início</label>
+                    <input type="date" id="dashboard-data-inicio" class="form-control">
+                </div>
+                <div class="filter-group">
+                    <label class="text-white">Data Fim</label>
+                    <input type="date" id="dashboard-data-fim" class="form-control">
+                </div>
+                <div class="filter-group">
+                    <label class="text-white">Funcionário</label>
+                    <select id="dashboard-funcionario-filtro" class="form-select">
+                        <option value="">Todos os funcionários</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="text-white">Status</label>
+                    <select id="dashboard-status-filtro" class="form-select">
+                        <option value="">Todos os status</option>
+                        <option value="SEM_RESPOSTA">Sem Resposta</option>
+                        <option value="EM_NEGOCIACAO">Em Negociação</option>
+                        <option value="REVERSAO">Reversão</option>
+                        <option value="REVERTIDO">Revertido</option>
+                        <option value="DESISTIU">Desistiu</option>
+                        <option value="CHECAGEM">Checagem</option>
+                        <option value="CHECAGEM_OK">Checagem OK</option>
+                        <option value="ALTO_RISCO">Alto Risco</option>
+                        <option value="CONCLUIDO_PG">Concluído PG</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button id="aplicar-filtros-dashboard" class="btn btn-light">
+                    <i class="fas fa-chart-line me-2"></i>Atualizar Dashboard
+                </button>
+                <button id="limpar-filtros-dashboard" class="btn btn-outline-light">
+                    <i class="fas fa-times me-2"></i>Limpar
+                </button>
+            </div>
+        </div>
+
+        <!-- Cards de Estatísticas -->
+        <div class="stats-grid">
+            <div class="stat-card total-tabulados">
+                <div class="stat-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div class="stat-number" id="total-tabulados">0</div>
+                <div class="stat-label">Total Tabulados</div>
+            </div>
+            <div class="stat-card tabulados-hoje">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="stat-number" id="tabulados-hoje">0</div>
+                <div class="stat-label">Tabulados Hoje</div>
+            </div>
+            <div class="stat-card percentual-conversao">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-number" id="percentual-conversao">0%</div>
+                <div class="stat-label">% Concluído PG</div>
+            </div>
+            <div class="stat-card total-concluidos-pg">
+                <div class="stat-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="stat-number" id="total-concluidos-pg">0</div>
+                <div class="stat-label">Concluídos PG</div>
+            </div>
+        </div>
+
+        <!-- Seção de Gráficos -->
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-chart-pie"></i>
+                        Distribuição por Status
+                    </div>
+                    <div style="height: 350px; position: relative;">
+                        <canvas id="chart-status"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-chart-line"></i>
+                        Timeline Tabulações (30 Dias)
+                    </div>
+                    <div style="height: 350px; position: relative;">
+                        <canvas id="chart-timeline"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-user-friends"></i>
+                        Top 10 Funcionários (Tabulações)
+                    </div>
+                    <div style="height: 350px; position: relative;">
+                        <canvas id="chart-funcionarios"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-clock"></i>
+                        Horários Mais Tabulados
+                    </div>
+                    <div style="height: 350px; position: relative;">
+                        <canvas id="chart-horarios"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros da Tabela de Agendamentos -->
+        <div class="filters-panel bg-light rounded p-3 mb-4">
+            <h5 class="mb-3">
+                <i class="fas fa-filter me-2"></i>
+                Filtros da Tabela de Agendamentos
+            </h5>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>Data Início</label>
+                    <input type="date" id="tabela-data-inicio" class="form-control">
+                </div>
+                <div class="filter-group">
+                    <label>Data Fim</label>
+                    <input type="date" id="tabela-data-fim" class="form-control">
+                </div>
+                <div class="filter-group">
+                    <label>Funcionário</label>
+                    <select id="tabela-funcionario-filtro" class="form-select">
+                        <option value="">Todos os funcionários</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="tabela-status-filtro" class="form-select">
+                        <option value="">Todos os status</option>
+                        <option value="SEM_RESPOSTA">Sem Resposta</option>
+                        <option value="EM_NEGOCIACAO">Em Negociação</option>
+                        <option value="REVERSAO">Reversão</option>
+                        <option value="REVERTIDO">Revertido</option>
+                        <option value="DESISTIU">Desistiu</option>
+                        <option value="CHECAGEM">Checagem</option>
+                        <option value="CHECAGEM_OK">Checagem OK</option>
+                        <option value="ALTO_RISCO">Alto Risco</option>
+                        <option value="CONCLUIDO_PG">Concluído PG</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>Equipe</label>
+                    <select id="tabela-equipe-filtro" class="form-select">
+                        <option value="">Todas as equipes</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Setor</label>
+                    <select id="tabela-setor-filtro" class="form-select">
+                        <option value="">Todos os setores</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Cliente (Nome)</label>
+                    <input type="text" id="tabela-cliente-nome-filtro" class="form-control" placeholder="Nome do cliente">
+                </div>
+                <div class="filter-group">
+                    <label>CPF do Cliente</label>
+                    <input type="text" id="tabela-cliente-cpf-filtro" class="form-control" placeholder="000.000.000-00">
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button id="aplicar-filtros-tabela" class="btn btn-primary">
+                    <i class="fas fa-search me-2"></i>Aplicar Filtros
+                </button>
+                <button id="exportar-dados" class="btn btn-success">
+                    <i class="fas fa-download me-2"></i>Exportar Excel
+                </button>
+                <button id="refresh-data" class="btn btn-outline-secondary">
+                    <i class="fas fa-sync-alt me-2"></i>Atualizar
+                </button>
+                <button id="limpar-filtros-tabela" class="btn btn-outline-warning">
+                    <i class="fas fa-eraser me-2"></i>Limpar Filtros
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabela de Agendamentos -->
+        <div class="table-container">
+            <div class="table-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-list me-2"></i>
+                        Lista Detalhada de Agendamentos
+                    </div>
+                    <div class="pagination-info" id="info-paginacao">
+                        Carregando...
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table" id="tabela-agendamentos">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-calendar me-1"></i>Data/Hora</th>
+                            <th><i class="fas fa-user me-1"></i>Cliente</th>
+                            <th><i class="fas fa-id-card me-1"></i>CPF</th>
+                            <th><i class="fas fa-user-tie me-1"></i>Funcionário</th>
+                            <th><i class="fas fa-users me-1"></i>Equipe</th>
+                            <th><i class="fas fa-building me-1"></i>Setor</th>
+                            <th><i class="fas fa-flag me-1"></i>Status</th>
+                            <th><i class="fas fa-dollar-sign me-1"></i>Renda Bruta</th>
+                            <th><i class="fas fa-wallet me-1"></i>Saldo Total</th>
+                            <th><i class="fas fa-comment me-1"></i>Observação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-agendamentos-body">
+                        <tr>
+                            <td colspan="10" class="text-center py-5">
+                                <div class="loading-spinner mx-auto mb-3"></div>
+                                <div class="text-muted">Carregando dados dos agendamentos...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Informações da tabela -->
+            <div class="d-flex justify-content-center align-items-center p-3 border-top">
+                <div class="pagination-info">
+                    <small class="text-muted" id="pagination-info-text">
+                        Carregando informações...
+                    </small>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<!-- Modal de Detalhes do Agendamento -->
+<div class="modal fade" id="modal-detalhes-agendamento" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalLabel">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Detalhes do Agendamento
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body" id="modal-agendamento-content">
+                <div class="text-center">
+                    <div class="loading-spinner mx-auto mb-3"></div>
+                    <div class="text-muted">Carregando detalhes...</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="{% static 'siape/js/dashboard_agendamentos.js' %}"></script>
+{% endblock %} 

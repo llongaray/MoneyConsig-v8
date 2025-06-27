@@ -1,0 +1,400 @@
+/* ============================
+   ESTILOS GERAIS
+============================ */
+@import url('colors.css');
+
+/* ============================
+   CONTAINER PRINCIPAL
+============================ */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    min-height: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    background-color: var(--cor-branco);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    border: 1px solid var(--cor-cinza-claro);
+    margin: 40px 0 80px;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* ============================
+   BOTÕES DE MODAIS
+============================ */
+.options_modais {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 32%;
+}
+
+/* ============================
+   BOTÃO PADRÃO - PRIMARY
+============================ */
+.btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 13px 20px 13px 8px;
+    background-color: var(--cor-branco);
+    color: var(--cor-preto);
+    border-bottom: 1px solid var(--cor-cinza-claro);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--cor-branco-100);
+}
+
+/* ============================
+   FORMULÁRIOS
+============================ */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+form label {
+    font-weight: bold;
+    margin-bottom: 3px;
+    font-size: 14px;
+    color: var(--cor-cinza);
+}
+
+form input,
+form select,
+form textarea {
+    width: 75%;
+    padding: 8px;
+    font-size: 14px;
+    color: var(--cor-cinza);
+    background-color: var(--cor-branco-100);
+    border: 1px solid var(--cor-cinza-claro);
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: var(--azul-escuro-500);
+    box-shadow: 0 0 4px rgba(54, 143, 251, 0.4);
+}
+
+/* ============================
+   BOTÃO SUBMIT DO FORM
+============================ */
+form .btn-primary {
+    padding: 10px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--azul-escuro-500);
+    color: var(--cor-branco);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form .btn-primary:hover {
+    background-color: var(--azul-escuro-400);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+/* ============================
+   MENSAGENS DE ERRO
+============================ */
+form .errorlist {
+    color: red;
+    font-size: 12px;
+    margin-top: -5px;
+}
+
+/* ============================
+   CAMPOS OBRIGATÓRIOS
+============================ */
+form .required::after {
+    content: "*";
+    color: red;
+    margin-left: 5px;
+}
+
+/* ============================
+   CHECKBOX & RADIO CUSTOM
+============================ */
+form input[type="checkbox"],
+form input[type="radio"] {
+    accent-color: var(--azul-escuro-500);
+}
+
+/* ============================
+   TOOLTIP EM BOTÕES
+============================ */
+form button:hover::after {
+    content: attr(data-tooltip); /* Suporte a conteúdo dinâmico se usar */
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 10px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    transform: translateY(8px);
+    white-space: nowrap;
+    z-index: 1000;
+}
+
+/* ============================
+   MARGEM ENTRE CAMPOS E BOTÕES
+============================ */
+form button {
+    margin-top: 15px;
+    align-self: flex-start;
+}
+
+/* ============================
+   TABELAS NOS MODAIS
+============================ */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    font-size: 14px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: var(--azul-escuro-500);
+    color: var(--cor-branco);
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid var(--cor-branco-200);
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+tbody tr {
+    background-color: var(--cor-branco);
+}
+
+tbody tr:hover {
+    background-color: var(--azul-escuro-200);
+}
+
+/* ============================
+   BOTÃO DE EXCLUSÃO
+============================ */
+.delete-btn {
+    background: none;
+    border: none;
+    color: var(--azul-escuro-500);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    color: var(--azul-escuro-400);
+}
+
+/* ============================
+   LINKS
+============================ */
+a {
+    color: var(--azul-escuro-600);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ============================
+   MODO ESCURO - GLOBAL
+============================ */
+main.darkmode {
+    background-color: var(--dark-background-fundo);
+    color: var(--dark-text-color);
+}
+
+/* ============================
+   MODAL & BOTÕES LATERAIS
+============================ */
+main.darkmode .options_modais {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background-color: var(--dark-modal-background);
+    width: 32%;
+}
+
+main.darkmode .options_modais .btn {
+    background-color: var(--dark-modal-background);
+    color: var(--cor-branco);
+    border: none;
+    padding: 13px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+main.darkmode .options_modais .btn:hover {
+    background-color: var(--cor-branco-400);
+}
+
+main.darkmode .options_modais .btn-active {
+    background-color: var(--cor-branco-600);
+    color: var(--cor-branco);
+}
+
+/* ============================
+   BOTÃO DE ENVIO
+============================ */
+main.darkmode .btn-submit {
+    background-color: var(--cor-branco-600);
+    color: var(--cor-branco);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+main.darkmode .btn-submit:hover {
+    background-color: var(--cor-branco-500);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================
+   MODAL & TABELAS INTERNAS
+============================ */
+main.darkmode .modal,
+main.darkmode .modal-body {
+    background-color: var(--dark-modal-background);
+}
+
+main.darkmode .modal-body .table {
+    background-color: var(--dark-background-fundo);
+}
+
+main.darkmode .modal-body .table th {
+    background-color: var(--cor-branco-600);
+    color: var(--cor-branco);
+}
+
+main.darkmode .modal-body .table tbody tr {
+    background-color: var(--dark-container-background);
+}
+
+main.darkmode .modal-body .table tbody tr:hover {
+    background-color: var(--azul-escuro-300);
+}
+
+/* ============================
+   LINKS NO MODO ESCURO
+============================ */
+main.darkmode a {
+    color: var(--cor-branco);
+}
+
+main.darkmode a:hover {
+    text-decoration: underline;
+}
+
+/* ============================
+   INPUTS & SELECTS
+============================ */
+main.darkmode .form-control,
+main.darkmode select {
+    background-color: var(--dark-modal-background);
+    color: var(--dark-text-color);
+    border: 1px solid var(--dark-border-color);
+}
+
+main.darkmode .form-control:focus,
+main.darkmode select:focus {
+    border-color: var(--azul-escuro-500);
+    box-shadow: 0 0 4px rgba(54, 143, 251, 0.4);
+}
+/* ============================
+   LISTA DE CARGOS - GERAL
+============================ */
+#listaCargos {
+    margin-top: 15px;
+    padding: 0;
+    width: 100%;
+}
+
+#listaCargos .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background-color: var(--cor-branco-50);
+    border: 1px solid var(--cor-cinza-claro);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+#listaCargos .list-group-item:hover {
+    background-color: var(--cor-branco-100);
+    transform: translateX(5px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#listaCargos .list-group-item span {
+    font-size: 14px;
+    color: var(--cor-cinza);
+}
+
+/* Botão de exclusão */
+#listaCargos .btn-danger {
+    padding: 6px 10px;
+    background-color: transparent;
+    border: none;
+    color: var(--cor-cinza);
+    transition: all 0.3s ease;
+}
+
+#listaCargos .btn-danger:hover {
+    color: var(--vermelho-500);
+    transform: scale(1.1);
+}
+
+#listaCargos .fa-trash {
+    font-size: 16px;
+}
+
+/* ============================
+   LISTA DE CARGOS - MODO ESCURO
+============================ */
+main.darkmode #listaCargos .list-group-item {
+    background-color: var(--dark-container-background);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-color);
+}
+
+main.darkmode #listaCargos .list-group-item:hover {
+    background-color: var(--dark-modal-background);
+}
+
+main.darkmode #listaCargos .btn-danger {
+    color: var(--cor-branco-300);
+}
+
+main.darkmode #listaCargos .btn-danger:hover {
+    color: var(--vermelho-400);
+}

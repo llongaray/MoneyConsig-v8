@@ -1,0 +1,303 @@
+/* ==========================================
+   CSS para a página de Alertas TI
+   Baseado no estilo de formscomunicados.css
+   Foco: Verde e Azul, com ênfase no Verde
+   ========================================== */
+
+/* ---------- Variáveis de Cores e Sombreamentos ---------- */
+:root {
+    --color-primary-dark: #142650; /* Azul escuro */
+    --color-secondary: #70f611; /* Verde */
+    --color-tertiary: #0bd5f0; /* Azul claro (ciano) */
+    --color-accent: #b4874c; /* Tom terroso */
+    --color-white: #fff;
+    --color-gray: #ddd;
+    --color-light-gray: #f0f0f0;
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-danger: #dc3545;
+    --color-success: #198754;
+
+    --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-card-hover: 0 6px 18px rgba(112, 246, 17, 0.15);
+
+    --gradient-primary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary-dark) 100%);
+    --gradient-secondary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+    --gradient-card-header: linear-gradient(-45deg, var(--color-secondary), #5cb85c, var(--color-primary-dark), var(--color-secondary));
+    --gradient-animation: gradientBG 12s ease infinite;
+}
+
+/* ==========================================
+   Estilos Gerais da Página
+   ========================================== */
+.alert-ti-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--color-white);
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.alert-ti-container:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-card-hover);
+}
+
+.alert-ti-container h2 {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--color-secondary);
+    display: inline-block;
+}
+
+.alert-ti-container h2 i {
+    color: var(--color-secondary);
+    margin-right: 0.5rem;
+}
+
+/* ==========================================
+   Estilos do Formulário
+   ========================================== */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.form-group label i {
+    margin-right: 0.5rem;
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+}
+
+.form-group textarea,
+.form-group select,
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: var(--color-white);
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-group textarea:focus,
+.form-group select:focus,
+.form-group input[type="file"]:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+    outline: none;
+}
+
+/* ==========================================
+   Estilos do Seletor de Destinatários
+   ========================================== */
+.destinatarios-selector {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.destinatarios-selector select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    background-color: var(--color-white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.5rem;
+    padding-right: 3rem;
+}
+
+.destinatarios-selector select:hover {
+    border-color: var(--color-secondary);
+}
+
+.destinatarios-selector select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+}
+
+/* ==========================================
+   Estilos dos Checkboxes
+   ========================================== */
+.checkbox-container {
+    background: var(--color-white);
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    box-shadow: var(--box-shadow-light);
+    transition: all 0.3s ease;
+}
+
+.checkbox-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.form-check {
+    margin-bottom: 0.75rem;
+    padding-left: 2rem;
+    position: relative;
+}
+
+.form-check-input {
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid var(--color-gray);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+}
+
+.form-check-label {
+    font-size: 0.95rem;
+    color: var(--color-text-dark);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.form-check:hover .form-check-label {
+    color: var(--color-secondary);
+}
+
+/* ==========================================
+   Estilos do Botão de Envio
+   ========================================== */
+button[type="submit"] {
+    background: var(--gradient-secondary-green);
+    background-size: 300% 300%;
+    animation: gradientBGButton 10s ease infinite;
+    border: none;
+    border-radius: 8px;
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    width: 100%;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.15);
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(112, 246, 17, 0.25);
+}
+
+button[type="submit"]:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(112, 246, 17, 0.2);
+}
+
+/* ==========================================
+   Estilos de Loading e Erro
+   ========================================== */
+.loading-spinner {
+    display: none;
+    text-align: center;
+    padding: 1rem;
+}
+
+.loading-spinner i {
+    font-size: 2rem;
+    color: var(--color-secondary);
+    animation: spin 1s linear infinite;
+}
+
+.error-message {
+    display: none;
+    color: var(--color-danger);
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    border-radius: 4px;
+    background-color: rgba(220, 53, 69, 0.1);
+    font-weight: 500;
+}
+
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes gradientBGButton {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   Responsividade
+   ========================================== */
+@media (max-width: 768px) {
+    .alert-ti-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .checkbox-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group textarea,
+    .form-group select,
+    .form-group input[type="file"] {
+        font-size: 0.95rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    button[type="submit"] {
+        padding: 0.7rem 1.2rem;
+    }
+}

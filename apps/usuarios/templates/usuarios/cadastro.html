@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block addtitle %}<title>Cadastro de Usuário</title>{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'funcionarios/cadastro2.css' %}">
+<style>
+    /* Adicione isso ao seu arquivo CSS */
+    .message {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .message.info {
+        background-color: #2196F3; /* Azul */
+    }
+
+    .message.success {
+        background-color: #4CAF50; /* Verde */
+    }
+
+    .message.error {
+        background-color: #f44336; /* Vermelho */
+    }
+
+    .message.warning {
+        background-color: #ff9800; /* Laranja */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% if mensagem %}
+    <div class="message {{ mensagem|slice:':none' }}">
+        {{ mensagem }}
+    </div>
+{% endif %}
+<section class="container">
+
+    <form method="post">
+        <div class="container-basic">
+            <!-- Título do Formulário -->
+            <div class="box">
+                <h2>Cadastro de Usuário</h2>
+            </div>
+            <!-- Informações Básicas -->
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <label for="funcionario">Selecione um Funcionário:</label>
+            <select name="funcionario" id="funcionario">
+                <option value="">-- Nenhum --</option>
+                {% for funcionario in funcionarios %}
+                    <option value="{{ funcionario.id }}">{{ funcionario.nome }} {{ funcionario.sobrenome }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn btn-primary">Cadastrar Usuário</button>
+        </div>
+    </form>
+</section>
+
+{% endblock %}
+{% block addjs_extra %}
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="{% static 'inss/cadastro.js' %}"></script>
+{% endblock %}

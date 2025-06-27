@@ -1,0 +1,386 @@
+{% extends "base-plus.html" %}
+{% load static %}
+{% load permissionsacess %}
+
+{% block header_title %}
+Dashboard RH<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+{# Usar o CSS específico para este dashboard #}
+<link rel="stylesheet" href="{% static 'funcionarios/css/forms/dashboard.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-md-4" id="dashboard-container">
+
+  {# ========================================== #}
+  {#         SESSÃO: ADMINISTRAÇÃO RH         #}
+  {# ========================================== #}
+  {% has_access user "SS29" as can_sess_rh %}
+  {% if can_sess_rh %}
+    {% has_access user "SS42" as can_sess_rh_admin %}
+    {% if can_sess_rh_admin %}
+    <div class="dashboard-section" id="sessao-admin-rh">
+      <h2 class="section-title"><i class='bx bx-cog'></i> Administração RH</h2>
+  
+      <div class="category-block" id="categoria-rh-admin">
+        <div class="box rh-admin" id="box-rh-admin">
+          <div class="card" id="card-admin-empresas">
+            <span class="icon"><i class='bx bx-buildings'></i></span>
+            <span class="container-info">
+              <span class="title">Empresas Ativas</span>
+              <span class="value" id="valor-admin-empresas">0</span>
+            </span>
+          </div>
+          <div class="card" id="card-admin-lojas-sede">
+            <span class="icon"><i class='bx bx-building-house'></i></span>
+            <span class="container-info">
+              <span class="title">Lojas Ativas (Sede)</span>
+              <span class="value" id="valor-admin-lojas-sede">0</span>
+            </span>
+          </div>
+          <div class="card" id="card-admin-lojas-filial">
+            <span class="icon"><i class='bx bxs-building'></i></span>
+            <span class="container-info">
+              <span class="title">Lojas Ativas (Filiais)</span>
+              <span class="value" id="valor-admin-lojas-filial">0</span>
+            </span>
+          </div>
+          <div class="card" id="card-admin-lojas-franquia">
+            <span class="icon"><i class='bx bx-store-alt'></i></span>
+            <span class="container-info">
+              <span class="title">Lojas Ativas (Franquias)</span>
+              <span class="value" id="valor-admin-lojas-franquia">0</span>
+            </span>
+          </div>
+          <div class="card" id="card-admin-departamentos">
+            <span class="icon"><i class='bx bx-grid-alt'></i></span>
+            <span class="container-info">
+              <span class="title">Departamentos Ativos</span>
+              <span class="value" id="valor-admin-departamentos">0</span>
+            </span>
+          </div>
+          <div class="card" id="card-admin-setores">
+            <span class="icon"><i class='bx bx-columns'></i></span>
+            <span class="container-info">
+              <span class="title">Setores Ativos</span>
+              <span class="value" id="valor-admin-setores">0</span>
+            </span>
+          </div>
+          <div class="card" id="card-admin-cargos">
+            <span class="icon"><i class='bx bx-briefcase-alt-2'></i></span>
+            <span class="container-info">
+              <span class="title">Cargos Ativos</span>
+              <span class="value" id="valor-admin-cargos">0</span>
+            </span>
+          </div>
+          <div class="card" id="card-admin-equipes">
+            <span class="icon"><i class='bx bx-group'></i></span>
+            <span class="container-info">
+              <span class="title">Equipes Ativas</span>
+              <span class="value" id="valor-admin-equipes">0</span>
+            </span>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+    {% endif %}
+  {% endif %}
+  
+
+  {# ========================================== #}
+  {#         SESSÃO: FUNCIONÁRIOS             #}
+  {# ========================================== #}
+  {% has_access user "SS29" as can_sess_rh %}
+  {% if can_sess_rh %}
+    {% has_access user "SS43" as can_sess_rh_funcionarios_dashboard %}
+    {% if can_sess_rh_funcionarios_dashboard %}
+    <div class="dashboard-section" id="sessao-funcionarios">
+      <h2 class="section-title"><i class='bx bxs-user-detail'></i> Funcionários</h2>
+      <div class="category-block" id="categoria-rh-func">
+  
+        {# --- Sub-Sessão: Visão Geral (Funcionários) --- #}
+        {% has_access user "SSS45" as can_sub_func_visao_geral %}
+        {% if can_sub_func_visao_geral %}
+        <div class="dashboard-subsection" id="sessao-func-geral">
+          <h5 class="subsection-title">Visão Geral</h5>
+          <div class="box rh-func-geral" id="box-rh-func-geral">
+            <div class="card" id="card-rh-func-ativos">
+              <span class="icon"><i class='bx bx-user-check'></i></span>
+              <span class="container-info">
+                <span class="title">Funcionários Ativos</span>
+                <span class="value" id="valor-rh-func-ativos">0</span>
+              </span>
+            </div>
+            <div class="card" id="card-rh-func-inativos">
+              <span class="icon"><i class='bx bx-user-minus'></i></span>
+              <span class="container-info">
+                <span class="title">Funcionários Inativos</span>
+                <span class="value" id="valor-rh-func-inativos">0</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+  
+        {# --- Sub-Sessão: Distribuição por Empresa --- #}
+        {% has_access user "SSS46" as can_sub_func_empresa %}
+        {% if can_sub_func_empresa %}
+        <div class="dashboard-subsection" id="sessao-func-empresa">
+          <h5 class="subsection-title">Distribuição por Empresa</h5>
+          <div class="card tabela" id="card-func-por-empresa">
+            <div class="header"><i class='bx bx-building'></i><span>Ativos por Empresa</span></div>
+            <div class="table-container">
+              <table class="table" id="table-func-por-empresa">
+                <thead><tr><th>Empresa</th><th>Qtd Ativos</th></tr></thead>
+                <tbody id="tbody-func-por-empresa">
+                  <tr><td colspan="2" class="text-center">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+  
+        {# --- Sub-Sessão: Distribuição por Loja --- #}
+        {% has_access user "SSS47" as can_sub_func_loja %}
+        {% if can_sub_func_loja %}
+        <div class="dashboard-subsection" id="sessao-func-loja">
+          <h5 class="subsection-title">Distribuição por Loja</h5>
+          <div class="card tabela" id="card-func-por-loja">
+            <div class="header"><i class='bx bx-store'></i><span>Ativos por Loja</span></div>
+            <div class="table-container">
+              <table class="table" id="table-func-por-loja">
+                <thead><tr><th>Loja</th><th>Qtd Ativos</th></tr></thead>
+                <tbody id="tbody-func-por-loja">
+                  <tr><td colspan="2" class="text-center">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+  
+        {# --- Sub-Sessão: Distribuição por Departamento --- #}
+        {% has_access user "SSS48" as can_sub_func_departamento %}
+        {% if can_sub_func_departamento %}
+        <div class="dashboard-subsection" id="sessao-func-departamento">
+          <h5 class="subsection-title">Distribuição por Departamento</h5>
+          <div class="card tabela" id="card-func-por-departamento">
+            <div class="header"><i class='bx bx-grid-alt'></i><span>Ativos por Departamento</span></div>
+            <div class="table-container">
+              <table class="table" id="table-func-por-departamento">
+                <thead><tr><th>Departamento</th><th>Qtd Ativos</th></tr></thead>
+                <tbody id="tbody-func-por-departamento">
+                  <tr><td colspan="2" class="text-center">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+  
+        {# --- Sub-Sessão: Distribuição por Setor --- #}
+        {% has_access user "SSS49" as can_sub_func_setor %}
+        {% if can_sub_func_setor %}
+        <div class="dashboard-subsection" id="sessao-func-setor">
+          <h5 class="subsection-title">Distribuição por Setor</h5>
+          <div class="card tabela" id="card-func-por-setor">
+            <div class="header"><i class='bx bx-columns'></i><span>Ativos por Setor</span></div>
+            <div class="table-container">
+              <table class="table" id="table-func-por-setor">
+                <thead><tr><th>Setor</th><th>Qtd Ativos</th></tr></thead>
+                <tbody id="tbody-func-por-setor">
+                  <tr><td colspan="2" class="text-center">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+  
+        {# --- Sub-Sessão: Distribuição por Cargo --- #}
+        {% has_access user "SSS50" as can_sub_func_cargo %}
+        {% if can_sub_func_cargo %}
+        <div class="dashboard-subsection" id="sessao-func-cargo">
+          <h5 class="subsection-title">Distribuição por Cargo</h5>
+          <div class="card tabela" id="card-func-por-cargo">
+            <div class="header"><i class='bx bx-briefcase'></i><span>Ativos por Cargo</span></div>
+            <div class="table-container">
+              <table class="table" id="table-func-por-cargo">
+                <thead><tr><th>Cargo</th><th>Qtd Ativos</th></tr></thead>
+                <tbody id="tbody-func-por-cargo">
+                  <tr><td colspan="2" class="text-center">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+  
+        {# --- Sub-Sessão: Distribuição por Equipe --- #}
+        {% has_access user "SSS51" as can_sub_func_equipe %}
+        {% if can_sub_func_equipe %}
+        <div class="dashboard-subsection" id="sessao-func-equipe">
+          <h5 class="subsection-title">Distribuição por Equipe</h5>
+          <div class="card tabela" id="card-func-por-equipe">
+            <div class="header"><i class='bx bx-group'></i><span>Ativos por Equipe</span></div>
+            <div class="table-container">
+              <table class="table" id="table-func-por-equipe">
+                <thead><tr><th>Equipe</th><th>Qtd Ativos</th></tr></thead>
+                <tbody id="tbody-func-por-equipe">
+                  <tr><td colspan="2" class="text-center">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+  
+      </div>
+    </div>
+    {% endif %}
+  {% endif %}
+  
+  {# ========================================== #}
+  {#        SESSÃO: ANIVERSARIANTES           #}
+  {# ========================================== #}
+  {% has_access user "SS44" as can_sess_rh %}
+  {% if can_sess_rh %}
+    {% has_access user "SS44" as can_sess_rh_aniversarios %}
+    {% if can_sess_rh_aniversarios %}
+    <div class="dashboard-section" id="sessao-aniversarios">
+      <h2 class="section-title"><i class='bx bx-cake'></i> Aniversariantes do Mês</h2>
+      <div class="category-block" id="categoria-rh-aniversarios">
+        <div class="card tabela" id="card-rh-aniversarios-tabela">
+          <div class="table-container">
+            <table class="table" id="table-aniversarios">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Departamento</th>
+                  <th>Setor</th>
+                  <th>Data (DD/MM)</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-aniversarios">
+                <tr><td colspan="5" class="text-center">Carregando aniversariantes...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  {% endif %}
+  
+
+
+  {# --- Timestamp --- #}
+  <div class="timestamp-container text-end mt-3" id="timestamp-container">
+    <small class="text-muted">Última atualização: <span id="last-update-time">Aguardando dados...</span></small>
+  </div>
+
+</div>
+
+{# Estilos CSS adicionais específicos para este dashboard, se necessário #}
+<style>
+    .dashboard-subsection {
+        width: 100%;
+        margin-bottom: 25px; /* Espaço entre sub-sessões */
+        padding: 15px;
+        background-color: #fdfdfd; /* Fundo levemente diferente para sub-sessões */
+        border: 1px solid #eee;
+        border-radius: 8px;
+    }
+    .subsection-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--color-primary-dark);
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    html.dark .dashboard-subsection {
+        background-color: #2f2f2f;
+        border-color: #404040;
+    }
+    html.dark .subsection-title {
+        color: #d0d0d0;
+        border-bottom-color: #4a4a4a;
+    }
+
+    .value-list {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 5px;
+        font-size: 0.85rem; /* Ajuste o tamanho conforme necessário */
+        max-height: 120px; /* Aumentar altura para listas */
+        overflow-y: auto;
+        line-height: 1.4;
+    }
+    .value-list li {
+        margin-bottom: 4px;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+     .value-list li strong {
+        font-weight: 600;
+        margin-right: 5px;
+    }
+    .card-list .container-info {
+        /* Ajustes para cards com listas */
+        align-self: flex-start;
+    }
+    .card.tabela .table-container {
+        max-height: 300px; /* Reduzir altura das tabelas de distribuição */
+    }
+    #card-rh-aniversarios-tabela .table-container {
+        max-height: 400px; /* Altura para a tabela de aniversários pode ser maior */
+    }
+    .table tbody td.status-ok {
+        color: var(--color-success);
+        font-weight: bold;
+    }
+     .table tbody td.status-proximo {
+        color: var(--color-warning);
+        font-weight: bold;
+    }
+     .table tbody td.status-passou {
+        color: #666;
+    }
+     .table tbody td.text-center {
+        text-align: center;
+    }
+
+    /* Ajustes para modo escuro se necessário */
+    html.dark .value-list li {
+        color: #ccc;
+    }
+    html.dark .table tbody td.status-ok {
+        color: #34e760;
+    }
+     html.dark .table tbody td.status-proximo {
+        color: #ffca2c;
+    }
+     html.dark .table tbody td.status-passou {
+        color: #999;
+    }
+</style>
+
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{# Incluir Chart.js se for usar gráficos #}
+{# <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> #}
+{# Referenciar o JS específico para este dashboard #}
+<script src="{% static 'funcionarios/js/dashboard.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,120 @@
+/* CSS (adicione no seu .css) */
+
+/* 1️⃣ Container centralizado com largura máxima */
+.banner-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  
+  /* 2️⃣ Área do slider com overflow escondido */
+  .banner-slider {
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    /* Ajuste a altura conforme seu layout ou remova para auto */
+    /*height: 192px;*/
+  }
+  
+  /* 3️⃣ Track: flex para navegarmos horizontalmente */
+  .banner-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    /* height: 100%; */
+  }
+  
+  /* 4️⃣ Cada imagem ocupa 100% da área do slider */
+  .banner-item {
+    flex: 0 0 100%;
+    width: 100%;
+    /* height: 100%; */
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    /*box-shadow: 0 2px 6px rgba(0,0,0,0.15);*/
+  }
+  
+  /* ==============================
+   Painel de Scope (scope‑options)
+============================== */
+
+/* Container geral */
+#scope-options {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f9faff;
+    border: 1px solid #d0e0ff;
+    border-radius: 0.5rem;
+  }
+  
+  /* Aviso informativo */
+  #scope-options .alert {
+    margin-bottom: 1rem;
+  }
+  
+  /* Cada painel de opções oculto por padrão */
+  .options-panel {
+    display: none;
+  }
+  
+  /* Quando ativado via JS */
+  .options-panel.active {
+    display: block;
+  }
+  
+  /* Grid de checkboxes em duas colunas */
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  /* Cada checkbox fica dentro de uma “caixinha” */
+  .checkbox-grid .form-check {
+    background: #ffffff;
+    border: 1px solid #e2e6f0;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  
+  /* Hover na caixinha do checkbox */
+  .checkbox-grid .form-check:hover {
+    background: #f0f4ff;
+    border-color: #a8b8ff;
+  }
+  
+  /* O rótulo do checkbox fica com um pouco de margem */
+  .checkbox-grid .form-check-label {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+
+  /* botão de fechar no slider */
+.banner-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.banner-close-btn:hover {
+  background: rgba(0,0,0,0.7);
+}

@@ -1,0 +1,866 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ficha do Cliente{% endblock %}
+
+{% block addcss_extra %}
+<!-- Adicione o CSS do darkmode antes dos outros -->
+<link rel="stylesheet" href="{% static 'css/darkmode.css' %}">
+<link rel="stylesheet" href="{% static 'siape/css/ficha.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<style>
+    /* Estilos específicos para o modo escuro */
+    [data-theme="dark"] body,
+    [data-theme="dark"] main {
+        background-color: #2c2c2c;
+        color: #e0e0e0;
+    }
+
+    [data-theme="dark"] .container-ficha {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .box {
+        background-color: var(--bg-secondary);
+        border-color: var(--border-color);
+    }
+
+    [data-theme="dark"] .info-card {
+        background-color: var(--bg-secondary);
+        box-shadow: 0 4px 6px var(--shadow-color);
+    }
+
+    [data-theme="dark"] .card-header {
+        background-color: var(--accent-primary);
+        color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .card-body {
+        color: var(--text-primary);
+    }
+
+    [data-theme="dark"] table {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+    }
+
+    [data-theme="dark"] table thead {
+        background-color: var(--accent-primary);
+    }
+
+    [data-theme="dark"] table tbody tr:nth-child(even) {
+        background-color: var(--bg-primary);
+    }
+
+    [data-theme="dark"] .tab-label {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+        border-color: var(--border-color);
+    }
+
+    [data-theme="dark"] .tab-label:hover {
+        background-color: var(--accent-primary);
+    }
+
+    [data-theme="dark"] .box-modal {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+    }
+
+    [data-theme="dark"] .calculator input {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        border-color: var(--border-color);
+    }
+
+    [data-theme="dark"] .calculator button {
+        background-color: var(--accent-primary);
+        color: var(--text-primary);
+        border-color: var(--border-color);
+    }
+
+    [data-theme="dark"] .calculator button:hover {
+        background-color: var(--accent-secondary);
+    }
+
+    [data-theme="dark"] .close-modal {
+        color: var(--text-primary);
+    }
+
+    /* Estilo para o título da ficha */
+    #titulo-ficha {
+        color: #9370DB;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+{% block pre_content %}
+<!-- Adicione o toggle do darkmode -->
+{% include 'partials/_dark_mode_toggle.html' %}
+{% endblock %}
+{% block content %}
+<section class="container-ficha">
+    <h2 id="titulo-ficha">Ficha do Cliente</h2>
+
+    <div class="dashboard">
+        <!-- Informações do Cliente -->
+        <div id="info-clientes" class="box">
+            <h3>Informações do Cliente</h3>
+            <div class="box-info">
+                <p><strong>Nome:</strong> {{ cliente.nome }}</p>
+                <p><strong>CPF:</strong> {{ cliente.cpf }}</p>
+                <p><strong>UF:</strong> {{ cliente.uf }}</p>
+                <p><strong>UPAG:</strong> {{ cliente.upag }}</p>
+                <p><strong>Situação Funcional:</strong> {{ cliente.situacao_funcional }}</p>
+                <p><strong>RJUR:</strong> {{ cliente.rjur }}</p>
+                <p><strong>Data de Nascimento:</strong> {{ cliente.data_nascimento|date:"d/m/Y" }}</p>
+                <p><strong>Sexo:</strong> {% if cliente.sexo == 'M' %}<i class="fas fa-male"></i>{% else %}<i class="fas fa-female"></i>{% endif %}</p>
+                <p><strong>RF Situação:</strong> {{ cliente.rf_situacao }}</p>
+                <p><strong>Tipo SIAPE:</strong> {{ cliente.siape_tipo_siape }}</p>
+                <p><strong>Quantidade de Matrículas:</strong> {{ cliente.siape_qtd_matriculas }}</p>
+                <p><strong>Quantidade de Contratos:</strong> {{ cliente.siape_qtd_contratos }}</p>
+            </div>
+        </div>
+
+        <!-- Informações Pessoais -->
+        <div id="info-pessoal" class="box">
+            <h3>Informações de Contato</h3>
+            <div class="box-info">
+                {% if informacoes_pessoais.fne_celular_1 %}
+                    <p><strong>Celular 1:</strong> {{ informacoes_pessoais.fne_celular_1 }}</p>
+                {% endif %}
+                {% if informacoes_pessoais.fne_celular_2 %}
+                    <p><strong>Celular 2:</strong> {{ informacoes_pessoais.fne_celular_2 }}</p>
+                {% endif %}
+                {% if informacoes_pessoais.end_cidade_1 %}
+                    <p><strong>Cidade:</strong> {{ informacoes_pessoais.end_cidade_1 }}</p>
+                {% endif %}
+                <ul>
+                    {% if informacoes_pessoais.email_1 and informacoes_pessoais.email_1 != '0' %}
+                        <li><strong>Email 1:</strong> {{ informacoes_pessoais.email_1 }}</li>
+                    {% endif %}
+                    {% if informacoes_pessoais.email_2 and informacoes_pessoais.email_2 != '0' %}
+                        <li><strong>Email 2:</strong> {{ informacoes_pessoais.email_2 }}</li>
+                    {% endif %}
+                    {% if informacoes_pessoais.email_3 and informacoes_pessoais.email_3 != '0' %}
+                        <li><strong>Email 3:</strong> {{ informacoes_pessoais.email_3 }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Box de Cards para Saldos -->
+        <div class="cards-box">
+            <div class="card-container">
+                <!-- Card Saldo 5 -->
+                <div class="info-card">
+                    <div class="card-header">
+                        <h3>Saldo 5</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="card-value">
+                            R$ {{ debito_recente.saldo_5|default:"0,00"|floatformat:2 }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Card Benefício 5 -->
+                <div class="info-card">
+                    <div class="card-header">
+                        <h3>Benefício 5</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="card-value">
+                            R$ {{ debito_recente.benef_saldo_5|default:"0,00"|floatformat:2 }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela de Contratos -->
+        <div id="contratos" class="box">
+            <h3>Débitos e Margens</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Banco</th>
+                        <th>Órgão</th>
+                        <th>PMT</th>
+                        <th>Prazo</th>
+                        <th>Contrato</th>
+                        <th>Margem</th>
+                        <th>Saldo Devedor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for debito in debitos_margens %}
+                    <tr>
+                        <td>{{ debito.matricula }}</td>
+                        <td>{{ debito.banco }}</td>
+                        <td>{{ debito.orgao }}</td>
+                        <td>{{ debito.pmt }}</td>
+                        <td>{{ debito.prazo }}</td>
+                        <td>{{ debito.contrato }}</td>
+                        <td>R$ {{ debito.margem|floatformat:2 }}</td>
+                        <td>R$ {{ debito.saldo_devedor|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div> 
+    </div>
+
+    <!-- Barra de Navegação para as Calculadoras -->
+    <div class="tab-navigation">
+        <label class="tab-label" onclick="showModal('calc-margem')">Calculadora de Margem</label>
+        <label class="tab-label" onclick="showModal('calc-bcb')">Calculadora do Banco Central</label>
+        <label class="tab-label" onclick="showModal('calc-saldo-devedor')">Calculadora de Saldo Devedor</label>
+        <label class="tab-label" onclick="showModal('tabulacao-cliente')">Tabulação</label>
+        <label class="tab-label" onclick="showModal('documentos-cliente')">Documentos</label>
+        <label class="tab-label" onclick="showModal('telefones-cliente')">Telefones</label>
+    </div>
+
+    <!-- Container para Modais -->
+    <div class="container-calc" onclick="fecharModalFora(event)">
+        <!-- Modal: Calculadora de Margem -->
+        <div id="calc-margem" class="box-modal">
+            <span class="close-modal" onclick="fecharModal('calc-margem')"><i class="fas fa-times"></i></span>
+            <div class="calculator">
+                <h2>Calculadora de Margem</h2>
+                <label for="margem">Margem 35%:</label>
+                <input type="text" id="margem"><br>
+                <label for="coeficiente">Coeficiente do dia:</label>
+                <input type="text" id="coeficiente"><br>
+                <label for="valor-liberado">Valor liberado:</label>
+                <input type="text" id="valor-liberado" disabled><br>
+                <button onclick="calcularMargem('margem', 'coeficiente', 'valor-liberado')">Calcular</button>
+            </div>
+        </div>
+        
+        <!-- Modal: Calculadora do Banco Central -->
+        <div id="calc-bcb" class="box-modal">
+            <span class="close-modal" onclick="fecharModal('calc-bcb')"><i class="fas fa-times"></i></span>
+            <div class="calculator">
+                <h2>Calculadora do Banco Central</h2>
+                <label for="meses">Nº de Meses:</label>
+                <input type="text" id="meses"><br>
+                <label for="taxa-juros">Taxa de Juros Mensal (%):</label>
+                <input type="text" id="taxa-juros"><br>
+                <label for="prestacao">Valor da Prestação:</label>
+                <input type="text" id="prestacao"><br>
+                <label for="financiado">Valor do Financiado:</label>
+                <input type="text" id="financiado"><br>
+                <button onclick="calcularBancoCentral('meses', 'taxa-juros', 'prestacao', 'financiado')">Calcular</button>
+                <button onclick="limparBancoCentral('meses', 'taxa-juros', 'prestacao', 'financiado')">Limpar</button>
+                <button onclick="imprimirBancoCentral()">Imprimir</button>
+            </div>
+        </div>
+
+        <!-- Modal: Calculadora de Saldo Devedor -->
+        <div id="calc-saldo-devedor" class="box-modal">
+            <span class="close-modal" onclick="fecharModal('calc-saldo-devedor')"><i class="fas fa-times"></i></span>
+            <div class="calculator">
+                <h2>Calculadora de Saldo Devedor</h2>
+                <label for="capital-inicial">Capital Inicial:</label>
+                <input type="text" id="capital-inicial"><br>
+                <label for="numero-parcelas">Número de Parcelas:</label>
+                <input type="text" id="numero-parcelas"><br>
+                <label for="saldo-devedor">Saldo Devedor:</label>
+                <input type="text" id="saldo-devedor" disabled><br>
+                <button onclick="calcularSaldoDevedor('capital-inicial', 'numero-parcelas', 'saldo-devedor')">Calcular</button>
+                <button onclick="limparSaldoDevedor('capital-inicial', 'numero-parcelas', 'saldo-devedor')">Limpar</button>
+            </div>
+        </div>
+
+        <!-- Modal: Tabulação do Cliente -->
+        <div id="tabulacao-cliente" class="box-modal">
+            <span class="close-modal" onclick="fecharModal('tabulacao-cliente')"><i class="fas fa-times"></i></span>
+            <div class="calculator">
+                <h2>Tabulação do Cliente</h2>
+                <div id="tabulacao-loading" style="display: none;">
+                    <p>Carregando...</p>
+                </div>
+                <div id="tabulacao-content">
+                    <div class="tabulacao-atual">
+                        <h3>Status Atual</h3>
+                        <div id="status-atual-info">
+                            <!-- Será preenchido dinamicamente -->
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label for="novo-status">Alterar Status:</label>
+                            <select id="novo-status" style="width: 100%; padding: 8px; margin: 5px 0;">
+                                <!-- Será preenchido dinamicamente -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="observacoes-tabulacao">Observações:</label>
+                            <textarea id="observacoes-tabulacao" rows="3" style="width: 100%; padding: 8px; margin: 5px 0;"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button id="btn-atualizar-tabulacao" onclick="atualizarTabulacao()" style="background: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
+                                Atualizar Status
+                            </button>
+                        </div>
+                    </div>
+                    <div class="historico-tabulacao" style="margin-top: 20px;">
+                        <h3>Histórico de Alterações</h3>
+                        <div id="historico-lista" style="max-height: 200px; overflow-y: auto;">
+                            <!-- Será preenchido dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: Documentos do Cliente -->
+        <div id="documentos-cliente" class="box-modal">
+            <span class="close-modal" onclick="fecharModal('documentos-cliente')"><i class="fas fa-times"></i></span>
+            <div class="calculator">
+                <h2>Documentos do Cliente</h2>
+                <div id="documentos-loading" style="display: none;">
+                    <p>Carregando...</p>
+                </div>
+                <div id="documentos-content">
+                    <div class="upload-documento" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+                        <h3>Enviar Novo Documento</h3>
+                        <form id="form-upload-documento" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="nome-documento">Nome do Documento:</label>
+                                <input type="text" id="nome-documento" required style="width: 100%; padding: 8px; margin: 5px 0;">
+                            </div>
+                            <div class="form-group">
+                                <label for="tipo-documento">Tipo:</label>
+                                <select id="tipo-documento" required style="width: 100%; padding: 8px; margin: 5px 0;">
+                                    <!-- Será preenchido dinamicamente -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="arquivo-documento">Arquivo:</label>
+                                <input type="file" id="arquivo-documento" required style="width: 100%; padding: 8px; margin: 5px 0;">
+                            </div>
+                            <div class="form-group">
+                                <label for="observacoes-documento">Observações:</label>
+                                <textarea id="observacoes-documento" rows="2" style="width: 100%; padding: 8px; margin: 5px 0;"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" style="background: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-upload"></i> Enviar Documento
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="lista-documentos">
+                        <h3>Documentos Enviados</h3>
+                        <div id="documentos-lista" style="max-height: 300px; overflow-y: auto;">
+                            <!-- Será preenchido dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal: Telefones do Cliente -->
+        <div id="telefones-cliente" class="box-modal">
+            <span class="close-modal" onclick="fecharModal('telefones-cliente')"><i class="fas fa-times"></i></span>
+            <div class="calculator">
+                <h2>Telefones do Cliente</h2>
+                <div id="telefones-loading" style="display: none;">
+                    <p>Carregando...</p>
+                </div>
+                <div id="telefones-content">
+                    <div class="adicionar-telefone" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+                        <h3>Adicionar Novo Telefone</h3>
+                        <form id="form-adicionar-telefone">
+                            <div class="form-group">
+                                <label for="numero-telefone">Número:</label>
+                                <input type="text" id="numero-telefone" placeholder="(XX) XXXXX-XXXX" required style="width: 100%; padding: 8px; margin: 5px 0;">
+                            </div>
+                            <div class="form-group">
+                                <label for="tipo-telefone">Tipo:</label>
+                                <select id="tipo-telefone" required style="width: 100%; padding: 8px; margin: 5px 0;">
+                                    <!-- Será preenchido dinamicamente -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="principal-telefone" style="margin-right: 5px;">
+                                    Telefone Principal
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="observacoes-telefone">Observações:</label>
+                                <textarea id="observacoes-telefone" rows="2" style="width: 100%; padding: 8px; margin: 5px 0;"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" style="background: #FF9800; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fas fa-phone"></i> Adicionar Telefone
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="lista-telefones">
+                        <h3>Telefones Cadastrados</h3>
+                        <div id="telefones-lista">
+                            <!-- Será preenchido dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block addjs_extra %}
+<!-- Slick Carousel CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<!-- Adicione o JS do darkmode antes dos outros scripts -->
+<script src="{% static 'darkmode.js' %}"></script>
+
+<!-- Seus outros scripts -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script src="{% static 'siape/js/ficha.js' %}"></script>
+
+<!-- Slick Carousel JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script src="{% static 'siape/js/ficha.js' %}"></script>
+<script>
+    // Função para exibir o modal e adicionar a classe 'active'
+    function showModal(tabId) {
+        document.querySelectorAll('.box-modal').forEach(function(modal) {
+            modal.classList.remove('active');
+        });
+        document.querySelector('.container-calc').classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+        
+        // Carrega dados específicos baseado no modal
+        if (tabId === 'tabulacao-cliente') {
+            carregarTabulacaoCliente();
+        } else if (tabId === 'documentos-cliente') {
+            carregarDocumentosCliente();
+        } else if (tabId === 'telefones-cliente') {
+            carregarTelefonesCliente();
+        }
+    }
+
+    // Função para fechar o modal
+    function fecharModal(tabId) {
+        document.getElementById(tabId).classList.remove('active');
+        document.querySelector('.container-calc').classList.remove('active');
+    }
+
+    // Fecha o modal ao clicar fora dele
+    function fecharModalFora(event) {
+        if (event.target.classList.contains('container-calc')) {
+            document.querySelector('.container-calc').classList.remove('active');
+            document.querySelectorAll('.box-modal').forEach(function(modal) {
+                modal.classList.remove('active');
+            });
+        }
+    }
+
+    // Obtém o CPF do cliente da página
+    function obterCpfCliente() {
+        const cpfElement = document.querySelector('[data-cpf]') || 
+                          document.querySelector('p:contains("CPF:")');
+        if (cpfElement) {
+            const cpfText = cpfElement.textContent || cpfElement.innerText;
+            const cpf = cpfText.replace(/\D/g, ''); // Remove não dígitos
+            return cpf;
+        }
+        // Fallback: busca no HTML
+        const html = document.documentElement.innerHTML;
+        const cpfMatch = html.match(/CPF.*?(\d{3}\.?\d{3}\.?\d{3}-?\d{2})/);
+        return cpfMatch ? cpfMatch[1].replace(/\D/g, '') : null;
+    }
+
+    // FUNÇÕES DE TABULAÇÃO
+    function carregarTabulacaoCliente() {
+        const cpf = obterCpfCliente();
+        if (!cpf) {
+            alert('CPF do cliente não encontrado');
+            return;
+        }
+
+        document.getElementById('tabulacao-loading').style.display = 'block';
+        document.getElementById('tabulacao-content').style.display = 'none';
+
+        fetch(`/siape/api/get/tabulacao-cliente/?cpf=${cpf}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('tabulacao-loading').style.display = 'none';
+                document.getElementById('tabulacao-content').style.display = 'block';
+
+                if (data.result) {
+                    preencherTabulacao(data.data);
+                } else {
+                    alert(data.message || 'Erro ao carregar tabulação');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                document.getElementById('tabulacao-loading').style.display = 'none';
+                alert('Erro ao carregar tabulação');
+            });
+    }
+
+    function preencherTabulacao(dados) {
+        // Preenche informações do status atual
+        const statusInfo = document.getElementById('status-atual-info');
+        const podeEditar = dados.tabulacao_atual.pode_editar;
+        
+        statusInfo.innerHTML = `
+            <p><strong>Status:</strong> ${dados.tabulacao_atual.status_display}</p>
+            <p><strong>Última Atualização:</strong> ${dados.tabulacao_atual.data_atualizacao}</p>
+            <p><strong>Observações:</strong> ${dados.tabulacao_atual.observacoes || 'Nenhuma'}</p>
+            ${!podeEditar ? '<p style="color: red;"><strong>⚠️ Status em Reversão/Checagem - Apenas coordenadores podem alterar</strong></p>' : ''}
+        `;
+
+        // Preenche select de status
+        const selectStatus = document.getElementById('novo-status');
+        selectStatus.innerHTML = '';
+        dados.status_choices.forEach(choice => {
+            const option = document.createElement('option');
+            option.value = choice[0];
+            option.textContent = choice[1];
+            if (choice[0] === dados.tabulacao_atual.status) {
+                option.selected = true;
+            }
+            selectStatus.appendChild(option);
+        });
+
+        // Preenche observações
+        document.getElementById('observacoes-tabulacao').value = dados.tabulacao_atual.observacoes || '';
+
+        // Desabilita controles se não pode editar
+        selectStatus.disabled = !podeEditar;
+        document.getElementById('observacoes-tabulacao').disabled = !podeEditar;
+        document.getElementById('btn-atualizar-tabulacao').disabled = !podeEditar;
+
+        // Preenche histórico
+        const historicoLista = document.getElementById('historico-lista');
+        if (dados.historico.length > 0) {
+            historicoLista.innerHTML = dados.historico.map(item => `
+                <div style="border-bottom: 1px solid #eee; padding: 10px 0;">
+                    <strong>${item.status_anterior} → ${item.status_novo}</strong><br>
+                    <small>Por: ${item.usuario} em ${item.data_alteracao}</small><br>
+                    ${item.observacoes ? `<em>${item.observacoes}</em>` : ''}
+                </div>
+            `).join('');
+        } else {
+            historicoLista.innerHTML = '<p>Nenhuma alteração registrada</p>';
+        }
+    }
+
+    function atualizarTabulacao() {
+        const cpf = obterCpfCliente();
+        const novoStatus = document.getElementById('novo-status').value;
+        const observacoes = document.getElementById('observacoes-tabulacao').value;
+
+        if (!cpf || !novoStatus) {
+            alert('Dados incompletos');
+            return;
+        }
+
+        const dados = {
+            cpf: cpf,
+            status: novoStatus,
+            observacoes: observacoes
+        };
+
+        fetch('/siape/api/post/atualizar-tabulacao/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(dados)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result) {
+                alert(data.message);
+                carregarTabulacaoCliente(); // Recarrega os dados
+            } else {
+                alert(data.message || 'Erro ao atualizar tabulação');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao atualizar tabulação');
+        });
+    }
+
+    // FUNÇÕES DE DOCUMENTOS
+    function carregarDocumentosCliente() {
+        const cpf = obterCpfCliente();
+        if (!cpf) {
+            alert('CPF do cliente não encontrado');
+            return;
+        }
+
+        document.getElementById('documentos-loading').style.display = 'block';
+        document.getElementById('documentos-content').style.display = 'none';
+
+        fetch(`/siape/api/get/documentos-cliente/?cpf=${cpf}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('documentos-loading').style.display = 'none';
+                document.getElementById('documentos-content').style.display = 'block';
+
+                if (data.result) {
+                    preencherDocumentos(data.data);
+                } else {
+                    alert(data.message || 'Erro ao carregar documentos');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                document.getElementById('documentos-loading').style.display = 'none';
+                alert('Erro ao carregar documentos');
+            });
+    }
+
+    function preencherDocumentos(dados) {
+        // Preenche tipos de documento
+        const selectTipo = document.getElementById('tipo-documento');
+        selectTipo.innerHTML = '';
+        dados.tipos_documento.forEach(tipo => {
+            const option = document.createElement('option');
+            option.value = tipo[0];
+            option.textContent = tipo[1];
+            selectTipo.appendChild(option);
+        });
+
+        // Preenche lista de documentos
+        const documentosLista = document.getElementById('documentos-lista');
+        if (dados.documentos.length > 0) {
+            documentosLista.innerHTML = dados.documentos.map(doc => `
+                <div style="border: 1px solid #ddd; padding: 10px; margin: 5px 0; border-radius: 4px;">
+                    <h4>${doc.nome_documento}</h4>
+                    <p><strong>Tipo:</strong> ${doc.tipo_documento_display}</p>
+                    <p><strong>Upload:</strong> ${doc.usuario_upload} em ${doc.data_upload}</p>
+                    ${doc.observacoes ? `<p><strong>Obs:</strong> ${doc.observacoes}</p>` : ''}
+                    <a href="${doc.arquivo_url}" target="_blank" style="color: #2196F3; text-decoration: none;">
+                        <i class="fas fa-download"></i> Baixar Arquivo
+                    </a>
+                </div>
+            `).join('');
+        } else {
+            documentosLista.innerHTML = '<p>Nenhum documento enviado</p>';
+        }
+
+        // Configura evento do formulário
+        document.getElementById('form-upload-documento').onsubmit = function(e) {
+            e.preventDefault();
+            enviarDocumento();
+        };
+    }
+
+    function enviarDocumento() {
+        const cpf = obterCpfCliente();
+        const nomeDocumento = document.getElementById('nome-documento').value;
+        const tipoDocumento = document.getElementById('tipo-documento').value;
+        const observacoes = document.getElementById('observacoes-documento').value;
+        const arquivo = document.getElementById('arquivo-documento').files[0];
+
+        if (!cpf || !nomeDocumento || !tipoDocumento || !arquivo) {
+            alert('Todos os campos obrigatórios devem ser preenchidos');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('cpf', cpf);
+        formData.append('nome_documento', nomeDocumento);
+        formData.append('tipo_documento', tipoDocumento);
+        formData.append('observacoes', observacoes);
+        formData.append('arquivo', arquivo);
+
+        fetch('/siape/api/post/upload-documento/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result) {
+                alert(data.message);
+                document.getElementById('form-upload-documento').reset();
+                carregarDocumentosCliente(); // Recarrega a lista
+            } else {
+                alert(data.message || 'Erro ao enviar documento');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao enviar documento');
+        });
+    }
+
+    // FUNÇÕES DE TELEFONES
+    function carregarTelefonesCliente() {
+        const cpf = obterCpfCliente();
+        if (!cpf) {
+            alert('CPF do cliente não encontrado');
+            return;
+        }
+
+        document.getElementById('telefones-loading').style.display = 'block';
+        document.getElementById('telefones-content').style.display = 'none';
+
+        fetch(`/siape/api/get/telefones-cliente/?cpf=${cpf}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('telefones-loading').style.display = 'none';
+                document.getElementById('telefones-content').style.display = 'block';
+
+                if (data.result) {
+                    preencherTelefones(data.data);
+                } else {
+                    alert(data.message || 'Erro ao carregar telefones');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                document.getElementById('telefones-loading').style.display = 'none';
+                alert('Erro ao carregar telefones');
+            });
+    }
+
+    function preencherTelefones(dados) {
+        // Preenche tipos de telefone
+        const selectTipo = document.getElementById('tipo-telefone');
+        selectTipo.innerHTML = '';
+        dados.tipos_telefone.forEach(tipo => {
+            const option = document.createElement('option');
+            option.value = tipo[0];
+            option.textContent = tipo[1];
+            selectTipo.appendChild(option);
+        });
+
+        // Preenche lista de telefones
+        const telefonesLista = document.getElementById('telefones-lista');
+        if (dados.telefones.length > 0) {
+            telefonesLista.innerHTML = dados.telefones.map(tel => `
+                <div style="border: 1px solid #ddd; padding: 10px; margin: 5px 0; border-radius: 4px; ${tel.principal ? 'background-color: #e8f5e8;' : ''}">
+                    <h4>${tel.numero} ${tel.principal ? '⭐ (Principal)' : ''}</h4>
+                    <p><strong>Tipo:</strong> ${tel.tipo_display}</p>
+                    <p><strong>Cadastrado:</strong> ${tel.usuario_cadastro} em ${tel.data_cadastro}</p>
+                    ${tel.observacoes ? `<p><strong>Obs:</strong> ${tel.observacoes}</p>` : ''}
+                    <button onclick="removerTelefone(${tel.id})" style="background: #f44336; color: white; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer;">
+                        <i class="fas fa-trash"></i> Remover
+                    </button>
+                </div>
+            `).join('');
+        } else {
+            telefonesLista.innerHTML = '<p>Nenhum telefone cadastrado</p>';
+        }
+
+        // Configura evento do formulário
+        document.getElementById('form-adicionar-telefone').onsubmit = function(e) {
+            e.preventDefault();
+            adicionarTelefone();
+        };
+    }
+
+    function adicionarTelefone() {
+        const cpf = obterCpfCliente();
+        const numero = document.getElementById('numero-telefone').value;
+        const tipo = document.getElementById('tipo-telefone').value;
+        const principal = document.getElementById('principal-telefone').checked;
+        const observacoes = document.getElementById('observacoes-telefone').value;
+
+        if (!cpf || !numero || !tipo) {
+            alert('Campos obrigatórios devem ser preenchidos');
+            return;
+        }
+
+        const dados = {
+            cpf: cpf,
+            numero: numero,
+            tipo: tipo,
+            principal: principal,
+            observacoes: observacoes
+        };
+
+        fetch('/siape/api/post/adicionar-telefone/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(dados)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result) {
+                alert(data.message);
+                document.getElementById('form-adicionar-telefone').reset();
+                carregarTelefonesCliente(); // Recarrega a lista
+            } else {
+                alert(data.message || 'Erro ao adicionar telefone');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao adicionar telefone');
+        });
+    }
+
+    function removerTelefone(telefoneId) {
+        if (!confirm('Tem certeza que deseja remover este telefone?')) {
+            return;
+        }
+
+        const dados = {
+            telefone_id: telefoneId
+        };
+
+        fetch('/siape/api/post/remover-telefone/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(dados)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result) {
+                alert(data.message);
+                carregarTelefonesCliente(); // Recarrega a lista
+            } else {
+                alert(data.message || 'Erro ao remover telefone');
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao remover telefone');
+        });
+    }
+
+    // Função para obter cookie CSRF
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}

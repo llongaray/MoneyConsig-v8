@@ -1,0 +1,420 @@
+/* ==========================================
+   Estilos para Subcards (dentro dos cards principais)
+   ========================================== */
+.subcard {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.9) 0%, 
+    rgba(240, 248, 255, 0.95) 50%, 
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  border: 1px solid rgba(11, 213, 240, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(11, 213, 240, 0.1);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.subcard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(11, 213, 240, 0.15);
+  border-color: rgba(11, 213, 240, 0.3);
+}
+
+.subcard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    var(--color-tertiary) 0%, 
+    var(--color-secondary) 50%, 
+    var(--color-tertiary) 100%
+  );
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.subcard:hover::before {
+  transform: scaleX(1);
+}
+
+.subcard-header {
+  background: linear-gradient(135deg, 
+    rgba(11, 213, 240, 0.1) 0%, 
+    rgba(112, 246, 17, 0.05) 50%, 
+    rgba(11, 213, 240, 0.1) 100%
+  );
+  border-bottom: 1px solid rgba(11, 213, 240, 0.15);
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-primary-dark);
+  letter-spacing: 0.2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.subcard-header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    transparent 100%
+  );
+  transition: left 0.5s ease;
+}
+
+.subcard:hover .subcard-header::after {
+  left: 100%;
+}
+
+.subcard-header i {
+  color: var(--color-tertiary);
+  margin-right: 8px;
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
+
+.subcard-body {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  position: relative;
+}
+
+.subcard-body p {
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.subcard-body p:last-child {
+  margin-bottom: 0;
+}
+
+.subcard-body strong {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+.subcard-body span {
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Estilos específicos para informações gerais - melhor quebra de linha */
+.subcard-body p i {
+  flex-shrink: 0;
+  width: 16px;
+  text-align: center;
+}
+
+.subcard-body p strong {
+  flex-shrink: 0;
+  min-width: fit-content;
+}
+
+.subcard-body p span {
+  flex-grow: 1;
+  word-break: break-word;
+}
+
+/* Estilos específicos para o subcard de negociação */
+#subcard-negociacao {
+  border-color: rgba(243, 156, 18, 0.2);
+  background: linear-gradient(135deg, 
+    rgba(243, 156, 18, 0.05) 0%, 
+    rgba(255, 255, 255, 0.95) 50%, 
+    rgba(243, 156, 18, 0.05) 100%
+  );
+}
+
+#subcard-negociacao::before {
+  background: linear-gradient(90deg, 
+    #f39c12 0%, 
+    #e67e22 50%, 
+    #f39c12 100%
+  );
+}
+
+#subcard-negociacao .subcard-header {
+  background: linear-gradient(135deg, 
+    rgba(243, 156, 18, 0.1) 0%, 
+    rgba(230, 126, 34, 0.05) 50%, 
+    rgba(243, 156, 18, 0.1) 100%
+  );
+  border-bottom-color: rgba(243, 156, 18, 0.15);
+}
+
+#subcard-negociacao .subcard-header i {
+  color: #f39c12;
+}
+
+#subcard-negociacao:hover {
+  border-color: rgba(243, 156, 18, 0.3);
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.15);
+}
+
+/* Responsividade para subcards */
+@media (max-width: 768px) {
+  .subcard-body p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .subcard-body p i {
+    margin-right: 4px;
+  }
+}
+
+/* Animação de entrada para subcards */
+.subcard {
+  animation: subcardSlideIn 0.4s ease-out;
+}
+
+@keyframes subcardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modo escuro para subcards */
+html.dark .subcard {
+  background: linear-gradient(135deg, 
+    rgba(45, 55, 72, 0.9) 0%, 
+    rgba(26, 32, 44, 0.95) 50%, 
+    rgba(45, 55, 72, 0.9) 100%
+  );
+  border-color: rgba(11, 213, 240, 0.3);
+}
+
+html.dark .subcard-header {
+  background: linear-gradient(135deg, 
+    rgba(11, 213, 240, 0.15) 0%, 
+    rgba(112, 246, 17, 0.08) 50%, 
+    rgba(11, 213, 240, 0.15) 100%
+  );
+  border-bottom-color: rgba(11, 213, 240, 0.2);
+  color: #e2e8f0;
+}
+
+html.dark .subcard-body {
+  background: rgba(26, 32, 44, 0.8);
+}
+
+html.dark .subcard-body strong {
+  color: #e2e8f0;
+}
+
+html.dark .subcard-body span {
+  color: #a0aec0;
+}
+
+html.dark #subcard-negociacao {
+  border-color: rgba(243, 156, 18, 0.3);
+  background: linear-gradient(135deg, 
+    rgba(243, 156, 18, 0.1) 0%, 
+    rgba(26, 32, 44, 0.95) 50%, 
+    rgba(243, 156, 18, 0.1) 100%
+  );
+}
+
+html.dark #subcard-negociacao .subcard-header {
+  background: linear-gradient(135deg, 
+    rgba(243, 156, 18, 0.15) 0%, 
+    rgba(230, 126, 34, 0.08) 50%, 
+    rgba(243, 156, 18, 0.15) 100%
+  );
+  border-bottom-color: rgba(243, 156, 18, 0.2);
+}
+
+/* ==========================================
+   🌙 DARK MODE - SUBCARDS
+   ========================================== */
+
+/* Subcards gerais */
+[data-theme="dark"] .subcard,
+body.dark-mode .subcard {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .subcard:hover,
+body.dark-mode .subcard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background-color: rgba(134, 89, 212, 0.1);
+}
+
+/* Headers dos subcards */
+[data-theme="dark"] .subcard .card-header,
+body.dark-mode .subcard .card-header {
+    background: linear-gradient(-45deg, #70f611, #4c9fb4, #0bd5f0, #70f611) !important;
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .subcard .card-header::before,
+body.dark-mode .subcard .card-header::before {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.15) 40%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 255, 255, 0.15) 60%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+[data-theme="dark"] .subcard:hover .card-header::before,
+body.dark-mode .subcard:hover .card-header::before {
+    top: 100%;
+    left: 100%;
+}
+
+/* Body dos subcards */
+[data-theme="dark"] .subcard .card-body,
+body.dark-mode .subcard .card-body {
+    background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.05) 100%);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .subcard .card-body p,
+body.dark-mode .subcard .card-body p {
+    color: #b8b5c0;
+}
+
+/* Subcard específico de margem 5% */
+[data-theme="dark"] .subcard-margem5,
+body.dark-mode .subcard-margem5 {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .subcard-margem5:hover,
+body.dark-mode .subcard-margem5:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background-color: rgba(134, 89, 212, 0.1);
+}
+
+[data-theme="dark"] .subcard-margem5 .card-header,
+body.dark-mode .subcard-margem5 .card-header {
+    background: linear-gradient(-45deg, #70f611, #4c9fb4, #0bd5f0, #70f611) !important;
+    background-size: 400% 400% !important;
+    animation: metallicShift 10s ease infinite !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .subcard-margem5 .card-body,
+body.dark-mode .subcard-margem5 .card-body {
+    background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.05) 100%);
+    color: #ffffff;
+}
+
+/* Subcard específico de margem 3.5% */
+[data-theme="dark"] .subcard-margem35,
+body.dark-mode .subcard-margem35 {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .subcard-margem35:hover,
+body.dark-mode .subcard-margem35:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background-color: rgba(134, 89, 212, 0.1);
+}
+
+[data-theme="dark"] .subcard-margem35 .card-header,
+body.dark-mode .subcard-margem35 .card-header {
+    background: linear-gradient(-45deg, #70f611, #4c9fb4, #0bd5f0, #70f611) !important;
+    background-size: 400% 400% !important;
+    animation: metallicShift 10s ease infinite !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .subcard-margem35 .card-body,
+body.dark-mode .subcard-margem35 .card-body {
+    background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.05) 100%);
+    color: #ffffff;
+}
+
+/* Subcard específico de benefício */
+[data-theme="dark"] .subcard-beneficio,
+body.dark-mode .subcard-beneficio {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .subcard-beneficio:hover,
+body.dark-mode .subcard-beneficio:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background-color: rgba(134, 89, 212, 0.1);
+}
+
+[data-theme="dark"] .subcard-beneficio .card-header,
+body.dark-mode .subcard-beneficio .card-header {
+    background: linear-gradient(-45deg, #70f611, #4c9fb4, #0bd5f0, #70f611) !important;
+    background-size: 400% 400% !important;
+    animation: metallicShift 10s ease infinite !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .subcard-beneficio .card-body,
+body.dark-mode .subcard-beneficio .card-body {
+    background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.05) 100%);
+    color: #ffffff;
+}
+
+/* Responsividade no dark mode */
+@media (max-width: 767px) {
+    [data-theme="dark"] .subcard .card-body,
+    [data-theme="dark"] .subcard-margem5 .card-body,
+    [data-theme="dark"] .subcard-margem35 .card-body,
+    [data-theme="dark"] .subcard-beneficio .card-body,
+    body.dark-mode .subcard .card-body,
+    body.dark-mode .subcard-margem5 .card-body,
+    body.dark-mode .subcard-margem35 .card-body,
+    body.dark-mode .subcard-beneficio .card-body {
+        background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.03) 100%);
+    }
+    
+    [data-theme="dark"] .subcard .card-body p,
+    [data-theme="dark"] .subcard-margem5 .card-body p,
+    [data-theme="dark"] .subcard-margem35 .card-body p,
+    [data-theme="dark"] .subcard-beneficio .card-body p,
+    body.dark-mode .subcard .card-body p,
+    body.dark-mode .subcard-margem5 .card-body p,
+    body.dark-mode .subcard-margem35 .card-body p,
+    body.dark-mode .subcard-beneficio .card-body p {
+        color: #b8b5c0;
+    }
+} 

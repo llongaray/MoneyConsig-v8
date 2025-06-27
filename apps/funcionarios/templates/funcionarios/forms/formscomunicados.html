@@ -1,0 +1,151 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Comunicados - Novo Comunicado<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+  {# Boxicons for icons used in the form #}
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  {# Select2 CSS #}
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  {# Optional: Add custom CSS for this specific page if needed #}
+  <link rel="stylesheet" href="{% static 'funcionarios/css/forms/formscomunicados.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h1 class="titulo-pagina mb-4"><i class='bx bx-message-square-detail me-2'></i>Novo Comunicado</h1>
+
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Card Comunicado -->
+      <div class="card mb-4" id="card-comunicado">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-message-square-add me-2'></i> Criar Novo Comunicado
+        </div>
+        <div class="card-body">
+          <form id="form-comunicado" method="POST" enctype="multipart/form-data" action="/rh/api/comunicados/add/">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="comunicado">
+            
+            <div class="mb-3">
+              <label for="comunicado_assunto" class="form-label">
+                <i class='bx bx-label me-2'></i>Assunto do Comunicado *
+              </label>
+              <input type="text" id="comunicado_assunto" name="assunto" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">
+                <i class='bx bx-image me-2'></i>Conteúdo do Comunicado *
+              </label>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="radio" name="tipo_conteudo" id="tipo_texto" value="texto" checked>
+                <label class="form-check-label" for="tipo_texto">
+                  Texto
+                </label>
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="radio" name="tipo_conteudo" id="tipo_banner" value="banner">
+                <label class="form-check-label" for="tipo_banner">
+                  Banner
+                </label>
+              </div>
+
+              <div id="campo_texto">
+                <textarea id="comunicado_texto" name="texto" class="form-control" rows="6"></textarea>
+              </div>
+
+              <div id="campo_banner" style="display: none;">
+                <input type="file" id="comunicado_banner" name="banner" class="form-control" accept=".png,.jpg,.jpeg,.webp">
+                <small class="text-muted">Formatos aceitos: PNG, JPG, JPEG e WEBP</small>
+                <div class="mt-2">
+                  <img id="preview_banner" src="#" alt="Preview do Banner" style="max-width: 100%; display: none;">
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">
+                <i class='bx bx-user-plus me-2'></i>Destinatários *
+              </label>
+              
+              <!-- Seletor de Destinatários -->
+              <div class="destinatarios-selector">
+                <select id="tipo-destinatario" class="form-select">
+                  <option value="">Selecione o tipo de destinatário</option>
+                  <option value="empresas">Empresas</option>
+                  <option value="departamentos">Departamentos</option>
+                  <option value="setores">Setores</option>
+                  <option value="lojas">Lojas</option>
+                  <option value="equipes">Equipes</option>
+                  <option value="funcionarios">Funcionários</option>
+                </select>
+              </div>
+
+              <!-- Container dos Checkboxes -->
+              <div class="checkbox-container" id="container-checkboxes">
+                <!-- Botão Marcar Todos -->
+                <div class="marcar-todos-container">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="marcar-todos">
+                    <label class="form-check-label" for="marcar-todos">
+                      Marcar Todos
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Container das Colunas -->
+                <div class="checkbox-columns">
+                  <div id="coluna-esquerda"></div>
+                  <div id="coluna-direita"></div>
+                </div>
+
+                <!-- Loading Spinner -->
+                <div class="loading-spinner">
+                  <i class='bx bx-loader-alt bx-spin'></i>
+                </div>
+
+                <!-- Mensagem de Erro -->
+                <div class="error-message">
+                  Erro ao carregar dados. Tente novamente.
+                </div>
+              </div>
+
+              <div class="invalid-feedback">Selecione pelo menos um destinatário.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="comunicado_arquivos" class="form-label">
+                <i class='bx bx-paperclip me-2'></i>Arquivos Anexos (Opcional)
+              </label>
+              <input type="file" id="comunicado_arquivos" name="arquivos[]" class="form-control" multiple>
+              <small class="text-muted">Você pode selecionar múltiplos arquivos.</small>
+            </div>
+
+            <div class="mb-3 form-check form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="comunicado_status" name="status" checked>
+              <label class="form-check-label" for="comunicado_status">Comunicado Ativo</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-send me-2'></i> Enviar Comunicado
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+  {# jQuery #}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {# Select2 JS #}
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  {# Nosso script #}
+  <script src="{% static 'funcionarios/js/comunicados_servidor.js' %}"></script>
+{% endblock %}

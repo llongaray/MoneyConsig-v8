@@ -1,0 +1,117 @@
+{% extends "base-plus.html" %}
+{% load static %}
+{% block header_title %}Forms MoneyConsig{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'moneyplus/css/uploadbase.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4" id="management-container">
+  <!-- Criar Equipe -->
+  <section class="section-criar-equipe mb-5" id="section-criar-equipe">
+    <h2 class="title-criar-equipe mb-3" id="title-criar-equipe"><i class="bx bx-group"></i> Criar Equipe</h2>
+    <form action="#" method="post" class="form-criar-equipe animate__animated animate__fadeInUp" id="form-criar-equipe">
+      {% csrf_token %}
+      <div class="form-group mb-3" id="group-nome-equipe">
+        <label for="input-nome-equipe" class="form-label">Nome da Equipe</label>
+        <input type="text" class="form-control" id="input-nome-equipe" placeholder="">
+      </div>
+      <div class="form-group mb-3" id="group-participantes">
+        <label class="form-label">Participantes</label>
+        <div id="checkbox-participantes">
+          <!-- Os checkboxes serão inseridos via JS -->
+        </div>
+      </div>
+      <div class="form-group mb-3 form-check" id="group-status-equipe">
+        <input type="checkbox" class="form-check-input" id="checkbox-status-equipe">
+        <label class="form-check-label" for="checkbox-status-equipe">Ativo</label>
+      </div>
+      <button type="submit" class="btn btn-criar-equipe btn-primary" id="btn-criar-equipe">Criar Equipe</button>
+    </form>
+  </section>
+
+
+  <!-- Criar Campanha -->
+  <section class="section-criar-campanha mb-5" id="section-criar-campanha">
+    <h2 class="title-criar-campanha mb-3" id="title-criar-campanha">
+      <i class="bx bx-bullhorn"></i> Criar Campanha
+    </h2>
+    <form action="#" method="post" class="form-criar-campanha animate__animated animate__fadeInUp" id="form-criar-campanha">
+      {% csrf_token %}
+      <div class="form-group mb-3" id="group-nome-campanha">
+        <label for="input-nome-campanha" class="form-label">Nome da Campanha</label>
+        <input type="text" class="form-control" id="input-nome-campanha" placeholder="">
+      </div>
+      <div class="form-group mb-3" id="group-descricao-campanha">
+        <label for="textarea-descricao-campanha" class="form-label">Descrição</label>
+        <textarea class="form-control" id="textarea-descricao-campanha" rows="3" placeholder=""></textarea>
+      </div>
+      <div class="form-group mb-3 form-check" id="group-status-campanha">
+        <input type="checkbox" class="form-check-input" id="checkbox-status-campanha" checked>
+        <label class="form-check-label" for="checkbox-status-campanha">Ativa</label>
+      </div>
+      <div class="form-group mb-3" id="group-equipes-campanha">
+        <label for="select-equipes-campanha" class="form-label">Equipes Associadas</label>
+        <!-- Dropdown que será preenchido via JS -->
+        <select id="select-equipes-campanha" class="form-select" multiple></select>
+      </div>
+      <button type="submit" class="btn btn-criar-campanha btn-primary" id="btn-criar-campanha">
+        Criar Campanha
+      </button>
+    </form>
+  </section>
+
+
+  <!-- Importar Base Completa por Produto -->
+  <section class="section-importar-base mb-5" id="section-importar-base">
+    <h2 class="title-importar-base mb-3" id="title-importar-base">
+      <i class="bx bx-upload"></i> Importar Base Completa por Produto
+    </h2>
+    <form action="#" method="post" enctype="multipart/form-data" class="form-importar-base animate__animated animate__fadeInUp" id="form-importar-base">
+      {% csrf_token %}
+      
+      <!-- Campo de Seleção de Campanha (Obrigatório) -->
+      <div class="form-group mb-3" id="group-campanha-select">
+        <label for="select-campanha" class="form-label">Selecione a Campanha</label>
+        <select id="select-campanha" class="form-select" required>
+          <!-- JS preencherá as campanhas já criadas -->
+        </select>
+      </div>
+      
+      <div class="form-group mb-3" id="group-produto-select">
+        <label for="select-produto" class="form-label">Selecione o Produto</label>
+        <select id="select-produto" class="form-select">
+          <option value="">-- Selecione --</option>
+          <option value="SIAPE">SIAPE</option>
+          <option value="INSS">INSS</option>
+          <option value="FGTS">FGTS</option>
+        </select>
+        
+        <!-- Botões de download dos modelos CSV -->
+        <button id="btn-download-siape" onclick="downloadCsvTemplate('SIAPE')" style="display:none;">Baixar Modelo SIAPE</button>
+        <button id="btn-download-inss" onclick="downloadCsvTemplate('INSS')" style="display:none;">Baixar Modelo INSS</button>
+        <button id="btn-download-fgts" onclick="downloadCsvTemplate('FGTS')"  style="display:none;">📥 Baixar modelo FGTS</button>
+      </div>
+      <div class="form-group mb-3" id="group-arquivo-import">
+        <label for="input-arquivo-import" class="form-label">Selecione o Arquivo</label>
+        <input type="file" class="form-control" id="input-arquivo-import">
+      </div>
+      <button type="submit" class="btn btn-importar-base btn-primary" id="btn-importar-base">Importar Base</button>
+    </form>
+  </section>
+
+
+
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'moneyplus/js/get_infos-uploadbase.js' %}"></script>
+<script src="{% static 'moneyplus/js/upload_base.js' %}"></script>
+<script src="{% static 'moneyplus/js/modelosTemplates.js' %}"></script>
+<script src="{% static 'moneyplus/js/post_campaign.js' %}"></script>
+<script src="{% static 'moneyplus/js/post_equipe.js' %}"></script>
+{% endblock %}

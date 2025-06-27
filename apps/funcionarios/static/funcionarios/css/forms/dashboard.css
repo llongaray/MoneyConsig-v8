@@ -1,0 +1,620 @@
+/* ==========================================
+   CSS Dashboard Administrativo - Layout dinâmico e interativo
+   ========================================== */
+
+/* ---------- Variáveis de Cores e Sombreamentos ---------- */
+:root {
+    --color-primary: #0a9e45; /* Verde Principal */
+    --color-primary-dark: #076b2f;
+    --color-secondary: #70f611; /* Verde Limão */
+    --color-tertiary: #0bd5f0; /* Azul Ciano */
+    --color-accent: #ffc107; /* Amarelo */
+    --color-white: #fff;
+    --color-gray: #ddd;
+    --color-light-gray: #f0f0f0;
+    --color-dark: #333;
+    --color-success: #28a745;
+    --color-info: #17a2b8;
+    --color-warning: #ffc107;
+    --color-danger: #dc3545;
+
+    /* Cores de fundo para ícones */
+    --color-primary-light: rgba(10, 158, 69, 0.15);
+    --color-secondary-light: rgba(112, 246, 17, 0.15);
+    --color-tertiary-light: rgba(11, 213, 240, 0.15);
+    --color-success-light: rgba(40, 167, 69, 0.15);
+    --color-info-light: rgba(23, 162, 184, 0.15);
+    --color-warning-light: rgba(255, 193, 7, 0.15);
+    --color-danger-light: rgba(220, 53, 69, 0.15);
+
+    --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-hover: 0 8px 24px rgba(10,158,69,0.15);
+    --gradient-primary: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+    --gradient-secondary: linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-primary-dark) 100%);
+    --gradient-metallic: linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-secondary) 25%, var(--color-white) 50%, var(--color-secondary) 75%, var(--color-tertiary) 100%);
+    --gradient-header: linear-gradient(-45deg, var(--color-primary), var(--color-secondary), var(--color-tertiary), var(--color-primary));
+}
+
+/* ==========================================
+   Estilos Gerais e Layout
+   ========================================== */
+body {
+    font-family: 'Poppins', sans-serif; /* Exemplo de fonte, ajuste conforme necessário */
+    background-color: var(--color-light-gray);
+}
+
+#dashboard-container {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Aumentar espaçamento entre seções */
+    animation: fadeIn 0.6s ease-out forwards;
+    width: 100%;
+    max-width: 1600px; /* Aumentar largura máxima */
+    margin: 0 auto;
+}
+
+/* ==========================================
+   Estilos das Seções e Categorias
+   ========================================== */
+.dashboard-section {
+    background-color: var(--color-white);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--box-shadow-medium);
+    border-top: 4px solid var(--color-primary);
+    margin-bottom: 20px; /* Espaço abaixo de cada seção */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-title {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-gray);
+    display: flex;
+    align-items: center;
+}
+
+.section-title i {
+    margin-right: 12px;
+    font-size: 1.8rem;
+    color: var(--color-primary);
+}
+
+.category-block {
+    margin-bottom: 30px; /* Espaço entre categorias dentro de uma seção */
+    width: 100%;
+}
+
+.category-block:last-child {
+    margin-bottom: 10px; /* Menos espaço após a última categoria */
+}
+
+.category-title {
+    font-size: 1.2rem;
+    color: var(--color-dark);
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    border-left: 3px solid var(--color-secondary);
+}
+
+/* ==========================================
+   Boxes de Cards
+   ========================================== */
+.box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Reduzir gap entre cards */
+    width: 100%;
+    justify-content: center;
+}
+
+/* Remover margem inferior padrão do .box, já que .category-block controla */
+.category-block .box {
+    margin-bottom: 0;
+}
+
+/* ==========================================
+   Cards
+   ========================================== */
+.card {
+    background-color: var(--color-white);
+    border-radius: 8px; /* Levemente menor */
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid #eee; /* Borda mais suave */
+    display: flex;
+    align-items: center;
+    padding: 18px; /* Ajustar padding */
+    position: relative;
+    perspective: 1000px;
+    flex: 1 1 250px; /* Base flexível, permitir crescer */
+    min-width: 230px; /* Largura mínima */
+    max-width: 320px; /* Largura máxima */
+    margin: 0; /* Remover margem, gap do .box controla */
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-medium);
+}
+
+/* Card de Tabela (se houver no futuro) */
+.card.tabela {
+    max-width: none; /* Permitir ocupar largura total */
+    flex: 1 1 100%;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+}
+
+/* ==========================================
+   Ícones dos Cards
+   ========================================== */
+.icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 22px;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    /* Remover animação de pulso padrão para focar no hover */
+    /* animation: pulse 2s infinite; */
+}
+
+.card:hover .icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+/* Estilos Genéricos por Seção (para ícones) */
+#sessao-financeiro .icon { background-color: var(--color-warning-light); color: var(--color-warning); }
+#sessao-lojas .icon { background-color: var(--color-info-light); color: var(--color-info); }
+#sessao-rh .icon { background-color: var(--color-success-light); color: var(--color-success); }
+#sessao-metas .icon { background-color: var(--color-primary-light); color: var(--color-primary); }
+
+/* Sobrescrever cores específicas onde necessário (exemplos) */
+#card-empresa-fat-ano .icon, #card-interno-fat-ano .icon, #card-franquia-fat-ano .icon, #card-filial-fat-ano .icon { background-color: var(--color-tertiary-light); color: var(--color-tertiary); }
+#card-rh-func-inativos .icon { background-color: var(--color-danger-light); color: var(--color-danger); }
+#card-meta-ativa-status .icon, #card-meta-inativa-status .icon { background-color: var(--color-secondary-light); color: var(--color-secondary); }
+
+
+/* ==========================================
+   Informações dos Cards
+   ========================================== */
+.container-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 0.85rem;
+    color: #555; /* Cor mais escura para o título */
+    font-weight: 500;
+    margin-bottom: 4px;
+    text-transform: uppercase; /* Deixar título em maiúsculo */
+    letter-spacing: 0.5px;
+}
+
+.value {
+    font-size: 1.7rem;
+    font-weight: 700; /* Mais peso na fonte */
+    color: var(--color-primary-dark);
+    line-height: 1.2;
+}
+
+/* Header para cards de tabela (se houver) */
+.card.tabela .header {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--color-gray);
+    margin-bottom: 0;
+    background: linear-gradient(to right, rgba(10, 158, 69, 0.05), rgba(11, 213, 240, 0.05));
+    display: flex;
+    align-items: center;
+}
+
+.card.tabela .header i {
+    margin-right: 10px;
+    color: var(--color-primary);
+    font-size: 1.3rem;
+}
+
+/* ==========================================
+   Filtros
+   ========================================== */
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px; /* Espaço abaixo do filtro */
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+
+.filter-container .form-label {
+    margin-bottom: 0; /* Remover margem do label */
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #444;
+    flex-shrink: 0; /* Não deixar o label encolher */
+}
+
+.filter-container .form-select {
+    flex-grow: 1; /* Deixar o select ocupar espaço disponível */
+    max-width: 300px; /* Limitar largura máxima */
+}
+
+/* Estilos básicos para form-select (ajuste conforme Bootstrap ou lib usada) */
+.form-select {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  appearance: none;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.form-select:focus {
+  border-color: var(--color-primary);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(10, 158, 69, 0.25);
+}
+
+.form-select-sm {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.5rem;
+  font-size: .875rem;
+  border-radius: 0.2rem;
+}
+
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+/* ==========================================
+   Tabela (Se usada dentro de .card.tabela)
+   ========================================== */
+.table-container {
+    width: 100%;
+    max-height: 450px; /* Aumentar altura máxima */
+    overflow-y: auto;
+    padding: 0 20px 20px 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table thead th {
+    background: linear-gradient(to right, rgba(10, 158, 69, 0.08), rgba(11, 213, 240, 0.08));
+    color: var(--color-primary-dark);
+    padding: 14px 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: left;
+    border-bottom: 2px solid var(--color-primary);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    font-size: 0.88rem;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(112, 246, 17, 0.08);
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Efeito hover para células da tabela */
+.table td::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transition: left 0.4s ease;
+}
+
+.table tr:hover td::after {
+    left: 100%;
+}
+
+/* ==========================================
+   Timestamp
+   ========================================== */
+.timestamp-container {
+    padding: 10px 25px; /* Alinhar com padding do container */
+    font-size: 0.8rem;
+    color: #666;
+    width: 100%;
+    text-align: right;
+    margin-top: 10px; /* Espaço acima */
+}
+
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Aplicar animação a todos os cards */
+.card {
+     animation: fadeIn 0.4s ease-out backwards;
+}
+
+/* Stagger animation delay for cards within a box */
+.box .card:nth-child(1) { animation-delay: 0.1s; }
+.box .card:nth-child(2) { animation-delay: 0.15s; }
+.box .card:nth-child(3) { animation-delay: 0.2s; }
+.box .card:nth-child(4) { animation-delay: 0.25s; }
+.box .card:nth-child(5) { animation-delay: 0.3s; }
+.box .card:nth-child(6) { animation-delay: 0.35s; }
+/* Add more if needed */
+
+
+/* Efeito metálico suave */
+.card::before {
+    content: '';
+    position: absolute;
+    top: -150%;
+    left: -150%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.03) 45%,
+        rgba(255,255,255,0.1) 50%,
+        rgba(255,255,255,0.03) 55%,
+        rgba(255,255,255,0) 100%
+    );
+    transform: rotate(30deg);
+    transition: top 0.6s ease, left 0.6s ease, opacity 0.6s ease;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.card:hover::before {
+    top: 50%;
+    left: 50%;
+    transform: rotate(30deg) translate(-50%, -50%);
+    opacity: 1;
+}
+
+/* Garantir que o conteúdo fique acima do efeito de brilho */
+.container-info, .icon, .card.tabela .header, .table-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* ==========================================
+   Responsividade
+   ========================================== */
+
+@media (max-width: 1400px) {
+    #dashboard-container {
+        max-width: 1200px;
+    }
+    .card {
+        flex-basis: 230px;
+    }
+}
+
+@media (max-width: 1200px) {
+    #dashboard-container {
+        padding: 20px;
+        gap: 25px;
+    }
+    .card {
+       max-width: calc(33.333% - 10px); /* 3 colunas */
+       flex-basis: calc(33.333% - 10px);
+       min-width: 200px;
+    }
+    .value {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .card {
+       max-width: calc(50% - 8px); /* 2 colunas */
+       flex-basis: calc(50% - 8px);
+    }
+     .section-title {
+        font-size: 1.3rem;
+    }
+    .category-title {
+        font-size: 1.1rem;
+    }
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .filter-container .form-select {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    #dashboard-container {
+        padding: 15px;
+        gap: 20px;
+    }
+    .dashboard-section {
+        padding: 15px;
+    }
+    .card {
+        padding: 15px;
+        flex-basis: calc(50% - 8px);
+    }
+    .icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    .value {
+        font-size: 1.5rem;
+    }
+    .title {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        max-width: 100%; /* 1 coluna */
+        flex-basis: 100%;
+    }
+    .section-title {
+        font-size: 1.2rem;
+    }
+     .category-title {
+        font-size: 1rem;
+    }
+    .value {
+        font-size: 1.4rem;
+    }
+    .timestamp-container {
+        text-align: center;
+        font-size: 0.8rem;
+        padding: 10px 15px;
+    }
+}
+
+/* ==========================================
+   Modo Escuro (Ajustes)
+   ========================================== */
+html.dark body {
+    background-color: #1f1f1f;
+    color: #d8d8d8;
+}
+
+html.dark .dashboard-section {
+    background-color: #2a2a2a;
+    border-color: var(--color-primary);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+html.dark .section-title {
+    color: #e8e8e8;
+    border-bottom-color: #444;
+}
+
+html.dark .section-title i {
+    color: var(--color-primary);
+}
+
+html.dark .category-title {
+    color: #c8c8c8;
+    border-left-color: var(--color-secondary);
+}
+
+html.dark .card {
+    background-color: #333;
+    border-color: #444;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+html.dark .title {
+    color: #aaa;
+}
+
+html.dark .value {
+    color: #f5f5f5;
+}
+
+html.dark .filter-container {
+    background-color: #2f2f2f;
+    border-color: #444;
+}
+
+hml.dark .filter-container .form-label {
+    color: #c8c8c8;
+}
+
+html.dark .form-select {
+    background-color: #3a3a3a;
+    border-color: #555;
+    color: #e0e0e0;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23aaaaaa' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+}
+
+html.dark .form-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba(10, 158, 69, 0.35);
+}
+
+html.dark .table thead th {
+    background: linear-gradient(to right, rgba(10, 158, 69, 0.15), rgba(11, 213, 240, 0.15));
+    color: #e8e8e8;
+    border-bottom-color: var(--color-primary);
+}
+
+html.dark .table tbody td {
+    border-bottom-color: #444;
+    color: #c8c8c8;
+}
+
+html.dark .table tbody tr:hover {
+    background-color: rgba(112, 246, 17, 0.15);
+}
+
+html.dark .timestamp-container {
+    color: #888;
+}

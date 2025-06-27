@@ -1,0 +1,164 @@
+#modalCalculadoraCartaoBeneficio {
+    font-family: 'Roboto', sans-serif;
+}
+
+#modalCalculadoraCartaoBeneficio .modal-content {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#modalCalculadoraCartaoBeneficio .modal-title {
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+#modalCalculadoraCartaoBeneficio .modal-body {
+    padding: 2rem;
+    background-color: #f8f9fa;
+}
+
+#modalCalculadoraCartaoBeneficio .form-group {
+    margin-bottom: 1.5rem;
+}
+
+#modalCalculadoraCartaoBeneficio label {
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+#modalCalculadoraCartaoBeneficio #margemLiq {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.8rem;
+    transition: border-color 0.3s ease;
+}
+
+#modalCalculadoraCartaoBeneficio #margemLiq:focus {
+    border-color: #2193b0;
+    box-shadow: 0 0 0 0.2rem rgba(33, 147, 176, 0.25);
+}
+
+#modalCalculadoraCartaoBeneficio #calcularCartao {
+    background: linear-gradient(135deg, #2193b0, #6dd5ed);
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+#modalCalculadoraCartaoBeneficio #calcularCartao:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#modalCalculadoraCartaoBeneficio #resultadoCalculo {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#modalCalculadoraCartaoBeneficio #resultadoCalculo p {
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+    color: #2c3e50;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.8rem;
+}
+
+#modalCalculadoraCartaoBeneficio #resultadoCalculo p:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+#modalCalculadoraCartaoBeneficio h6 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin: 2rem 0 1rem;
+}
+
+#modalCalculadoraCartaoBeneficio ul {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem 1.5rem 1.5rem 3rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#modalCalculadoraCartaoBeneficio ul li {
+    margin-bottom: 0.8rem;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+#modalCalculadoraCartaoBeneficio ul li:last-child {
+    margin-bottom: 0;
+}
+
+#modalCalculadoraCartaoBeneficio .btn-close {
+    color: white;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+#modalCalculadoraCartaoBeneficio .btn-close:hover {
+    opacity: 1;
+}
+
+/* Dark Mode */
+.darkmode #modalCalculadoraCartaoBeneficio .modal-content {
+    background-color: var(--dark-bg-secondary) !important;
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio .modal-header {
+    background-color: var(--dark-header-bg);
+    border-bottom-color: var(--dark-divider);
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio .modal-title {
+    color: var(--dark-text-primary);
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio .modal-body {
+    background-color: var(--dark-bg-secondary);
+    color: var(--dark-text-primary);
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio label {
+    color: var(--dark-text-primary);
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio #margemLiq {
+    background-color: var(--dark-bg-primary);
+    border-color: var(--dark-divider);
+    color: var(--dark-text-primary);
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio #resultadoCalculo {
+    background-color: var(--dark-bg-primary);
+    color: var(--dark-text-primary);
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio #resultadoCalculo p {
+    color: var(--dark-text-primary);
+    border-bottom-color: var(--dark-divider);
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio h6 {
+    color: var(--dark-text-primary);
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio ul {
+    background-color: var(--dark-bg-primary);
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio ul li {
+    color: var(--dark-text-secondary);
+}
+
+.darkmode #modalCalculadoraCartaoBeneficio .btn-close {
+    color: var(--dark-text-primary);
+}

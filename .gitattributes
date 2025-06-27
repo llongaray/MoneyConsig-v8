@@ -1,0 +1,7 @@
+# Force LF em arquivo de texto no repositório
+* text=auto eol=lf
+
+# Para garantir que HTML/JS/Python ﬁquem com LF
+*.html text eol=lf
+*.js   text eol=lf
+*.py   text eol=lf

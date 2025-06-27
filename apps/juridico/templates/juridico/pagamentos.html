@@ -1,0 +1,279 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block title %}Pagamentos INSS{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'juridico/css/pagamentos.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Seção do Mini Dashboard -->
+    <div class="card">
+        <div class="card-header">
+            <i class='bx bx-bar-chart-alt-2'></i>
+            Dashboard de Pagamentos
+        </div>
+        <div class="card-body">
+            <!-- Mini-Dashboard -->
+            <div class="dashboard-row">
+                <!-- Container do Selector -->
+                <div class="dashboard-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <i class='bx bx-bar-chart-alt-2 me-2'></i>Resumo de Pagamentos
+                        </h5>
+                        <div class="form-group mb-0">
+                            <select class="form-select form-select-sm" id="filtroPeriodo" style="width: auto; min-width: 120px;">
+                                <option value="total">Total</option>
+                                <option value="mensal">Mensal</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Container dos Cards -->
+                <div class="dashboard-cards">
+                    <div class="col-md-4 mb-3">
+                        <div class="card dashboard-card bg-success">
+                            <div class="card-body">
+                                <div class="dashboard-content">
+                                    <h6 class="card-title mb-0">
+                                        <i class='bx bx-check-circle me-2'></i>Quitados
+                                    </h6>
+                                    <h4 class="mt-2 mb-0" id="totalQuitados">R$ 0,00</h4>
+                                    <small id="countQuitados">0 pagamentos</small>
+                                </div>
+                                <div class="dashboard-icon">
+                                    <i class='bx bx-check-circle'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card dashboard-card bg-warning">
+                            <div class="card-body">
+                                <div class="dashboard-content">
+                                    <h6 class="card-title mb-0">
+                                        <i class='bx bx-time me-2'></i>Em Andamento
+                                    </h6>
+                                    <h4 class="mt-2 mb-0" id="totalEmAndamento">R$ 0,00</h4>
+                                    <small id="countEmAndamento">0 pagamentos</small>
+                                </div>
+                                <div class="dashboard-icon">
+                                    <i class='bx bx-time'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card dashboard-card bg-danger">
+                            <div class="card-body">
+                                <div class="dashboard-content">
+                                    <h6 class="card-title mb-0">
+                                        <i class='bx bx-time-five me-2'></i>Atrasados
+                                    </h6>
+                                    <h4 class="mt-2 mb-0" id="totalAtrasados">0</h4>
+                                    <small id="countAtrasados">0 ações</small>
+                                </div>
+                                <div class="dashboard-icon">
+                                    <i class='bx bx-time-five'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Lista de Pagamentos -->
+    <div class="card">
+        <div class="card-header">
+            <i class='bx bx-list-ul'></i>
+            Lista de Pagamentos
+        </div>
+        <div class="card-body">
+            <!-- Filtros -->
+            <form id="formFiltroPagamentos" class="form-filtros">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="filtroNomePagamento" class="form-control" placeholder="Nome do Cliente...">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="filtroCPFPagamento" class="form-control" placeholder="CPF...">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="filtroVendedorPagamento" class="form-control" placeholder="Vendedor...">
+                    </div>
+                    <div class="form-group">
+                        <select id="filtroStatusPagamento" class="form-select">
+                            <option value="">Todos os Status</option>
+                            <option value="Quitado">Quitado</option>
+                            <option value="Em Andamento">Em Andamento</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select id="filtroTipoAcaoPagamento" class="form-select">
+                            <option value="">Todos os Tipos</option>
+                            <option value="Associação">Associação</option>
+                            <option value="Cartão">Cartão</option>
+                            <option value="Débito em Conta">Débito em Conta</option>
+                            <option value="Limpanome">Limpanome</option>
+                            <option value="Revisional">Revisional</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Tabela de Pagamentos -->
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover" id="tabelaPagamentos">
+                    <thead>
+                        <tr>
+                            <th class="text-center"><i class='bx bx-user me-1'></i>Cliente</th>
+                            <th class="text-center"><i class='bx bx-id-card me-1'></i>CPF</th>
+                            <th class="text-center"><i class='bx bx-user-circle me-1'></i>Vendedor</th>
+                            <th class="text-center"><i class='bx bx-file me-1'></i>Tipo Ação</th>
+                            <th class="text-center"><i class='bx bx-credit-card me-1'></i>Tipo Pagamento</th>
+                            <th class="text-center"><i class='bx bx-money me-1'></i>Valor Total</th>
+                            <th class="text-center"><i class='bx bx-money-withdraw me-1'></i>Valor Restante</th>
+                            <th class="text-center"><i class='bx bx-calendar-check me-1'></i>Status</th>
+                            <th class="text-center"><i class='bx bx-cog me-1'></i>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dados serão carregados via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mensagem quando não há resultados -->
+            <div id="nenhumResultadoPagamentos" class="text-center py-4" style="display: none;">
+                <i class='bx bx-search-alt' style="font-size: 3rem; color: #ccc;"></i>
+                <p class="mt-2 text-muted">Nenhum pagamento encontrado com os filtros aplicados.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Registrar Pagamento -->
+<div class="modal fade" id="modalRegistrarPagamento" tabindex="-1" aria-labelledby="modalRegistrarPagamentoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRegistrarPagamentoLabel">
+                    <i class='bx bx-plus-circle'></i>
+                    Registrar Pagamento
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formRegistrarPagamento">
+                    <input type="hidden" id="pagamentoId" name="pagamentoId">
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="valorPago" class="form-label">Valor Pago (R$)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">R$</span>
+                                <input type="text" class="form-control" id="valorPago" name="valorPago" placeholder="0,00" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="parcelaPaga" class="form-label">Número da Parcela</label>
+                            <input type="number" class="form-control" id="parcelaPaga" name="parcelaPaga" placeholder="1" min="1">
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flgAtrasado" name="flgAtrasado">
+                                <label class="form-check-label" for="flgAtrasado">
+                                    Pagamento Atrasado
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12" id="divJurosAtrasado" style="display: none;">
+                            <label for="jurosAtrasadoMensal" class="form-label">Juros por Atraso Mensal (%)</label>
+                            <input type="number" class="form-control" id="jurosAtrasadoMensal" name="jurosAtrasadoMensal" placeholder="0" min="0" max="100" step="0.01">
+                        </div>
+                        
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flgAcordo" name="flgAcordo">
+                                <label class="form-check-label" for="flgAcordo">
+                                    Pagamento com Acordo
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12" id="divTipoAcordo" style="display: none;">
+                            <label for="tipoAcordo" class="form-label">Tipo de Acordo</label>
+                            <select class="form-select" id="tipoAcordo" name="tipoAcordo">
+                                <option value="NENHUM">Nenhum</option>
+                                <option value="DESCONTO">Desconto no Valor</option>
+                                <option value="PARCELAMENTO">Novo Parcelamento</option>
+                                <option value="QUITACAO">Quitação com Desconto</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="observacao" class="form-label">Observação</label>
+                            <textarea class="form-control" id="observacao" name="observacao" rows="3" placeholder="Observações sobre o pagamento..."></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class='bx bx-x'></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-success" onclick="salvarPagamento()">
+                    <i class='bx bx-save'></i> Salvar Pagamento
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Visualizar Detalhes -->
+<div class="modal fade" id="modalDetalhesPagamento" tabindex="-1" aria-labelledby="modalDetalhesPagamentoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDetalhesPagamentoLabel">
+                    <i class='bx bx-info-circle'></i>
+                    Detalhes do Pagamento
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalDetalhesPagamentoBody">
+                <!-- Conteúdo será carregado via JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class='bx bx-x'></i> Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+<script src="{% static 'juridico/js/pagamentos.js' %}"></script>
+{% endblock %} 

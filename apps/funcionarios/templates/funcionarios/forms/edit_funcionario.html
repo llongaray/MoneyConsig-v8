@@ -1,0 +1,362 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Editar Funcionário<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="{% static 'funcionarios/css/forms/edit_funcionario.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    {% csrf_token %}
+  <!-- Card de Filtros -->
+  <div class="card mb-4" id="card-filtros">
+    <div class="card-header bg-primary text-white">
+      <i class='bx bx-filter-alt me-2'></i> Filtrar Funcionários
+    </div>
+    <div class="card-body">
+      <form id="form-filtros">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-3">
+            <label for="filtro_apelido" class="form-label">
+              <i class='bx bx-user-pin me-2'></i>Apelido
+            </label>
+            <input type="text" id="filtro_apelido" name="apelido" class="form-control">
+          </div>
+          <div class="col-md-3">
+            <label for="filtro_nome" class="form-label">
+              <i class='bx bx-user me-2'></i>Nome
+            </label>
+            <input type="text" id="filtro_nome" name="nome" class="form-control">
+          </div>
+          <div class="col-md-3">
+            <label for="filtro_empresa" class="form-label">
+              <i class='bx bx-building me-2'></i>Empresa
+            </label>
+            <select id="filtro_empresa" name="empresa" class="form-control">
+              <option value="">Todas</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="filtro_departamento" class="form-label">
+              <i class='bx bx-cabinet me-2'></i>Departamento
+            </label>
+            <select id="filtro_departamento" name="departamento" class="form-control">
+              <option value="">Todos</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="filtro_funcao" class="form-label">
+              <i class='bx bx-briefcase me-2'></i>Função
+            </label>
+            <select id="filtro_funcao" name="funcao" class="form-control">
+              <option value="">Todas</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="filtro_setor" class="form-label">
+              <i class='bx bx-hive me-2'></i>Setor
+            </label>
+            <select id="filtro_setor" name="setor" class="form-control">
+              <option value="">Todos</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="filtro_status" class="form-label">
+              <i class='bx bx-check-circle me-2'></i>Status
+            </label>
+            <select id="filtro_status" name="status" class="form-control">
+              <option value="">Todos</option>
+              <option value="1">Ativo</option>
+              <option value="0">Inativo</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="filtro_equipe" class="form-label">
+              <i class='bx bx-group me-2'></i>Equipe
+            </label>
+            <select id="filtro_equipe" name="equipe" class="form-control">
+              <option value="">Todas</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Card de Resultados (inicialmente oculto) -->
+  <div class="card mb-4" id="card-resultados">
+    <div class="card-header bg-secondary text-white">
+      <i class='bx bx-list-ul me-2'></i> Resultados da Pesquisa
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Apelido</th>
+              <th>Nome Completo</th>
+              <th>CPF</th>
+              <th>Cargo</th>
+              <th>Setor</th>
+              <th>Equipe</th>
+              <th>Status</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaResultadosBody">
+            <!-- Linhas serão adicionadas via JS -->
+             <tr><td colspan="8" class="text-center text-muted">Nenhum funcionário encontrado ou pesquisa não realizada.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card de Edição (inicialmente oculto) -->
+  <div class="card mb-4" id="card-edicao" style="display: none;">
+    <div class="card-header bg-info text-white">
+      <i class='bx bx-edit me-2'></i> Editar Funcionário: <span id="nome-funcionario-edicao"></span>
+    </div>
+    <div class="card-body">
+      <form id="form-edicao" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" id="edit_funcionario_id" name="funcionario_id">
+
+        <div class="row">
+          <!-- Coluna 1: Dados Pessoais e Contato -->
+          <div class="col-md-6">
+            <h5 class="mb-3"><i class='bx bx-user-circle me-2'></i>Dados Pessoais</h5>
+            <div class="mb-3">
+              <label for="edit_apelido" class="form-label"><i class='bx bx-user-pin me-2'></i>Apelido</label>
+              <input type="text" id="edit_apelido" name="apelido" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="edit_nome_completo" class="form-label"><i class='bx bx-user me-2'></i>Nome Completo *</label>
+              <input type="text" id="edit_nome_completo" name="nome_completo" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit_cpf" class="form-label"><i class='bx bx-id-card me-2'></i>CPF *</label>
+              <input type="text" id="edit_cpf" name="cpf" class="form-control" placeholder="000.000.000-00" required>
+            </div>
+             <div class="mb-3">
+                <label for="edit_data_nascimento" class="form-label"><i class='bx bx-calendar-alt me-2'></i>Data de Nascimento *</label>
+                <input type="date" id="edit_data_nascimento" name="data_nascimento" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="edit_genero" class="form-label"><i class='bx bx-male-female me-2'></i>Gênero</label>
+                <input type="text" id="edit_genero" name="genero" class="form-control">
+            </div>
+             <div class="mb-3">
+                <label for="edit_estado_civil" class="form-label"><i class='bx bx-heart me-2'></i>Estado Civil</label>
+                <input type="text" id="edit_estado_civil" name="estado_civil" class="form-control">
+            </div>
+
+            <hr>
+            <h5 class="mb-3"><i class='bx bx-map-pin me-2'></i>Endereço e Contato</h5>
+             <div class="mb-3">
+                <label for="edit_cep" class="form-label"><i class='bx bx-map me-2'></i>CEP</label>
+                <input type="text" id="edit_cep" name="cep" class="form-control">
+            </div>
+             <div class="mb-3">
+                <label for="edit_endereco" class="form-label"><i class='bx bx-map-alt me-2'></i>Endereço</label>
+                <input type="text" id="edit_endereco" name="endereco" class="form-control">
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="edit_bairro" class="form-label">Bairro</label>
+                    <input type="text" id="edit_bairro" name="bairro" class="form-control">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="edit_cidade" class="form-label">Cidade</label>
+                    <input type="text" id="edit_cidade" name="cidade" class="form-control">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="edit_estado" class="form-label">UF</label>
+                    <input type="text" id="edit_estado" name="estado" class="form-control" maxlength="2">
+                </div>
+            </div>
+             <div class="mb-3">
+                <label for="edit_celular1" class="form-label"><i class='bx bx-mobile-alt me-2'></i>Celular Principal</label>
+                <input type="text" id="edit_celular1" name="celular1" class="form-control">
+            </div>
+             <div class="mb-3">
+                <label for="edit_celular2" class="form-label"><i class='bx bx-phone me-2'></i>Celular Secundário</label>
+                <input type="text" id="edit_celular2" name="celular2" class="form-control">
+            </div>
+
+             <hr>
+             <h5 class="mb-3"><i class='bx bx-face me-2'></i>Foto</h5>
+            <div class="mb-3">
+                <label for="edit_foto" class="form-label"><i class='bx bx-image-add me-2'></i>Alterar Foto</label>
+                <input type="file" id="edit_foto" name="foto" class="form-control" accept="image/*">
+                <div class="mt-2">
+                    <p class="mb-1">Foto Atual:</p>
+                    <img id="foto-atual-preview" src="{% static 'img/placeholder-user.png' %}" alt="Foto Atual">
+                    <small id="foto-atual-nome" class="text-muted d-block"></small>
+                </div>
+            </div>
+            <div class="mb-3 status-toggle-container">
+                <label class="form-label me-3 pt-1">Status:</label>
+                <div class="custom-status-toggle">
+                    <input type="checkbox" id="edit_status" name="status" class="toggle__input">
+                    <label for="edit_status" class="toggle__label">
+                        <span class="toggle__text toggle__text--off">Inativo</span>
+                        <span class="toggle__text toggle__text--on">Ativo</span>
+                    </label>
+                </div>
+            </div>
+
+          </div>
+
+          <!-- Coluna 2: Dados Profissionais e Outros -->
+          <div class="col-md-6">
+            <h5 class="mb-3"><i class='bx bx-briefcase me-2'></i>Dados Profissionais</h5>
+            <div class="mb-3">
+                <label for="edit_matricula" class="form-label"><i class='bx bx-barcode-reader me-2'></i>Matrícula</label>
+                <input type="text" id="edit_matricula" name="matricula" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="edit_pis" class="form-label"><i class='bx bx-id-card me-2'></i>PIS</label>
+                <input type="text" id="edit_pis" name="pis" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label for="edit_tipo_contrato" class="form-label"><i class='bx bx-file-blank me-2'></i>Tipo de Contrato *</label>
+              <select id="edit_tipo_contrato" name="tipo_contrato" class="form-select" required>
+                <option value="">--- Selecione ---</option>
+                {# Opções populadas via JS #}
+              </select>
+            </div>
+            <div class="mb-3">
+                <label for="edit_empresa" class="form-label"><i class='bx bx-building-house me-2'></i>Empresa *</label>
+                <select id="edit_empresa" name="empresa" class="form-select" required>
+                    <option value="">--- Selecione ---</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Lojas *</label>
+                <div class="lojas-container" id="edit_lojas_container">
+                    <!-- Os checkboxes serão adicionados aqui via JavaScript -->
+                </div>
+                <div class="form-text">Selecione as lojas em que o funcionário atuará.</div>
+            </div>
+            <div class="mb-3">
+                <label for="edit_departamento" class="form-label"><i class='bx bx-buildings me-2'></i>Departamento *</label>
+                <select id="edit_departamento" name="departamento" class="form-select" required>
+                    <option value="">--- Selecione a Empresa Primeiro ---</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="edit_setor" class="form-label"><i class='bx bx-hive me-2'></i>Setor *</label>
+                <select id="edit_setor" name="setor" class="form-select" required>
+                    <option value="">--- Selecione o Departamento Primeiro ---</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="edit_cargo" class="form-label"><i class='bx bx-briefcase-alt-2 me-2'></i>Cargo *</label>
+                <select id="edit_cargo" name="cargo" class="form-select" required>
+                    <option value="">--- Selecione a Empresa Primeiro ---</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="edit_horario" class="form-label"><i class='bx bx-time-five me-2'></i>Horário de Trabalho</label>
+                <select id="edit_horario" name="horario" class="form-select">
+                    <option value="">--- Selecione ---</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="edit_equipe" class="form-label"><i class='bx bx-group me-2'></i>Equipe</label>
+                <select id="edit_equipe" name="equipe" class="form-select">
+                    <option value="">--- Nenhuma ---</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="edit_data_admissao" class="form-label"><i class='bx bx-calendar-plus me-2'></i>Data de Admissão</label>
+                <input type="date" id="edit_data_admissao" name="data_admissao" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="edit_data_demissao" class="form-label"><i class='bx bx-calendar-minus me-2'></i>Data de Demissão</label>
+                <input type="date" id="edit_data_demissao" name="data_demissao" class="form-control">
+            </div>
+
+            <!-- Novo campo para Regras de Comissionamento -->
+            <div class="mb-3">
+                <label class="form-label"><i class='bx bx-money-withdraw me-2'></i>Regras de Comissionamento Aplicáveis</label>
+                <div id="edit_regras_comissionamento_container" class="border rounded p-3 bg-light" style="max-height: 150px; overflow-y: auto;">
+                    <!-- Checkboxes serão carregados via JavaScript -->
+                    <p class="text-muted small">Carregando regras...</p>
+                </div>
+                <small class="text-muted">Marque as regras que se aplicam a este funcionário.</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nova seção de arquivos (width 100%) -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <hr>
+            <h5 class="mb-3"><i class='bx bx-file-plus me-2'></i>Arquivos do Funcionário</h5>
+            
+            <div class="arquivos-container mb-3">
+              <!-- Arquivos Atuais -->
+              <div class="arquivos-atuais mb-4">
+                <h6 class="header-arquivos-section"><i class='bx bx-folder-open me-2'></i>Arquivos Atuais:</h6>
+                <div class="lista-arquivos-atuais p-3">
+                  <p class="text-muted" id="sem-arquivos-msg">Nenhum arquivo encontrado para este funcionário.</p>
+                  <div id="lista-arquivos-existentes" class="lista-arquivos">
+                    <!-- Arquivos existentes serão exibidos aqui via JS -->
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Novos Arquivos -->
+              <div class="novos-arquivos">
+                <h6 class="header-arquivos-section"><i class='bx bx-upload me-2'></i>Adicionar Novos Arquivos:</h6>
+                
+                <!-- Nova Área de Arrastar e Soltar -->
+                <div id="drop-area" class="mb-3 text-center">
+                  <i class='bx bx-cloud-upload bx-lg d-block mb-2'></i>
+                  <p class="mb-0">Arraste e solte os arquivos aqui</p>
+                  <small class="text-muted_extra">ou</small>
+                </div>
+                
+                <div id="container-novos-arquivos">
+                  <!-- Container vazio - formulários serão adicionados via JS -->
+                </div>
+                
+                <!-- Botão para adicionar mais arquivos -->
+                <div class="text-center mb-3">
+                  <button type="button" id="btn-adicionar-mais-arquivos" class="btn btn-outline-primary">
+                    <i class='bx bx-plus-circle me-2'></i> Adicionar arquivo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-secondary" id="btn-cancelar-edicao">
+            <i class='bx bx-x me-2'></i> Cancelar
+          </button>
+          <button type="submit" class="btn btn-info">
+            <i class='bx bx-save me-2'></i> Salvar Alterações
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div><!-- .container -->
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script src="{% static 'funcionarios/js/edit_funcionario.js' %}"></script>
+{% endblock %}

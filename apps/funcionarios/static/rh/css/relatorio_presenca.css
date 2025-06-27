@@ -1,0 +1,1207 @@
+/* Estilos modernos e vibrantes para o relatório de presença */
+
+/* Import de fontes modernas */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Variáveis CSS para cores modernas */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --info-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    --purple-gradient: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+    --orange-gradient: linear-gradient(135deg, #fdbb2d 0%, #22c1c3 100%);
+    --pink-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    
+    --bg-primary: #f8fafc;
+    --bg-dark: #0f172a;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-light: #e2e8f0;
+    --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-large: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --border-radius: 16px;
+    --border-radius-sm: 12px;
+    --border-radius-lg: 24px;
+}
+
+/* Gerais e Layout */
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+#relatorio-presenca-container {
+    background: transparent;
+}
+
+.main-page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 3rem !important;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: slideInDown 0.8s ease-out;
+}
+
+#sessao-filtros .card .card-body .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 48px;
+}
+
+#sessao-filtros .card .card-body .row .col-12 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+#sessao-filtros .card .card-body .row .container-filter {
+    display: flex;
+    justify-content: center;
+    gap: 56px;
+    margin-bottom: 20px;
+}
+
+#sessao-tabela-ausencias .card .card-body .row .container-filter {
+    display: flex;
+    justify-content: center;
+    gap: 56px;
+    margin-bottom: 20px;
+}
+
+#sessao-tabela-ausencias .card .card-body .row .col-md-4.d-flex.align-items-end {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.main-page-title::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--primary-gradient);
+    border-radius: 2px;
+    animation: expandWidth 1s ease-out 0.5s both;
+}
+
+.main-page-title .bx {
+    margin-right: 15px;
+    font-size: 2.8rem;
+    color: #667eea;
+    filter: drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3));
+}
+
+/* Animações */
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes expandWidth {
+    from { width: 0; }
+    to { width: 80px; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: calc(200px + 100%) 0; }
+}
+
+/* Seções do Dashboard */
+.dashboard-section {
+    margin-bottom: 40px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-large);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeInUp 0.6s ease-out;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.dashboard-section:hover::before {
+    left: 100%;
+}
+
+.dashboard-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid transparent;
+    background: linear-gradient(to right, #667eea, #764ba2) bottom / 100% 3px no-repeat;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.section-title i {
+    margin-right: 15px;
+    font-size: 2rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Cards Grid */
+.category-block {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.box {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* Cards Modernos */
+.card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%);
+    backdrop-filter: blur(20px);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.card:hover::before {
+    transform: scaleX(1);
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(102, 126, 234, 0.25);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+}
+
+/* Ícones dos Cards com gradientes específicos */
+.card:nth-child(1) .icon { background: var(--success-gradient); }
+.card:nth-child(2) .icon { background: var(--warning-gradient); }
+.card:nth-child(3) .icon { background: var(--danger-gradient); }
+.card:nth-child(4) .icon { background: var(--info-gradient); }
+.card:nth-child(5) .icon { background: var(--purple-gradient); }
+.card:nth-child(6) .icon { background: var(--orange-gradient); }
+.card:nth-child(7) .icon { background: var(--pink-gradient); }
+.card:nth-child(8) .icon { background: var(--secondary-gradient); }
+
+.card .icon {
+    font-size: 2.5rem;
+    color: white;
+    padding: 18px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    min-height: 70px;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.card:hover .icon {
+    transform: rotate(360deg) scale(1.1);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+}
+
+.card .container-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card .title {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card .value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.card .value-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+.card small {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Card especial de observação */
+.card.card-observacao {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.card.card-observacao .title,
+.card.card-observacao .value-text,
+.card.card-observacao small {
+    color: white;
+}
+
+.card.card-observacao .icon {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+/* Filtros Modernos */
+#sessao-filtros .card {
+    padding: 30px;
+    display: block;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+}
+
+#sessao-filtros .card-body {
+    padding: 0;
+}
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-label .bx {
+    margin-right: 8px;
+    font-size: 1.2rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.form-control {
+    border-radius: var(--border-radius-sm);
+    border: 2px solid var(--border-light);
+    transition: all 0.3s ease;
+    padding: 12px 16px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background: white;
+    transform: translateY(-2px);
+}
+
+/* Tabela Moderna */
+#sessao-tabela-registros .card {
+    padding: 0;
+    display: block;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
+    backdrop-filter: blur(20px);
+}
+
+#sessao-tabela-registros .card-body {
+    padding: 30px;
+}
+
+#tabela-registros-ponto {
+    width: 100% !important;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+}
+
+/* Wrapper da tabela com scroll limitado a 8 itens */
+.table-scroll-wrapper {
+    max-height: 500px; /* Altura do cabeçalho + 8 linhas */
+    overflow-y: auto;
+    border-radius: var(--border-radius);
+}
+
+/* Fixa o cabeçalho da tabela */
+.table-scroll-wrapper thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #667eea;
+    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+}
+
+/* Limita a altura do tbody */
+.table-scroll-wrapper tbody {
+    display: block;
+    max-height: 448px; /* 8 linhas * 56px cada */
+    overflow-y: auto;
+    width: 100%;
+}
+
+.table-scroll-wrapper thead,
+.table-scroll-wrapper tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+/* Estilização moderna da scrollbar */
+.table-scroll-wrapper::-webkit-scrollbar,
+.table-scroll-wrapper tbody::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-track,
+.table-scroll-wrapper tbody::-webkit-scrollbar-track {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 6px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb,
+.table-scroll-wrapper tbody::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb:hover,
+.table-scroll-wrapper tbody::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.table th {
+    background: #667eea;
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 18px 20px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.table th .bx {
+    margin-right: 8px;
+    font-size: 1.2rem;
+}
+
+.table td {
+    vertical-align: middle;
+    padding: 16px 20px;
+    color: var(--text-primary);
+    text-align: center;
+    border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.table-hover tbody tr {
+    transition: all 0.3s ease;
+}
+
+.table-hover tbody tr:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
+}
+
+.loading {
+    padding: 60px;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 1.1rem;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: var(--primary-gradient);
+    border-radius: 2px;
+    animation: shimmer 1.5s infinite;
+}
+
+/* Cards de período com animação especial */
+.card-periodo {
+    animation: fadeInUp 0.6s ease-out;
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box, var(--primary-gradient) border-box;
+}
+
+/* Dark Mode Aprimorado */
+html.dark body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+html.dark .main-page-title {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+html.dark .dashboard-section {
+    background: rgba(30, 41, 59, 0.9);
+    backdrop-filter: blur(20px);
+    border-color: rgba(148, 163, 184, 0.1);
+}
+
+html.dark .section-title {
+    color: #f1f5f9;
+}
+
+html.dark .card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.8) 100%);
+    border-color: rgba(148, 163, 184, 0.1);
+}
+
+html.dark .card .title {
+    color: #94a3b8;
+}
+
+html.dark .card .value,
+html.dark .card .value-text {
+    color: #f1f5f9;
+}
+
+html.dark .form-control {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(148, 163, 184, 0.2);
+    color: #f1f5f9;
+}
+
+html.dark .form-control:focus {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: #60a5fa;
+}
+
+html.dark .table th {
+    background: #1e293b;
+    color: #f1f5f9;
+}
+
+html.dark .table td {
+    color: #e2e8f0;
+    border-bottom-color: rgba(148, 163, 184, 0.1);
+}
+
+html.dark .table-hover tbody tr:hover {
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(167, 139, 250, 0.1) 100%);
+}
+
+/* Scrollbar no modo escuro */
+html.dark .table-scroll-wrapper::-webkit-scrollbar-track,
+html.dark .table-scroll-wrapper tbody::-webkit-scrollbar-track {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+html.dark .table-scroll-wrapper::-webkit-scrollbar-thumb,
+html.dark .table-scroll-wrapper tbody::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+}
+
+html.dark .table-scroll-wrapper::-webkit-scrollbar-thumb:hover,
+html.dark .table-scroll-wrapper tbody::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    box-shadow: 0 2px 8px rgba(96, 165, 250, 0.4);
+}
+
+html.dark .table-scroll-wrapper thead th {
+    background: #1e293b;
+    box-shadow: 0 2px 4px rgba(30, 41, 59, 0.4);
+}
+
+/* Estilos específicos para a tabela de ausências */
+#sessao-tabela-ausencias .card {
+    border-left: 4px solid #fa709a;
+    background: linear-gradient(135deg, rgba(250, 112, 154, 0.02) 0%, rgba(254, 225, 64, 0.02) 100%);
+}
+
+#sessao-tabela-ausencias .section-title {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Badges para situações */
+.situacao-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.situacao-badge.ausente {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.situacao-badge.atrasado {
+    background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
+    color: #2d3436;
+    box-shadow: 0 4px 15px rgba(254, 202, 87, 0.3);
+}
+
+.situacao-badge i {
+    font-size: 1rem;
+}
+
+/* Estilo para horários */
+.horario-registro {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    padding: 4px 8px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-radius: 6px;
+    color: #667eea;
+}
+
+/* Botão de consulta personalizado */
+#btn-consultar-ausencias {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+#btn-consultar-ausencias:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+#btn-consultar-ausencias:active {
+    transform: translateY(0);
+}
+
+/* Select de filtro de equipe para ausências */
+#filtro-equipe-ausencias {
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    transition: all 0.3s ease;
+}
+
+#filtro-equipe-ausencias:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    background: rgba(255,255,255,0.95);
+}
+
+#filtro-equipe-ausencias option {
+    background: white;
+    color: var(--text-color);
+    padding: 8px;
+}
+
+/* Alert informativo */
+#sessao-tabela-ausencias .alert-info {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 10px;
+    color: #667eea;
+    font-size: 0.9rem;
+}
+
+#sessao-tabela-ausencias .alert-info i {
+    color: #667eea;
+    font-size: 1.2rem;
+}
+
+/* Responsividade Aprimorada */
+@media (max-width: 768px) {
+    .box {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .main-page-title {
+        font-size: 2rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .card {
+        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .card .icon {
+        margin-bottom: 15px;
+        min-width: 60px;
+        min-height: 60px;
+        font-size: 2rem;
+    }
+    
+    .dashboard-section {
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-page-title {
+        font-size: 1.75rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .main-page-title .bx {
+        font-size: 2.5rem;
+        margin-right: 0;
+    }
+    
+    .table th,
+    .table td {
+        padding: 12px 8px;
+        font-size: 0.85rem;
+    }
+    
+    #sessao-filtros .col-md-3 {
+        margin-bottom: 15px;
+    }
+    
+    /* Reduz altura da tabela em telas pequenas */
+    .table-scroll-wrapper {
+        max-height: 400px;
+    }
+    
+    .table-scroll-wrapper tbody {
+        max-height: 340px;
+    }
+}
+
+/* Efeitos especiais para hover nos cards */
+.card:nth-child(1):hover { box-shadow: 0 25px 50px -12px rgba(79, 172, 254, 0.25); }
+.card:nth-child(2):hover { box-shadow: 0 25px 50px -12px rgba(67, 233, 123, 0.25); }
+.card:nth-child(3):hover { box-shadow: 0 25px 50px -12px rgba(250, 112, 154, 0.25); }
+.card:nth-child(4):hover { box-shadow: 0 25px 50px -12px rgba(168, 237, 234, 0.25); }
+.card:nth-child(5):hover { box-shadow: 0 25px 50px -12px rgba(210, 153, 194, 0.25); }
+.card:nth-child(6):hover { box-shadow: 0 25px 50px -12px rgba(253, 187, 45, 0.25); }
+.card:nth-child(7):hover { box-shadow: 0 25px 50px -12px rgba(255, 154, 158, 0.25); }
+.card:nth-child(8):hover { box-shadow: 0 25px 50px -12px rgba(240, 147, 251, 0.25); }
+
+/* Animações específicas para loading e updates */
+.loading-animation {
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.4), transparent);
+    background-size: 200px 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+}
+
+.counter-animation {
+    animation: pulse 0.5s ease-in-out;
+}
+
+.value-updated {
+    animation: bounceIn 0.5s ease-out;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.05); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.bounce-in {
+    animation: bounceIn 0.6s ease-out;
+}
+
+/* Efeitos de filtro */
+.filter-applied {
+    transform: scale(1.02);
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+}
+
+.loading-select {
+    background: linear-gradient(90deg, #f8f9fa, #e9ecef, #f8f9fa);
+    background-size: 200px 100%;
+    animation: shimmer 1s infinite;
+}
+
+/* Toasts modernos */
+.toast-modern {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-large);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 350px;
+    max-width: 500px;
+    border-left: 4px solid transparent;
+    backdrop-filter: blur(20px);
+}
+
+.toast-success {
+    border-left-color: #43e97b;
+    background: linear-gradient(135deg, rgba(67, 233, 123, 0.1) 0%, rgba(56, 249, 215, 0.1) 100%);
+}
+
+.toast-error {
+    border-left-color: #fa709a;
+    background: linear-gradient(135deg, rgba(250, 112, 154, 0.1) 0%, rgba(254, 225, 64, 0.1) 100%);
+}
+
+.toast-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.toast-content {
+    flex-grow: 1;
+}
+
+.toast-title {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+}
+
+.toast-message {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.toast-close {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    line-height: 1;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--text-primary);
+}
+
+/* Estilos para tabela animada */
+.table-row-animated:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    transform: scale(1.01);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.table-data {
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.team-name {
+    font-weight: 500;
+    color: #764ba2;
+}
+
+.type-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.type-badge.entrada {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+}
+
+.type-badge.saida {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: white;
+}
+
+.ip-address {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #6c757d;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.empty-state {
+    padding: 60px 20px !important;
+    color: var(--text-secondary) !important;
+    font-size: 1.1rem !important;
+    font-style: italic !important;
+}
+
+/* Loading spinner personalizado */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(102, 126, 234, 0.3);
+    border-radius: 50%;
+    border-top-color: #667eea;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Efeitos hover adicionais */
+.card-hover-effect {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 30px 60px -12px rgba(102, 126, 234, 0.3);
+}
+
+/* Melhorias no modo escuro para novos elementos */
+html.dark .toast-modern {
+    background: rgba(30, 41, 59, 0.95);
+    backdrop-filter: blur(20px);
+    border-color: rgba(148, 163, 184, 0.2);
+}
+
+html.dark .toast-title {
+    color: #f1f5f9;
+}
+
+html.dark .toast-message {
+    color: #94a3b8;
+}
+
+html.dark .toast-close {
+    color: #94a3b8;
+}
+
+html.dark .toast-close:hover {
+    background: rgba(148, 163, 184, 0.2);
+    color: #f1f5f9;
+}
+
+html.dark .user-name {
+    color: #60a5fa;
+}
+
+html.dark .team-name {
+    color: #a78bfa;
+}
+
+html.dark .ip-address {
+    background: rgba(96, 165, 250, 0.2);
+    color: #94a3b8;
+}
+
+html.dark .empty-state {
+    color: #94a3b8 !important;
+}
+
+html.dark .loading-spinner {
+    border-color: rgba(96, 165, 250, 0.3);
+    border-top-color: #60a5fa;
+}
+
+/* Modo escuro para tabela de ausências */
+html.dark #sessao-tabela-ausencias .card {
+    border-left-color: #f472b6;
+    background: linear-gradient(135deg, rgba(244, 114, 182, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%);
+}
+
+html.dark #sessao-tabela-ausencias .section-title {
+    background: linear-gradient(135deg, #f472b6 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+html.dark .horario-registro {
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.2) 0%, rgba(167, 139, 250, 0.2) 100%);
+    color: #60a5fa;
+}
+
+html.dark #sessao-tabela-ausencias .alert-info {
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.15) 0%, rgba(167, 139, 250, 0.15) 100%);
+    border-color: rgba(96, 165, 250, 0.3);
+    color: #93c5fd;
+}
+
+html.dark #sessao-tabela-ausencias .alert-info i {
+    color: #60a5fa;
+}
+
+/* Modo escuro para select de filtro de equipe */
+html.dark #filtro-equipe-ausencias {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(102, 126, 234, 0.4);
+    color: #e2e8f0;
+}
+
+html.dark #filtro-equipe-ausencias:focus {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: var(--primary-color);
+}
+
+html.dark #filtro-equipe-ausencias option {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+/* Responsividade para toasts */
+@media (max-width: 576px) {
+    .toast-modern {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        min-width: auto;
+        max-width: none;
+    }
+    
+    .toast-content {
+        flex-grow: 1;
+    }
+    
+    .toast-title {
+        font-size: 0.9rem;
+    }
+    
+    .toast-message {
+        font-size: 0.8rem;
+    }
+}
+
+/* Animação especial para cards de período */
+.card-periodo.bounce-in {
+    animation: slideInFromRight 0.6s ease-out;
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Melhorias de performance */
+.card,
+.dashboard-section,
+.table-row-animated {
+    will-change: transform;
+}
+
+/* Efeito especial para o título principal */
+.main-page-title:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+.main-page-title:hover::before {
+    animation: expandPulse 0.8s ease-out;
+}
+
+@keyframes expandPulse {
+    0% { width: 80px; }
+    50% { width: 120px; }
+    100% { width: 80px; }
+}
+
+/* Estilos para o botão de teste de IP */
+#test-ip-capture {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+#test-ip-capture:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+#test-ip-capture:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+/* Toast para informações */
+.toast-info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.toast-info .toast-title {
+    color: white;
+    font-weight: 600;
+}
+
+.toast-info .toast-message {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.toast-info .toast-close {
+    color: white;
+}
+
+.toast-info .toast-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsividade para o botão de teste */
+@media (max-width: 768px) {
+    #test-ip-capture {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+        margin-top: 10px;
+    }
+    
+    #test-ip-capture .bx {
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,182 @@
+{% extends 'base-plus.html' %}
+{% load static %}
+
+{% block title %}Ranking SIAPE{% endblock %}
+{% block header_title %}Ranking SIAPE{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'siape/css/ranking.css' %}">
+<link rel="stylesheet" href="{% static 'ranking_data.css' %}">
+<link rel="stylesheet" href="{% static 'celebration.css' %}">
+<link rel="stylesheet" href="{% static 'darkmode.css' %}">
+<link rel="stylesheet" href="{% static 'css/campanhas.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    console.log("Debug: percentual_conf");
+</script>
+{% endblock %}
+{% block pre_content %}
+{% include 'partials/_dark_mode_toggle.html' %}
+{% include 'partials/_messages.html' %}
+{% endblock %}
+{% block content %}
+
+<div class="container-ranking">
+    <div class="dashboard-cards">
+        <div class="dashboard-card meta-empresa">
+            <div class="card-icon">
+                <i class="fas fa-building"></i>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Meta Empresa</h3>
+                <h5 class="card-value"></h5>
+                <span class="card-percentage">
+                    <p class="percentage-value"></p><p class="percentage-text"> da Meta</p>
+                </span>
+            </div>
+        </div>
+        <div class="dashboard-card falta-meta-empresa">
+            <div class="card-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Falta Meta Empresa</h3>
+                <h5 class="card-value"></h5>
+            </div>
+        </div>
+        <div class="dashboard-card meta-siape">
+            <div class="card-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Meta SIAPE</h3>
+                <h5 class="card-value"></h5>
+                <span class="card-percentage">
+                    <p class="percentage-value"></p><p class="percentage-text"> da Meta</p>
+                </span>
+            </div>
+        </div>
+        <div class="dashboard-card falta-meta-siape">
+            <div class="card-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">Falta Meta SIAPE</h3>
+                <h5 class="card-value"></h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- HTML aprimorado -->
+    <div class="banner-container">
+        <div class="banner-slider" id="ranking-banner-wrapper">
+        <!-- botão de fechar -->
+        <button type="button" class="banner-close-btn" aria-label="Fechar">&times;</button>
+    
+        <div class="banner-track">
+            <!-- Imagem inicial estática, será substituída pelo JS -->
+            <img 
+            src="{% static 'img/inss_banner.jpg' %}" 
+            alt="Banner Ranking INSS" 
+            class="banner-item">
+        </div>
+        </div>
+    </div>
+    
+    <section>
+        <div class="container__ranking">
+            <div class="container__top3 container">
+
+                <!-- Top 4 -->
+                <div class="top4 box__ranking">
+                    <div class="info__foto">
+                        <div class="foto__pos">
+                            <img src="/static/img/default-store.png" alt="Posição Disponível">
+                            <div class="circle__position">4</div>
+                        </div>
+                        <div class="valor">0</div>
+                    </div>
+                    <div class="bar">
+                        <div class="nome">Posição Disponível</div>
+                        <div class="icon"><i class="fas fa-award"></i></div>
+                    </div>
+                </div>
+
+                <!-- Top 2 -->
+                <div class="top2 box__ranking">
+                    <div class="info__foto">
+                        <div class="foto__pos">
+                            <img src="/static/img/default-store.png" alt="Posição Disponível">
+                            <div class="circle__position">2</div>
+                        </div>
+                        <div class="valor">0</div>
+                    </div>
+                    <div class="bar">
+                        <div class="nome">Posição Disponível</div>
+                        <div class="icon"><i class="fas fa-trophy"></i></div>
+                    </div>
+                </div>
+
+                <!-- Top 1 -->
+                <div class="top1 box__ranking">
+                    <div class="info__foto">
+                        <div class="foto__pos">
+                            <img src="/static/img/default-store.png" alt="Posição Disponível">
+                            <div class="circle__position">1</div>
+                        </div>
+                        <div class="valor">0</div>
+                    </div>
+                    <div class="bar">
+                        <div class="nome">Posição Disponível</div>
+                        <div class="icon"><i class="fas fa-gem"></i></div>
+                    </div>
+                </div>
+
+                <!-- Top 3 -->
+                <div class="top3 box__ranking">
+                    <div class="info__foto">
+                        <div class="foto__pos">
+                            <img src="/static/img/default-store.png" alt="Posição Disponível">
+                            <div class="circle__position">3</div>
+                        </div>
+                        <div class="valor">0</div>
+                    </div>
+                    <div class="bar">
+                        <div class="nome">Posição Disponível</div>
+                        <div class="icon"><i class="fas fa-medal"></i></div>
+                    </div>
+                </div>
+
+                <!-- Top 5 -->
+                <div class="top5 box__ranking">
+                    <div class="info__foto">
+                        <div class="foto__pos">
+                            <img src="/static/img/default-store.png" alt="Posição Disponível">
+                            <div class="circle__position">5</div>
+                        </div>
+                        <div class="valor">0</div>
+                    </div>
+                    <div class="bar">
+                        <div class="nome">Posição Disponível</div>
+                        <div class="icon"><i class="fas fa-award"></i></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'darkmode.js' %}"></script>
+<script src="{% static 'conjunto/initialConfig.js' %}"></script> 
+<script src="{% static 'conjunto/ranking_data.js' %}"></script>
+<script src="{% static 'siape/js/ranking.js' %}"></script>
+<script src="{% static 'js/campanhas.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,831 @@
+{% extends "base-plus.html" %}
+{% load static %}
+{% load permissionsacess %}
+
+{% block header_title %}
+Ações INSS<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'juridico/css/acoes.css' %}">
+<link rel="stylesheet" href="{% static 'juridico/css/processos.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <!-- Lista de Ações em Aberto -->
+    {% has_access user "SS63" as can_view_acoes_aberto %}
+    {% if can_view_acoes_aberto %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class='bx bx-list-ul me-2'></i> Lista de Ações em Aberto
+                    </div>
+                    <a href="{% url 'juridico:adicionar_acao' %}" class="btn btn-light btn-sm">
+                        <i class='bx bx-plus-circle me-1'></i> Nova Ação
+                    </a>
+                </div>
+                <div class="card-body">
+                    <!-- Filtros -->
+                    <form id="formFiltroAcoes" class="form-filtros mb-4">
+                        <div class="form-row row g-3">
+                            <div class="form-group col-md-3">
+                                <input type="text" id="filtroNome" class="form-control" placeholder="Nome do Cliente...">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="text" id="filtroCPF" class="form-control" placeholder="CPF...">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <select id="filtroStatus" class="form-select">
+                                    <option value="">Status do Processo...</option>
+                                    <option value="EM_ESPERA">Em Espera</option>
+                                    <option value="INCOMPLETO">Incompleto</option>
+                                    <option value="EM_DESPACHO">Em Despacho</option>
+                                    <option value="PROTOCOLADO">Protocolado</option>
+                                    <option value="FINALIZADO">Finalizado</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <select id="filtroTipoAcao" class="form-select">
+                                    <option value="">Tipo de Ação...</option>
+                                    <option value="ASSOCIACAO">Associação</option>
+                                    <option value="CARTAO">Cartão</option>
+                                    <option value="DEBITO">Débito em Conta</option>
+                                    <option value="LIMPANOME">Limpa Nome</option>
+                                    <option value="REVISIONAL">Revisional</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Tabela de Ações em Aberto -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="tabelaAcoes">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"><i class='bx bx-user me-1'></i>Cliente</th>
+                                    <th class="text-center"><i class='bx bx-id-card me-1'></i>CPF</th>
+                                    <th class="text-center"><i class='bx bx-file me-1'></i>Tipo Ação</th>
+                                    <th class="text-center"><i class='bx bx-calendar me-1'></i>Data Criação</th>
+                                    <th class="text-center"><i class='bx bx-info-circle me-1'></i>Status</th>
+                                    <th class="text-center"><i class='bx bx-check-circle me-1'></i>Sentença</th>
+                                    <th class="text-center"><i class='bx bx-store-alt me-1'></i>Loja</th>
+                                    <th class="text-center"><i class='bx bx-cog me-1'></i>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Linhas inseridas via JavaScript/API -->
+                            </tbody>
+                        </table>
+                        <div id="nenhumResultadoAcoes" class="alert alert-warning text-center" style="display: none;">
+                            Nenhuma ação em aberto encontrada com os filtros aplicados.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Minhas Ações -->
+    {% has_access user "SS64" as can_view_minhas_acoes %}
+    {% if can_view_minhas_acoes %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class='bx bx-briefcase me-2'></i> Minhas Ações
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Filtros -->
+                    <form id="formFiltroMinhasAcoes" class="form-filtros mb-4">
+                        <div class="form-row row g-3">
+                            <div class="form-group col-md-4">
+                                <input type="text" id="filtroNomeMinhas" class="form-control" placeholder="Nome do Cliente...">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" id="filtroCPFMinhas" class="form-control" placeholder="CPF...">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select id="filtroStatusMinhas" class="form-select">
+                                    <option value="">Status do Processo...</option>
+                                    <option value="EM_DESPACHO">Em Despacho</option>
+                                    <option value="PROTOCOLADO">Protocolado</option>
+                                    <option value="FINALIZADO">Finalizado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Tabela de Minhas Ações -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="tabelaMinhasAcoes">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"><i class='bx bx-user me-1'></i>Cliente</th>
+                                    <th class="text-center"><i class='bx bx-id-card me-1'></i>CPF</th>
+                                    <th class="text-center"><i class='bx bx-file me-1'></i>Tipo Ação</th>
+                                    <th class="text-center"><i class='bx bx-calendar me-1'></i>Data Criação</th>
+                                    <th class="text-center"><i class='bx bx-info-circle me-1'></i>Status</th>
+                                    <th class="text-center"><i class='bx bx-check-circle me-1'></i>Sentença</th>
+                                    <th class="text-center"><i class='bx bx-store-alt me-1'></i>Loja</th>
+                                    <th class="text-center"><i class='bx bx-cog me-1'></i>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Linhas inseridas via JavaScript/API -->
+                            </tbody>
+                        </table>
+                        <div id="nenhumResultadoMinhasAcoes" class="alert alert-warning text-center" style="display: none;">
+                            Nenhuma ação encontrada com os filtros aplicados.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Ações com Advogado (Apenas para Gestor) -->
+    {% has_access user "SS65" as can_view_acoes_advogado %}
+    {% if can_view_acoes_advogado %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class='bx bx-user-check me-2'></i> Ações com Advogado
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Filtros -->
+                    <form id="formFiltroAcoesAdvogado" class="form-filtros mb-4">
+                        <div class="form-row row g-3">
+                            <div class="form-group col-md-3">
+                                <input type="text" id="filtroNomeAdvogado" class="form-control" placeholder="Nome do Cliente...">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="text" id="filtroCPFAdvogado" class="form-control" placeholder="CPF...">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <select id="filtroStatusAdvogado" class="form-select">
+                                    <option value="">Status do Processo...</option>
+                                    <option value="EM_FORMALIZACAO">Em Formalização</option>
+                                    <option value="EM_DESPACHO">Em Despacho</option>
+                                    <option value="PROTOCOLADO">Protocolado</option>
+                                    <option value="FINALIZADO">Finalizado</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input type="text" id="filtroAdvogado" class="form-control" placeholder="Nome do Advogado...">
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Tabela de Ações com Advogado -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="tabelaAcoesAdvogado">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"><i class='bx bx-user me-1'></i>Cliente</th>
+                                    <th class="text-center"><i class='bx bx-id-card me-1'></i>CPF</th>
+                                    <th class="text-center"><i class='bx bx-file me-1'></i>Tipo Ação</th>
+                                    <th class="text-center"><i class='bx bx-calendar me-1'></i>Data Criação</th>
+                                    <th class="text-center"><i class='bx bx-info-circle me-1'></i>Status</th>
+                                    <th class="text-center"><i class='bx bx-check-circle me-1'></i>Sentença</th>
+                                    <th class="text-center"><i class='bx bx-store-alt me-1'></i>Loja</th>
+                                    <th class="text-center"><i class='bx bx-user me-1'></i>Advogado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Linhas inseridas via JavaScript/API -->
+                            </tbody>
+                        </table>
+                        <div id="nenhumResultadoAcoesAdvogado" class="alert alert-warning text-center" style="display: none;">
+                            Nenhuma ação com advogado encontrada com os filtros aplicados.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Modal Conferir Arquivos -->
+<div class="modal fade" id="modalConferirArquivos" tabindex="-1" aria-labelledby="modalConferirArquivosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalConferirArquivosLabel">
+                    <i class='bx bx-file me-2'></i>Conferir Arquivos da Ação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div id="conferirArquivosInfo"></div>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Data</th>
+                                <th class="text-center">Visualizar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaArquivosConferir">
+                            <!-- Preenchido via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <form id="formConferirArquivos">
+                    <input type="hidden" id="acaoIdConferir" name="acao_id">
+                    <div class="mb-3">
+                        <label class="form-label">Status da Conferência</label>
+                        <select class="form-select" id="statusConferencia" name="status">
+                            <option value="EM_ESPERA">Em Espera</option>
+                            <option value="INCOMPLETO">Incompleto</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="divMotivoIncompleto" style="display: none;">
+                        <label class="form-label">Motivo da Incompletude</label>
+                        <textarea class="form-control" id="motivoIncompleto" name="motivo" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class='bx bx-save me-2'></i>Salvar Conferência
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Alterar Status -->
+<div class="modal fade" id="modalAtualizarStatus" tabindex="-1" aria-labelledby="modalAtualizarStatusLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAtualizarStatusLabel">
+                    <i class='bx bx-refresh me-2'></i>Alterar Status da Ação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAtualizarStatus">
+                    <input type="hidden" id="acaoIdAtualizarStatus" name="acao_id">
+                    <div class="mb-3">
+                        <label class="form-label">Novo Status</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="">Selecione o status...</option>
+                            <option value="EM_ESPERA">Em Espera</option>
+                            <option value="INCOMPLETO">Incompleto</option>
+                            <option value="EM_DESPACHO">Em Despacho</option>
+                            <option value="PROTOCOLADO">Protocolado</option>
+                            <option value="FINALIZADO">Finalizado</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="protocoloGroup" style="display: none;">
+                        <label class="form-label">Número do Protocolo</label>
+                        <input type="text" class="form-control" id="numeroProtocolo" name="numero_protocolo">
+                    </div>
+                    <div class="mb-3" id="motivoIncompletoGroup" style="display: none;">
+                        <label class="form-label">Motivo da Incompletude</label>
+                        <textarea class="form-control" id="motivoIncompleto" name="motivo_incompleto" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class='bx bx-save me-2'></i>Salvar Status
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Visualizar Arquivos -->
+<div class="modal fade" id="modalVerArquivos" tabindex="-1" aria-labelledby="modalVerArquivosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalVerArquivosLabel">
+                    <i class='bx bx-folder-open me-2'></i>Visualizar Arquivos da Ação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class='bx bx-file me-1'></i>Título</th>
+                                <th><i class='bx bx-calendar me-1'></i>Data de Upload</th>
+                                <th class="text-center"><i class='bx bx-cog me-1'></i>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaArquivos">
+                            <!-- Arquivos serão inseridos aqui via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="nenhumArquivo" class="alert alert-info text-center" style="display: none;">
+                    <i class='bx bx-info-circle me-2'></i>Nenhum arquivo encontrado para esta ação.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tomar Ação (Assumir Ação) -->
+<div class="modal fade" id="modalAssumirAcao" tabindex="-1" aria-labelledby="modalAssumirAcaoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAssumirAcaoLabel">
+                    <i class='bx bx-user-plus me-2'></i>Tomar Ação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAssumirAcao">
+                    <input type="hidden" id="acaoIdAssumir" name="acao_id">
+                    <p>Tem certeza que deseja assumir esta ação? Ela passará a ser de sua responsabilidade.</p>
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class='bx bx-user-plus me-2'></i>Confirmar Assumir
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Recusar Ação -->
+<div class="modal fade" id="modalRecusarAcao" tabindex="-1" aria-labelledby="modalRecusarAcaoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRecusarAcaoLabel">
+                    <i class='bx bx-x-circle me-2'></i>Recusar Ação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formRecusarAcao">
+                    <input type="hidden" id="acaoIdRecusar" name="acao_id">
+                    <div class="mb-3">
+                        <label class="form-label">Motivo da Recusa*</label>
+                        <textarea class="form-control" id="motivoRecusa" name="motivo" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger w-100">
+                        <i class='bx bx-x-circle me-2'></i>Confirmar Recusa
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Container para mensagens toast -->
+<div id="toastContainer" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11"></div>
+
+<!-- Modal Atualizar Sentença -->
+<div class="modal fade" id="modalAtualizarSentenca" tabindex="-1" aria-labelledby="modalAtualizarSentencaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAtualizarSentencaLabel">
+                    <i class='bx bx-check-circle me-2'></i>Atualizar Sentença da Ação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAtualizarSentenca">
+                    <input type="hidden" id="acaoIdAtualizarSentenca" name="acao_id">
+                    
+                    <!-- Tipo de Sentença -->
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Sentença*</label>
+                        <select class="form-select" id="tipoSentenca" name="sentenca" required>
+                            <option value="">Selecione o tipo...</option>
+                            <option value="FAVORAVEL">Favorável</option>
+                            <option value="NAO_FAVORAVEL">Não Favorável</option>
+                            <option value="PENDENTE">Pendente</option>
+                        </select>
+                    </div>
+
+                    <!-- Grau da Sentença (readonly, preenchido via JS) -->
+                    <div class="mb-3">
+                        <label class="form-label">Grau da Sentença*</label>
+                        <input type="text" class="form-control" id="grauSentenca" name="grau_sentenca" readonly>
+                    </div>
+
+                    <!-- Data da Sentença -->
+                    <div class="row" id="dataSentencaGroup" style="display: none;">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Data da Sentença</label>
+                            <input type="date" class="form-control" id="dataSentenca" name="data_sentenca">
+                        </div>
+                    </div>
+                    
+                    <!-- Recurso 1º Grau -->
+                    <div id="recursoPrimeiroGrauBlock" style="display: none;">
+                        <h6 class="mt-3 mb-2 text-primary">Recurso 1º Grau</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Recurso 1º Grau</label>
+                                <select class="form-select" id="recursoPrimeiroGrau" name="recurso_primeiro_grau">
+                                    <option value="NENHUM">Nenhum</option>
+                                    <option value="APELACAO">Apelação</option>
+                                    <option value="AGRAVO">Agravo</option>
+                                    <option value="EMBARGOS">Embargos</option>
+                                    <option value="NOMINADO">Nominado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3" id="dataRecursoPrimeiroGrauGroup" style="display: none;">
+                                <label class="form-label">Data do Recurso 1º Grau</label>
+                                <input type="date" class="form-control" id="dataRecursoPrimeiroGrau" name="data_recurso_primeiro_grau">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3" id="resultadoRecursoPrimeiroGrauGroup" style="display: none;">
+                                <label class="form-label">Resultado do Recurso 1º Grau</label>
+                                <select class="form-select" id="resultadoRecursoPrimeiroGrau" name="resultado_recurso_primeiro_grau">
+                                    <option value="">Selecione o resultado...</option>
+                                    <option value="FAVORAVEL">Favorável</option>
+                                    <option value="NAO_FAVORAVEL">Não Favorável</option>
+                                    <option value="PENDENTE">Pendente</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recurso 2º Grau -->
+                    <div id="recursoSegundoGrauBlock" style="display: none;">
+                        <h6 class="mt-3 mb-2 text-primary">Recurso 2º Grau</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Recurso 2º Grau</label>
+                                <select class="form-select" id="recursoSegundoGrau" name="recurso_segundo_grau">
+                                    <option value="NENHUM">Nenhum</option>
+                                    <option value="APELACAO">Apelação</option>
+                                    <option value="AGRAVO">Agravo</option>
+                                    <option value="EMBARGOS">Embargos</option>
+                                    <option value="NOMINADO">Nominado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3" id="dataRecursoSegundoGrauGroup" style="display: none;">
+                                <label class="form-label">Data do Recurso 2º Grau</label>
+                                <input type="date" class="form-control" id="dataRecursoSegundoGrau" name="data_recurso_segundo_grau">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3" id="resultadoRecursoSegundoGrauGroup" style="display: none;">
+                                <label class="form-label">Resultado do Recurso 2º Grau</label>
+                                <select class="form-select" id="resultadoRecursoSegundoGrau" name="resultado_recurso_segundo_grau">
+                                    <option value="">Selecione o resultado...</option>
+                                    <option value="FAVORAVEL">Favorável</option>
+                                    <option value="NAO_FAVORAVEL">Não Favorável</option>
+                                    <option value="PENDENTE">Pendente</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Valor da Sentença (movido para baixo) -->
+                    <div class="row" id="valorSentencaGroup" style="display: none;">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Valor da Sentença</label>
+                            <input type="text" class="form-control" id="valorSentenca" name="valor_sentenca" placeholder="R$ 0,00">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mt-3">
+                        <i class='bx bx-save me-2'></i>Salvar Sentença
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Adicionar Documento -->
+<div class="modal fade" id="modalAdicionarDocumento" tabindex="-1" aria-labelledby="modalAdicionarDocumentoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAdicionarDocumentoLabel">
+                    <i class='bx bx-upload me-2'></i>Anexar Documento à Ação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAdicionarDocumento" enctype="multipart/form-data">
+                    <input type="hidden" id="acaoIdAdicionarDocumento" name="acao_id">
+                    <div class="mb-3">
+                        <label class="form-label">Título do Documento*</label>
+                        <input type="text" class="form-control" id="tituloDocumento" name="titulo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Arquivo*</label>
+                        <input type="file" class="form-control" id="fileDocumento" name="file" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class='bx bx-save me-2'></i>Salvar Documento
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Detalhes da Ação -->
+<div class="modal-sec" id="modalVerDadosAcao" tabindex="-1" role="dialog" aria-labelledby="modalVerDadosAcaoLabel">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalVerDadosAcaoLabel">
+                    <i class='bx bx-info-circle me-2'></i>Detalhes da Ação
+                </h5>
+                <button type="button" class="btn-close" onclick="$('#modalVerDadosAcao').modal('hide')" aria-label="Fechar">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="infoAcaoConteudo">
+                    <!-- Conteúdo será carregado via JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#modalVerDadosAcao').modal('hide')">
+                    <i class='bx bx-x me-1'></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Visualização de Documento -->
+<div class="modal fade" id="modalVisualizarDocumento" tabindex="-1" aria-labelledby="modalVisualizarDocumentoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalVisualizarDocumentoLabel">
+                    <i class='bx bx-file me-2'></i>Visualizar Documento
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Conteúdo será carregado via JavaScript -->
+                <div class="text-center p-5">
+                    <i class='bx bx-loader-alt bx-spin' style="font-size: 3rem;"></i>
+                    <p class="mt-3">Carregando documento...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class='bx bx-x me-1'></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Gerenciar Processos -->
+<div class="modal fade" id="modalGerenciarProcessos" tabindex="-1" aria-labelledby="modalGerenciarProcessosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalGerenciarProcessosLabel">
+                    <i class='bx bx-briefcase me-2'></i>Gerenciar Processos da Ação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="acaoIdProcessos" name="acao_id">
+                
+                <!-- Botão para Novo Processo -->
+                <div class="d-flex justify-content-end mb-3">
+                    <button type="button" class="btn btn-primary" onclick="novoProcesso()">
+                        <i class='bx bx-plus me-1'></i>Novo Processo
+                    </button>
+                </div>
+
+                <!-- Lista de Processos -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" id="tabelaProcessos">
+                        <thead>
+                            <tr>
+                                <th><i class='bx bx-text me-1'></i>Título</th>
+                                <th><i class='bx bx-hash me-1'></i>Nº Processo</th>
+                                <th><i class='bx bx-calendar-event me-1'></i>Data Início</th>
+                                <th><i class='bx bx-calendar-check me-1'></i>Data Final</th>
+                                <th><i class='bx bx-info-circle me-1'></i>Status</th>
+                                <th class="text-center"><i class='bx bx-cog me-1'></i>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Processos serão inseridos aqui via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="nenhumProcesso" class="alert alert-info text-center" style="display: none;">
+                    <i class='bx bx-info-circle me-2'></i>Nenhum processo encontrado para esta ação.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Criar/Editar Processo -->
+<div class="modal fade" id="modalCriarEditarProcesso" tabindex="-1" aria-labelledby="modalCriarEditarProcessoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCriarEditarProcessoLabel">
+                    <i class='bx bx-plus-circle me-2'></i>Novo Processo
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formCriarEditarProcesso">
+                    <input type="hidden" id="processoId" name="processo_id">
+                    <input type="hidden" id="acaoIdProcesso" name="acao_id">
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Título do Processo*</label>
+                        <input type="text" class="form-control" id="tituloProcesso" name="titulo" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Número do Processo</label>
+                        <input type="text" class="form-control" id="numeroProcesso" name="numero_processo" placeholder="Ex: 0000000-00.0000.0.00.0000">
+                        <div class="form-text">Número do processo em decorrimento judicial (opcional)</div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Data de Início*</label>
+                            <input type="date" class="form-control" id="dataInicioProcesso" name="data_inicio" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Data Final</label>
+                            <input type="date" class="form-control" id="dataFinalProcesso" name="data_final">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Status*</label>
+                        <select class="form-select" id="statusProcesso" name="status" required>
+                            <option value="ATIVO">Ativo</option>
+                            <option value="FINALIZADO">Finalizado</option>
+                            <option value="ARQUIVADO">Arquivado</option>
+                            <option value="INATIVO">Inativo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Resultado</label>
+                        <textarea class="form-control" id="resultadoProcesso" name="resultado" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class='bx bx-x me-1'></i>Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class='bx bx-save me-1'></i>Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Detalhes do Processo -->
+<div class="modal fade" id="modalDetalhesProcesso" tabindex="-1" aria-labelledby="modalDetalhesProcessoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDetalhesProcessoLabel">
+                    <i class='bx bx-file-blank me-2'></i>Detalhes do Processo
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Informações do Processo -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0"><i class='bx bx-info-circle me-1'></i>Informações do Processo</h6>
+                            </div>
+                            <div class="card-body">
+                                <div id="dadosProcesso">
+                                    <!-- Dados serão carregados via JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Arquivos do Processo -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0"><i class='bx bx-folder me-1'></i>Arquivos do Processo</h6>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="adicionarArquivoProcesso()">
+                                    <i class='bx bx-plus me-1'></i>Adicionar Arquivo
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="tabelaArquivosProcesso">
+                                        <thead>
+                                            <tr>
+                                                <th><i class='bx bx-file me-1'></i>Título</th>
+                                                <th><i class='bx bx-calendar me-1'></i>Data</th>
+                                                <th><i class='bx bx-info-circle me-1'></i>Status</th>
+                                                <th class="text-center"><i class='bx bx-cog me-1'></i>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Arquivos serão inseridos via JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div id="nenhumArquivoProcesso" class="alert alert-info text-center" style="display: none;">
+                                    <i class='bx bx-info-circle me-2'></i>Nenhum arquivo encontrado para este processo.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="editarProcesso(currentProcessoId)">
+                    <i class='bx bx-edit me-1'></i>Editar Processo
+                </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class='bx bx-x me-1'></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Adicionar Arquivo ao Processo -->
+<div class="modal fade" id="modalAdicionarArquivoProcesso" tabindex="-1" aria-labelledby="modalAdicionarArquivoProcessoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAdicionarArquivoProcessoLabel">
+                    <i class='bx bx-upload me-2'></i>Adicionar Arquivo ao Processo
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAdicionarArquivoProcesso" enctype="multipart/form-data">
+                    <input type="hidden" id="processoIdArquivo" name="processo_id">
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Título do Arquivo*</label>
+                        <input type="text" class="form-control" id="tituloArquivoProcesso" name="titulo" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Arquivo*</label>
+                        <input type="file" class="form-control" id="arquivoProcesso" name="arquivo" required>
+                        <div class="form-text">Formatos aceitos: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG</div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class='bx bx-x me-1'></i>Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class='bx bx-upload me-1'></i>Enviar Arquivo
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script src="{% static 'juridico/js/acoes.js' %}"></script>
+<script src="{% static 'juridico/js/processos.js' %}"></script>
+{% endblock %}

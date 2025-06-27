@@ -1,0 +1,1593 @@
+/* ==========================================
+   CSS para a página de Ações INSS
+   Baseado no estilo de administrativo.css e loja.css
+   Foco: Verde e Azul Claro, com ênfase no Verde
+   ========================================== */
+
+/* ---------- Variáveis de Cores e Sombreamentos ---------- */
+:root {
+    --color-primary-dark: #142650; /* Azul escuro */
+    --color-secondary: #70f611; /* Verde */
+    --color-tertiary: #0bd5f0; /* Azul claro (ciano) */
+    --color-accent: #b4874c; /* Tom terroso */
+    --color-white: #fff;
+    --color-gray: #ddd;
+    --color-light-gray: #f0f0f0;
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-danger: #dc3545;
+    --color-success: #198754;
+
+    --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-card-hover: 0 6px 18px rgba(112, 246, 17, 0.15);
+
+    /* Gradientes com foco no verde e azul claro */
+    --gradient-primary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 100%);
+    --gradient-secondary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+    --gradient-metallic-green-focus: linear-gradient(135deg, #ffffff 0%, var(--color-secondary) 30%, var(--color-tertiary) 50%, var(--color-secondary) 70%, #ffffff 100%);
+    --gradient-card-header: linear-gradient(-45deg, var(--color-secondary), #5cb85c, var(--color-tertiary), var(--color-secondary));
+
+    /* Animação do Gradiente */
+    --gradient-animation: gradientBG 12s ease infinite;
+}
+
+/* ==========================================
+   Estilos Gerais da Página
+   ========================================== */
+body {
+    background-color: var(--color-light-gray);
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+}
+
+.container-fluid {
+    padding: 1.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* ==========================================
+   Estilos do Card Principal
+   ========================================== */
+.card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-card-hover);
+}
+
+.card-header {
+    background: var(--gradient-card-header) !important;
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: var(--color-white) !important;
+    font-weight: 600;
+    font-size: 1.1em;
+    padding: 1rem 1.25rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+}
+
+.card-header i {
+    margin-right: 0.75rem;
+    font-size: 1.3rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(245, 255, 245, 0.8) 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* ==========================================
+   Estilos dos Filtros
+   ========================================== */
+/* =============================
+   Filtros Padronizados
+   ============================= */
+.form-filtros {
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(245,255,245,0.95) 100%);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow-light);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    transition: box-shadow 0.3s, transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.form-filtros:hover {
+    box-shadow: var(--box-shadow-medium);
+    transform: translateY(-2px);
+}
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 180px;
+    min-width: 180px;
+    max-width: 100%;
+    margin-bottom: 0;
+}
+.form-group label {
+    font-weight: 500;
+    color: var(--color-text-dark);
+    margin-bottom: 0.3rem;
+    font-size: 0.97rem;
+}
+.form-control, .form-select {
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    font-size: 0.97rem;
+    background-color: var(--color-white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    width: 100%;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+    outline: none;
+    transform: translateY(-1px);
+}
+.form-control::placeholder {
+    color: #6c757d;
+    opacity: 0.7;
+}
+@media (max-width: 991px) {
+    .form-row {
+        gap: 0.5rem;
+    }
+    .form-group {
+        min-width: 140px;
+    }
+}
+@media (max-width: 576px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .form-group {
+        min-width: 100%;
+    }
+}
+/* =============================
+   Fim dos Filtros Padronizados
+   ============================= */
+
+/* ==========================================
+   Estilos dos Ícones dos Modais
+   ========================================== */
+.btn-close .bx-x {
+    font-size: 1.5rem; /* Aumenta o tamanho do ícone */
+    color: #333; /* Cor do ícone */
+    position: relative;
+}
+
+.modal-header .btn-close {
+    padding: 0.5rem 0.5rem; /* Aumenta o padding do botão */
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+/* ==========================================
+   Estilos dos Botões de Salvar nos Modais
+   ========================================== */
+.modal button[type="submit"], 
+.modal #btnSalvarEdicao {
+    background: var(--gradient-primary-green);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 0.6rem 1.5rem;
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.2);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.modal button[type="submit"]:hover, 
+.modal #btnSalvarEdicao:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(112, 246, 17, 0.3);
+    background: var(--gradient-secondary-green);
+    background-size: 200% 200%;
+    animation: pulse-green 1.5s infinite;
+}
+
+.modal button[type="submit"]:active, 
+.modal #btnSalvarEdicao:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(112, 246, 17, 0.2);
+}
+
+.modal button[type="submit"] i, 
+.modal #btnSalvarEdicao i {
+    font-size: 1.1rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+
+@keyframes pulse-green {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* ==========================================
+   Estilos da Tabela
+   ========================================== */
+.table-responsive {
+    margin-top: 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow-light);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    background-color: var(--color-white);
+}
+
+.table thead th {
+    padding: 1rem;
+    background: linear-gradient(to right, rgba(11, 213, 240, 0.1), rgba(112, 246, 17, 0.1));
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 2px solid rgba(112, 246, 17, 0.2);
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.table tbody td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-light-gray);
+    white-space: normal;
+    vertical-align: middle;
+    color: var(--color-text-dark);
+    text-align: center;
+}
+
+.table tbody tr:hover {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.1), rgba(11, 213, 240, 0.05), rgba(112, 246, 17, 0.05));
+}
+
+/* ==========================================
+   Estilos dos Botões de Ação
+   ========================================== */
+.btn-action {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    margin: 0 0.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray);
+}
+
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+}
+
+/* ==========================================
+   Estilos dos Modais
+   ========================================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 99999;
+    overflow-x: hidden;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    backdrop-filter: blur(5px);
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 1.75rem auto;
+    pointer-events: none;
+    transform: translate(0, -50px);
+    transition: transform 0.3s ease-out;
+    max-width: 500px;
+    width: 95%;
+}
+
+.modal.show .modal-dialog {
+    transform: none;
+    pointer-events: auto;
+}
+
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+
+.modal-header {
+    background: var(--gradient-card-header);
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: var(--color-white);
+    border-bottom: none;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.modal-body {
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(245, 255, 245, 0.9) 100%);
+    position: relative;
+    flex: 1 1 auto;
+}
+
+.modal-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, 
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.3) 50%,
+        rgba(255,255,255,0) 100%
+    );
+}
+
+.modal-header .modal-title {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    line-height: 1.5;
+    font-size: 1.25rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.modal-header .modal-title i {
+    font-size: 1.4rem;
+    color: rgba(255,255,255,0.9);
+}
+
+.modal-header .btn-close {
+    padding: 0.75rem;
+    margin: -0.75rem -0.75rem -0.75rem auto;
+    background: rgba(255,255,255,0.1);
+    border: 0;
+    border-radius: 8px;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
+    background: rgba(255,255,255,0.2);
+    transform: rotate(90deg);
+}
+
+/* Estilos específicos para o modal de edição */
+#modalEditarAcao .modal-dialog {
+    max-width: 800px;
+    width: 98vw;
+    margin: 1.75rem auto;
+    max-height: 90vh;
+}
+
+#modalEditarAcao .modal-content {
+    background: #f8f9fa;
+    border-radius: 15px;
+    overflow: hidden;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#modalEditarAcao .modal-header {
+    background: var(--gradient-card-header);
+    padding: 1.25rem 1.5rem;
+    border-bottom: none;
+    flex-shrink: 0;
+}
+
+#modalEditarAcao .modal-body {
+    padding: 1.5rem;
+    background: #fff;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Ajuste para o formulário dentro do modal */
+#modalEditarAcao form#formEditarAcao {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Estilos para as seções do modal */
+#modalEditarAcao .modal-section {
+    margin-bottom: 1.5rem;
+    background: transparent;
+    border: none;
+}
+
+#modalEditarAcao .section-header {
+    padding: 0.5rem 0;
+    border-bottom: 2px solid var(--color-secondary);
+    margin-bottom: 1rem;
+}
+
+#modalEditarAcao .section-header h6 {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#modalEditarAcao .section-header h6 i {
+    color: var(--color-secondary);
+    font-size: 1.3rem;
+}
+
+#modalEditarAcao .section-body {
+    padding: 1rem 0;
+}
+
+#modalEditarAcao .form-label {
+    font-weight: 500;
+    color: var(--color-text-dark);
+    margin-bottom: 0.5rem;
+}
+
+#modalEditarAcao .form-control,
+#modalEditarAcao .form-select {
+    border: 1px solid var(--color-gray);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+#modalEditarAcao .form-control:focus,
+#modalEditarAcao .form-select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 2px rgba(112, 246, 17, 0.15);
+    outline: none;
+}
+
+#modalEditarAcao .form-control:disabled,
+#modalEditarAcao .form-select:disabled {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Ajuste para as tabelas dentro do modal */
+#modalEditarAcao .table-responsive {
+    margin-bottom: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+#modalEditarAcao .table {
+    margin-bottom: 0;
+}
+
+#modalEditarAcao .table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+}
+
+#modalEditarAcao .table td {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+/* Ajuste para os botões de ação no final do modal */
+#modalEditarAcao .d-flex.justify-content-end.gap-2 {
+    margin-top: 1rem;
+    flex-shrink: 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-gray);
+}
+
+/* Responsividade para o modal */
+@media (max-width: 767px) {
+    #modalEditarAcao .modal-dialog {
+        margin: 0.5rem;
+        max-width: calc(100% - 1rem);
+        max-height: 95vh;
+    }
+    
+    #modalEditarAcao .modal-content {
+        max-height: 95vh;
+    }
+    
+    #modalEditarAcao .modal-body {
+        padding: 1rem;
+    }
+}
+
+/* Estilos específicos para o modal de visualização de documentos */
+#modalVisualizarDocumento .modal-header {
+    background: var(--gradient-card-header);
+    padding: 1rem 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+#modalVisualizarDocumento .btn-close {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+#modalVisualizarDocumento .btn-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    opacity: 1;
+    transform: translateY(-50%) rotate(90deg);
+}
+
+.documento-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    overflow: hidden;
+    position: relative;
+}
+
+.documento-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.documento-container img:hover {
+    transform: scale(1.02);
+}
+
+.documento-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+.documento-container .loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.documento-container .loading i {
+    font-size: 3rem;
+    color: var(--color-secondary);
+    animation: spin 1s linear infinite;
+}
+
+.documento-container .error-message {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    color: var(--color-danger);
+}
+
+.documento-container .error-message i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--color-danger);
+}
+
+/* Controles de zoom para imagens */
+.documento-container .zoom-controls {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.documento-container .zoom-controls button {
+    background: var(--color-white);
+    border: 1px solid var(--color-gray);
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.documento-container .zoom-controls button:hover {
+    background: var(--color-secondary);
+    color: var(--color-white);
+    border-color: var(--color-secondary);
+}
+
+/* Ajustes responsivos para os modais */
+@media (max-width: 767px) {
+    .modal-dialog {
+        margin: 0.5rem;
+        max-width: calc(100% - 1rem);
+    }
+    
+    #modalVisualizarDocumento .modal-dialog {
+        margin: 0;
+        max-width: 100%;
+        height: 100%;
+    }
+    
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+    
+    #modalEditarAcao .card-body {
+        padding: 1rem;
+    }
+    
+    .documento-container {
+        height: calc(100vh - 120px);
+    }
+    
+    .documento-container .zoom-controls {
+        bottom: 0.5rem;
+        right: 0.5rem;
+    }
+}
+
+/* Animações */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Aplicando animações aos modais */
+.modal.show .modal-dialog {
+    animation: slideUp 0.3s ease-out;
+}
+
+.modal.show .modal-content {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==========================================
+   Responsividade
+   ========================================== */
+@media (max-width: 991px) {
+    #formFiltroAcoes .col-md-3 {
+        flex: 1 1 calc(50% - 0.5rem);
+    }
+}
+
+/* ==========================================
+   Estilos do Visualizador de Documentos
+   ========================================== */
+.documento-container {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+.documento-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.documento-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.documento-container .loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.documento-container .loading i {
+    font-size: 3rem;
+    color: var(--color-secondary);
+    animation: spin 1s linear infinite;
+}
+
+.documento-container .error-message {
+    text-align: center;
+    padding: 2rem;
+    color: var(--color-danger);
+}
+
+/* Ajustes responsivos para o visualizador */
+@media (max-width: 767px) {
+    .documento-container {
+        height: 60vh;
+    }
+}
+
+/* Estilos específicos para os selects de Status e Sentença */
+#modalEditarAcao .form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem;
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#modalEditarAcao .form-select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+    outline: none;
+}
+
+#modalEditarAcao .form-select:disabled {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* Cores específicas para cada status */
+#modalEditarAcao .form-select option[value="EM_ESPERA"] {
+    color: #6c757d;
+}
+
+#modalEditarAcao .form-select option[value="INCOMPLETO"] {
+    color: #ffc107;
+}
+
+#modalEditarAcao .form-select option[value="EM_DISPACHO"] {
+    color: #0dcaf0;
+}
+
+#modalEditarAcao .form-select option[value="PROTOCOLADO"] {
+    color: #0d6efd;
+}
+
+#modalEditarAcao .form-select option[value="FINALIZADO"] {
+    color: #198754;
+}
+
+/* Cores específicas para cada sentença */
+#modalEditarAcao .form-select option[value="FAVORAVEL"] {
+    color: #198754;
+}
+
+#modalEditarAcao .form-select option[value="NAO_FAVORAVEL"] {
+    color: #dc3545;
+}
+
+/* Estilo do grupo de formulário para selects */
+#modalEditarAcao .form-group.select-group {
+    position: relative;
+}
+
+#modalEditarAcao .form-group.select-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+}
+
+#modalEditarAcao .form-group.select-group .form-select {
+    width: 100%;
+    padding: 10px 2.5rem 10px 1rem;
+}
+
+/* ==========================================
+   Estilos dos Modais de Status e Inativação
+   ========================================== */
+
+/* Estilos comuns para os modais de status e inativação */
+#modalAlterarStatus .modal-content,
+#modalInativarAcao .modal-content {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(245, 255, 245, 0.9) 100%);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#modalAlterarStatus .modal-header,
+#modalInativarAcao .modal-header {
+    background: var(--gradient-card-header);
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: var(--color-white);
+    border-bottom: none;
+    padding: 1.5rem;
+    position: relative;
+}
+
+#modalAlterarStatus .modal-header::after,
+#modalInativarAcao .modal-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, 
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.3) 50%,
+        rgba(255,255,255,0) 100%
+    );
+}
+
+#modalAlterarStatus .modal-title,
+#modalInativarAcao .modal-title {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    line-height: 1.5;
+    font-size: 1.25rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+#modalAlterarStatus .modal-title i,
+#modalInativarAcao .modal-title i {
+    font-size: 1.4rem;
+    color: rgba(255,255,255,0.9);
+}
+
+#modalAlterarStatus .modal-body,
+#modalInativarAcao .modal-body {
+    padding: 2rem;
+}
+
+/* Formulários dentro dos modais */
+#modalAlterarStatus form,
+#modalInativarAcao form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#modalAlterarStatus .form-group,
+#modalInativarAcao .form-group {
+    margin-bottom: 0;
+}
+
+#modalAlterarStatus .form-label,
+#modalInativarAcao .form-label {
+    font-weight: 500;
+    color: var(--color-text-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+#modalAlterarStatus .form-select,
+#modalAlterarStatus .form-control,
+#modalInativarAcao .form-control {
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background-color: var(--color-white);
+}
+
+#modalAlterarStatus .form-select:focus,
+#modalAlterarStatus .form-control:focus,
+#modalInativarAcao .form-control:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+    outline: none;
+}
+
+/* Estilo específico para o select de status */
+#modalAlterarStatus .form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem;
+}
+
+/* Estilo específico para o textarea de observação/motivo */
+#modalAlterarStatus textarea,
+#modalInativarAcao textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Botões dos modais */
+#modalAlterarStatus .modal-footer,
+#modalInativarAcao .modal-footer {
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+#modalAlterarStatus .btn,
+#modalInativarAcao .btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#modalAlterarStatus .btn-primary,
+#modalInativarAcao .btn-primary {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+#modalAlterarStatus .btn-primary:hover,
+#modalInativarAcao .btn-primary:hover {
+    background: var(--color-tertiary);
+    border-color: var(--color-tertiary);
+    transform: translateY(-2px);
+}
+
+#modalAlterarStatus .btn-secondary,
+#modalInativarAcao .btn-secondary {
+    background: var(--color-gray);
+    border-color: var(--color-gray);
+}
+
+#modalAlterarStatus .btn-secondary:hover,
+#modalInativarAcao .btn-secondary:hover {
+    background: #c0c0c0;
+    border-color: #c0c0c0;
+    transform: translateY(-2px);
+}
+
+/* Animações específicas para os modais */
+#modalAlterarStatus .modal-content,
+#modalInativarAcao .modal-content {
+    animation: slideUp 0.3s ease-out;
+}
+
+#modalAlterarStatus .form-group,
+#modalInativarAcao .form-group {
+    animation: fadeIn 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+#modalAlterarStatus .form-group:nth-child(1) { animation-delay: 0.1s; }
+#modalAlterarStatus .form-group:nth-child(2) { animation-delay: 0.2s; }
+#modalInativarAcao .form-group:nth-child(1) { animation-delay: 0.1s; }
+
+/* Responsividade */
+@media (max-width: 767px) {
+    #modalAlterarStatus .modal-dialog,
+    #modalInativarAcao .modal-dialog {
+        margin: 0.5rem;
+        max-width: calc(100% - 1rem);
+    }
+    
+    #modalAlterarStatus .modal-body,
+    #modalInativarAcao .modal-body {
+        padding: 1.5rem;
+    }
+    
+    #modalAlterarStatus .modal-footer,
+    #modalInativarAcao .modal-footer {
+        padding: 1rem;
+        flex-direction: column;
+    }
+    
+    #modalAlterarStatus .btn,
+    #modalInativarAcao .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Estilo específico para o modal de inativação */
+#modalInativarAcao .modal-header {
+    background: linear-gradient(135deg, #dc3545 0%, #ff6b6b 100%);
+}
+
+#modalInativarAcao .btn-primary {
+    background: #dc3545;
+    border-color: #dc3545;
+}
+
+#modalInativarAcao .btn-primary:hover {
+    background: #c82333;
+    border-color: #bd2130;
+}
+
+/* Estilo específico para o modal de alteração de status */
+#modalAlterarStatus .modal-header {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 100%);
+}
+
+/* Estilo para o select de status */
+#modalAlterarStatus .form-select option {
+    padding: 0.5rem;
+}
+
+#modalAlterarStatus .form-select option[value="EM_ESPERA"] {
+    color: #6c757d;
+}
+
+#modalAlterarStatus .form-select option[value="INCOMPLETO"] {
+    color: #ffc107;
+}
+
+#modalAlterarStatus .form-select option[value="EM_DISPACHO"] {
+    color: #0dcaf0;
+}
+
+#modalAlterarStatus .form-select option[value="PROTOCOLADO"] {
+    color: #0d6efd;
+}
+
+#modalAlterarStatus .form-select option[value="FINALIZADO"] {
+    color: #198754;
+}
+
+/* Estilos para as linhas do formulário */
+#modalEditarAcao .row.g-3 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 20px;
+    margin: 0;
+}
+
+#modalEditarAcao .row.g-3 > [class*="col-"] {
+    min-width: 250px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ajuste para campos de largura total */
+#modalEditarAcao .row.g-3 > .col-md-12 {
+    flex: 1 1 100%;
+}
+
+/* Limite de largura para modais padrão */
+.modal-dialog {
+    max-width: 500px;
+    width: 95%;
+}
+
+/* ==========================================
+   Estilos para Tooltips nos Botões
+   ========================================== */
+[data-tooltip] {
+    position: relative;
+    cursor: pointer;
+}
+
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 1000;
+}
+
+[data-tooltip]:after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==========================================
+   Estilos para o Modal de Detalhes da Ação
+   ========================================== */
+.modal-sec {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9000000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-sec.active {
+    display: flex;
+}
+
+.modal-sec.show {
+    opacity: 1;
+}
+
+.modal-sec .modal-dialog {
+    max-width: 800px;
+    width: 95%;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-sec.show .modal-dialog {
+    transform: translateY(0);
+}
+
+.modal-sec .modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.modal-sec .modal-header {
+    background: var(--gradient-card-header);
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: var(--color-white);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-sec .modal-header .modal-title {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.modal-sec .modal-header .modal-title i {
+    margin-right: 10px;
+    font-size: 1.3rem;
+}
+
+.modal-sec .modal-body {
+    padding: 1.5rem;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-sec .modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--color-gray);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.info-section {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-gray);
+    box-shadow: var(--box-shadow-light);
+    transition: all 0.3s ease;
+}
+
+.info-section:hover {
+    box-shadow: var(--box-shadow-medium);
+    transform: translateY(-2px);
+    background-color: rgba(245, 255, 245, 0.9);
+}
+
+.info-section-title {
+    color: var(--color-primary-dark);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(112, 246, 17, 0.3);
+    display: flex;
+    align-items: center;
+}
+
+.info-section-title i {
+    margin-right: 8px;
+    color: var(--color-secondary);
+    font-size: 1.3rem;
+}
+
+.info-section .row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.info-section .col-md-6,
+.info-section .col-md-4 {
+    padding: 5px 10px;
+}
+
+.info-section strong {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+}
+
+#modalVerDadosAcao {
+    z-index: 9000000;
+}
+
+#modalVerDadosAcao .table {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+#modalVerDadosAcao .table th {
+    background: rgba(112, 246, 17, 0.1);
+    color: var(--color-primary-dark);
+    font-weight: 600;
+}
+
+#modalVerDadosAcao .table td {
+    vertical-align: middle;
+}
+
+#modalVerDadosAcao .btn-info {
+    background-color: var(--color-tertiary);
+    border-color: var(--color-tertiary);
+}
+
+#modalVerDadosAcao .btn-info:hover {
+    background-color: #09b8d0;
+    border-color: #09b8d0;
+}
+
+@media (max-width: 576px) {
+    .modal-dialog {
+        max-width: 98vw;
+        margin: 0.5rem;
+    }
+}
+
+/* Modal de visualização de documento pode ser maior */
+#modalVisualizarDocumento .modal-dialog {
+    max-width: 900px;
+    width: 98vw;
+}
+
+/* Modal de edição de ação (se for grande) */
+#modalEditarAcao .modal-dialog {
+    max-width: 800px;
+    width: 98vw;
+}
+
+
+/* ==========================================
+   Estilos dos Ícones dos Modais
+   ========================================== */
+.btn-close {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    background: none;
+    border: none;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+.btn-close .bx-x {
+    font-size: 1.8rem; /* Aumenta o tamanho do ícone */
+    color: #333; /* Cor do ícone */
+}
+
+.modal-header .btn-close {
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+/* Estilos para Tooltips */
+.btn-action {
+    position: relative;
+}
+
+.btn-action[data-tooltip]:hover::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 5px;
+}
+
+.btn-action[data-tooltip]:hover::after {
+    content: '';
+    position: absolute;
+    bottom: calc(100% - 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+}
+
+/* Estilos para o Modal de Pagamentos */
+#modalRegistrarPagamento .modal-content {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#modalRegistrarPagamento .modal-header {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    padding: 1.5rem;
+}
+
+#modalRegistrarPagamento .modal-body {
+    padding: 2rem;
+}
+
+#modalRegistrarPagamento .form-label {
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+#modalRegistrarPagamento .form-control,
+#modalRegistrarPagamento .form-select {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+#modalRegistrarPagamento .form-control:focus,
+#modalRegistrarPagamento .form-select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+#modalRegistrarPagamento .input-group-text {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+}
+
+#modalRegistrarPagamento .form-check {
+    margin: 1rem 0;
+}
+
+#modalRegistrarPagamento .form-check-input {
+    width: 1.2em;
+    height: 1.2em;
+    margin-top: 0.15em;
+    cursor: pointer;
+}
+
+#modalRegistrarPagamento .form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+#modalRegistrarPagamento .form-check-label {
+    margin-left: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+#modalRegistrarPagamento #divJurosAtrasado,
+#modalRegistrarPagamento #divTipoAcordo {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border: 1px solid #e9ecef;
+}
+
+#modalRegistrarPagamento .modal-footer {
+    border-top: 1px solid #dee2e6;
+    padding: 1.5rem;
+}
+
+#modalRegistrarPagamento .btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+#modalRegistrarPagamento .btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    border: none;
+}
+
+#modalRegistrarPagamento .btn-success:hover {
+    background: linear-gradient(135deg, #218838 0%, #1c6e2d 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#modalRegistrarPagamento .btn-secondary {
+    background: #6c757d;
+    border: none;
+}
+
+#modalRegistrarPagamento .btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Animações para os campos condicionais */
+#modalRegistrarPagamento #divJurosAtrasado,
+#modalRegistrarPagamento #divTipoAcordo {
+    transition: all 0.3s ease-in-out;
+}
+
+.swal2-container {
+    z-index: 10000000000 !important;
+}

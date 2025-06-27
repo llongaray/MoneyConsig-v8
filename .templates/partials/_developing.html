@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block addtitle %}
+<title>Em Desenvolvimento</title>
+{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'geral/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/mensagens.css' %}">
+{% endblock %}
+
+{% block content %}
+{% include 'partials/_messages.html' %}
+<div class="container-developing">
+    <img src="{% static 'developing.png' %}" alt="Em desenvolvimento">
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+/* Importa o arquivo de cores */
+@import url('colors.css');
+
+/* Estilo para o container principal */
+div.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto 0;
+    height: 100%;
+}
+
+div.card {
+    background-color: var(--cor-fundo-card); /* Cor de fundo do card */
+    border-radius: var(--border-radius-tamanho); /* Borda arredondada padrão */
+    box-shadow: var(--cor-box-shadow); /* Sombra do card */
+    padding: 20px;
+    max-width: 600px; /* Largura máxima do card */
+    width: 100%; /* Largura total dentro do container */
+    box-sizing: border-box;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-size: var(--fonte-tamanho-texto); /* Tamanho da fonte padrão */
+    margin-bottom: 5px;
+    color: var(--cor-texto); /* Cor do texto */
+}
+
+input[type="file"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--cor-cinza-claro); /* Cor da borda */
+    border-radius: var(--border-radius-tamanho); /* Borda arredondada padrão */
+    box-sizing: border-box;
+}
+
+button {
+    background-color: var(--cor-botao); /* Cor de fundo do botão */
+    color: var(--cor-branco); /* Cor do texto do botão */
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius-tamanho); /* Borda arredondada padrão */
+    font-size: var(--fonte-tamanho-texto); /* Tamanho da fonte do botão */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--cor-botao-hover); /* Cor de fundo ao passar o mouse */
+}

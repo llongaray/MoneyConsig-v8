@@ -1,0 +1,102 @@
+/* ================================
+   Página: Gerenciamento - Equipes e Campanhas
+=================================== */
+
+/* Container Principal */
+#management-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px; /* Espaçamento entre as colunas e linhas */
+}
+
+/* Seções */
+section {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos das Seções */
+section h2 {
+  font-size: 1.75rem;
+  margin-bottom: 15px;
+  color: #142650;
+}
+section h2 i {
+  margin-right: 10px;
+  color: #0bd5f0;
+}
+
+/* Grupos de Formulário */
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label.form-label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Inputs, Textareas e Selects */
+.form-control,
+.form-select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #142650;
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #0bd5f0;
+  box-shadow: 0 0 5px rgba(11, 213, 240, 0.5);
+}
+
+/* Checkbox */
+.form-check-input {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+.form-check-label {
+  font-size: 1rem;
+  color: #142650;
+}
+
+/* Botões */
+.btn {
+  background-color: #70f611;
+  color: #142650;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn:hover {
+  background-color: #0bd5f0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  #management-container {
+    padding: 15px;
+    grid-template-columns: 1fr;
+  }
+  section h2 {
+    font-size: 1.5rem;
+  }
+}

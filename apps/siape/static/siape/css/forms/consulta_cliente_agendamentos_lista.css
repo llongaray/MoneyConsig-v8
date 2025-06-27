@@ -1,0 +1,672 @@
+/* ==========================================
+   Estilos para o Card de Lista de Agendamentos
+   ========================================== */
+.agendamentos-list-card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(11, 213, 240, 0.06);
+  overflow: hidden;
+  transition: all 0.2s ease;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.agendamentos-list-card:hover {
+  box-shadow: 0 4px 12px rgba(11, 213, 240, 0.12);
+}
+
+.agendamentos-list-card .card-header {
+  background: linear-gradient(135deg, 
+    var(--color-tertiary) 0%, 
+    var(--color-primary-dark) 50%, 
+    var(--color-tertiary) 100%
+  );
+  background-size: 200% 200%;
+  animation: gradientAgendamentos 8s ease infinite;
+  color: var(--color-white);
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
+}
+
+.agendamentos-list-card .card-header i {
+  margin-right: 0.4rem;
+  font-size: 1rem;
+  animation: pulseAgendamentos 2s infinite;
+}
+
+.agendamentos-list-card .card-body {
+  padding: 0;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 1) 0%,
+    rgba(11, 213, 240, 0.02) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+/* Lista de agendamentos */
+#lista-agendamentos {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.list-group {
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  margin: 0;
+}
+
+/* Item individual de agendamento */
+.agendamento-item {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(11, 213, 240, 0.02) 50%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+  border: 1px solid rgba(11, 213, 240, 0.15);
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  animation: fadeSlideIn 0.4s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.agendamento-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, 
+    var(--color-tertiary) 0%,
+    var(--color-secondary) 100%
+  );
+  transform: scaleY(0);
+  transition: transform 0.2s ease;
+}
+
+.agendamento-item:hover {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 1) 0%,
+    rgba(11, 213, 240, 0.05) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  border-color: rgba(11, 213, 240, 0.3);
+}
+
+.agendamento-item:hover::before {
+  transform: scaleY(1);
+}
+
+.agendamento-item:last-child {
+  border-bottom: 1px solid rgba(11, 213, 240, 0.15);
+  border-radius: 0 0 8px 8px;
+}
+
+/* Informações do cliente no agendamento */
+.agendamento-info-cliente {
+  flex: 1;
+  min-width: 0; /* Permite que o flex item encolha */
+  padding-right: 1rem;
+}
+
+/* Nome do cliente */
+.agendamento-nome {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin: 0;
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  width: 100%;
+}
+
+.agendamento-nome::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--color-tertiary), var(--color-secondary));
+  transition: width 0.2s ease;
+}
+
+.agendamento-nome:hover {
+  color: var(--color-tertiary);
+}
+
+.agendamento-nome:hover::after {
+  width: 100%;
+}
+
+/* Tooltip para nomes longos */
+.agendamento-nome[title]:hover {
+  position: relative;
+}
+
+.agendamento-nome[title]:hover::before {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1000;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* CPF do cliente - oculto */
+.agendamento-cpf {
+  display: none;
+}
+
+/* Telefone HOT na lista de agendamentos */
+.agendamento-telefone-hot {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.telefone-hot-mini {
+  color: #ff4444 !important;
+  font-size: 0.9rem;
+  animation: hotFlameMini 1.5s ease-in-out infinite;
+  margin-left: 2px;
+}
+
+@keyframes hotFlameMini {
+  0%, 100% { 
+    transform: scale(1) rotate(-3deg);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: scale(1.1) rotate(3deg);
+    opacity: 1;
+  }
+}
+
+/* Data e hora do agendamento */
+.agendamento-data-hora {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+  flex-shrink: 0;
+  text-align: right;
+  transition: all 0.2s ease;
+}
+
+.agendamento-item:hover .agendamento-data-hora {
+  /* Removido transform para evitar scroll horizontal */
+}
+
+.agendamento-data {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.agendamento-hora {
+  font-size: 0.7rem;
+  color: var(--color-tertiary);
+  font-weight: 500;
+  background: rgba(11, 213, 240, 0.1);
+  padding: 1px 4px;
+  border-radius: 6px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Ações do agendamento - ocultas para layout simplificado */
+.agendamento-acoes {
+  display: none;
+}
+
+.agendamento-confirmar {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  min-width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.agendamento-confirmar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.3), 
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.agendamento-confirmar:hover {
+  background: linear-gradient(135deg, #218838, #1e7e34);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.agendamento-confirmar:hover::before {
+  left: 100%;
+}
+
+.agendamento-icone {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.agendamento-confirmar:hover .agendamento-icone {
+  transform: rotate(360deg) scale(1.1);
+}
+
+/* Responsividade para agendamentos */
+@media (max-width: 479px) {
+  .agendamento-item {
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .agendamento-info-cliente {
+    padding-right: 0.75rem;
+  }
+  
+  .agendamento-nome {
+    font-size: 0.9rem;
+  }
+  
+  .agendamento-data {
+    font-size: 0.75rem;
+  }
+  
+  .agendamento-hora {
+    font-size: 0.65rem;
+    padding: 1px 3px;
+  }
+}
+
+/* Animações */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animação escalonada para múltiplos itens */
+.agendamento-item {
+  animation: fadeSlideIn 0.5s ease-out;
+}
+
+.agendamento-item:nth-child(1) { animation-delay: 0.1s; }
+.agendamento-item:nth-child(2) { animation-delay: 0.2s; }
+.agendamento-item:nth-child(3) { animation-delay: 0.3s; }
+.agendamento-item:nth-child(4) { animation-delay: 0.4s; }
+.agendamento-item:nth-child(5) { animation-delay: 0.5s; }
+.agendamento-item:nth-child(6) { animation-delay: 0.6s; }
+.agendamento-item:nth-child(7) { animation-delay: 0.7s; }
+.agendamento-item:nth-child(8) { animation-delay: 0.8s; }
+
+/* Mensagem quando lista está vazia */
+#lista-agendamentos .text-center {
+  padding: 3rem 2rem;
+  color: #6c757d;
+}
+
+#lista-agendamentos .bx-loader-alt {
+  font-size: 2rem;
+  color: var(--color-tertiary);
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.empty-message {
+  padding: 3rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, 
+    rgba(248, 249, 250, 0.8) 0%,
+    rgba(11, 213, 240, 0.05) 50%,
+    rgba(248, 249, 250, 0.8) 100%
+  );
+  border-radius: 12px;
+  margin: 1rem;
+  border: 1px dashed rgba(11, 213, 240, 0.3);
+}
+
+.empty-message i {
+  font-size: 3rem;
+  color: rgba(11, 213, 240, 0.5);
+  margin-bottom: 1rem;
+  display: block;
+  animation: pulse 2s infinite;
+}
+
+.empty-message p {
+  color: #6c757d;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Animações para agendamentos */
+@keyframes gradientAgendamentos {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseAgendamentos {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Dark mode para agendamentos */
+html.dark .agendamentos-list-card .card-body {
+  background: linear-gradient(135deg, 
+    rgba(33, 37, 41, 1) 0%,
+    rgba(11, 213, 240, 0.05) 50%,
+    rgba(33, 37, 41, 1) 100%
+  );
+}
+
+html.dark .agendamento-item {
+  background: rgba(40, 44, 52, 0.9);
+  border-color: rgba(11, 213, 240, 0.2);
+}
+
+html.dark .agendamento-item:hover {
+  background: rgba(52, 58, 64, 0.95);
+  border-color: rgba(11, 213, 240, 0.4);
+}
+
+html.dark .agendamento-nome {
+  color: #f8f9fa;
+}
+
+html.dark .agendamento-cpf {
+  color: #adb5bd;
+}
+
+html.dark .agendamento-data-hora {
+  color: #e9ecef;
+}
+
+html.dark .agendamento-data {
+  color: #f8f9fa;
+}
+
+html.dark .agendamento-hora {
+  color: var(--color-tertiary);
+  background: rgba(11, 213, 240, 0.15);
+}
+
+html.dark .empty-message {
+  background: linear-gradient(135deg, 
+    rgba(40, 44, 52, 0.8) 0%,
+    rgba(11, 213, 240, 0.08) 50%,
+    rgba(40, 44, 52, 0.8) 100%
+  );
+  border-color: rgba(11, 213, 240, 0.3);
+}
+
+html.dark .empty-message p {
+  color: #adb5bd;
+}
+
+/* Telefone HOT no modo escuro */
+html.dark .telefone-hot-mini {
+  color: #ff6666 !important;
+}
+
+/* ==========================================
+   🌙 DARK MODE - LISTA DE AGENDAMENTOS
+   ========================================== */
+
+/* Card de lista de agendamentos */
+[data-theme="dark"] .agendamentos-list-card,
+body.dark-mode .agendamentos-list-card {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .agendamentos-list-card:hover,
+body.dark-mode .agendamentos-list-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Header do card */
+[data-theme="dark"] .agendamentos-list-card .card-header,
+body.dark-mode .agendamentos-list-card .card-header {
+    background: linear-gradient(135deg, 
+        #0bd5f0 0%, 
+        #142650 50%, 
+        #0bd5f0 100%
+    );
+    background-size: 200% 200%;
+    animation: gradientAgendamentos 8s ease infinite;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .agendamentos-list-card .card-header i,
+body.dark-mode .agendamentos-list-card .card-header i {
+    color: #ffffff;
+}
+
+/* Body do card */
+[data-theme="dark"] .agendamentos-list-card .card-body,
+body.dark-mode .agendamentos-list-card .card-body {
+    background: linear-gradient(135deg, 
+        #3d3450 0%,
+        rgba(11, 213, 240, 0.05) 50%,
+        #3d3450 100%
+    );
+}
+
+/* Lista de agendamentos */
+[data-theme="dark"] #lista-agendamentos,
+body.dark-mode #lista-agendamentos {
+    background-color: transparent;
+}
+
+/* Item individual de agendamento */
+[data-theme="dark"] .agendamento-item,
+body.dark-mode .agendamento-item {
+    background: linear-gradient(135deg, 
+        rgba(61, 52, 80, 0.95) 0%,
+        rgba(11, 213, 240, 0.05) 50%,
+        rgba(61, 52, 80, 0.95) 100%
+    );
+    border-color: rgba(11, 213, 240, 0.25);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .agendamento-item:hover,
+body.dark-mode .agendamento-item:hover {
+    background: linear-gradient(135deg, 
+        rgba(61, 52, 80, 1) 0%,
+        rgba(11, 213, 240, 0.08) 50%,
+        rgba(61, 52, 80, 1) 100%
+    );
+    border-color: rgba(11, 213, 240, 0.4);
+}
+
+[data-theme="dark"] .agendamento-item:last-child,
+body.dark-mode .agendamento-item:last-child {
+    border-bottom-color: rgba(11, 213, 240, 0.25);
+}
+
+/* Nome do cliente */
+[data-theme="dark"] .agendamento-nome,
+body.dark-mode .agendamento-nome {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .agendamento-nome:hover,
+body.dark-mode .agendamento-nome:hover {
+    color: #70f611;
+}
+
+[data-theme="dark"] .agendamento-nome::after,
+body.dark-mode .agendamento-nome::after {
+    background: linear-gradient(90deg, #0bd5f0, #70f611);
+}
+
+/* CPF do cliente */
+[data-theme="dark"] .agendamento-cpf,
+body.dark-mode .agendamento-cpf {
+    color: #b8b5c0;
+}
+
+/* Telefone HOT */
+[data-theme="dark"] .telefone-hot-mini,
+body.dark-mode .telefone-hot-mini {
+    color: #ff6666 !important;
+}
+
+/* Data e hora do agendamento */
+[data-theme="dark"] .agendamento-data-hora,
+body.dark-mode .agendamento-data-hora {
+    color: #e9ecef;
+}
+
+[data-theme="dark"] .agendamento-data,
+body.dark-mode .agendamento-data {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .agendamento-hora,
+body.dark-mode .agendamento-hora {
+    color: #0bd5f0;
+    background: rgba(11, 213, 240, 0.2);
+}
+
+/* Botão de confirmação */
+[data-theme="dark"] .agendamento-confirmar,
+body.dark-mode .agendamento-confirmar {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: #ffffff;
+    border-color: #28a745;
+}
+
+[data-theme="dark"] .agendamento-confirmar:hover,
+body.dark-mode .agendamento-confirmar:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+[data-theme="dark"] .agendamento-confirmar::before,
+body.dark-mode .agendamento-confirmar::before {
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.4), 
+        transparent
+    );
+}
+
+/* Ícone do botão */
+[data-theme="dark"] .agendamento-icone,
+body.dark-mode .agendamento-icone {
+    color: #ffffff;
+}
+
+/* Mensagem quando lista está vazia */
+[data-theme="dark"] #lista-agendamentos .text-center,
+body.dark-mode #lista-agendamentos .text-center {
+    color: #8a85a0;
+}
+
+[data-theme="dark"] #lista-agendamentos .bx-loader-alt,
+body.dark-mode #lista-agendamentos .bx-loader-alt {
+    color: #0bd5f0;
+}
+
+/* Mensagem de lista vazia */
+[data-theme="dark"] .empty-message,
+body.dark-mode .empty-message {
+    background: linear-gradient(135deg, 
+        rgba(61, 52, 80, 0.8) 0%,
+        rgba(11, 213, 240, 0.1) 50%,
+        rgba(61, 52, 80, 0.8) 100%
+    );
+    border-color: rgba(11, 213, 240, 0.4);
+    color: #8a85a0;
+}
+
+[data-theme="dark"] .empty-message i,
+body.dark-mode .empty-message i {
+    color: rgba(11, 213, 240, 0.6);
+}
+
+[data-theme="dark"] .empty-message p,
+body.dark-mode .empty-message p {
+    color: #8a85a0;
+}
+
+/* Responsividade no dark mode */
+@media (max-width: 479px) {
+    [data-theme="dark"] .agendamento-item,
+    body.dark-mode .agendamento-item {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    [data-theme="dark"] .agendamento-info-cliente,
+    body.dark-mode .agendamento-info-cliente {
+        padding-right: 0.75rem;
+    }
+    
+    [data-theme="dark"] .agendamento-nome,
+    body.dark-mode .agendamento-nome {
+        font-size: 0.9rem;
+    }
+    
+    [data-theme="dark"] .agendamento-data,
+    body.dark-mode .agendamento-data {
+        font-size: 0.75rem;
+    }
+    
+    [data-theme="dark"] .agendamento-hora,
+    body.dark-mode .agendamento-hora {
+        font-size: 0.65rem;
+        padding: 1px 3px;
+    }
+} 

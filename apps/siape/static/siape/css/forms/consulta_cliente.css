@@ -1,0 +1,387 @@
+/* ==========================================
+   CONSULTA CLIENTE CSS - IMPORTAÇÕES
+   Arquivo principal que importa todos os módulos
+   ========================================== */
+
+/* Importar todos os módulos separados */
+@import url('consulta_cliente_variables.css');
+@import url('consulta_cliente_controles.css');
+@import url('consulta_cliente_cards.css');
+@import url('consulta_cliente_subcards.css');
+@import url('consulta_cliente_formulario.css');
+@import url('consulta_cliente_agendamento.css');
+@import url('consulta_cliente_calculadoras.css');
+@import url('consulta_cliente_telefones.css');
+@import url('consulta_cliente_agendamentos_lista.css');
+@import url('consulta_cliente_modais.css');
+@import url('consulta_cliente_alertas.css');
+@import url('consulta_cliente_animacoes.css');
+@import url('consulta_cliente_especiais.css');
+
+/* ==========================================
+   🌙 DARK MODE - CONSULTA CLIENTE SIAPE
+   ========================================== */
+
+/* Body e container principal */
+[data-theme="dark"] body,
+body.dark-mode {
+    background-color: #1a1625;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .container,
+body.dark-mode .container {
+    background-color: #1a1625;
+}
+
+/* Título da página */
+[data-theme="dark"] .titulo-pagina,
+body.dark-mode .titulo-pagina {
+    color: #ffffff;
+    border-bottom-color: #70f611;
+}
+
+[data-theme="dark"] .titulo-pagina i,
+body.dark-mode .titulo-pagina i {
+    color: #70f611;
+}
+
+/* Cards gerais */
+[data-theme="dark"] .card,
+body.dark-mode .card {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .card:hover,
+body.dark-mode .card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background-color: rgba(134, 89, 212, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Headers dos cards */
+[data-theme="dark"] .card-header,
+body.dark-mode .card-header {
+    background: linear-gradient(-45deg, #70f611, #5cb85c, #6e42c1, #70f611) !important;
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .card-header i,
+body.dark-mode .card-header i {
+    color: #ffffff;
+}
+
+/* Body dos cards */
+[data-theme="dark"] .card-body,
+body.dark-mode .card-body {
+    background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.05) 100%);
+    color: #ffffff;
+}
+
+/* Formulários */
+[data-theme="dark"] .form-label,
+body.dark-mode .form-label {
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .form-label i,
+body.dark-mode .form-label i {
+    color: #70f611;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select,
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+    background-color: #2d2438;
+    border-color: #3d3450;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus,
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+    border-color: #70f611;
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.25);
+    background-color: #2d2438;
+}
+
+[data-theme="dark"] .form-control::placeholder,
+body.dark-mode .form-control::placeholder {
+    color: #8a85a0;
+}
+
+/* Botões */
+[data-theme="dark"] .btn,
+body.dark-mode .btn {
+    border-color: #3d3450;
+}
+
+[data-theme="dark"] .btn-primary,
+body.dark-mode .btn-primary {
+    background: linear-gradient(-45deg, #70f611, #5cb85c, #6e42c1, #70f611) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBG 8s ease infinite !important;
+    color: #ffffff !important;
+    border-color: #70f611;
+}
+
+[data-theme="dark"] .btn-primary:hover,
+body.dark-mode .btn-primary:hover {
+    background: linear-gradient(-45deg, #5cb85c, #6e42c1, #70f611, #5cb85c) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(112, 246, 17, 0.3);
+}
+
+[data-theme="dark"] .btn-info,
+body.dark-mode .btn-info {
+    background: linear-gradient(-45deg, #0bd5f0, #4dabf7, #6e42c1, #0bd5f0) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBG 8s ease infinite !important;
+    color: #ffffff !important;
+    border-color: #0bd5f0;
+}
+
+[data-theme="dark"] .btn-info:hover,
+body.dark-mode .btn-info:hover {
+    background: linear-gradient(-45deg, #4dabf7, #6e42c1, #0bd5f0, #4dabf7) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(11, 213, 240, 0.3);
+}
+
+[data-theme="dark"] .btn-outline-secondary,
+body.dark-mode .btn-outline-secondary {
+    background-color: transparent;
+    border-color: #3d3450;
+    color: #b8b5c0;
+}
+
+[data-theme="dark"] .btn-outline-secondary:hover,
+body.dark-mode .btn-outline-secondary:hover {
+    background-color: rgba(112, 246, 17, 0.1);
+    border-color: #70f611;
+    color: #ffffff;
+}
+
+/* Tabelas */
+[data-theme="dark"] .table,
+body.dark-mode .table {
+    background-color: #2d2438;
+    border-color: #3d3450;
+}
+
+[data-theme="dark"] .table thead th,
+body.dark-mode .table thead th {
+    background: linear-gradient(to right, rgba(112, 246, 17, 0.15), rgba(110, 66, 193, 0.15));
+    color: #ffffff;
+    border-bottom-color: #70f611;
+}
+
+[data-theme="dark"] .table tbody tr,
+body.dark-mode .table tbody tr {
+    border-bottom-color: #3d3450;
+}
+
+[data-theme="dark"] .table tbody tr:nth-of-type(odd),
+body.dark-mode .table tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="dark"] .table tbody tr:hover,
+body.dark-mode .table tbody tr:hover {
+    background-color: rgba(112, 246, 17, 0.1);
+}
+
+[data-theme="dark"] .table tbody td,
+body.dark-mode .table tbody td {
+    color: #b8b5c0;
+    border-bottom-color: #3d3450;
+}
+
+/* Badges */
+[data-theme="dark"] .badge,
+body.dark-mode .badge {
+    border-color: #3d3450;
+}
+
+[data-theme="dark"] .badge.bg-secondary,
+body.dark-mode .badge.bg-secondary {
+    background-color: #6c757d !important;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .badge.bg-warning,
+body.dark-mode .badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #1a1625;
+}
+
+[data-theme="dark"] .badge.bg-danger,
+body.dark-mode .badge.bg-danger {
+    background-color: #dc3545 !important;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .badge.bg-success,
+body.dark-mode .badge.bg-success {
+    background-color: #28a745 !important;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .badge.bg-info,
+body.dark-mode .badge.bg-info {
+    background-color: #0bd5f0 !important;
+    color: #1a1625;
+}
+
+[data-theme="dark"] .badge.bg-primary,
+body.dark-mode .badge.bg-primary {
+    background-color: #6e42c1 !important;
+    color: #ffffff;
+}
+
+/* Texto pequeno */
+[data-theme="dark"] .text-muted,
+body.dark-mode .text-muted {
+    color: #8a85a0 !important;
+}
+
+/* Separadores */
+[data-theme="dark"] hr,
+body.dark-mode hr {
+    border-color: #3d3450;
+}
+
+/* Animações e transições */
+[data-theme="dark"] .card,
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .btn,
+body.dark-mode .card,
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .btn {
+    transition: all 0.3s ease;
+}
+
+/* Responsividade no dark mode */
+@media (max-width: 767px) {
+    [data-theme="dark"] .card .card-body,
+    body.dark-mode .card .card-body {
+        background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.03) 100%);
+    }
+}
+
+/* Scroll customizado para dark mode */
+[data-theme="dark"] ::-webkit-scrollbar,
+body.dark-mode ::-webkit-scrollbar {
+    width: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track,
+body.dark-mode ::-webkit-scrollbar-track {
+    background: #3d3450;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb,
+body.dark-mode ::-webkit-scrollbar-thumb {
+    background: #6e42c1;
+    border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover,
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: #8659d4;
+}
+
+/* ============================ */
+/* 🔧 CORREÇÕES ESPECÍFICAS     */
+/* ============================ */
+
+/* Garantir que o main tenha o fundo correto */
+[data-theme="dark"] main,
+body.dark-mode main {
+    background-color: #1a1625 !important;
+}
+
+/* Garantir que os valores sejam visíveis */
+[data-theme="dark"] .value,
+body.dark-mode .value {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* Garantir que os títulos sejam visíveis */
+[data-theme="dark"] .title,
+body.dark-mode .title {
+    color: #b8b5c0 !important;
+}
+
+/* Garantir que os selects sejam visíveis */
+[data-theme="dark"] .form-select,
+body.dark-mode .form-select {
+    background-color: #2d2438 !important;
+    color: #ffffff !important;
+    border-color: #3d3450 !important;
+}
+
+/* Garantir que os labels sejam visíveis */
+[data-theme="dark"] .form-label,
+body.dark-mode .form-label {
+    color: #b8b5c0 !important;
+}
+
+/* Garantir que o texto pequeno seja visível */
+[data-theme="dark"] small,
+body.dark-mode small {
+    color: #8a85a0 !important;
+}
+
+/* Garantir que os ícones tenham cores adequadas */
+[data-theme="dark"] .icon i,
+body.dark-mode .icon i {
+    color: inherit !important;
+}
+
+/* Garantir que os ícones de funcionários tenham cores adequadas */
+[data-theme="dark"] .icon-container i,
+body.dark-mode .icon-container i {
+    color: #8659d4 !important;
+}
+
+/* Garantir que as tabelas tenham cores adequadas */
+[data-theme="dark"] .table-light,
+body.dark-mode .table-light {
+    background-color: #2d2438 !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .table-light th,
+body.dark-mode .table-light th {
+    background-color: rgba(112, 246, 17, 0.15) !important;
+    color: #ffffff !important;
+    border-bottom-color: #70f611 !important;
+}
+
+[data-theme="dark"] .table-light td,
+body.dark-mode .table-light td {
+    color: #b8b5c0 !important;
+    border-bottom-color: #3d3450 !important;
+}
+
+/* Garantir que os botões de fechar alertas sejam visíveis */
+[data-theme="dark"] .btn-close,
+body.dark-mode .btn-close {
+    filter: invert(1) brightness(0.8);
+}
+
+[data-theme="dark"] .btn-close:hover,
+body.dark-mode .btn-close:hover {
+    filter: invert(1) brightness(1);
+}

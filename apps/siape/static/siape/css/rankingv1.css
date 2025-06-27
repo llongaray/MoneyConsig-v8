@@ -1,0 +1,187 @@
+main {
+    display: flex;
+    background-image: url('/static/img/apps/siape/backgroud-ranking.png');
+    background-size: cover;
+    background-position: center;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px;
+}
+
+section {
+    height: 80vh;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    background: rgba(156, 156, 156, 0.188);
+}
+
+.progress-meta {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    box-sizing: border-box;
+    align-items: center;
+    position: relative;
+}
+
+#ranking {
+    width: 100%;
+    padding: 20px;
+    margin: 0 15px;
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    border-radius: 10px;
+}
+
+#ranking .container-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    width: 12vw;
+    height: 100%;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#ranking .container-bar .info-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+    color: #ffffff;
+}
+
+#ranking .container-bar .progress-bar {
+    background: linear-gradient(to top, #0a4f0c, #117c15, #17ab1c); /* Gradiente do verde escuro para o verde claro */
+    border-top: 2px solid #333;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Alturas para o Ranking */
+#ranking #top-1 .progress-bar {
+    height: 100%;
+}
+#ranking #top-2 .progress-bar {
+    height: 60%;
+}
+#ranking #top-3 .progress-bar {
+    height: 55%;
+}   
+#ranking #top-4 .progress-bar {
+    height: 48%;
+}
+#ranking #top-5 .progress-bar {
+    height: 35%;
+}
+
+#ranking .container-bar .info-box h4 {
+    font-size: 16pt;
+    overflow: hidden;
+    height: 20%;
+    width: 100%;
+    text-align: center;
+}
+
+#ranking .container-bar .info-box p {
+    font-size: 14pt;
+}
+
+main img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 3px 6px rgba(255, 255, 255, 0.2);
+}
+
+.progress-meta {
+    color: white;
+}
+
+.progress-meta .container {
+    overflow-y: hidden;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.progress-meta .container .progress-bar {
+    width: 80%;
+    margin-top: 10px;
+    background: linear-gradient(to top, #0a2740, #11517c, #17a1ab);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    border-top: 2px solid #333;
+}
+
+#metaGeral {
+    margin-left: 15px;  
+    background-size: cover;
+    background-position: center;  
+}
+
+#metaEquipe {
+    margin-right: 15px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    section {
+        height: auto; /* Ajusta a altura para o conteúdo */
+        width: 100%;
+        border: none; /* Remove a borda para dispositivos móveis */
+    }
+
+    #ranking {
+        flex-direction: column;
+        gap: 10px;
+        margin: 0;
+        padding: 10px;
+    }
+
+    #ranking .container-bar {
+        width: 100%;
+        height: auto;
+        padding: 5px;
+    }
+
+    #ranking .container-bar .info-box h4 {
+        font-size: 14pt;
+    }
+
+    #ranking .container-bar .info-box p {
+        font-size: 12pt;
+    }
+
+    main img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .progress-meta {
+        display: none;
+    }
+}

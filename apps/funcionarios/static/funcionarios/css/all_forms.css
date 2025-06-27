@@ -1,0 +1,396 @@
+/* Importações */
+@import url('root.css');
+
+/* ====== Variáveis ====== */
+
+/* Variáveis para o modo claro (padrão) */
+:root {
+    --background-fundo: #f0f0f1;
+    --background-container: #ffffff;
+    --title-color: #23282d;
+    --text-color: #32373c;
+    --border-color: #e5e5e5;
+    --primary-color: #0085ba;
+    --primary-color-dark: #006799;
+    --secondary-color: #ffffff;
+    --hover-color: #008ec2;
+    --links-color: #0073aa;
+    --input-background: #ffffff;
+    --table-odd-row: #f9f9f9;
+    --table-hover: #f5f5f5;
+}
+
+/* Variáveis para o modo escuro */
+.dark-mode {
+    --background-fundo: #1a1a1a;
+    --background-container: #2c2c2c;
+    --title-color: #ffffff;
+    --text-color: #e0e0e0;
+    --border-color: #444;
+    --primary-color: #3498db;
+    --primary-color-dark: #2980b9;
+    --secondary-color: #ffffff;
+    --hover-color: #5dade2;
+    --links-color: #3498db;
+    --input-background: #383838;
+    --table-odd-row: #333333;
+    --table-hover: #3a3a3a;
+}
+
+
+/* ====== Estilos Gerais ====== */
+
+body {
+    background-color: var(--background-fundo);
+    color: var(--text-color);
+}
+
+.container {
+    background-color: var(--background-container);
+}
+
+a {
+    color: var(--links-color);
+}
+
+a:hover {
+    color: var(--hover-color);
+}
+
+
+/* ====== Estilos de Tabela ====== */
+
+.tabela {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.tabela .table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.container thead {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.container th, .container td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.container th {
+    font-weight: bold;
+}
+
+/* Estilo para o tbody com scroll */
+.table-container tbody {
+    display: block;
+    max-height: calc(4 * 48px);
+    overflow-y: auto;
+    height: 1px;
+}
+
+.table-container thead, .table-container tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table-container thead {
+    width: calc(100% - 1em);
+}
+
+.table-container tbody tr:nth-child(even) {
+    background-color: var(--table-odd-row);
+}
+
+.table-container tbody tr:hover {
+    background-color: var(--table-hover);
+}
+
+
+/* ====== Estilos de Formulário ====== */
+
+.form-control {
+    background-color: var(--input-background);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    width: 100%;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.form-group {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    flex: 0 0 30%;
+    margin-right: 1rem;
+    padding-top: 0.5rem;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group .input-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+
+/* ====== Estilos de Botão ====== */
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color-dark);
+}
+
+.btn-primary:hover {
+    background-color: var(--hover-color);
+    border-color: var(--primary-color);
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #f44336;
+}
+
+.delete-btn:hover {
+    color: #d32f2f;
+}
+
+#btnCadastrarDepartamento:disabled, #btnCadastrarCargo:disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+
+/* ====== Estilos de Modal ====== */
+
+.modal-content {
+    background-color: var(--background-container);
+    color: var(--text-color);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-color);
+}
+
+
+/* ====== Estilos de Seção ====== */
+
+section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--background-container);
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+section h3 {
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 5px;
+}
+
+.section-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.section-left {
+    flex: 1;
+    padding-right: 15px;
+}
+
+.section-right {
+    flex: 1;
+    padding-left: 15px;
+    border-left: 1px solid var(--border-color);
+}
+
+/* ====== Estilos de Foto e Status ====== */
+
+.foto-preview {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.status-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.toggleWrapper {
+    margin: 0 10px;
+}
+
+.toggleWrapper input.mobileToggle {
+    opacity: 0;
+    position: absolute;
+}
+
+.toggleWrapper input.mobileToggle + label {
+    position: relative;
+    display: inline-block;
+    user-select: none;
+    transition: .4s ease;
+    height: 30px;
+    width: 50px;
+    background: #e85c41;
+    border-radius: 60px;
+}
+
+.toggleWrapper input.mobileToggle + label:before {
+    content: "";
+    position: absolute;
+    display: block;
+    transition: 0.2s cubic-bezier(.24,0,.5,1);
+    height: 30px;
+    width: 51px;
+    top: 0;
+    left: 0;
+    border-radius: 30px;
+}
+
+.toggleWrapper input.mobileToggle + label:after {
+    content: "";
+    position: absolute;
+    display: block;
+    box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 0px 0 hsla(0, 0%, 0%, 0.04), 0 4px 9px hsla(0, 0%, 0%, 0.13), 0 3px 3px hsla(0, 0%, 0%, 0.05);
+    transition: 0.35s cubic-bezier(.54,1.60,.5,1);
+    background: white;
+    height: 28px;
+    width: 28px;
+    top: 1px;
+    left: 0px;
+    border-radius: 60px;
+}
+
+.toggleWrapper input.mobileToggle:checked + label:before {
+    background: #2ecc71;
+    transition: width .2s cubic-bezier(0, 0, 0, .1);
+}
+
+.toggleWrapper input.mobileToggle:checked + label:after {
+    left: 24px;
+}
+
+#status_text {
+    font-weight: bold;
+}
+
+/* ====== Utilidades ====== */
+
+.container .title {
+    padding: 15px;
+    color: var(--title-color);
+    text-align: center;
+    font-size: 1.5em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.container img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 50%;
+}
+
+#departamentoFeedback, #cargoFeedback {
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+
+/* ====== Estilos Específicos ====== */
+
+#listaDepartamentos, #listaCargos {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    background-color: var(--input-background);
+    list-style-type: none;
+    width: 100%;
+}
+
+#listaDepartamentos li, #listaCargos li {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
+}
+
+#listaDepartamentos li:last-child, #listaCargos li:last-child {
+    border-bottom: none;
+}
+
+#listaDepartamentos li:hover, #listaCargos li:hover {
+    background-color: var(--table-hover);
+}
+
+
+/* ====== Ajustes para Modo Escuro ====== */
+
+.dark-mode #listaDepartamentos, .dark-mode #listaCargos {
+    background-color: var(--input-background);
+    border-color: var(--border-color);
+}
+
+.dark-mode #listaDepartamentos li, .dark-mode #listaCargos li {
+    border-bottom-color: var(--border-color);
+}
+
+.dark-mode #listaDepartamentos li:hover, .dark-mode #listaCargos li:hover {
+    background-color: var(--table-hover);
+}
+
+.dark-mode #departamentoFeedback, .dark-mode #cargoFeedback {
+    color: #ff6b6b;
+}

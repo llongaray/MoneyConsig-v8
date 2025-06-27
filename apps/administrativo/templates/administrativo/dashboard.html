@@ -1,0 +1,427 @@
+{% extends "base-plus.html" %}
+{% load static %}
+{% load permissionsacess %}
+
+{% block header_title %}
+Dashboard Administrativo<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+{# Usar um CSS específico para este dashboard ou reutilizar/adaptar o do INSS #}
+<link rel="stylesheet" href="{% static 'administrativo/css/administrativo_dashboard.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-md-4" id="dashboard-container">
+  {% has_access user "SS27" as can_sess_financeiro %}
+  {% if can_sess_financeiro %}
+  {# ========================================== #}
+  {#          SESSÃO: FINANCEIRO              #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-financeiro">
+    <h2 class="section-title"><i class='bx bx-dollar-circle'></i> Sessão Financeiro</h2>
+
+    {# --- Categoria: Empresa --- #}
+    {% has_access user "SSS33" as can_sess_fin_empresa %}
+    {% if can_sess_fin_empresa %}
+    <div class="category-block" id="categoria-financeiro-empresa">
+      <h4 class="category-title">Categoria: Empresa</h4>
+      <div class="filter-container mb-3">
+        <label for="select-empresa-financeiro" class="form-label">Selecionar Empresa:</label>
+        <select id="select-empresa-financeiro" name="empresa_financeiro" class="form-select form-select-sm">
+          <option value="">Todas as Empresas</option>
+          {# Opções carregadas via JS #}
+        </select>
+      </div>
+      <div class="box financeiro" id="box-financeiro-empresa">
+        <div class="card" id="card-empresa-fat-ano">
+          <span class="icon"><i class='bx bx-calendar-check'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Ano</span>
+            <span class="value" id="valor-empresa-fat-ano">R$ 0,00</span>
+          </span>
+        </div>
+        <div class="card" id="card-empresa-fat-mes">
+          <span class="icon"><i class='bx bx-calendar'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Mês</span>
+            <span class="value" id="valor-empresa-fat-mes">R$ 0,00</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# --- Categoria: Interno (Sedes) --- #}
+    {% has_access user "SSS34" as can_sess_fin_interno %}
+    {% if can_sess_fin_interno %}
+    <div class="category-block" id="categoria-financeiro-interno">
+      <h4 class="category-title">Categoria: Interno (Sedes)</h4>
+      <div class="filter-container mb-3">
+        <label for="select-interno-financeiro" class="form-label">Selecionar Sede:</label>
+        <select id="select-interno-financeiro" name="interno_financeiro" class="form-select form-select-sm">
+          <option value="">Todas as Sedes</option>
+          {# Opções carregadas via JS #}
+        </select>
+      </div>
+      <div class="box financeiro" id="box-financeiro-interno">
+        <div class="card" id="card-interno-fat-ano">
+          <span class="icon"><i class='bx bx-buildings'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Ano (Sedes)</span>
+            <span class="value" id="valor-interno-fat-ano">R$ 0,00</span>
+          </span>
+        </div>
+        <div class="card" id="card-interno-fat-mes">
+          <span class="icon"><i class='bx bx-building-house'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Mês (Sedes)</span>
+            <span class="value" id="valor-interno-fat-mes">R$ 0,00</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# --- Categoria: Franquia --- #}
+    {% has_access user "SSS35" as can_sess_fin_franquia %}
+    {% if can_sess_fin_franquia %}
+    <div class="category-block" id="categoria-financeiro-franquia">
+      <h4 class="category-title">Categoria: Franquia</h4>
+      <div class="filter-container mb-3">
+        <label for="select-franquia-financeiro" class="form-label">Selecionar Franquia:</label>
+        <select id="select-franquia-financeiro" name="franquia_financeiro" class="form-select form-select-sm">
+          <option value="">Todas as Franquias</option>
+          {# Opções carregadas via JS #}
+        </select>
+      </div>
+      <div class="box financeiro" id="box-financeiro-franquia">
+        <div class="card" id="card-franquia-fat-ano">
+          <span class="icon"><i class='bx bx-store-alt'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Ano (Franquias)</span>
+            <span class="value" id="valor-franquia-fat-ano">R$ 0,00</span>
+          </span>
+        </div>
+        <div class="card" id="card-franquia-fat-mes">
+          <span class="icon"><i class='bx bx-store'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Mês (Franquias)</span>
+            <span class="value" id="valor-franquia-fat-mes">R$ 0,00</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {# --- Categoria: Filial --- #}
+    {% has_access user "SSS36" as can_sess_fin_filial %}
+    {% if can_sess_fin_filial %}
+    <div class="category-block" id="categoria-financeiro-filial">
+      <h4 class="category-title">Categoria: Filial</h4>
+      <div class="filter-container mb-3">
+        <label for="select-filial-financeiro" class="form-label">Selecionar Filial:</label>
+        <select id="select-filial-financeiro" name="filial_financeiro" class="form-select form-select-sm">
+          <option value="">Todas as Filiais</option>
+          {# Opções carregadas via JS #}
+        </select>
+      </div>
+      <div class="box financeiro" id="box-financeiro-filial">
+        <div class="card" id="card-filial-fat-ano">
+          <span class="icon"><i class='bx bxs-building'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Ano (Filiais)</span>
+            <span class="value" id="valor-filial-fat-ano">R$ 0,00</span>
+          </span>
+        </div>
+        <div class="card" id="card-filial-fat-mes">
+          <span class="icon"><i class='bx bxs-building-house'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Mês (Filiais)</span>
+            <span class="value" id="valor-filial-fat-mes">R$ 0,00</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    
+  </div>
+  {% endif %}
+  
+  
+    {# ========================================== #}
+    {#            SESSÃO: SIAPE                 #}
+    {# ========================================== #}
+    {% has_access user "SSXX" as can_sess_siape %} {# Substitua SSXX pela permission tag correta #}
+    {% if can_sess_siape %}
+    <div class="dashboard-section" id="sessao-siape">
+      <h2 class="section-title"><i class='bx bx-data'></i> Sessão SIAPE</h2>
+      <div class="box siape" id="box-siape-geral">
+        <div class="card" id="card-siape-fat-ano">
+          <span class="icon"><i class='bx bx-calendar-check'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Ano (SIAPE)</span>
+            <span class="value" id="valor-siape-fat-ano">R$ 0,00</span>
+          </span>
+        </div>
+        <div class="card" id="card-siape-fat-mes">
+          <span class="icon"><i class='bx bx-calendar'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Mês (SIAPE)</span>
+            <span class="value" id="valor-siape-fat-mes">R$ 0,00</span>
+          </span>
+        </div>
+        <div class="card" id="card-siape-melhor-func-ano">
+          <span class="icon-container" id="icon-container-siape-melhor-func-ano">
+            <img src="" alt="Foto Funcionário" class="funcionario-foto-dashboard" style="display:none;" />
+            <i class='bx bx-user-star funcionario-icon-dashboard-fallback'></i>
+          </span>
+          <span class="container-info">
+            <span class="title">Melhor Funcionário Ano (SIAPE)</span>
+            <span class="value" id="valor-siape-melhor-func-ano-nome">-</span>
+            <small class="text-muted" id="valor-siape-melhor-func-ano-valor">R$ 0,00</small>
+          </span>
+        </div>
+        <div class="card" id="card-siape-melhor-func-mes">
+          <span class="icon-container" id="icon-container-siape-melhor-func-mes">
+            <img src="" alt="Foto Funcionário" class="funcionario-foto-dashboard" style="display:none;" />
+            <i class='bx bxs-user-star funcionario-icon-dashboard-fallback'></i>
+          </span>
+          <span class="container-info">
+            <span class="title">Melhor Funcionário Mês (SIAPE)</span>
+            <span class="value" id="valor-siape-melhor-func-mes-nome">-</span>
+            <small class="text-muted" id="valor-siape-melhor-func-mes-valor">R$ 0,00</small>
+          </span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  {% has_access user "SS28" as can_sess_lojas %}
+  {% if can_sess_lojas %}
+  {# ========================================== #}
+  {#            SESSÃO: LOJAS                 #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-lojas">
+    <h2 class="section-title"><i class='bx bx-store-alt'></i> Sessão Lojas</h2>
+  
+    {# --- Categoria: Sede --- #}
+    {% has_access user "SSS37" as can_sess_lojas_sede %}
+    {% if can_sess_lojas_sede %}
+    <div class="category-block" id="categoria-lojas-sede">
+      <h4 class="category-title">Categoria: Sede</h4>
+      <div class="box lojas" id="box-lojas-sede">
+        <div class="card" id="card-sede-fat-ano"><span class="icon"><i class='bx bx-calendar-check'></i></span><span class="container-info"><span class="title">Faturamento Ano</span><span class="value" id="valor-sede-fat-ano">R$ 0,00</span></span></div>
+        <div class="card" id="card-sede-fat-mes"><span class="icon"><i class='bx bx-calendar'></i></span><span class="container-info"><span class="title">Faturamento Mês</span><span class="value" id="valor-sede-fat-mes">R$ 0,00</span></span></div>
+        <div class="card" id="card-sede-taxa-comp"><span class="icon"><i class='bx bx-line-chart'></i></span><span class="container-info"><span class="title">Taxa Comparecimento</span><span class="value" id="valor-sede-taxa-comp">0%</span></span></div>
+        <div class="card" id="card-sede-cli-rua"><span class="icon"><i class='bx bx-walk'></i></span><span class="container-info"><span class="title">Qtd Clientes Rua</span><span class="value" id="valor-sede-cli-rua">0</span></span></div>
+        <div class="card" id="card-sede-neg-fechados"><span class="icon"><i class='bx bx-check-double'></i></span><span class="container-info"><span class="title">Qtd Negócios Fechados</span><span class="value" id="valor-sede-neg-fechados">0</span></span></div>
+        <div class="card" id="card-sede-agendamentos"><span class="icon"><i class='bx bx-calendar-event'></i></span><span class="container-info"><span class="title">Qtd Agendamentos</span><span class="value" id="valor-sede-agendamentos">0</span></span></div>
+        <div class="card" id="card-sede-sem-interesse"><span class="icon"><i class='bx bx-user-x'></i></span><span class="container-info"><span class="title">Qtd Sem Interesse</span><span class="value" id="valor-sede-sem-interesse">0</span></span></div>
+      </div>
+    </div>
+    {% endif %}
+  
+    {# --- Categoria: Filial --- #}
+    {% has_access user "SSS38" as can_sess_lojas_filial %}
+    {% if can_sess_lojas_filial %}
+    <div class="category-block" id="categoria-lojas-filial">
+      <h4 class="category-title">Categoria: Filial</h4>
+      <div class="filter-container mb-3">
+        <label for="select-filial-lojas" class="form-label">Selecionar Filial:</label>
+        <select id="select-filial-lojas" name="filial_lojas" class="form-select form-select-sm">
+          <option value="">Todas as Filiais</option>
+          {# Opções carregadas via JS #}
+        </select>
+      </div>
+      <div class="box lojas" id="box-lojas-filial">
+        <div class="card" id="card-filial-loja-fat-ano"><span class="icon"><i class='bx bx-calendar-check'></i></span><span class="container-info"><span class="title">Faturamento Ano</span><span class="value" id="valor-filial-loja-fat-ano">R$ 0,00</span></span></div>
+        <div class="card" id="card-filial-loja-fat-mes"><span class="icon"><i class='bx bx-calendar'></i></span><span class="container-info"><span class="title">Faturamento Mês</span><span class="value" id="valor-filial-loja-fat-mes">R$ 0,00</span></span></div>
+        <div class="card" id="card-filial-loja-taxa-comp"><span class="icon"><i class='bx bx-line-chart'></i></span><span class="container-info"><span class="title">Taxa Comparecimento</span><span class="value" id="valor-filial-loja-taxa-comp">0%</span></span></div>
+        <div class="card" id="card-filial-loja-cli-rua"><span class="icon"><i class='bx bx-walk'></i></span><span class="container-info"><span class="title">Qtd Clientes Rua</span><span class="value" id="valor-filial-loja-cli-rua">0</span></span></div>
+        <div class="card" id="card-filial-loja-neg-fechados"><span class="icon"><i class='bx bx-check-double'></i></span><span class="container-info"><span class="title">Qtd Negócios Fechados</span><span class="value" id="valor-filial-loja-neg-fechados">0</span></span></div>
+        <div class="card" id="card-filial-loja-agendamentos"><span class="icon"><i class='bx bx-calendar-event'></i></span><span class="container-info"><span class="title">Qtd Agendamentos</span><span class="value" id="valor-filial-loja-agendamentos">0</span></span></div>
+        <div class="card" id="card-filial-loja-sem-interesse"><span class="icon"><i class='bx bx-user-x'></i></span><span class="container-info"><span class="title">Qtd Sem Interesse</span><span class="value" id="valor-filial-loja-sem-interesse">0</span></span></div>
+      </div>
+    </div>
+    {% endif %}
+  
+    {# --- Categoria: Franquia --- #}
+    {% has_access user "SSS39" as can_sess_lojas_franquia %}
+    {% if can_sess_lojas_franquia %}
+    <div class="category-block" id="categoria-lojas-franquia">
+      <h4 class="category-title">Categoria: Franquia</h4>
+      <div class="filter-container mb-3">
+        <label for="select-franquia-lojas" class="form-label">Selecionar Franquia:</label>
+        <select id="select-franquia-lojas" name="franquia_lojas" class="form-select form-select-sm">
+          <option value="">Todas as Franquias</option>
+          {# Opções carregadas via JS #}
+        </select>
+      </div>
+      <div class="box lojas" id="box-lojas-franquia">
+        <div class="card" id="card-franquia-loja-fat-ano"><span class="icon"><i class='bx bx-calendar-check'></i></span><span class="container-info"><span class="title">Faturamento Ano</span><span class="value" id="valor-franquia-loja-fat-ano">R$ 0,00</span></span></div>
+        <div class="card" id="card-franquia-loja-fat-mes"><span class="icon"><i class='bx bx-calendar'></i></span><span class="container-info"><span class="title">Faturamento Mês</span><span class="value" id="valor-franquia-loja-fat-mes">R$ 0,00</span></span></div>
+        <div class="card" id="card-franquia-loja-taxa-comp"><span class="icon"><i class='bx bx-line-chart'></i></span><span class="container-info"><span class="title">Taxa Comparecimento</span><span class="value" id="valor-franquia-loja-taxa-comp">0%</span></span></div>
+        <div class="card" id="card-franquia-loja-cli-rua"><span class="icon"><i class='bx bx-walk'></i></span><span class="container-info"><span class="title">Qtd Clientes Rua</span><span class="value" id="valor-franquia-loja-cli-rua">0</span></span></div>
+        <div class="card" id="card-franquia-loja-neg-fechados"><span class="icon"><i class='bx bx-check-double'></i></span><span class="container-info"><span class="title">Qtd Negócios Fechados</span><span class="value" id="valor-franquia-loja-neg-fechados">0</span></span></div>
+        <div class="card" id="card-franquia-loja-agendamentos"><span class="icon"><i class='bx bx-calendar-event'></i></span><span class="container-info"><span class="title">Qtd Agendamentos</span><span class="value" id="valor-franquia-loja-agendamentos">0</span></span></div>
+        <div class="card" id="card-franquia-loja-sem-interesse"><span class="icon"><i class='bx bx-user-x'></i></span><span class="container-info"><span class="title">Qtd Sem Interesse</span><span class="value" id="valor-franquia-loja-sem-interesse">0</span></span></div>
+      </div>
+    </div>
+    {% endif %}
+  
+  </div>
+  {% endif %}
+  
+  {% has_access user "SS29" as can_sess_rh %}
+  {% if can_sess_rh %}
+  {# ========================================== #}
+  {#       SESSÃO: RECURSOS HUMANOS           #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-rh">
+    <h2 class="section-title"><i class='bx bxs-user-detail'></i> Sessão Recursos Humanos</h2>
+  
+    {% has_access user "SSS31" as can_sess_rh_funcionarios %}
+    {% if can_sess_rh_funcionarios %}
+    {# --- Categoria: Funcionários (Geral) --- #}
+    <div class="category-block" id="categoria-rh-funcionarios-geral">
+      <h4 class="category-title">Categoria: Funcionários</h4>
+      <div class="box rh" id="box-rh-funcionarios-geral">
+        <div class="card" id="card-rh-func-ativos">
+          <span class="icon"><i class='bx bx-user-check'></i></span>
+          <span class="container-info">
+            <span class="title">Funcionários Ativos</span>
+            <span class="value" id="valor-rh-func-ativos">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-rh-func-inativos">
+          <span class="icon"><i class='bx bx-user-minus'></i></span>
+          <span class="container-info">
+            <span class="title">Funcionários Inativos</span>
+            <span class="value" id="valor-rh-func-inativos">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  
+    {% has_access user "SSS32" as can_sess_rh_desempenho %}
+    {% if can_sess_rh_desempenho %}
+    {# --- Filtro por Funcionário --- #}
+    <div class="category-block" id="categoria-rh-funcionario-especifico">
+      <h4 class="category-title">Desempenho por Funcionário</h4>
+      <div class="filter-container mb-3">
+        <label for="select-funcionario-rh" class="form-label">Selecionar Funcionário:</label>
+        <select id="select-funcionario-rh" name="funcionario_rh" class="form-select form-select-sm">
+          <option value="">Selecione um funcionário</option>
+          {# Opções carregadas via JS #}
+        </select>
+      </div>
+      <div class="box rh" id="box-rh-funcionario-especifico">
+        <div class="card" id="card-rh-func-fat-ano">
+          <span class="icon"><i class='bx bx-calendar-check'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Ano (Func.)</span>
+            <span class="value" id="valor-rh-func-fat-ano">R$ 0,00</span>
+          </span>
+        </div>
+        <div class="card" id="card-rh-func-fat-mes">
+          <span class="icon"><i class='bx bx-calendar'></i></span>
+          <span class="container-info">
+            <span class="title">Faturamento Mês (Func.)</span>
+            <span class="value" id="valor-rh-func-fat-mes">R$ 0,00</span>
+          </span>
+        </div>
+        <div class="card" id="card-rh-func-clientes">
+          <span class="icon"><i class='bx bx-user-plus'></i></span>
+          <span class="container-info">
+            <span class="title">Qtd Clientes Concluídos</span>
+            <span class="value" id="valor-rh-func-clientes">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-rh-func-comissao">
+          <span class="icon"><i class='bx bx-money'></i></span>
+          <span class="container-info">
+            <span class="title">Valor Total Comissão</span>
+            <span class="value" id="valor-rh-func-comissao">R$ 0,00</span>
+          </span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  
+  </div>
+  {% endif %}
+  
+
+  {% has_access user "SS30" as can_sess_metas %}
+  {% if can_sess_metas %}
+  {# ========================================== #}
+  {#            SESSÃO: METAS                 #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-metas">
+    <h2 class="section-title"><i class='bx bx-trophy'></i> Sessão Metas</h2>
+  
+    {# --- Categoria: Ativa --- #}
+    {% has_access user "SSS40" as can_sess_metas_ativa %}
+    {% if can_sess_metas_ativa %}
+    <div class="category-block" id="categoria-metas-ativa">
+      <h4 class="category-title">Categoria: Meta Ativa</h4>
+      <div class="filter-container mb-3">
+        <label for="select-meta-ativa" class="form-label">Selecionar Meta Ativa:</label>
+        <select id="select-meta-ativa" name="meta_ativa" class="form-select form-select-sm">
+          <option value="">Selecione uma meta</option>
+          {# Opções carregadas via JS #}
+        </select>
+      </div>
+      <div class="box metas" id="box-metas-ativa">
+        <div class="card" id="card-meta-ativa-valor"><span class="icon"><i class='bx bx-target-lock'></i></span><span class="container-info"><span class="title">Valor Meta</span><span class="value" id="valor-meta-ativa-valor">R$ 0,00</span></span></div>
+        <div class="card" id="card-meta-ativa-atingido"><span class="icon"><i class='bx bxs-bar-chart-alt-2'></i></span><span class="container-info"><span class="title">Valor Atingido</span><span class="value" id="valor-meta-ativa-atingido">R$ 0,00</span></span></div>
+        <div class="card" id="card-meta-ativa-restante"><span class="icon"><i class='bx bx-pie-chart-alt-2'></i></span><span class="container-info"><span class="title">Valor Restante</span><span class="value" id="valor-meta-ativa-restante">R$ 0,00</span></span></div>
+        <div class="card" id="card-meta-ativa-status"><span class="icon"><i class='bx bx-info-circle'></i></span><span class="container-info"><span class="title">Status</span><span class="value" id="valor-meta-ativa-status">-</span></span></div>
+        {# Poderia adicionar um card de progresso visual aqui #}
+      </div>
+    </div>
+    {% endif %}
+  
+    {# --- Categoria: Inativada --- #}
+    {% has_access user "SSS41" as can_sess_metas_inativada %}
+    {% if can_sess_metas_inativada %}
+    <div class="category-block" id="categoria-metas-inativada">
+      <h4 class="category-title">Categoria: Meta Inativada</h4>
+      <div class="filter-container mb-3">
+        <label for="select-meta-inativada" class="form-label">Selecionar Meta Inativada:</label>
+        <select id="select-meta-inativada" name="meta_inativada" class="form-select form-select-sm">
+          <option value="">Selecione uma meta</option>
+          {# Opções carregadas via JS #}
+        </select>
+      </div>
+      <div class="box metas" id="box-metas-inativada">
+        <div class="card" id="card-meta-inativa-valor"><span class="icon"><i class='bx bx-target-lock'></i></span><span class="container-info"><span class="title">Valor Meta</span><span class="value" id="valor-meta-inativa-valor">R$ 0,00</span></span></div>
+        <div class="card" id="card-meta-inativa-atingido"><span class="icon"><i class='bx bxs-bar-chart-alt-2'></i></span><span class="container-info"><span class="title">Valor Atingido</span><span class="value" id="valor-meta-inativa-atingido">R$ 0,00</span></span></div>
+        <div class="card" id="card-meta-inativa-restante"><span class="icon"><i class='bx bx-pie-chart-alt-2'></i></span><span class="container-info"><span class="title">Valor Restante</span><span class="value" id="valor-meta-inativa-restante">R$ 0,00</span></span></div>
+        <div class="card" id="card-meta-inativa-status"><span class="icon"><i class='bx bx-info-circle'></i></span><span class="container-info"><span class="title">Status</span><span class="value" id="valor-meta-inativa-status">-</span></span></div>
+      </div>
+    </div>
+    {% endif %}
+  
+  </div>
+  {% endif %}
+  
+
+  {# --- Timestamp --- #}
+  <div class="timestamp-container text-end mt-3" id="timestamp-container">
+    <small class="text-muted">Última atualização: <span id="last-update-time">Aguardando dados...</span></small>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{# Incluir Chart.js se for usar gráficos #}
+{# <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> #}
+{# Criar e referenciar um JS específico para este dashboard #}
+<script src="{% static 'administrativo/js/administrativo_dashboard.js' %}"></script>
+{% endblock %}

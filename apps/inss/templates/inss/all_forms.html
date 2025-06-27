@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% get_user_cargo user as user_cargo %}
+
+{% block addtitle %}<title>Agendamento INSS</title>{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'css/divider.css' %}">
+<link rel="stylesheet" href="{% static 'css/geral_forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/mensagens.css' %}">
+<link rel="stylesheet" href="{% static 'css/filtros.css' %}">
+<link rel="stylesheet" href="{% static 'inss/css/inss_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/modais.css' %}">
+<link rel="stylesheet" href="{% static 'css/darkmode.css' %}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    .tac-valor-input {
+        width: 100px;
+        border: 1px solid #ddd;
+        padding: 4px 8px;
+        border-radius: 4px;
+        text-align: right;
+    }
+    
+    .tac-valor-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+    
+    .tac-valor-form {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+<style>
+    .filtros-wrapper {
+        padding: 15px;
+    }
+    
+    .filtros-container {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .filtro-input {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        flex: 1;
+        min-width: 120px;
+        height: 38px;
+        font-size: 14px;
+    }
+    
+    .text-filter {
+        background-color: #fff;
+    }
+    
+    .date-filter {
+        background-color: #fff;
+        cursor: pointer;
+    }
+    
+    .filtro-input:focus {
+        outline: none;
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+    
+    .tabela-separator {
+        height: 1px;
+        background-color: #ddd;
+        margin: 0;
+    }
+</style>
+
+<style>
+    .date-range-container {
+        display: flex;
+        gap: 10px;
+        flex: 2;
+    }
+    
+    .date-range-container .filtro-input {
+        flex: 1;
+    }
+</style>
+
+<style>
+    .date-range-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        width: 100%;
+    }
+    
+    .date-range-container input[type="date"] {
+        flex: 1;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .td-data {
+        white-space: nowrap;
+        text-align: center;
+    }
+    
+    .th-data {
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block pre_content %}
+{% include 'partials/_dark_mode_toggle.html' %}
+{% include 'partials/_messages.html' %}
+{% endblock %}
+{% block content %}
+
+<!--***************************SELETOR DE MODAIS***************************-->
+
+<!-- FORMULÁRIOS -->
+<div class="container">
+    <!-- Botões para abrir os modais -->
+    <div class="options_modais">
+        {% get_user_cargo user as user_cargo %}
+        
+        {% can_view_inss_button user 'agendamento' as can_view_agendamento %}
+        {% if can_view_agendamento or user.is_superuser %}
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalAgendamento')">
+                Registrar Agendamento
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalClienteRua')">
+                Cliente Rua
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalConfiAgendamentoTabela')">
+                Confirmação Agendamento
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalReagendamentoTabela')">
+                Confirmação Reagendamento
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalClientesEmLoja')">
+                Clientes Em Loja
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalAgendamentosAtrasados')">
+                Não Foi Loja
+            </button>
+        {% endif %}
+
+        {% can_view_inss_button user 'clientes_loja' as can_view_clientes %}
+        {% if can_view_clientes or user.is_superuser %}
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalListaClientes')">
+                Clientes do Dia
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalTodosAgendamentos')">
+                Todos os Agendamentos
+            </button>
+        {% endif %}
+
+        {% can_view_inss_button user 'agendamentos_tac' as can_view_tac %}
+        {% if can_view_tac or user.is_superuser %}
+            <button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalAgendamentosTAC')">
+                Confirmação Pagamento TAC
+            </button>
+        {% endif %}
+            <!--<button type="button" class="btn btn-primary" onclick="abrirModalOptions('#modalDashboard')">
+                Dashboard
+            </button>-->
+
+    </div>
+
+    <div class="divider"></div>
+
+<!--***************************MODAIS***************************-->
+
+    
+
+
+    <!-- Modal para Cliente Rua -->
+    
+
+    
+
+
+    <!-- Modal para Reagendamento -->
+    
+
+
+    <!-- Modal para Clientes Em Loja -->
+    
+
+    <!-- Modal para Lista de Clientes (Lojas) -->
+    
+
+
+    <!-- Modal para Todos os Agendamentos -->
+    
+
+
+
+
+    <!-- Modal para Agendamentos com TAC -->
+    
+
+
+    <!-- Modal para Agendamentos Atrasados -->
+    
+
+
+    <!-- Modal para Dashboard -->
+    
+
+<!--***************************SUB MODAIS***************************-->
+
+    
+
+
+    
+    
+
+</div>
+
+{% endblock %}
+
+{% block addjs_extra %}
+
+<!-- ========================= IMPORTAÇÃO DO jQUERY E jQUERY UI ========================= -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- ========================= SCRIPTS DAS APIS ========================= -->
+<script src="{% static 'inss/js/apis_get.js' %}"></script>
+<script src="{% static 'inss/js/apis_post.js' %}"></script>
+
+<!-- ========================= SCRIPTS DE CONTROLE DE MODAL E CONFIGURAÇÃO ========================= -->
+<script src="{% static 'js/modais.js' %}"></script>
+<script src="{% static 'js/conjunto/initialConfig.js' %}"></script>
+
+{% endblock %}

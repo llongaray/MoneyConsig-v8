@@ -1,0 +1,1109 @@
+/* ==========================================
+   CSS para a página de Biblioteca de Materiais de Marketing
+   Baseado no estilo administrativo.css com tema verde e azul
+   Foco: Design moderno com gradientes e animações
+   ========================================== */
+
+/* ---------- Variáveis de Cores e Sombreamentos ---------- */
+:root {
+    --color-primary-dark: #142650; /* Azul escuro */
+    --color-secondary: #70f611; /* Verde */
+    --color-tertiary: #0bd5f0; /* Azul claro (ciano) */
+    --color-accent: #b4874c; /* Tom terroso */
+    --color-white: #fff;
+    --color-gray: #ddd;
+    --color-light-gray: #f0f0f0;
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-danger: #dc3545;
+    --color-success: #198754; /* Verde escuro para sucesso */
+    --color-warning: #ffc107;
+    --color-info: #0dcaf0;
+
+    --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-card-hover: 0 6px 18px rgba(112, 246, 17, 0.15); /* Sombra verde no hover */
+    --box-shadow-material: 0 8px 25px rgba(112, 246, 17, 0.2);
+
+    /* Gradientes com foco no verde */
+    --gradient-primary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary-dark) 100%);
+    --gradient-secondary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+    --gradient-card-header: linear-gradient(-45deg, var(--color-secondary), #5cb85c, var(--color-primary-dark), var(--color-secondary));
+    --gradient-card-header-info: linear-gradient(-45deg, var(--color-info), #1ba2f6, var(--color-primary-dark), var(--color-info));
+    --gradient-card-header-success: linear-gradient(-45deg, var(--color-success), #28a745, var(--color-primary-dark), var(--color-success));
+
+    /* Animação do Gradiente */
+    --gradient-animation: gradientBG 12s ease infinite;
+}
+
+/* ==========================================
+   Estilos Gerais da Página
+   ========================================== */
+body {
+    background-color: var(--color-light-gray);
+}
+
+/* Utilitário para esconder elementos */
+.d-none {
+    display: none !important;
+}
+
+/* ==========================================
+   Container de Órgão (Hierarquia Superior)
+   ========================================== */
+.container h1.titulo-pagina {
+    color: var(--color-primary-dark);
+    font-weight: 700;
+    border-bottom: 4px solid var(--color-warning);
+    padding-bottom: 0.75rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.container h1.titulo-pagina::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-warning) 0%, var(--color-secondary) 100%);
+    border-radius: 2px;
+}
+
+.container h1.titulo-pagina i {
+    color: var(--color-warning);
+    font-size: 1.2em;
+}
+
+.container h1.titulo-pagina .badge {
+    font-size: 0.55em;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--color-warning) 0%, #fd7e14 100%) !important;
+    color: #212529 !important;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Separação entre órgãos */
+.container {
+    border-bottom: 2px solid #f8f9fa;
+    padding-bottom: 3rem;
+    margin-bottom: 3rem;
+}
+
+.container:last-child {
+    border-bottom: none;
+    margin-bottom: 1rem;
+}
+
+/* ==========================================
+   Estilos dos Cards Principais
+   ========================================== */
+.card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray);
+    border-radius: 12px;
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-card-hover);
+}
+
+.card-header {
+    background: var(--gradient-card-header) !important;
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: var(--color-white) !important;
+    font-weight: 600;
+    font-size: 1.1em;
+    padding: 1rem 1.25rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.card-header.bg-info {
+    background: var(--gradient-card-header-info) !important;
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+}
+
+.card-header i {
+    margin-right: 0.75rem;
+    font-size: 1.3rem;
+    vertical-align: middle;
+}
+
+/* Efeito de brilho metálico no header */
+.card-header::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.05) 40%,
+      rgba(255,255,255,0.3) 50%,
+      rgba(255,255,255,0.05) 60%,
+      rgba(255,255,255,0) 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.7s ease;
+    z-index: -1;
+}
+
+.card:hover .card-header::before {
+    top: 100%;
+    left: 100%;
+}
+
+.card-body {
+    padding: 1.25rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(245, 255, 245, 0.8) 100%);
+}
+
+/* ==========================================
+   Estilos de Formulários
+   ========================================== */
+.form-label {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.form-label i {
+    margin-right: 0.5rem;
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+}
+
+.form-control,
+.form-select {
+    border: 2px solid var(--color-gray);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    background-color: var(--color-white);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.15);
+    background-color: #fafffa;
+    outline: none;
+}
+
+.input-group-text {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #5cb85c 100%);
+    border: 2px solid var(--color-secondary);
+    color: var(--color-white);
+    font-weight: 600;
+}
+
+/* ==========================================
+   Estilos dos Botões
+   ========================================== */
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-info {
+    background: linear-gradient(135deg, var(--color-info) 0%, #1ba2f6 100%);
+    border: none;
+    color: var(--color-white);
+    box-shadow: 0 4px 10px rgba(13, 202, 240, 0.15);
+}
+
+.btn-info:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(13, 202, 240, 0.25);
+}
+
+.btn-primary {
+    background: var(--gradient-secondary-green) !important;
+    background-size: 300% 300% !important;
+    animation: gradientBGButton 10s ease infinite !important;
+    border: none;
+    color: var(--color-primary-dark) !important;
+    box-shadow: 0 4px 10px rgba(112, 246, 17, 0.15);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(112, 246, 17, 0.25);
+}
+
+/* Efeito de brilho nos botões */
+.btn::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(30deg);
+    transition: all 0.6s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+/* ==========================================
+   Container de Produto (Hierarquia Média)
+   ========================================== */
+.container-produto {
+    background: var(--color-white);
+    border-radius: 12px;
+    margin: 0 1rem 2rem 1rem;
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    width: calc(100% - 2rem);
+}
+
+.container-produto:hover {
+    box-shadow: var(--box-shadow-medium);
+}
+
+.container-produto-header {
+    background: var(--gradient-primary-green);
+    background-size: 200% 200%;
+    animation: gradientBG 15s ease infinite;
+    color: var(--color-white);
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.container-produto-header h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.container-produto-header .badge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+}
+
+/* Container flex para os materiais */
+.materiais-flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+/* ==========================================
+   Cards de Material (Nova Estrutura)
+   ========================================== */
+.material-card {
+    border: 1px solid rgba(112, 246, 17, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow-light);
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    position: relative;
+    background: var(--color-white);
+    width: 280px;
+    min-height: 420px;
+    flex-shrink: 0;
+}
+
+.material-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(112, 246, 17, 0.02) 0%,
+        rgba(11, 213, 240, 0.02) 50%,
+        rgba(112, 246, 17, 0.02) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.material-card:hover::before {
+    opacity: 1;
+}
+
+.material-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--box-shadow-material);
+    border-color: var(--color-secondary);
+}
+
+/* Header Banner */
+.header-banner {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    z-index: 1;
+}
+
+.material-banner {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.material-card:hover .material-banner {
+    transform: scale(1.1) rotate(1deg);
+}
+
+.material-banner-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--color-text-light);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.material-overlay {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 2;
+}
+
+.status-badge {
+    padding: 0.35rem 0.85rem;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.status-badge.status-active {
+    background: linear-gradient(135deg, var(--color-success) 0%, #28a745 100%);
+    color: var(--color-white);
+}
+
+.status-badge.status-inactive {
+    background: linear-gradient(135deg, var(--color-danger) 0%, #c82333 100%);
+    color: var(--color-white);
+}
+
+.download-count {
+    background: linear-gradient(135deg, rgba(20, 38, 80, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%);
+    color: var(--color-white);
+    padding: 0.35rem 0.85rem;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Body Título */
+.body-titulo {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(245, 255, 245, 0.6) 100%);
+}
+
+.material-title {
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.material-info {
+    flex: 1;
+    margin-bottom: 1rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    transition: color 0.3s ease;
+}
+
+.material-card:hover .info-item {
+    color: var(--color-text-dark);
+}
+
+.info-item i {
+    width: 16px;
+    margin-right: 0.75rem;
+    color: var(--color-secondary);
+    font-size: 0.9rem;
+}
+
+.material-actions {
+    z-index: 1;
+    position: relative;
+}
+
+.btn-download {
+    width: 100%;
+    background: linear-gradient(135deg, var(--color-success) 0%, #28a745 100%);
+    border: none;
+    color: var(--color-white);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.2);
+}
+
+.btn-download:hover {
+    background: linear-gradient(135deg, #20c997 0%, var(--color-success) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(25, 135, 84, 0.3);
+    color: var(--color-white);
+}
+
+.btn-download:disabled {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+/* ==========================================
+   Estado Vazio
+   ========================================== */
+.empty-state .card {
+    text-align: center;
+    border: 2px dashed var(--color-gray);
+    background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,255,240,0.6) 100%);
+}
+
+.empty-state .card:hover {
+    border-color: var(--color-secondary);
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.05) 0%, rgba(240,255,240,0.8) 100%);
+}
+
+/* ==========================================
+   Loading e Estados
+   ========================================== */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+.spinner-border.text-primary {
+    color: var(--color-secondary) !important;
+}
+
+/* ==========================================
+   Modais - Design Premium
+   ========================================== */
+.modal.fade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1050;
+    background: radial-gradient(circle at center, rgba(20, 38, 80, 0.85) 0%, rgba(0, 0, 0, 0.95) 100%);
+    backdrop-filter: blur(8px) saturate(1.2);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal.fade.show {
+    opacity: 1;
+}
+
+.modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 650px;
+    width: 92%;
+    max-height: 92vh;
+    margin: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 25px 80px rgba(0,0,0,0.4));
+}
+
+.modal.fade:not(.show) .modal-dialog {
+    transform: translate(-50%, -50%) scale(0.7) rotateX(15deg);
+    opacity: 0;
+}
+
+.modal.fade.show .modal-dialog {
+    transform: translate(-50%, -50%) scale(1) rotateX(0deg);
+    opacity: 1;
+}
+
+.modal-content {
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 32px 64px rgba(0,0,0,0.4),
+        0 16px 32px rgba(0,0,0,0.2),
+        inset 0 1px 2px rgba(255,255,255,0.1);
+    overflow: hidden;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: linear-gradient(145deg, #ffffff 0%, #f8fffe 100%);
+    position: relative;
+}
+
+.modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(112, 246, 17, 0.6) 50%, transparent 100%);
+    z-index: 1;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #142650 0%, #1e3a8a 25%, #142650 50%, #0f1729 100%);
+    background-size: 400% 400%;
+    animation: gradientShimmer 8s ease-in-out infinite;
+    color: var(--color-white);
+    border-bottom: none;
+    padding: 2rem 2.5rem 1.75rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-radius: 24px 24px 0 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(112, 246, 17, 0.1) 0%, transparent 50%, rgba(11, 213, 240, 0.1) 100%);
+    z-index: -1;
+}
+
+.modal-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(112, 246, 17, 0.4) 20%, rgba(11, 213, 240, 0.4) 80%, transparent 100%);
+}
+
+.modal-title {
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.modal-title i {
+    font-size: 1.6rem;
+    color: var(--color-secondary);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.btn-close {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px !important;
+    width: 44px !important;
+    height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    backdrop-filter: blur(10px) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    opacity: 1 !important;
+    flex-shrink: 0 !important;
+}
+
+/* Estilizar o ícone dentro do botão de fechar */
+.btn-close i {
+    font-size: 20px !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Garantir que o X apareça mesmo com Bootstrap */
+.modal-header .btn-close {
+    background-image: none !important;
+    filter: none !important;
+}
+
+.modal-header .btn-close:focus {
+    box-shadow: 0 0 0 3px rgba(112, 246, 17, 0.3) !important;
+}
+
+.btn-close::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+    transition: left 0.5s ease;
+}
+
+.btn-close:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    transform: rotate(90deg) scale(1.05) !important;
+    opacity: 1 !important;
+}
+
+.btn-close:hover i {
+    color: rgba(255, 255, 255, 1) !important;
+    transform: scale(1.1) !important;
+}
+
+.btn-close:hover::before {
+    left: 100%;
+}
+
+.modal-body {
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fffe 50%, #f0fffc 100%);
+    position: relative;
+    min-height: 200px;
+}
+
+.modal-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 2.5rem;
+    right: 2.5rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(112, 246, 17, 0.2) 50%, transparent 100%);
+}
+
+.modal-footer {
+    border-top: none;
+    padding: 1.75rem 2.5rem 2.5rem;
+    background: linear-gradient(135deg, #f8fffe 0%, #f0fffc 100%);
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    border-radius: 0 0 24px 24px;
+    backdrop-filter: blur(10px);
+}
+
+.modal-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 2.5rem;
+    right: 2.5rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(112, 246, 17, 0.2) 50%, transparent 100%);
+}
+
+/* Botões do Modal */
+.modal-footer .btn {
+    padding: 0.875rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    min-width: 140px;
+}
+
+.modal-footer .btn-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.modal-footer .btn-secondary:hover {
+    background: linear-gradient(135deg, #5a6268 0%, #3d4043 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
+    color: #ffffff;
+}
+
+.modal-footer .btn-success {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #20c997 50%, var(--color-success) 100%);
+    background-size: 200% 200%;
+    border: none;
+    color: var(--color-primary-dark);
+    box-shadow: 0 4px 16px rgba(112, 246, 17, 0.3);
+    font-weight: 700;
+}
+
+.modal-footer .btn-success:hover {
+    background-position: 100% 0;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 28px rgba(112, 246, 17, 0.4);
+    color: var(--color-primary-dark);
+}
+
+/* Modal Large */
+.modal-lg .modal-dialog {
+    max-width: 980px;
+}
+
+/* Detalhes específicos do modal de detalhes */
+#modalDetalhes .modal-body {
+    padding: 2rem 2.5rem;
+}
+
+#modalDetalhes .row > .col-md-4 {
+    border-right: 1px solid rgba(112, 246, 17, 0.1);
+    padding-right: 2rem;
+}
+
+#modalDetalhes .row > .col-md-8 {
+    padding-left: 2rem;
+}
+
+#modalDetalhes .badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+#modalDetalhes hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(112, 246, 17, 0.3) 50%, transparent 100%);
+    margin: 1.5rem 0;
+}
+
+/* Modal de Download específico */
+#modalDownload .modal-body {
+    text-align: center;
+    padding: 3rem 2.5rem;
+}
+
+#modalDownload .modal-body i.bx-fade-down {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    animation: bounceDownload 2s infinite;
+}
+
+/* Responsividade dos modais */
+@media (max-width: 768px) {
+    .modal-dialog {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    .modal-header {
+        padding: 1.5rem 1.75rem 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .modal-body {
+        padding: 2rem 1.75rem;
+    }
+    
+    .modal-footer {
+        padding: 1.25rem 1.75rem 2rem;
+    }
+    
+    .modal-title {
+        font-size: 1.2rem;
+    }
+    
+    #modalDetalhes .row > .col-md-4,
+    #modalDetalhes .row > .col-md-8 {
+        border: none;
+        padding: 1rem;
+    }
+    
+    .modal-footer .btn {
+        min-width: 120px;
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-dialog {
+        width: 98%;
+        max-height: 98vh;
+    }
+    
+    .modal-header {
+        padding: 1.25rem 1.5rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .modal-body {
+        padding: 1.5rem;
+    }
+    
+    .modal-footer {
+        padding: 1rem 1.5rem 1.5rem;
+    }
+    
+    .modal-footer .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .modal-footer .btn:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* ==========================================
+   Body com modal aberto
+   ========================================== */
+body.modal-open {
+    overflow: hidden;
+    padding-right: 0;
+}
+
+/* ==========================================
+   Responsividade
+   ========================================== */
+@media (max-width: 992px) {
+    .materiais-flex-container {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-produto {
+        margin: 0 0.75rem 1.5rem 0.75rem;
+        width: calc(100% - 1.5rem);
+    }
+    
+    .material-card {
+        width: 260px;
+        min-height: 400px;
+    }
+    
+    .header-banner {
+        height: 160px;
+    }
+    
+    .body-titulo {
+        padding: 1rem;
+    }
+    
+    .material-title {
+        font-size: 1rem;
+    }
+    
+    .materiais-flex-container {
+        padding: 1rem;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-produto {
+        margin: 0 0.5rem 1rem 0.5rem;
+        width: calc(100% - 1rem);
+    }
+    
+    .material-card {
+        width: 100%;
+        max-width: 300px;
+        min-height: 380px;
+    }
+    
+    .header-banner {
+        height: 140px;
+    }
+    
+    .body-titulo {
+        padding: 0.875rem;
+    }
+    
+    .empty-state {
+        padding: 2rem 1rem;
+    }
+    
+    .materiais-flex-container {
+        padding: 0.5rem;
+    }
+}
+
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes gradientBGButton {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes gradientShimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes bounceDownload {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+.material-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.stats-cards .card {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.btn-download:hover {
+    animation: pulse 0.6s ease-in-out;
+}
+
+/* ==========================================
+   Badge e Alertas
+   ========================================== */
+.badge {
+    border-radius: 20px;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.alert {
+    border-radius: 12px;
+    border: none;
+    box-shadow: var(--box-shadow-medium);
+    padding: 1rem 1.25rem;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d1e7dd, var(--color-success));
+    color: #0a3622;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #f8d7da, var(--color-danger));
+    color: #58151c;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #fff3cd, var(--color-warning));
+    color: #664d03;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #d1ecf1, var(--color-info));
+    color: #055160;
+}

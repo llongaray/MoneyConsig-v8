@@ -1,0 +1,37 @@
+/* base.css */
+/* Importando variáveis de cores */
+@import url('colors.css');
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho total do elemento */
+}
+
+/* Estilo padrão para o HTML */
+html {
+    font-family: var(--fonte-arial);
+    font-size: var(--fonte-tamanho-texto);
+    line-height: 1.6;
+    background-color: var(--color-5); /* Usando cor de fundo padrão */
+}
+
+/* Estilos para o corpo da página */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Estilos para o main */
+main {
+    flex-grow: 1; /* Faz com que o main ocupe o espaço restante entre o nav e o footer */
+    width: 100%;
+}
+
+/* Estilos para os links */
+a img {
+    border: none; /* Remove borda padrão das imagens dentro dos links */
+}
+

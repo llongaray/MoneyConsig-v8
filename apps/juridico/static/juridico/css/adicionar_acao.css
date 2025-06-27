@@ -1,0 +1,439 @@
+/* ==========================================
+   CSS para a página de Adicionar Ação INSS
+   Baseado no estilo de acoes.css
+   Foco: Verde e Azul Claro, com ênfase no Verde
+   ========================================== */
+
+/* ---------- Variáveis de Cores e Sombreamentos ---------- */
+:root {
+    --color-primary-dark: #142650; /* Azul escuro */
+    --color-secondary: #70f611; /* Verde */
+    --color-tertiary: #0bd5f0; /* Azul claro (ciano) */
+    --color-accent: #b4874c; /* Tom terroso */
+    --color-white: #fff;
+    --color-gray: #ddd;
+    --color-light-gray: #f0f0f0;
+    --color-text-dark: #333;
+    --color-text-light: #666;
+    --color-danger: #dc3545;
+    --color-success: #198754;
+
+    --box-shadow-light: 0 2px 6px rgba(0,0,0,0.05);
+    --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1);
+    --box-shadow-card-hover: 0 6px 18px rgba(112, 246, 17, 0.15);
+    --box-shadow-input-focus: 0 0 0 3px rgba(112, 246, 17, 0.15);
+
+    /* Gradientes com foco no verde e azul claro */
+    --gradient-primary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 100%);
+    --gradient-secondary-green: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-tertiary) 50%, var(--color-secondary) 100%);
+    --gradient-metallic-green-focus: linear-gradient(135deg, #ffffff 0%, var(--color-secondary) 30%, var(--color-tertiary) 50%, var(--color-secondary) 70%, #ffffff 100%);
+    --gradient-card-header: linear-gradient(-45deg, var(--color-secondary), #5cb85c, var(--color-tertiary), var(--color-secondary));
+    --gradient-section-title: linear-gradient(to right, var(--color-secondary), var(--color-tertiary));
+
+    /* Animação do Gradiente */
+    --gradient-animation: gradientBG 12s ease infinite;
+}
+
+/* ==========================================
+   Estilos Gerais da Página
+   ========================================== */
+body {
+    background-color: var(--color-light-gray);
+    background-image: 
+        radial-gradient(circle at 100% 100%, rgba(112, 246, 17, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 0% 0%, rgba(11, 213, 240, 0.05) 0%, transparent 50%);
+    background-attachment: fixed;
+}
+
+.container-fluid {
+    padding: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ==========================================
+   Estilos do Card Principal
+   ========================================== */
+.card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray);
+    border-radius: 15px;
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--box-shadow-card-hover);
+}
+
+.card-header {
+    background: var(--gradient-card-header) !important;
+    background-size: 400% 400% !important;
+    animation: var(--gradient-animation) !important;
+    color: var(--color-white) !important;
+    font-weight: 600;
+    font-size: 1.2em;
+    padding: 1.25rem;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+    border-bottom: none;
+}
+
+.card-header i {
+    margin-right: 0.75rem;
+    font-size: 1.4rem;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+}
+
+/* Efeito de brilho metálico */
+.card-header::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.05) 40%,
+      rgba(255,255,255,0.3) 50%,
+      rgba(255,255,255,0.05) 60%,
+      rgba(255,255,255,0) 100%
+    );
+    transform: rotate(45deg);
+    transition: all 0.7s ease;
+    z-index: -1;
+}
+
+.card:hover .card-header::before {
+    top: 100%;
+    left: 100%;
+}
+
+.card-body {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(245, 255, 245, 0.8) 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* ==========================================
+   Estilos das Seções do Formulário
+   ========================================== */
+.section-title {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 70%;
+    background: var(--gradient-section-title);
+    border-radius: 3px;
+}
+
+.section-title i {
+    color: var(--color-secondary);
+    font-size: 1.3em;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+}
+
+.divider {
+    height: 2px;
+    background: linear-gradient(to right, var(--color-secondary), var(--color-tertiary));
+    opacity: 0.5;
+    border-radius: 2px;
+    margin: 0.5rem 0;
+}
+
+/* ==========================================
+   Estilos dos Campos do Formulário
+   ========================================== */
+form#formNovaAcao {
+    display: flex;
+    flex-direction: column; /* Empilha as seções principais do formulário verticalmente */
+    gap: 2rem; /* Espaçamento entre as seções principais */
+    width: 100%; /* Garante que o formulário ocupe a largura disponível */
+}
+
+.row {
+    display: flex;
+    flex-direction: row; /* Inputs na horizontal */
+    flex-wrap: wrap;     /* Inputs quebram para a próxima linha se necessário */
+    justify-content: center; /* Centraliza as colunas na linha */
+    gap: 1rem;           /* Espaçamento entre os inputs na mesma linha */
+    width: 100%;
+    margin: 0;
+}
+
+.row.mb-3 {
+    margin-bottom: 1.5rem !important;
+}
+
+/* Ajuste para campos em diferentes tamanhos */
+.col-md-6 {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 250px;
+}
+
+.col-md-4 {
+    flex: 1 1 calc(33.333% - 0.67rem);
+    min-width: 200px;
+}
+
+.col-md-3 {
+    flex: 1 1 calc(25% - 0.75rem);
+    min-width: 180px;
+}
+
+.form-label {
+    color: var(--color-text-dark);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-label.required::after {
+    content: '*';
+    color: var(--color-danger);
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+.form-control,
+.form-select {
+    border: 2px solid var(--color-gray);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Ajuste para campos de data e select */
+input[type="date"],
+select.form-select {
+    min-width: 180px;
+}
+
+/* Ajuste para campos de texto */
+input[type="text"],
+input[type="number"] {
+    min-width: 200px;
+}
+
+/* Ajuste para campos monetários */
+input.money {
+    min-width: 150px;
+}
+
+/* Ajuste para campos de arquivo */
+input[type="file"] {
+    min-width: 250px;
+}
+
+/* Responsividade para os campos */
+@media (max-width: 991px) {
+    .col-md-6,
+    .col-md-4,
+    .col-md-3 {
+        flex: 1 1 calc(50% - 0.5rem);
+    }
+}
+
+@media (max-width: 767px) {
+    .col-md-6,
+    .col-md-4,
+    .col-md-3 {
+        flex: 1 1 100%;
+    }
+    
+    .form-control,
+    .form-select {
+        min-width: 100%;
+    }
+}
+
+/* ==========================================
+   Estilos dos Documentos
+   ========================================== */
+.documentos-container {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    padding: 1.25rem;
+    border: 1px solid var(--color-gray);
+    transition: all 0.3s ease;
+}
+
+.documentos-container:hover {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: var(--box-shadow-light);
+}
+
+.documento-item {
+    background: var(--color-white);
+    transition: all 0.3s ease;
+    border: 1px solid var(--color-gray) !important;
+    border-radius: 10px !important;
+}
+
+.documento-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-light);
+    border-color: var(--color-tertiary) !important;
+}
+
+/* ==========================================
+   Estilos dos Botões
+   ========================================== */
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.btn:hover i {
+    transform: scale(1.1);
+}
+
+.btn-primary {
+    background: var(--gradient-primary-green);
+    border: none;
+    color: var(--color-white);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(112, 246, 17, 0.2);
+}
+
+.btn-secondary {
+    background: var(--color-gray);
+    border: none;
+    color: var(--color-text-dark);
+}
+
+.btn-secondary:hover {
+    background: var(--color-text-light);
+    color: var(--color-white);
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: var(--color-danger);
+    border: none;
+    color: var(--color-white);
+}
+
+.btn-danger:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+/* ==========================================
+   Responsividade
+   ========================================== */
+@media (max-width: 767px) {
+    .container-fluid {
+        padding: 1rem;
+    }
+    
+    .card-header {
+        font-size: 1.1em;
+        padding: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1em;
+    }
+    
+    .form-control,
+    .form-select {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .documento-item {
+        padding: 0.8rem !important;
+    }
+}
+
+/* ==========================================
+   Animações
+   ========================================== */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Animação de fade para campos condicionais */
+#camposPagamento,
+#camposAVista,
+#camposParcelado {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    display: none;
+}
+
+#camposPagamento.show,
+#camposAVista.show,
+#camposParcelado.show {
+    opacity: 1;
+    transform: translateY(0);
+    display: block;
+}

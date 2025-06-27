@@ -1,0 +1,57 @@
+/* Estilos para o Dashboard Jurídico de Ações */
+
+/* 
+  Você pode usar os estilos do .templates/apps/funcionarios/forms/dashboard.html como referência inicial 
+  e adaptá-los conforme necessário para este novo dashboard.
+
+  Lembre-se de que o HTML já inclui um bloco <style> com estilos básicos 
+  que foram copiados do dashboard de funcionários. Você pode movê-los para este arquivo 
+  ou sobrescrevê-los aqui.
+*/
+
+/* Estilos Gerais da Seção */
+.dashboard-section {
+    /* ... */
+}
+
+.section-title {
+    /* ... */
+}
+
+/* Estilos dos Cards */
+.card {
+    /* ... */
+}
+
+.card .icon {
+    /* ... */
+}
+
+.card .container-info {
+    /* ... */
+}
+
+/* Estilos das Sub-seções */
+.dashboard-subsection {
+    /* ... */
+}
+
+.subsection-title {
+    /* ... */
+}
+
+/* Estilos para o container do gráfico */
+.chart-container {
+    /* ... */
+}
+
+/* Estilos para o Timestamp */
+.timestamp-container {
+    /* ... */
+}
+
+/* Adaptações para o Dark Mode (se necessário) */
+html.dark .dashboard-section {
+    /* ... */
+}
+/* ... (outros estilos para dark mode) ... */ 

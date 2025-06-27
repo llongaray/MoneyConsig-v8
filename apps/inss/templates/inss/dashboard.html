@@ -1,0 +1,285 @@
+'{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Dashboard - INSS<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'inss/css/inss_dashboard.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-md-4" id="dashboard-container">
+  <!-- Seletor de Período -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="periodo-selector">
+        <label for="periodo-select" class="form-label">Período:</label>
+        <select id="periodo-select" class="form-select">
+          <option value="dia">Hoje</option>
+          <option value="semana">Esta Semana</option>
+          <option value="mes" selected>Este Mês</option>
+          <option value="meta">Meta Ativa</option>
+        </select>
+        <span class="periodo-display ms-3" id="periodo-display"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sessão 1: Métricas Principais -->
+  <div class="box contagens" id="box-contagens">
+    <div class="card total-periodo" id="card-total-agendamentos">
+      <span class="icon"><i class='bx bx-calendar'></i></span>
+      <span class="container-info">
+        <span class="title">Total de Agendamentos</span>
+        <span class="value" id="valor-total-agendamentos">0</span>
+      </span>
+    </div>
+    <div class="card confirmados" id="card-confirmados">
+      <span class="icon"><i class='bx bx-check-circle'></i></span>
+      <span class="container-info">
+        <span class="title">Confirmados</span>
+        <span class="value" id="valor-confirmados">0</span>
+      </span>
+    </div>
+    <div class="card finalizados" id="card-finalizados">
+      <span class="icon"><i class='bx bx-check-double'></i></span>
+      <span class="container-info">
+        <span class="title">Finalizados</span>
+        <span class="value" id="valor-finalizados">0</span>
+      </span>
+    </div>
+    <div class="card atrasados" id="card-atrasados">
+      <span class="icon"><i class='bx bx-time-five'></i></span>
+      <span class="container-info">
+        <span class="title">Atrasados</span>
+        <span class="value" id="valor-atrasados">0</span>
+      </span>
+    </div>
+    <div class="card clientes-unicos" id="card-clientes-unicos">
+      <span class="icon"><i class='bx bx-user'></i></span>
+      <span class="container-info">
+        <span class="title">Clientes Únicos</span>
+        <span class="value" id="valor-clientes-unicos">0</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Sessão 2: Financeiro -->
+  <div class="box financeiro" id="box-financeiro">
+    <div class="card tac-medio" id="card-tac-medio">
+      <span class="icon"><i class='bx bx-money-withdraw'></i></span>
+      <span class="container-info">
+        <span class="title">TC Médio</span>
+        <span class="value" id="valor-tac-medio">R$ 0,00</span>
+      </span>
+    </div>
+    <div class="card tac-menor" id="card-tac-menor">
+      <span class="icon"><i class='bx bx-trending-down'></i></span>
+      <span class="container-info">
+        <span class="title">TC Menor</span>
+        <span class="value" id="valor-tac-menor">R$ 0,00</span>
+      </span>
+    </div>
+    <div class="card tac-maior" id="card-tac-maior">
+      <span class="icon"><i class='bx bx-trending-up'></i></span>
+      <span class="container-info">
+        <span class="title">TC Maior</span>
+        <span class="value" id="valor-tac-maior">R$ 0,00</span>
+      </span>
+    </div>
+    <div class="card efetividade-geral" id="card-efetividade">
+      <span class="icon"><i class='bx bx-bar-chart-alt-2'></i></span>
+      <span class="container-info">
+        <span class="title">Efetividade Geral</span>
+        <span class="value" id="valor-efetividade">0%</span>
+      </span>
+    </div>
+    <div class="card total-vendas" id="card-total-vendas">
+      <span class="icon"><i class='bx bx-dollar-circle'></i></span>
+      <span class="container-info">
+        <span class="title">Total de Vendas</span>
+        <span class="value" id="valor-total-vendas">0</span>
+      </span>
+    </div>
+    <div class="card valor-total-vendas" id="card-valor-total-vendas">
+      <span class="icon"><i class='bx bx-money'></i></span>
+      <span class="container-info">
+        <span class="title">Valor Total</span>
+        <span class="value" id="valor-total-vendas-valor">R$ 0,00</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Sessão 3: Métricas Detalhadas -->
+  <div class="box metricas-detalhadas" id="box-metricas-detalhadas">
+    <div class="card presencas-agendadas" id="card-presencas-agendadas">
+      <span class="icon"><i class='bx bx-calendar-check'></i></span>
+      <span class="container-info">
+        <span class="title">Presenças Agendadas</span>
+        <span class="value" id="valor-presencas-agendadas">0</span>
+      </span>
+    </div>
+    <div class="card presencas-rua" id="card-presencas-rua">
+      <span class="icon"><i class='bx bx-walk'></i></span>
+      <span class="container-info">
+        <span class="title">Presenças da Rua</span>
+        <span class="value" id="valor-presencas-rua">0</span>
+      </span>
+    </div>
+    <div class="card com-acao" id="card-com-acao">
+      <span class="icon"><i class='bx bx-gavel'></i></span>
+      <span class="container-info">
+        <span class="title">Com Ação Judicial</span>
+        <span class="value" id="valor-com-acao">0</span>
+      </span>
+    </div>
+    <div class="card com-associacao" id="card-com-associacao">
+      <span class="icon"><i class='bx bx-group'></i></span>
+      <span class="container-info">
+        <span class="title">Com Associação</span>
+        <span class="value" id="valor-com-associacao">0</span>
+      </span>
+    </div>
+    <div class="card com-aumento" id="card-com-aumento">
+      <span class="icon"><i class='bx bx-up-arrow-alt'></i></span>
+      <span class="container-info">
+        <span class="title">Com Aumento</span>
+        <span class="value" id="valor-com-aumento">0</span>
+      </span>
+    </div>
+    <div class="card com-subsidio" id="card-com-subsidio">
+      <span class="icon"><i class='bx bx-gift'></i></span>
+      <span class="container-info">
+        <span class="title">Com Subsídio</span>
+        <span class="value" id="valor-com-subsidio">0</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Sessão 4: Top Vendedores -->
+  <div class="sessao" id="sessao-vendedores">
+    <div class="sessao-header"><i class='bx bx-user-check me-2'></i>Top Vendedores</div>
+    <div class="sessao-body" id="sessao-body-vendedores">
+      <!-- Cards de vendedores serão inseridos via JS -->
+      <div class="sessao-card"><span class="titulo">Carregando...</span></div>
+    </div>
+  </div>
+
+  <!-- Sessão 5: Vendas por Loja -->
+  <div class="sessao" id="sessao-lojas">
+    <div class="sessao-header"><i class='bx bx-store me-2'></i>Vendas por Loja</div>
+    <div class="sessao-body" id="sessao-body-lojas">
+      <!-- Cards de lojas serão inseridos via JS -->
+      <div class="sessao-card"><span class="titulo">Carregando...</span></div>
+    </div>
+  </div>
+
+  <!-- Sessão 6: Efetividade por Loja -->
+  <div class="sessao" id="sessao-efetividade">
+    <div class="sessao-header"><i class='bx bx-bar-chart me-2'></i>Efetividade por Loja</div>
+    <div class="sessao-body" id="sessao-body-efetividade">
+      <!-- Cards de efetividade serão inseridos via JS -->
+      <div class="sessao-card"><span class="titulo">Carregando...</span></div>
+    </div>
+  </div>
+
+  <!-- Sessão 7: Situação TAC (mantém tabela, mas estilizada) -->
+  <div class="box tacs" id="box-tacs">
+    <div class="card tabela-lojas" id="card-tabela-lojas" style="width:100%;">
+      <span class="container-info">
+        <span class="header"><i class='bx bx-store'></i>Situação TCs</span>
+        <div class="tacs-tabelas-group" style="width:100%;">
+          <div class="tabela-tac-bloco" style="width:100%;">
+            <h6 class="mb-2 mt-2">Em Espera</h6>
+            <div class="table-container" id="container-tabela-tacs-em-espera" style="width:100%;">
+              <table class="table table-striped table-hover" id="tabela-tacs-em-espera" style="width:100%;">
+                <thead>
+                  <tr>
+                    <th>Loja</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="corpo-tabela-tacs-em-espera">
+                  <tr><td colspan="4" class="text-center text-muted">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tabela-tac-bloco" style="width:100%;">
+            <h6 class="mb-2 mt-4">Pago</h6>
+            <div class="table-container" id="container-tabela-tacs-pago" style="width:100%;">
+              <table class="table table-striped table-hover" id="tabela-tacs-pago" style="width:100%;">
+                <thead>
+                  <tr>
+                    <th>Loja</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="corpo-tabela-tacs-pago">
+                  <tr><td colspan="4" class="text-center text-muted">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="tabela-tac-bloco" style="width:100%;">
+            <h6 class="mb-2 mt-4">Não Pago</h6>
+            <div class="table-container" id="container-tabela-tacs-nao-pago" style="width:100%;">
+              <table class="table table-striped table-hover" id="tabela-tacs-nao-pago" style="width:100%;">
+                <thead>
+                  <tr>
+                    <th>Loja</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="corpo-tabela-tacs-nao-pago">
+                  <tr><td colspan="4" class="text-center text-muted">Carregando...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </span>
+    </div>
+  </div>
+
+  <!-- Sessão 8: Insights -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0"><i class='bx bx-bulb me-2'></i>Insights e Análises</h6>
+        </div>
+        <div class="card-body">
+          <div id="insights-content">
+            <p class="text-center text-muted">Carregando insights...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timestamp -->
+  <div class="timestamp-container text-end mt-3" id="timestamp-container">
+    <small class="text-muted">Última atualização: <span id="last-update-time"></span></small>
+  </div>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'inss/js/inss_dashboard.js' %}"></script>
+<script>
+  // Adiciona timestamp de atualização
+  document.getElementById('last-update-time').textContent = new Date().toLocaleString('pt-BR');
+</script>
+{% endblock %}
+

@@ -1,0 +1,179 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Dashboard Marketing - Materiais<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'criativos/css/dashboard.css' %}">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-md-4" id="dashboard-marketing-container">
+
+  {# ========================================== #}
+  {#         SESSÃO: VISÃO GERAL DOS MATERIAIS    #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-geral-materiais">
+    <h2 class="section-title"><i class='bx bx-bar-chart-square'></i> Visão Geral dos Materiais</h2>
+    <div class="category-block" id="categoria-geral-materiais">
+      <div class="box geral-materiais" id="box-geral-materiais">
+        <div class="card" id="card-total-orgaos">
+          <span class="icon"><i class='bx bx-building'></i></span>
+          <span class="container-info">
+            <span class="title">Total de Órgãos</span>
+            <span class="value" id="valor-total-orgaos">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-total-produtos">
+          <span class="icon"><i class='bx bx-package'></i></span>
+          <span class="container-info">
+            <span class="title">Total de Produtos</span>
+            <span class="value" id="valor-total-produtos">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-total-materiais">
+          <span class="icon"><i class='bx bx-file'></i></span>
+          <span class="container-info">
+            <span class="title">Total de Materiais</span>
+            <span class="value" id="valor-total-materiais">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-total-downloads">
+          <span class="icon"><i class='bx bx-download'></i></span>
+          <span class="container-info">
+            <span class="title">Total de Downloads</span>
+            <span class="value" id="valor-total-downloads">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#         SESSÃO: STATUS DOS MATERIAIS     #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-status-materiais">
+    <h2 class="section-title"><i class='bx bx-check-square'></i> Status dos Materiais</h2>
+    <div class="category-block" id="categoria-status-materiais">
+      <div class="box status-materiais" id="box-status-materiais">
+        <div class="card" id="card-materiais-ativos">
+          <span class="icon"><i class='bx bx-check-circle'></i></span>
+          <span class="container-info">
+            <span class="title">Materiais Ativos</span>
+            <span class="value" id="valor-materiais-ativos">0</span>
+          </span>
+        </div>
+        <div class="card" id="card-materiais-inativos">
+          <span class="icon"><i class='bx bx-x-circle'></i></span>
+          <span class="container-info">
+            <span class="title">Materiais Inativos</span>
+            <span class="value" id="valor-materiais-inativos">0</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#         SESSÃO: CRESCIMENTO MENSAL       #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-crescimento">
+    <h2 class="section-title"><i class='bx bx-trending-up'></i> Crescimento Mensal</h2>
+    <div class="category-block" id="categoria-crescimento">
+      <div class="box crescimento" id="box-crescimento">
+        <div class="card" id="card-materiais-este-mes">
+          <span class="icon"><i class='bx bx-calendar-plus'></i></span>
+          <span class="container-info">
+            <span class="title">Materiais Este Mês</span>
+            <span class="value" id="valor-materiais-este-mes">0</span>
+            <span class="percentage" id="percentual-materiais">0%</span>
+          </span>
+        </div>
+        <div class="card" id="card-downloads-este-mes">
+          <span class="icon"><i class='bx bx-download'></i></span>
+          <span class="container-info">
+            <span class="title">Downloads Este Mês</span>
+            <span class="value" id="valor-downloads-este-mes">0</span>
+            <span class="percentage" id="percentual-downloads">0%</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#         SESSÃO: MATERIAIS POR ÓRGÃO      #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-materiais-orgao">
+    <h2 class="section-title"><i class='bx bx-building'></i> Top 5 Órgãos com Mais Materiais</h2>
+    <div class="category-block" id="categoria-materiais-orgao">
+      <div class="box materiais-orgao" id="box-materiais-orgao">
+        <!-- Cards serão gerados dinamicamente via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#         SESSÃO: PRODUTOS MAIS ATIVOS     #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-produtos-ativos">
+    <h2 class="section-title"><i class='bx bx-package'></i> Top 5 Produtos Mais Ativos</h2>
+    <div class="category-block" id="categoria-produtos-ativos">
+      <div class="box produtos-ativos" id="box-produtos-ativos">
+        <!-- Cards serão gerados dinamicamente via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#         SESSÃO: MATERIAIS MAIS BAIXADOS  #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-materiais-populares">
+    <h2 class="section-title"><i class='bx bx-star'></i> Top 5 Materiais Mais Baixados</h2>
+    <div class="category-block" id="categoria-materiais-populares">
+      <div class="box materiais-populares" id="box-materiais-populares">
+        <!-- Cards serão gerados dinamicamente via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#      SESSÃO: HISTÓRICO DE MATERIAIS (GRÁFICO) #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-historico-materiais">
+    <h2 class="section-title"><i class='bx bx-line-chart'></i> Histórico de Materiais e Downloads (Últimos 6 meses)</h2>
+    <div class="category-block" id="categoria-historico-materiais">
+      <div class="card chart-container" id="card-historico-chart">
+        <canvas id="graficoHistoricoMateriais"></canvas>
+      </div>
+    </div>
+  </div>
+
+  {# ========================================== #}
+  {#         SESSÃO: DOWNLOADS RECENTES       #}
+  {# ========================================== #}
+  <div class="dashboard-section" id="sessao-downloads-recentes">
+    <h2 class="section-title"><i class='bx bx-history'></i> Downloads Recentes</h2>
+    <div class="category-block" id="categoria-downloads-recentes">
+      <div class="downloads-list" id="lista-downloads-recentes">
+        <!-- Lista será gerada dinamicamente via JavaScript -->
+      </div>
+    </div>
+  </div>
+  
+  {# --- Timestamp --- #}
+  <div class="timestamp-container text-end mt-3" id="timestamp-container">
+    <small class="text-muted">Última atualização: <span id="last-update-time">Aguardando dados...</span></small>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {# Chart.js para o gráfico #}
+<script src="{% static 'criativos/js/dashboard.js' %}"></script>
+{% endblock %}

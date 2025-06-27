@@ -1,0 +1,165 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Novo Funcionário<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="{% static 'funcionarios/css/forms/funcionarios_form.css' %}"> {# Link para o CSS externo #}
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <!-- Mini Dashboard -->
+  <div class="row mb-4">
+    <div class="col-md-6 mb-3 mb-md-0">
+      <div class="card dashboard-card text-center border-success">
+        <div class="card-header bg-success text-white">
+          <i class='bx bx-user-check me-2'></i> Funcionários Ativos
+        </div>
+        <div class="card-body">
+          <p class="text-success">{{ qtd_ativos|default:"0" }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card dashboard-card text-center border-danger">
+        <div class="card-header bg-danger text-white">
+          <i class='bx bx-user-minus me-2'></i> Funcionários Inativos
+        </div>
+        <div class="card-body">
+          <p class="text-danger">{{ qtd_inativos|default:"0" }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulário Novo Funcionário -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-user-plus me-2'></i> Cadastrar Novo Funcionário
+        </div>
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row">
+              <!-- Coluna 1 -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="apelido" class="form-label"><i class='bx bx-user-pin me-2'></i>Apelido</label>
+                  <input type="text" id="apelido" name="apelido" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                  <label for="nome_completo" class="form-label"><i class='bx bx-user me-2'></i>Nome Completo *</label>
+                  <input type="text" id="nome_completo" name="nome_completo" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="cpf" class="form-label"><i class='bx bx-id-card me-2'></i>CPF *</label>
+                  <input type="text" id="cpf" name="cpf" class="form-control" placeholder="000.000.000-00" required maxlength="14">
+                  <!-- Máscara JS será aplicada pelo script externo -->
+                </div>
+
+                <div class="mb-3">
+                    <label for="data_nascimento" class="form-label"><i class='bx bx-calendar-alt me-2'></i>Data de Nascimento *</label>
+                    <input type="date" id="data_nascimento" name="data_nascimento" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="foto" class="form-label"><i class='bx bx-image-add me-2'></i>Foto</label>
+                  <input type="file" id="foto" name="foto" class="form-control" accept="image/*">
+                </div>
+
+                <div class="mb-3">
+                  <label for="tipo_contrato" class="form-label"><i class='bx bx-file-blank me-2'></i>Tipo de Contrato *</label>
+                  <select id="tipo_contrato" name="tipo_contrato" class="form-select" required>
+                    <option value="">--- Selecione ---</option>
+                    {# Opções populadas via JS #}
+                  </select>
+                </div>
+              </div>
+
+              <!-- Coluna 2 -->
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="empresa" class="form-label"><i class='bx bx-building-house me-2'></i>Empresa *</label>
+                  <select id="empresa" name="empresa" class="form-select" required>
+                    <option value="">--- Carregando Empresas ---</option>
+                    {# Opções populadas via JS #}
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label"><i class='bx bx-store me-2'></i>Lojas</label>
+                  <div id="lojas-container" class="border rounded p-3 bg-light" style="max-height: 200px; overflow-y: auto;">
+                    <p class="text-muted small">Selecione a empresa primeiro para carregar as lojas disponíveis.</p>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="departamento" class="form-label"><i class='bx bx-buildings me-2'></i>Departamento *</label>
+                  <select id="departamento" name="departamento" class="form-select" required disabled>
+                    <option value="">--- Selecione a Empresa Primeiro ---</option>
+                    {# Opções populadas via JS #}
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="setor" class="form-label"><i class='bx bx-hive me-2'></i>Setor *</label>
+                  <select id="setor" name="setor" class="form-select" required disabled>
+                     <option value="">--- Selecione o Departamento Primeiro ---</option>
+                     {# Opções populadas via JS #}
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="cargo" class="form-label"><i class='bx bx-briefcase-alt-2 me-2'></i>Cargo *</label>
+                  <select id="cargo" name="cargo" class="form-select" required disabled>
+                    <option value="">--- Selecione a Empresa Primeiro ---</option>
+                     {# Opções populadas via JS #}
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label for="horario" class="form-label"><i class='bx bx-time-five me-2'></i>Horário de Trabalho</label>
+                  <select id="horario" name="horario" class="form-select">
+                    <option value="">--- Carregando Horários ---</option>
+                     {# Opções populadas via JS #}
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="equipe" class="form-label"><i class='bx bx-group me-2'></i>Equipe</label>
+                    <select id="equipe" name="equipe" class="form-select">
+                      <option value="">--- Carregando Equipes ---</option>
+                       {# Opções populadas via JS #}
+                    </select>
+                  </div>
+              </div>
+            </div>
+
+            <div class="mt-3 text-end">
+              <button type="submit" class="btn btn-primary w-100">
+                <i class='bx bx-save me-2'></i> Salvar Funcionário
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .container -->
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'funcionarios/js/funcionarios_form.js' %}"></script> {# Link para o JS externo #}
+{% endblock %}

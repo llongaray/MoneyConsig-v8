@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- Meta Tags Essenciais -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título da Página -->
+    {% block addtitle %}{% endblock %}
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'logo.png' %}" type="image/x-icon">
+
+    <!-- Estilos Globais -->
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <link rel="stylesheet" href="{% static 'menu.css' %}">
+    <link rel="stylesheet" href="{% static 'footer.css' %}">
+    <link rel="stylesheet" href="{% static 'fav-links.css' %}">
+
+    <!-- Estilos Externos (Fontes e Ícones) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Bloco para Estilos Adicionais -->
+    {% block addcss_extra %}{% endblock %}
+</head>
+
+<body>
+    {% include 'partials/_menu.html' %}
+
+    <main>
+        {% block pre_content %}{% endblock %}  <!-- Novo bloco aqui -->
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Container de Links Favoritos -->
+    <div class="fav-links-container">
+        <!-- Botões para Abrir e Fechar a Caixa de Links Favoritos -->
+        <a href="#" class="btn-open"><i class="fas fa-anchor"></i></a>
+        <a href="#" class="btn-close" style="display:none;"><i class="fas fa-times"></i></a>
+
+        <!-- Links Favoritos -->
+        <div class="box-links">
+            <a href="http://192.168.18.250" target="_blank" rel="noopener noreferrer">Discador 250</a>
+            <a href="http://web.whatsapp.com/" target="_blank" rel="noopener noreferrer">WhatsApp Web</a>
+            <a href="http://boreal.stormfin.com.br/subadmin/index.php?rt=listar&pg=1" target="_blank" rel="noopener noreferrer">Stormfin</a>
+        </div>
+    </div>
+
+    <!-- Scripts de Funcionalidade -->
+    <script src="{% static 'fav-links.js' %}"></script>
+
+    <!-- Footer (Inclui o rodapé a partir de um partial) -->
+    {% include 'partials/_footer.html' %}
+
+    <!-- Bloco para Scripts Adicionais -->
+    {% block addjs_extra %}{% endblock %}
+    <script src="{% static 'mensagem.js' %}"></script>
+</body>
+
+</html>

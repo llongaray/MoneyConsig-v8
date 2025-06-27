@@ -1,0 +1,1076 @@
+/* ==========================================
+   Estilos Especiais e Complementares
+   ========================================== */
+
+/* Estilos para débitos */
+#col2 #card-debitos .card-body {
+  padding: 0;
+  background: rgba(248, 249, 250, 0.5);
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+#col2 #card-debitos table {
+  margin: 0;
+  background: white;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-width: 700px;
+}
+
+#col2 #card-debitos th {
+  background: transparent;
+  color: #495057;
+  font-weight: 700;
+  padding: 1rem 0.8rem;
+  border: none;
+  font-size: 0.85rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+#col2 #card-debitos td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #f1f3f4;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 500;
+}
+
+#col2 #card-debitos tbody tr {
+  transition: all 0.3s ease;
+}
+
+#col2 #card-debitos tbody tr:hover {
+  background: linear-gradient(135deg, 
+    rgba(11, 213, 240, 0.08) 0%,
+    rgba(112, 246, 17, 0.08) 100%
+  );
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#col2 #card-debitos tbody tr:nth-child(even) {
+  background-color: rgba(248, 249, 250, 0.6);
+}
+
+#col2 #card-debitos tbody tr:nth-child(even):hover {
+  background: linear-gradient(135deg, 
+    rgba(11, 213, 240, 0.12) 0%,
+    rgba(112, 246, 17, 0.12) 100%
+  );
+}
+
+#col2 #card-debitos tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Controles de formulário com foco */
+.form-control:focus {
+  border-color: var(--color-tertiary);
+  box-shadow: 
+    0 0 0 3px rgba(11, 213, 240, 0.1),
+    inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.98);
+  transform: translateY(-1px);
+}
+
+/* Subcard para checagem de agendamento */
+#subcard-agendamento-checagem {
+  background: linear-gradient(135deg, 
+    rgba(255, 193, 7, 0.1) 0%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 193, 7, 0.05) 100%
+  );
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+#subcard-agendamento-checagem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #ffc107, #e0a800);
+}
+
+#subcard-agendamento-checagem .subcard-header {
+  background: linear-gradient(135deg, 
+    rgba(255, 193, 7, 0.15) 0%,
+    rgba(255, 193, 7, 0.05) 100%
+  );
+  color: #856404;
+  font-weight: 600;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+#subcard-agendamento-checagem .subcard-header i {
+  color: #ffc107;
+  font-size: 1.3rem;
+  animation: pulseChecagem 2s infinite;
+}
+
+#subcard-agendamento-checagem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
+  border-color: rgba(255, 193, 7, 0.5);
+}
+
+@keyframes pulseChecagem {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+  }
+  70% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(255, 193, 7, 0);
+  }
+}
+
+/* Visualização de checagem */
+#checagem-view {
+  background: linear-gradient(135deg, 
+    rgba(248, 249, 250, 0.8) 0%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+#checagem-view:hover {
+  background: linear-gradient(135deg, 
+    rgba(255, 193, 7, 0.05) 0%,
+    rgba(255, 255, 255, 0.98) 100%
+  );
+  border-color: rgba(255, 193, 7, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.15);
+}
+
+/* Botão para agendar checagem */
+#btn-agendar-checagem {
+  background: linear-gradient(135deg, #ffc107, #e0a800);
+  border: none;
+  color: #212529;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+#btn-agendar-checagem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+#btn-agendar-checagem:hover {
+  background: linear-gradient(135deg, #e0a800, #d39e00);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(255, 193, 7, 0.4);
+}
+
+#btn-agendar-checagem:hover::before {
+  left: 100%;
+}
+
+#btn-agendar-checagem:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+#btn-agendar-checagem i {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+  animation: bounceChecagem 2s infinite;
+}
+
+@keyframes bounceChecagem {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-3px); }
+  60% { transform: translateY(-1px); }
+}
+
+/* Formulário de checagem */
+#checagem-form {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(248, 249, 250, 0.8) 100%
+  );
+  border: 1px solid rgba(255, 193, 7, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+#checagem-form:hover {
+  border-color: rgba(255, 193, 7, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.1);
+  transform: translateY(-1px);
+}
+
+#checagem-form .form-label {
+  color: #856404;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#checagem-form .form-label i {
+  color: #ffc107;
+  font-size: 1.1rem;
+}
+
+#checagem-form .form-control,
+#checagem-form .form-select {
+  border: 2px solid rgba(255, 193, 7, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+
+#checagem-form .form-control:focus,
+#checagem-form .form-select:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+#checagem-form .form-control:valid {
+  border-color: #28a745;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+#checagem-form .form-control:invalid:not(:placeholder-shown) {
+  border-color: #dc3545;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Estilos para col2 específicos */
+#col2, .agendamento-card { 
+  /*background: rgba(255, 255, 255, 0.95);*/
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  /*box-shadow: 0 4px 15px rgba(11, 213, 240, 0.08);*/
+  transition: all 0.3s ease;
+}
+
+/* Badges para tabulação - Cores do CRM Kanban */
+#tabulacao-view .badge,
+#telefone-view .badge,
+#observacao-view .badge {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  color: white;
+}
+
+/* Cores específicas por status - seguindo paleta CRM Kanban */
+.badge.bg-secondary {
+  background: #95a5a6 !important; /* SEM_RESPOSTA */
+}
+
+.badge.bg-warning {
+  background: #3498db !important; /* EM_NEGOCIACAO */  
+  color: white !important;
+}
+
+.badge.bg-danger {
+  background: #e74c3c !important; /* REVERSAO/DESISTIU */
+}
+
+.badge.bg-success {
+  background: #2ecc71 !important; /* REVERTIDO */
+}
+
+.badge.bg-info {
+  background: #9b59b6 !important; /* CHECAGEM */
+}
+
+.badge.bg-primary {
+  background: #27ae60 !important; /* CHECAGEM_OK */
+}
+
+/* Status específicos adicionais */
+.badge[data-status="ALTO_RISCO"] {
+  background: #e67e22 !important; /* Laranja escuro */
+}
+
+.badge[data-status="CONCLUIDO_PG"] {
+  background: #16a085 !important; /* Verde água */
+}
+
+#tabulacao-view .badge:hover,
+#telefone-view .badge:hover,
+#observacao-view .badge:hover {
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  filter: brightness(1.1);
+}
+
+/* Validação de formulários */
+.observacao-agendamento-card .form-control:valid {
+  border-color: #28a745;
+}
+
+.observacao-agendamento-card .form-control:invalid {
+  border-color: #dc3545;
+}
+
+.observacao-agendamento-card .form-select:valid {
+  border-color: #28a745;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2328a745' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 9 4 4 9-9'/%3e%3c/svg%3e");
+}
+
+/* Loading state para cards */
+.observacao-agendamento-card.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.observacao-agendamento-card.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  border-radius: 12px;
+  backdrop-filter: blur(2px);
+}
+
+/* Dark mode para estilos especiais */
+html.dark .form-control-disabled {
+  background: linear-gradient(135deg, 
+    rgba(52, 58, 64, 0.8) 0%,
+    rgba(73, 80, 87, 0.6) 100%
+  );
+  border-color: rgba(11, 213, 240, 0.2);
+  color: #adb5bd;
+}
+
+html.dark .form-control-disabled:hover {
+  background: linear-gradient(135deg, 
+    rgba(52, 58, 64, 0.9) 0%,
+    rgba(73, 80, 87, 0.7) 100%
+  );
+  border-color: rgba(11, 213, 240, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(11, 213, 240, 0.1);
+}
+
+html.dark select.form-control-disabled {
+  background: linear-gradient(135deg, 
+    rgba(52, 58, 64, 0.8) 0%,
+    rgba(73, 80, 87, 0.6) 100%
+  );
+  border-color: rgba(11, 213, 240, 0.2);
+  color: #adb5bd;
+  cursor: not-allowed;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23adb5bd' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+}
+
+/* Cores dos badges no modo escuro - mantendo paleta CRM Kanban */
+html.dark .badge.bg-secondary {
+  background: #7f8c8d !important; /* SEM_RESPOSTA - mais escuro */
+}
+
+html.dark .badge.bg-warning {
+  background: #2980b9 !important; /* EM_NEGOCIACAO - azul mais escuro */
+  color: white !important;
+}
+
+html.dark .badge.bg-danger {
+  background: #c0392b !important; /* REVERSAO/DESISTIU - vermelho mais escuro */
+}
+
+html.dark .badge.bg-success {
+  background: #27ae60 !important; /* REVERTIDO - mantém verde */
+}
+
+html.dark .badge.bg-info {
+  background: #8e44ad !important; /* CHECAGEM - roxo mais escuro */
+}
+
+html.dark .badge.bg-primary {
+  background: #229954 !important; /* CHECAGEM_OK - verde mais escuro */
+}
+
+html.dark .badge[data-status="ALTO_RISCO"] {
+  background: #d35400 !important; /* Laranja mais escuro */
+}
+
+html.dark .badge[data-status="CONCLUIDO_PG"] {
+  background: #138d75 !important; /* Verde água mais escuro */
+}
+
+html.dark #tabulacao-view .badge,
+html.dark #telefone-view .badge,
+html.dark #observacao-view .badge {
+  color: #f8f9fa;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+html.dark #checagem-view {
+  background: linear-gradient(135deg, 
+    rgba(40, 44, 52, 0.8) 0%,
+    rgba(52, 58, 64, 0.95) 100%
+  );
+  border-color: rgba(255, 193, 7, 0.3);
+}
+
+html.dark #checagem-view:hover {
+  background: linear-gradient(135deg, 
+    rgba(255, 193, 7, 0.1) 0%,
+    rgba(52, 58, 64, 0.98) 100%
+  );
+  border-color: rgba(255, 193, 7, 0.5);
+}
+
+html.dark #checagem-form {
+  background: linear-gradient(135deg, 
+    rgba(52, 58, 64, 0.9) 0%,
+    rgba(40, 44, 52, 0.8) 100%
+  );
+  border-color: rgba(255, 193, 7, 0.3);
+}
+
+html.dark #checagem-form .form-label {
+  color: #fff3cd;
+}
+
+html.dark #checagem-form .form-control,
+html.dark #checagem-form .form-select {
+  background: rgba(52, 58, 64, 0.8);
+  border-color: rgba(255, 193, 7, 0.3);
+  color: #f8f9fa;
+}
+
+html.dark #checagem-form .form-control:focus,
+html.dark #checagem-form .form-select:focus {
+  background: rgba(52, 58, 64, 0.95);
+  border-color: #ffc107;
+  color: #f8f9fa;
+}
+
+html.dark #subcard-agendamento-checagem {
+  background: linear-gradient(135deg, 
+    rgba(255, 193, 7, 0.15) 0%,
+    rgba(52, 58, 64, 0.95) 50%,
+    rgba(255, 193, 7, 0.08) 100%
+  );
+  border-color: rgba(255, 193, 7, 0.4);
+}
+
+html.dark #subcard-agendamento-checagem .subcard-header {
+  background: linear-gradient(135deg, 
+    rgba(255, 193, 7, 0.2) 0%,
+    rgba(255, 193, 7, 0.1) 100%
+  );
+  color: #fff3cd;
+  border-color: rgba(255, 193, 7, 0.3);
+}
+
+html.dark #col2 #card-debitos .card-body {
+  background: rgba(40, 44, 52, 0.8);
+}
+
+html.dark #col2 #card-debitos td {
+  background: rgba(52, 58, 64, 0.8);
+  border-color: rgba(11, 213, 240, 0.2);
+  color: #f8f9fa;
+}
+
+html.dark #col2 #card-debitos tbody tr:hover {
+  background: rgba(11, 213, 240, 0.1);
+}
+
+html.dark #col2, 
+html.dark .agendamento-card {
+  background: rgba(33, 37, 41, 0.95);
+}
+
+/* Estilos para telefone de detalhes de agendamento */
+#detalhe_agendamento_telefone {
+  background: linear-gradient(135deg, 
+    rgba(11, 213, 240, 0.05) 0%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+  border: 1px solid rgba(11, 213, 240, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  position: relative;
+}
+
+#detalhe_agendamento_telefone:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-tertiary);
+}
+
+html.dark #detalhe_agendamento_telefone {
+  background: linear-gradient(135deg, 
+    rgba(11, 213, 240, 0.1) 0%,
+    rgba(52, 58, 64, 0.95) 100%
+  );
+  border-color: rgba(11, 213, 240, 0.3);
+  color: #f8f9fa;
+}
+
+/* ==========================================
+   🌙 DARK MODE - ELEMENTOS ESPECIAIS COMPLETO
+   ========================================== */
+
+/* ==========================================
+   🌙 DARK MODE - TABELA DE DÉBITOS
+   ========================================== */
+
+/* Card de débitos */
+[data-theme="dark"] #col2 #card-debitos .card-body,
+body.dark-mode #col2 #card-debitos .card-body {
+    background: rgba(45, 36, 56, 0.8);
+    border-color: rgba(112, 246, 17, 0.2);
+}
+
+/* Tabela de débitos */
+[data-theme="dark"] #col2 #card-debitos table,
+body.dark-mode #col2 #card-debitos table {
+    background: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Cabeçalho da tabela */
+[data-theme="dark"] #col2 #card-debitos th,
+body.dark-mode #col2 #card-debitos th {
+    background: rgba(112, 246, 17, 0.1);
+    color: #b8b5c0;
+    border-bottom-color: rgba(112, 246, 17, 0.3);
+}
+
+/* Células da tabela */
+[data-theme="dark"] #col2 #card-debitos td,
+body.dark-mode #col2 #card-debitos td {
+    background: rgba(61, 52, 80, 0.8);
+    border-bottom-color: rgba(112, 246, 17, 0.2);
+    color: #ffffff;
+}
+
+/* Linhas alternadas */
+[data-theme="dark"] #col2 #card-debitos tbody tr:nth-child(even),
+body.dark-mode #col2 #card-debitos tbody tr:nth-child(even) {
+    background-color: rgba(112, 246, 17, 0.05);
+}
+
+/* Hover nas linhas */
+[data-theme="dark"] #col2 #card-debitos tbody tr:hover,
+body.dark-mode #col2 #card-debitos tbody tr:hover {
+    background: linear-gradient(135deg, 
+        rgba(112, 246, 17, 0.15) 0%,
+        rgba(11, 213, 240, 0.15) 100%
+    );
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] #col2 #card-debitos tbody tr:nth-child(even):hover,
+body.dark-mode #col2 #card-debitos tbody tr:nth-child(even):hover {
+    background: linear-gradient(135deg, 
+        rgba(112, 246, 17, 0.2) 0%,
+        rgba(11, 213, 240, 0.2) 100%
+    );
+}
+
+/* ==========================================
+   🌙 DARK MODE - CONTROLES DE FORMULÁRIO
+   ========================================== */
+
+/* Controles com foco */
+[data-theme="dark"] .form-control:focus,
+body.dark-mode .form-control:focus {
+    border-color: #70f611;
+    box-shadow: 
+        0 0 0 3px rgba(112, 246, 17, 0.25),
+        inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    background: #2d2438;
+    transform: translateY(-1px);
+}
+
+/* ==========================================
+   🌙 DARK MODE - SUBCARD DE CHECAGEM
+   ========================================== */
+
+/* Subcard de checagem */
+[data-theme="dark"] #subcard-agendamento-checagem,
+body.dark-mode #subcard-agendamento-checagem {
+    background: linear-gradient(135deg, 
+        rgba(255, 193, 7, 0.15) 0%,
+        rgba(61, 52, 80, 0.95) 50%,
+        rgba(255, 193, 7, 0.08) 100%
+    );
+    border-color: rgba(255, 193, 7, 0.4);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+}
+
+[data-theme="dark"] #subcard-agendamento-checagem::before,
+body.dark-mode #subcard-agendamento-checagem::before {
+    background: linear-gradient(90deg, #ffc107, #e0a800);
+}
+
+[data-theme="dark"] #subcard-agendamento-checagem:hover,
+body.dark-mode #subcard-agendamento-checagem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+    border-color: rgba(255, 193, 7, 0.6);
+}
+
+/* Header do subcard */
+[data-theme="dark"] #subcard-agendamento-checagem .subcard-header,
+body.dark-mode #subcard-agendamento-checagem .subcard-header {
+    background: linear-gradient(135deg, 
+        rgba(255, 193, 7, 0.2) 0%,
+        rgba(255, 193, 7, 0.1) 100%
+    );
+    color: #fff3cd;
+    border-bottom-color: rgba(255, 193, 7, 0.3);
+}
+
+[data-theme="dark"] #subcard-agendamento-checagem .subcard-header i,
+body.dark-mode #subcard-agendamento-checagem .subcard-header i {
+    color: #ffc107;
+}
+
+/* ==========================================
+   🌙 DARK MODE - VISUALIZAÇÃO DE CHECAGEM
+   ========================================== */
+
+/* Visualização de checagem */
+[data-theme="dark"] #checagem-view,
+body.dark-mode #checagem-view {
+    background: linear-gradient(135deg, 
+        rgba(45, 36, 56, 0.8) 0%,
+        rgba(61, 52, 80, 0.95) 100%
+    );
+    border-color: rgba(255, 193, 7, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+[data-theme="dark"] #checagem-view:hover,
+body.dark-mode #checagem-view:hover {
+    background: linear-gradient(135deg, 
+        rgba(255, 193, 7, 0.1) 0%,
+        rgba(61, 52, 80, 0.98) 100%
+    );
+    border-color: rgba(255, 193, 7, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+}
+
+/* ==========================================
+   🌙 DARK MODE - BOTÃO DE AGENDAR CHECAGEM
+   ========================================== */
+
+/* Botão de agendar checagem */
+[data-theme="dark"] #btn-agendar-checagem,
+body.dark-mode #btn-agendar-checagem {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    border-color: #ffc107;
+    color: #212529;
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+[data-theme="dark"] #btn-agendar-checagem::before,
+body.dark-mode #btn-agendar-checagem::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+[data-theme="dark"] #btn-agendar-checagem:hover,
+body.dark-mode #btn-agendar-checagem:hover {
+    background: linear-gradient(135deg, #e0a800, #d39e00);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 18px rgba(255, 193, 7, 0.4);
+}
+
+[data-theme="dark"] #btn-agendar-checagem:active,
+body.dark-mode #btn-agendar-checagem:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+[data-theme="dark"] #btn-agendar-checagem i,
+body.dark-mode #btn-agendar-checagem i {
+    color: #212529;
+}
+
+/* ==========================================
+   🌙 DARK MODE - FORMULÁRIO DE CHECAGEM
+   ========================================== */
+
+/* Formulário de checagem */
+[data-theme="dark"] #checagem-form,
+body.dark-mode #checagem-form {
+    background: linear-gradient(135deg, 
+        rgba(61, 52, 80, 0.9) 0%,
+        rgba(45, 36, 56, 0.8) 100%
+    );
+    border-color: rgba(255, 193, 7, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] #checagem-form:hover,
+body.dark-mode #checagem-form:hover {
+    border-color: rgba(255, 193, 7, 0.5);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Labels do formulário */
+[data-theme="dark"] #checagem-form .form-label,
+body.dark-mode #checagem-form .form-label {
+    color: #fff3cd;
+}
+
+[data-theme="dark"] #checagem-form .form-label i,
+body.dark-mode #checagem-form .form-label i {
+    color: #ffc107;
+}
+
+/* Controles do formulário */
+[data-theme="dark"] #checagem-form .form-control,
+[data-theme="dark"] #checagem-form .form-select,
+body.dark-mode #checagem-form .form-control,
+body.dark-mode #checagem-form .form-select {
+    background: rgba(45, 36, 56, 0.8);
+    border-color: rgba(255, 193, 7, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] #checagem-form .form-control:focus,
+[data-theme="dark"] #checagem-form .form-select:focus,
+body.dark-mode #checagem-form .form-control:focus,
+body.dark-mode #checagem-form .form-select:focus {
+    background: rgba(45, 36, 56, 0.95);
+    border-color: #ffc107;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.25);
+    color: #ffffff;
+}
+
+[data-theme="dark"] #checagem-form .form-control:valid,
+body.dark-mode #checagem-form .form-control:valid {
+    border-color: #28a745;
+    background: rgba(45, 36, 56, 0.95);
+}
+
+[data-theme="dark"] #checagem-form .form-control:invalid:not(:placeholder-shown),
+body.dark-mode #checagem-form .form-control:invalid:not(:placeholder-shown) {
+    border-color: #dc3545;
+    background: rgba(45, 36, 56, 0.95);
+}
+
+/* ==========================================
+   🌙 DARK MODE - COL2 E CARDS DE AGENDAMENTO
+   ========================================== */
+
+/* Col2 e cards de agendamento */
+[data-theme="dark"] #col2,
+[data-theme="dark"] .agendamento-card,
+body.dark-mode #col2,
+body.dark-mode .agendamento-card {
+    background: rgba(61, 52, 80, 0.95);
+    backdrop-filter: blur(10px);
+    border-color: rgba(112, 246, 17, 0.2);
+    box-shadow: 0 4px 15px rgba(11, 213, 240, 0.1);
+}
+
+/* ==========================================
+   🌙 DARK MODE - BADGES
+   ========================================== */
+
+/* Badges gerais */
+[data-theme="dark"] #tabulacao-view .badge,
+[data-theme="dark"] #telefone-view .badge,
+[data-theme="dark"] #observacao-view .badge,
+body.dark-mode #tabulacao-view .badge,
+body.dark-mode #telefone-view .badge,
+body.dark-mode #observacao-view .badge {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Cores específicas dos badges no dark mode */
+[data-theme="dark"] .badge.bg-secondary,
+body.dark-mode .badge.bg-secondary {
+    background: #7f8c8d !important; /* SEM_RESPOSTA - mais escuro */
+}
+
+[data-theme="dark"] .badge.bg-warning,
+body.dark-mode .badge.bg-warning {
+    background: #2980b9 !important; /* EM_NEGOCIACAO - azul mais escuro */
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .badge.bg-danger,
+body.dark-mode .badge.bg-danger {
+    background: #c0392b !important; /* REVERSAO/DESISTIU - vermelho mais escuro */
+}
+
+[data-theme="dark"] .badge.bg-success,
+body.dark-mode .badge.bg-success {
+    background: #27ae60 !important; /* REVERTIDO - mantém verde */
+}
+
+[data-theme="dark"] .badge.bg-info,
+body.dark-mode .badge.bg-info {
+    background: #8e44ad !important; /* CHECAGEM - roxo mais escuro */
+}
+
+[data-theme="dark"] .badge.bg-primary,
+body.dark-mode .badge.bg-primary {
+    background: #229954 !important; /* CHECAGEM_OK - verde mais escuro */
+}
+
+[data-theme="dark"] .badge[data-status="ALTO_RISCO"],
+body.dark-mode .badge[data-status="ALTO_RISCO"] {
+    background: #d35400 !important; /* Laranja mais escuro */
+}
+
+[data-theme="dark"] .badge[data-status="CONCLUIDO_PG"],
+body.dark-mode .badge[data-status="CONCLUIDO_PG"] {
+    background: #138d75 !important; /* Verde água mais escuro */
+}
+
+/* Hover nos badges */
+[data-theme="dark"] #tabulacao-view .badge:hover,
+[data-theme="dark"] #telefone-view .badge:hover,
+[data-theme="dark"] #observacao-view .badge:hover,
+body.dark-mode #tabulacao-view .badge:hover,
+body.dark-mode #telefone-view .badge:hover,
+body.dark-mode #observacao-view .badge:hover {
+    transform: translateY(-1px) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.1);
+}
+
+/* ==========================================
+   🌙 DARK MODE - VALIDAÇÃO DE FORMULÁRIOS
+   ========================================== */
+
+/* Validação de formulários */
+[data-theme="dark"] .observacao-agendamento-card .form-control:valid,
+body.dark-mode .observacao-agendamento-card .form-control:valid {
+    border-color: #28a745;
+    background: rgba(45, 36, 56, 0.95);
+}
+
+[data-theme="dark"] .observacao-agendamento-card .form-control:invalid,
+body.dark-mode .observacao-agendamento-card .form-control:invalid {
+    border-color: #dc3545;
+    background: rgba(45, 36, 56, 0.95);
+}
+
+[data-theme="dark"] .observacao-agendamento-card .form-select:valid,
+body.dark-mode .observacao-agendamento-card .form-select:valid {
+    border-color: #28a745;
+    background: rgba(45, 36, 56, 0.95);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2328a745' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 9 4 4 9-9'/%3e%3c/svg%3e");
+}
+
+/* ==========================================
+   🌙 DARK MODE - ESTADOS DE LOADING
+   ========================================== */
+
+/* Loading state para cards */
+[data-theme="dark"] .observacao-agendamento-card.loading,
+body.dark-mode .observacao-agendamento-card.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+[data-theme="dark"] .observacao-agendamento-card.loading::after,
+body.dark-mode .observacao-agendamento-card.loading::after {
+    background: rgba(61, 52, 80, 0.8);
+    backdrop-filter: blur(2px);
+}
+
+/* ==========================================
+   🌙 DARK MODE - CONTROLES DESABILITADOS
+   ========================================== */
+
+/* Controles desabilitados */
+[data-theme="dark"] .form-control-disabled,
+body.dark-mode .form-control-disabled {
+    background: linear-gradient(135deg, 
+        rgba(45, 36, 56, 0.8) 0%,
+        rgba(61, 52, 80, 0.6) 100%
+    );
+    border-color: rgba(112, 246, 17, 0.2);
+    color: #8a85a0;
+}
+
+[data-theme="dark"] .form-control-disabled:hover,
+body.dark-mode .form-control-disabled:hover {
+    background: linear-gradient(135deg, 
+        rgba(45, 36, 56, 0.9) 0%,
+        rgba(61, 52, 80, 0.7) 100%
+    );
+    border-color: rgba(112, 246, 17, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(112, 246, 17, 0.1);
+}
+
+[data-theme="dark"] select.form-control-disabled,
+body.dark-mode select.form-control-disabled {
+    background: linear-gradient(135deg, 
+        rgba(45, 36, 56, 0.8) 0%,
+        rgba(61, 52, 80, 0.6) 100%
+    );
+    border-color: rgba(112, 246, 17, 0.2);
+    color: #8a85a0;
+    cursor: not-allowed;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%238a85a0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e");
+}
+
+/* ==========================================
+   🌙 DARK MODE - TELEFONE DE DETALHES
+   ========================================== */
+
+/* Telefone de detalhes de agendamento */
+[data-theme="dark"] #detalhe_agendamento_telefone,
+body.dark-mode #detalhe_agendamento_telefone {
+    background: linear-gradient(135deg, 
+        rgba(11, 213, 240, 0.1) 0%,
+        rgba(61, 52, 80, 0.95) 100%
+    );
+    border-color: rgba(11, 213, 240, 0.3);
+    color: #ffffff;
+}
+
+[data-theme="dark"] #detalhe_agendamento_telefone:before,
+body.dark-mode #detalhe_agendamento_telefone:before {
+    background: #0bd5f0;
+}
+
+/* ==========================================
+   🌙 DARK MODE - RESPONSIVIDADE
+   ========================================== */
+
+@media (max-width: 768px) {
+    [data-theme="dark"] #col2 #card-debitos .card-body,
+    body.dark-mode #col2 #card-debitos .card-body {
+        max-height: 300px;
+    }
+    
+    [data-theme="dark"] #col2 #card-debitos table,
+    body.dark-mode #col2 #card-debitos table {
+        font-size: 0.8rem;
+        min-width: 600px;
+    }
+    
+    [data-theme="dark"] #col2 #card-debitos th,
+    [data-theme="dark"] #col2 #card-debitos td,
+    body.dark-mode #col2 #card-debitos th,
+    body.dark-mode #col2 #card-debitos td {
+        padding: 0.6rem 0.5rem;
+    }
+    
+    [data-theme="dark"] #checagem-form,
+    body.dark-mode #checagem-form {
+        padding: 1rem;
+    }
+    
+    [data-theme="dark"] #btn-agendar-checagem,
+    body.dark-mode #btn-agendar-checagem {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    [data-theme="dark"] .badge,
+    body.dark-mode .badge {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    [data-theme="dark"] #col2 #card-debitos table,
+    body.dark-mode #col2 #card-debitos table {
+        font-size: 0.75rem;
+        min-width: 500px;
+    }
+    
+    [data-theme="dark"] #col2 #card-debitos th,
+    [data-theme="dark"] #col2 #card-debitos td,
+    body.dark-mode #col2 #card-debitos th,
+    body.dark-mode #col2 #card-debitos td {
+        padding: 0.5rem 0.4rem;
+    }
+    
+    [data-theme="dark"] #checagem-form,
+    body.dark-mode #checagem-form {
+        padding: 0.8rem;
+    }
+    
+    [data-theme="dark"] #btn-agendar-checagem,
+    body.dark-mode #btn-agendar-checagem {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    [data-theme="dark"] .badge,
+    body.dark-mode .badge {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.75rem;
+    }
+} 

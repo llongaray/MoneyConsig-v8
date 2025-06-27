@@ -1,0 +1,266 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Dashboard de Presença<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="{% static 'rh/css/relatorio_presenca.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4 px-md-4" id="relatorio-presenca-container">
+
+    <h1 class="main-page-title mb-4"><i class='bx bx-tachometer me-2'></i>Dashboard de Presença</h1>
+
+    <!-- Filtros -->
+    <div class="dashboard-section" id="sessao-filtros">
+        <h2 class="section-title"><i class='bx bx-filter-alt me-2'></i> Filtros</h2>
+        <div class="card mb-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="data-inicio" class="form-label">
+                                <i class='bx bx-calendar-event me-2'></i>Data Início
+                            </label>
+                            <input type="date" class="form-control" id="data-inicio">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="data-fim" class="form-label">
+                                <i class='bx bx-calendar-check me-2'></i>Data Fim
+                            </label>
+                            <input type="date" class="form-control" id="data-fim">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="equipe" class="form-label">
+                                <i class='bx bx-group me-2'></i>Equipe
+                            </label>
+                            <select class="form-control" id="equipe">
+                                <option value="">Todas as Equipes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="usuario" class="form-label">
+                                <i class='bx bx-user-pin me-2'></i>Funcionário
+                            </label>
+                            <select class="form-control" id="usuario">
+                                <option value="">Todos os Funcionários</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-sm btn-outline-info" id="test-ip-capture">
+                            <i class='bx bx-test-tube me-2'></i>Testar Captura de IP
+                        </button>
+                        <small class="text-muted ms-2">Clique para verificar se o IP público está sendo capturado corretamente</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Cards do Dashboard -->
+    <div class="dashboard-section" id="sessao-cards-dashboard">
+        <h2 class="section-title"><i class='bx bx-line-chart-down me-2'></i> Indicadores de Presença</h2>
+        <div class="category-block">
+            <div class="box" id="box-indicadores-presenca">
+                <!-- Cards da Data de Referência (Hoje ou Data Fim do Filtro) -->
+                <div class="card">
+                    <span class="icon"><i class='bx bx-log-in-circle'></i></span>
+                    <span class="container-info">
+                        <span class="title">Check-ins Hoje (<span id="data-ref-hoje-label">Data</span>)</span>
+                        <span class="value" id="total-checkins-hoje">-</span>
+                    </span>
+                </div>
+                <div class="card">
+                    <span class="icon"><i class='bx bx-user-check'></i></span>
+                    <span class="container-info">
+                        <span class="title">Funcionários Ativos (Contexto)</span>
+                        <span class="value" id="total-funcionarios-ativos-contexto">-</span>
+                    </span>
+                </div>
+                <div class="card">
+                    <span class="icon"><i class='bx bx-user-x'></i></span>
+                    <span class="container-info">
+                        <span class="title">Não Registraram Check-in Hoje</span>
+                        <span class="value" id="funcionarios-sem-checkin-hoje">-</span>
+                    </span>
+                </div>
+                <div class="card">
+                    <span class="icon"><i class='bx bx-calendar-plus'></i></span>
+                    <span class="container-info">
+                        <span class="title">Entradas de Ponto Hoje</span>
+                        <span class="value" id="total-entradas-hoje">-</span>
+                    </span>
+                </div>
+                <div class="card">
+                    <span class="icon"><i class='bx bx-calendar-minus'></i></span>
+                    <span class="container-info">
+                        <span class="title">Saídas de Ponto Hoje</span>
+                        <span class="value" id="total-saidas-hoje">-</span>
+                    </span>
+                </div>
+
+                <!-- Cards do Período (se houver filtro de data_inicio ou data_fim) -->
+                <div class="card card-periodo" style="display: none;">
+                    <span class="icon"><i class='bx bxs-calendar-week'></i></span>
+                    <span class="container-info">
+                        <span class="title">Total Entradas (Período)</span>
+                        <span class="value" id="total-entradas-periodo">-</span>
+                    </span>
+                </div>
+                <div class="card card-periodo" style="display: none;">
+                    <span class="icon"><i class='bx bxs-calendar-x'></i></span>
+                    <span class="container-info">
+                        <span class="title">Total Saídas (Período)</span>
+                        <span class="value" id="total-saidas-periodo">-</span>
+                    </span>
+                </div>
+                
+                <!-- Cards de Ausências (RelatorioSistemaPresenca) -->
+                <div class="card">
+                    <span class="icon"><i class='bx bx-user-voice'></i></span>
+                    <span class="container-info">
+                        <span class="title">Ausências Reportadas (Período)</span>
+                        <span class="value" id="total-ausencias-reportadas">-</span>
+                    </span>
+                </div>
+                 <div class="card">
+                    <span class="icon"><i class='bx bxs-user-detail'></i></span>
+                    <span class="container-info">
+                        <span class="title">Usuários c/ Ausências (Período)</span>
+                        <span class="value" id="usuarios-com-ausencias">-</span>
+                    </span>
+                </div>
+                <div class="card card-observacao"> 
+                    <span class="icon"><i class='bx bx-message-error'></i></span>
+                    <span class="container-info">
+                        <span class="title">Obs. de Ausência Mais Comum</span>
+                        <span class="value-text" id="top-observacao-ausencia-texto">-</span>
+                        <small id="top-observacao-ausencia-count"></small>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela de Registros de Ponto -->
+    <div class="dashboard-section" id="sessao-tabela-registros">
+        <h2 class="section-title"><i class='bx bx-list-check me-2'></i>Registros de Ponto Detalhados</h2>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="table-scroll-wrapper">
+                        <table class="table table-striped table-hover" id="tabela-registros-ponto">
+                            <thead>
+                                <tr>
+                                    <th><i class='bx bx-calendar me-2'></i>Data</th>
+                                    <th><i class='bx bx-time-five me-2'></i>Hora</th>
+                                    <th><i class='bx bx-user me-2'></i>Funcionário</th>
+                                    <th><i class='bx bx-building-house me-2'></i>Departamento</th>
+                                    <th><i class='bx bx-group me-2'></i>Equipe</th>
+                                    <th><i class='bx bx-transfer-alt me-2'></i>Tipo</th>
+                                    <th><i class='bx bx-map-pin me-2'></i>IP Utilizado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="7" class="text-center loading">Carregando registros...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela de Ausências e Atrasos -->
+    <div class="dashboard-section" id="sessao-tabela-ausencias">
+        <h2 class="section-title"><i class='bx bx-user-x me-2'></i>Ausências e Atrasos por Dia</h2>
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="container-filter">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="data-ausencias" class="form-label">
+                                    <i class='bx bx-calendar-alt me-2'></i>Data para Verificação
+                                </label>
+                                <input type="date" class="form-control" id="data-ausencias">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="filtro-equipe-ausencias" class="form-label">
+                                    <i class='bx bx-group me-2'></i>Filtro por Equipe
+                                </label>
+                                <select class="form-control" id="filtro-equipe-ausencias">
+                                    <option value="">Todos (com e sem equipe)</option>
+                                    <option value="com_equipe">Apenas com equipe</option>
+                                    <option value="sem_equipe">Apenas sem equipe</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="button" class="btn btn-outline-primary" id="btn-consultar-ausencias">
+                            <i class='bx bx-refresh me-2'></i>Atualizar
+                        </button>
+                        <small class="text-muted ms-2 align-self-center">Filtro automático</small>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info d-flex align-items-center mb-3">
+                    <i class='bx bx-info-circle me-2'></i>
+                    <div>
+                        <strong>Critério de Análise:</strong> Considera o horário de trabalho individual de cada funcionário + 5 minutos de tolerância. 
+                        Funcionários sem horário definido não são analisados (exceções). 
+                        <strong>Filtro de Equipe:</strong> Permite analisar apenas funcionários com equipe, sem equipe, ou todos.
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <div class="table-scroll-wrapper">
+                        <table class="table table-striped table-hover" id="tabela-ausencias-atrasos">
+                            <thead>
+                                <tr>
+                                    <th><i class='bx bx-user me-2'></i>Funcionário</th>
+                                    <th><i class='bx bx-building-house me-2'></i>Departamento</th>
+                                    <th><i class='bx bx-group me-2'></i>Equipe</th>
+                                    <th><i class='bx bx-error-circle me-2'></i>Situação</th>
+                                    <th><i class='bx bx-time-five me-2'></i>Primeiro Registro</th>
+                                    <th><i class='bx bx-info-circle me-2'></i>Observação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6" class="text-center empty-state">📅 Selecione uma data para consultar ausências e atrasos</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="error-messages" class="mt-3"></div>
+
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="{% static 'rh/js/relatorio_presenca.js' %}"></script>
+{% endblock %} 

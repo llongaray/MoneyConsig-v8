@@ -1,0 +1,561 @@
+{% load static %}
+{% load permissionsacess %}
+
+<nav id="sidebar" class="sidebar collapsed">
+  <div class="sidebar-toggle">
+    <i class='bx bx-menu-alt-right'></i>
+  </div>
+
+  <ul class="sidebar-menu">
+    {% if user.is_authenticated %}
+
+      {# 1. ADMINISTRATIVO #}
+      {% has_access user "CT3" as can_admin_cat %}
+      {% if can_admin_cat %}
+      <li class="sidebar-category">
+        <a href="javascript:void(0)" class="category-toggle">
+          <i class="bx bx-slider-alt"></i>
+          <span class="menu-label">Administrativo</span>
+          <i class="bx bx-chevron-down category-arrow"></i>
+        </a>
+        <ul class="subcategory">
+          {% has_access user "SCT9" as can_adm_dash %}
+          {% if can_adm_dash %}
+          <li>
+            <a href="{% url 'administrativo:dashboard' %}">
+              <i class="bx bx-tachometer"></i>
+              <span class="menu-label">Dashboard</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT10" as can_adm_metas %}
+          {% if can_adm_metas %}
+          <li>
+            <a href="{% url 'administrativo:render_controlemetas' %}">
+              <i class="bx bx-target-lock"></i>
+              <span class="menu-label">Controle de Metas</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT11" as can_adm_reembolso %}
+          {% if can_adm_reembolso %}
+          <li>
+            <a href="{% url 'administrativo:reembolso' %}">
+              <i class="bx bx-receipt"></i>
+              <span class="menu-label">Reembolsos</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT52" as can_adm_importcsv %}
+          {% if can_adm_importcsv %}
+          <li>
+            <a href="{% url 'administrativo:render_importscsvs' %}">
+              <i class="bx bx-import"></i>
+              <span class="menu-label">Importar CSVs</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT53" as can_adm_comunicados %}
+          {% if can_adm_comunicados %}
+          <li>
+            <a href="{% url 'administrativo:render_comunicados' %}">
+              <i class="bx bx-message-square-detail"></i>
+              <span class="menu-label">Comunicados</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+      {% endif %}
+
+
+      {# 2. RECURSOS HUMANOS #}
+      {% has_access user "CT4" as can_rh_cat %}
+      {% if can_rh_cat %}
+      <li class="sidebar-category">
+        <a href="javascript:void(0)" class="category-toggle">
+          <i class="bx bx-group"></i>
+          <span class="menu-label">Recursos Humanos</span>
+          <i class="bx bx-chevron-down category-arrow"></i>
+        </a>
+        <ul class="subcategory">
+          {% has_access user "SCT12" as can_rh_dash %}
+          {% if can_rh_dash %}
+          <li>
+            <a href="{% url 'funcionarios:render_dashboard' %}">
+              <i class="bx bx-tachometer"></i>
+              <span class="menu-label">Dashboard</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT13" as can_rh_new %}
+          {% if can_rh_new %}
+          <li>
+            <a href="{% url 'funcionarios:render_novofuncionario' %}">
+              <i class="bx bx-user-plus"></i>
+              <span class="menu-label">Novo Funcionário</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT14" as can_rh_edit %}
+          {% if can_rh_edit %}
+          <li>
+            <a href="{% url 'funcionarios:render_editfuncionario' %}">
+              <i class="bx bx-edit"></i>
+              <span class="menu-label">Editar Funcionário</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT15" as can_rh_admin %}
+          {% if can_rh_admin %}
+          <li>
+            <a href="{% url 'funcionarios:render_administrativo' %}">
+              <i class="bx bx-cog"></i>
+              <span class="menu-label">Administrativo RH</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT54" as can_rh_comunicados %}
+          {% if can_rh_comunicados %}
+          <li>
+            <a href="{% url 'funcionarios:render_formscomunicados' %}">
+              <i class="bx bx-message-square-add"></i>
+              <span class="menu-label">ADD Comunicados</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+      {% endif %}
+
+
+      {# 3. MONEY CAMPANHAS #}
+      {% has_access user "CT7" as can_money_cat %}
+      {% if can_money_cat %}
+      <li class="sidebar-category">
+        <a href="javascript:void(0)" class="category-toggle">
+          <i class="bx bx-dollar-circle"></i>
+          <span class="menu-label">Money Campanhas</span>
+          <i class="bx bx-chevron-down category-arrow"></i>
+        </a>
+        <ul class="subcategory">
+          {% has_access user "SCT25" as can_money_campanha %}
+          {% if can_money_campanha %}
+          <li>
+            <a href="{% url 'moneyplus:render_moneyplus' %}">
+              <i class="bx bx-line-chart"></i>
+              <span class="menu-label">Campanha</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT26" as can_money_ctrl %}
+          {% if can_money_ctrl %}
+          <li>
+            <a href="{% url 'moneyplus:render_uploadBase' %}">
+              <i class="bx bx-edit-alt"></i>
+              <span class="menu-label">Controle Campanha</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+      {% endif %}
+
+
+      {# 4. SIAPE #}
+      {% has_access user "CT5" as can_siape_cat %}
+      {% if can_siape_cat %}
+      <li class="sidebar-category">
+        <a href="javascript:void(0)" class="category-toggle">
+          <i class="bx bx-briefcase"></i>
+          <span class="menu-label">SIAPE</span>
+          <i class="bx bx-chevron-down category-arrow"></i>
+        </a>
+        <ul class="subcategory">
+          {% has_access user "SCT18" as can_siape_ranking %}
+          {% if can_siape_ranking %}
+          <li>
+            <a href="{% url 'siape:ranking' %}">
+              <i class="bx bx-bar-chart"></i>
+              <span class="menu-label">Ranking</span>
+            </a>
+          </li>
+          {% endif %}
+          
+          {% has_access user "SCT16" as can_siape_consulta %}
+          {% if can_siape_consulta %}
+          <li>
+            <a href="{% url 'siape:consulta_cliente' %}">
+              <i class="bx bx-search-alt"></i>
+              <span class="menu-label">Consulta Cliente</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT17" as can_siape_campanhas %}
+          {% if can_siape_campanhas %}
+          <li>
+            <a href="{% url 'siape:campanhas_siape' %}">
+              <i class="bx bx-line-chart"></i>
+              <span class="menu-label">Campanhas</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT19" as can_siape_fin %}
+          {% if can_siape_fin %}
+          <li>
+            <a href="{% url 'siape:financeiro' %}">
+              <i class="bx bx-money"></i>
+              <span class="menu-label">Financeiro</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT76" as can_siape_dashboard_agendamentos %}
+          {% if can_siape_dashboard_agendamentos %}
+          <li>
+            <a href="{% url 'siape:dashboard_agendamentos' %}">
+              <i class="bx bx-calendar-check"></i>
+              <span class="menu-label">Dashboard Agendamentos</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT77" as can_siape_crm_kanban %}
+          {% if can_siape_crm_kanban %}
+          <li>
+            <a href="{% url 'siape:crm_kanban' %}">
+              <i class="bx bx-columns"></i>
+              <span class="menu-label">Agendamentos</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+      {% endif %}
+
+
+      {# 5. INSS #}
+      {% has_access user "CT6" as can_inss_cat %}
+      {% if can_inss_cat %}
+      <li class="sidebar-category">
+        <a href="javascript:void(0)" class="category-toggle">
+          <i class="bx bx-calendar"></i>
+          <span class="menu-label">INSS</span>
+          <i class="bx bx-chevron-down category-arrow"></i>
+        </a>
+        <ul class="subcategory">
+          {% has_access user "SCT20" as can_inss_ranking %}
+          {% if can_inss_ranking %}
+          <li>
+            <a href="{% url 'inss:ranking' %}">
+              <i class="bx bx-bar-chart"></i>
+              <span class="menu-label">Ranking LOJAS</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT21" as can_inss_dash %}
+          {% if can_inss_dash %}
+          <li>
+            <a href="{% url 'inss:dashboard' %}">
+              <i class="bx bx-pie-chart-alt-2"></i>
+              <span class="menu-label">Dashboard INSS</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT22" as can_inss_agendamento %}
+          {% if can_inss_agendamento %}
+          <li>
+            <a href="{% url 'inss:agendamento' %}">
+              <i class="bx bx-calendar-check"></i>
+              <span class="menu-label">Agendamento</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT23" as can_inss_loja %}
+          {% if can_inss_loja %}
+          <li>
+            <a href="{% url 'inss:loja' %}">
+              <i class="bx bx-store"></i>
+              <span class="menu-label">Loja</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT24" as can_inss_fin %}
+          {% if can_inss_fin %}
+          <li>
+            <a href="{% url 'inss:financeiro' %}">
+              <i class="bx bx-money"></i>
+              <span class="menu-label">Financeiro</span>
+            </a>
+          </li>
+          {% endif %}
+
+          
+        </ul>
+      </li>
+      {% endif %}
+
+
+      {# 6. JURÍDICO #}
+      {% has_access user "CT56" as can_juridico_cat %}
+      {% if can_juridico_cat %}
+      <li class="sidebar-category">
+        <a href="javascript:void(0)" class="category-toggle">
+          <i class='bx bx-briefcase-alt'></i>
+          <span class="menu-label">Jurídico</span>
+          <i class='bx bx-chevron-down category-arrow'></i>
+        </a>
+        <ul class="subcategory">
+          {% has_access user "SCT57" as can_juridico_dashboard %}
+          {% if can_juridico_dashboard %}
+          <li>
+            <a href="{% url 'juridico:dashboard_acoes' %}">
+              <i class='bx bx-tachometer'></i>
+              <span class="menu-label">Dashboard Jurídico</span>
+            </a>
+          </li>
+          {% has_access user "SCT60" as can_juridico_acoes %}
+          {% if can_juridico_acoes %}
+          <li>
+            <a href="{% url 'juridico:acoes' %}">
+              <i class='bx bx-list-ul'></i>
+              <span class="menu-label">Ações</span>
+            </a>
+          </li>
+          {% endif %}
+          {% endif %}
+
+          {% has_access user "SCT58" as can_juridico_minhas_acoes %}
+          {% if can_juridico_minhas_acoes %}
+          <li>
+            <a href="{% url 'juridico:minhas_acoes' %}">
+              <i class='bx bx-file'></i>
+              <span class="menu-label">Minhas Ações</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT59" as can_juridico_nova_acao %}
+          {% if can_juridico_nova_acao %}
+          <li>
+            <a href="{% url 'juridico:adicionar_acao' %}">
+              <i class='bx bx-plus-circle'></i>
+              <span class="menu-label">Nova Ação</span>
+            </a>
+          </li>
+          {% endif %}
+
+
+          {% has_access user "SCT61" as can_juridico_limpa_nome %}
+          {% if can_juridico_limpa_nome %}
+          <li>
+            <a href="{% url 'juridico:limpa_nome' %}">
+              <i class='bx bx-eraser'></i>
+              <span class="menu-label">Limpa Nome</span>
+            </a>
+          </li>
+          {% endif %}
+          
+          {% has_access user "SCT62" as can_juridico_pagamentos %}
+          {% if can_juridico_pagamentos %}
+          <li>
+            <a href="{% url 'juridico:pagamentos' %}">
+              <i class='bx bx-dollar-circle'></i>
+              <span class="menu-label">Pagamentos</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+      {% endif %}
+
+
+      {# 7. GINCANA #}
+      {% has_access user "CT66" as can_gincana_cat %}
+      {% if can_gincana_cat %}
+      <li class="sidebar-category">
+        <a href="javascript:void(0)" class="category-toggle">
+          <i class="bx bx-joystick"></i>
+          <span class="menu-label">Gincana</span>
+          <i class="bx bx-chevron-down category-arrow"></i>
+        </a>
+        <ul class="subcategory">
+          {% has_access user "SCT67" as can_rh_presenca %}
+          {% if can_rh_presenca %}
+          <li>
+            <a href="{% url 'funcionarios:render_presenca' %}">
+              <i class="bx bx-calendar-check"></i>
+              <span class="menu-label">Presença</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT68" as can_rh_relatorio_presenca %}
+          {% if can_rh_relatorio_presenca %}
+          <li>
+            <a href="{% url 'funcionarios:render_relatorio_presenca' %}">
+              <i class="bx bx-file"></i>
+              <span class="menu-label">Relatório Presença</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+      {% endif %}
+
+
+      {# 7. MATERIAL DE APOIO / MARKETING #}
+      {% has_access user "CT69" as can_criativa_cat %}
+      {% if can_criativa_cat %}
+      <li class="sidebar-category">
+        <a href="javascript:void(0)" class="category-toggle">
+          <i class='bx bx-book-content'></i>
+          <span class="menu-label">Material de Apoio</span>
+          <i class='bx bx-chevron-down category-arrow'></i>
+        </a>
+        <ul class="subcategory">
+          {% has_access user "SCT72" as can_marketing_dashboard %}
+          {% if can_marketing_dashboard %}
+          <li>
+            <a href="{% url 'marketing:render_dashboard_materiais' %}">
+              <i class="bx bx-tachometer"></i>
+              <span class="menu-label">Dashboard</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT70" as can_marketing_biblioteca %}
+          {% if can_marketing_biblioteca %}
+          <li>
+            <a href="{% url 'marketing:render_materiais' %}">
+              <i class="bx bx-download"></i>
+              <span class="menu-label">Biblioteca de Materiais</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% has_access user "SCT71" as can_marketing_gerenciar %}
+          {% if can_marketing_gerenciar %}
+          <li>
+            <a href="{% url 'marketing:render_addmateriais' %}">
+              <i class="bx bx-plus-circle"></i>
+              <span class="menu-label">Gerenciar Materiais</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+      {% endif %}
+
+
+
+
+      {# 8. CONFIGURAÇÕES #}
+      {% has_access user "CT2" as can_cfg_cat %}
+      {% if can_cfg_cat %}
+      <li class="sidebar-category">
+        <a href="javascript:void(0)" class="category-toggle">
+          <i class="bx bx-cog"></i>
+          <span class="menu-label">Configurações</span>
+          <i class="bx bx-chevron-down category-arrow"></i>
+        </a>
+        <ul class="subcategory">
+          {% if user.is_superuser %}
+          <li>
+            <a href="{% url 'usuarios:render_alert_ti' %}">
+              <i class="bx bx-bell-ring"></i>
+              <span class="menu-label">Alertas TI</span>
+            </a>
+          </li>
+          {% endif %}
+          {% has_access user "SCT8" as can_cfg_perm %}
+          {% if can_cfg_perm %}
+          <li>
+            <a href="{% url 'usuarios:render_permissionacess' %}">
+              <i class="bx bx-shield"></i>
+              <span class="menu-label">Permissões de Acesso</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </li>
+      {% endif %}
+
+
+    {% else %}
+      <li>
+        <a href="{% url 'usuarios:login' %}">
+          <i class="bx bx-log-in"></i>
+          Login
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.getElementById('sidebar');
+    const toggleIcon = sidebar.querySelector('.sidebar-toggle i');
+    const categoryToggles = sidebar.querySelectorAll('.category-toggle');
+  
+    // Função para abrir o sidebar (quando estiver fechado)
+    function openSidebar() {
+      if (sidebar.classList.contains('collapsed')) {
+        sidebar.classList.remove('collapsed');
+        toggleIcon.classList.remove('bx-menu-alt-right');
+        toggleIcon.classList.add('bx-menu');
+      }
+    }
+  
+    // Clique no ícone de toggle (menu principal)
+    sidebar.querySelector('.sidebar-toggle').addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      toggleIcon.classList.toggle('bx-menu-alt-right');
+      toggleIcon.classList.toggle('bx-menu');
+  
+      // ao fechar, fecha todas as categorias abertas
+      if (sidebar.classList.contains('collapsed')) {
+        sidebar.querySelectorAll('.sidebar-category.expanded')
+               .forEach(cat => cat.classList.remove('expanded'));
+      }
+    });
+  
+    // Clique em cada categoria
+    categoryToggles.forEach(catToggle => {
+      catToggle.addEventListener('click', e => {
+        e.preventDefault();
+  
+        // 1) se o sidebar estiver fechado, abre antes de expandir a categoria
+        openSidebar();
+  
+        // 2) fecha todas as outras categorias
+        sidebar.querySelectorAll('.sidebar-category.expanded')
+               .forEach(cat => {
+                 if (cat !== catToggle.parentElement) {
+                   cat.classList.remove('expanded');
+                 }
+               });
+  
+        // 3) alterna a categoria clicada
+        catToggle.parentElement.classList.toggle('expanded');
+      });
+    });
+  });
+  </script>
+  

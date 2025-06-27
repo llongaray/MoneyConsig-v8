@@ -1,0 +1,163 @@
+{% extends "base-plus.html" %}
+{% load static %}
+
+{% block header_title %}
+Marketing - Biblioteca de Materiais<span class="produto-text"></span>
+{% endblock %}
+
+{% block addcss_extra %}
+  {# Boxicons for icons used in the form #}
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  {# Custom CSS for this specific page #}
+  <link rel="stylesheet" href="{% static 'criativos/css/materiais.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+  
+  <!-- Containers de Órgão serão criados dinamicamente aqui -->
+  <div id="containers-orgaos">
+    <!-- Cada órgão terá seu próprio container com:
+         <div class="container">
+           <h1 class="titulo-pagina">Nome do Órgão</h1>
+           <div id="lista-materiais-orgao-{id}">
+             ... produtos e materiais ...
+           </div>
+         </div>
+    -->
+  </div>
+
+  <!-- Estado Vazio Global -->
+  <div id="empty-state-global" class="container d-none">
+    <div class="empty-state text-center py-5">
+      <div class="card">
+        <div class="card-body">
+          <i class='bx bx-folder-open bx-lg text-muted mb-3'></i>
+          <h4>Nenhum material encontrado</h4>
+          <p class="text-muted">Não há materiais cadastrados no sistema.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .container-fluid -->
+
+<!-- Modal de Download -->
+<div class="modal fade" id="modalDownload" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class='bx bx-download me-2'></i> Confirmar Download
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <i class='bx bx-download bx-fade-down text-primary mb-3'></i>
+                    <h4 id="download-material-titulo" class="mb-2" style="color: var(--color-primary-dark); font-weight: 700;">Título do Material</h4>
+                    <p class="text-muted mb-3" id="download-material-produto" style="font-size: 1.1rem;">Produto</p>
+                    <div class="alert alert-info" style="background: linear-gradient(135deg, rgba(112, 246, 17, 0.1) 0%, rgba(11, 213, 240, 0.1) 100%); border: 1px solid rgba(112, 246, 17, 0.2); border-radius: 12px;">
+                        <i class='bx bx-info-circle me-2'></i>
+                        <strong>Confirme para iniciar o download</strong><br>
+                        O arquivo será baixado automaticamente após a confirmação.
+                    </div>
+                </div>
+                <input type="hidden" id="download_material_id">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class='bx bx-x me-2'></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-success" onclick="confirmarDownloadFinal()">
+                    <i class='bx bx-download me-2'></i> Baixar Arquivo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Detalhes do Material -->
+<div class="modal fade" id="modalDetalhes" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class='bx bx-info-circle me-2'></i> Detalhes do Material
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div id="detalhe-banner" class="text-center mb-3">
+                            <!-- Banner será carregado via JS -->
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h3 id="detalhe-titulo" style="color: var(--color-primary-dark); font-weight: 700; margin-bottom: 0.5rem;">Título do Material</h3>
+                        <div class="mb-3">
+                            <span class="badge" style="background: linear-gradient(135deg, var(--color-secondary) 0%, #20c997 100%); color: var(--color-primary-dark); font-size: 0.9rem; padding: 0.5rem 1rem;" id="detalhe-produto">Produto</span>
+                            <span class="badge" style="background: linear-gradient(135deg, var(--color-tertiary) 0%, #1ba2f6 100%); color: white; font-size: 0.9rem; padding: 0.5rem 1rem; margin-left: 0.5rem;" id="detalhe-orgao">Órgão</span>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="info-card" style="background: linear-gradient(135deg, rgba(112, 246, 17, 0.05) 0%, rgba(11, 213, 240, 0.05) 100%); padding: 1rem; border-radius: 12px; border: 1px solid rgba(112, 246, 17, 0.1);">
+                                    <strong style="color: var(--color-primary-dark);"><i class='bx bx-calendar me-2' style="color: var(--color-secondary);"></i>Data de Criação</strong>
+                                    <div id="detalhe-data" style="font-size: 1.1rem; font-weight: 600; margin-top: 0.5rem;">--</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="info-card" style="background: linear-gradient(135deg, rgba(112, 246, 17, 0.05) 0%, rgba(11, 213, 240, 0.05) 100%); padding: 1rem; border-radius: 12px; border: 1px solid rgba(112, 246, 17, 0.1);">
+                                    <strong style="color: var(--color-primary-dark);"><i class='bx bx-download me-2' style="color: var(--color-secondary);"></i>Total de Downloads</strong>
+                                    <div style="margin-top: 0.5rem;">
+                                        <span id="detalhe-downloads" class="badge" style="background: linear-gradient(135deg, var(--color-success) 0%, #20c997 100%); font-size: 1.1rem; padding: 0.5rem 1rem;">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="mb-3">
+                            <div class="info-card" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 255, 254, 0.8) 100%); padding: 1rem; border-radius: 12px; border: 1px solid rgba(112, 246, 17, 0.1);">
+                                <strong style="color: var(--color-primary-dark);"><i class='bx bx-file me-2' style="color: var(--color-secondary);"></i>Arquivo</strong>
+                                <div id="detalhe-arquivo" style="font-family: monospace; font-size: 0.95rem; margin-top: 0.5rem; padding: 0.5rem; background: rgba(112, 246, 17, 0.05); border-radius: 8px;">--</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="info-card" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 255, 254, 0.8) 100%); padding: 1rem; border-radius: 12px; border: 1px solid rgba(112, 246, 17, 0.1);">
+                                <strong style="color: var(--color-primary-dark);"><i class='bx bx-toggle-left me-2' style="color: var(--color-secondary);"></i>Status</strong>
+                                <div id="detalhe-status" style="margin-top: 0.5rem;">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class='bx bx-x me-2'></i> Fechar
+                </button>
+                <button type="button" class="btn btn-success" id="btn-download-detalhe">
+                    <i class='bx bx-download me-2'></i> Baixar Material
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+  {# jQuery necessário para AJAX #}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {# Custom JS for this specific page #}
+  <script src="{% static 'criativos/js/materiais.js' %}"></script>
+{% endblock %}

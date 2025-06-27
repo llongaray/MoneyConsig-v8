@@ -1,0 +1,1360 @@
+/* Variáveis de cores para o modo escuro */
+:root {
+    --dark-bg-primary: #1e1e2d;
+    --dark-bg-secondary: #2b2b3d;
+    --dark-text-primary: #e1e1e6;
+    --dark-text-secondary: #a8a8b3;
+    --dark-header-bg: #191970 !important;
+    --dark-divider: #191970 !important;
+    
+    /* Variáveis para botões no modo escuro */
+    --dark-button-primary: #191970;
+    --dark-button-primary-hover: #1e1e8f;
+    --dark-button-primary-active: #141457;
+    --dark-button-text: #ffffff;
+    --dark-button-secondary: #2d2d3d;
+    --dark-button-secondary-hover: #363648;
+    --dark-button-secondary-active: #1f1f2b;
+    --dark-button-disabled: #3d3d4f;
+    --dark-button-disabled-text: #8f8fa3;
+    
+    --dark-hover: #32324d;
+    
+    /* Variáveis específicas para options_modais */
+    --dark-options-button-bg: transparent;
+    --dark-options-button-text: var(--dark-text-primary);
+    --dark-options-button-hover: rgba(25, 25, 112, 0.1); /* Azul escuro com transparência */
+    
+    /* Cores para status no modo escuro */
+    --dark-status-pago: #1b5e1fbe;     /* Verde escuro */
+    --dark-status-espera: #b77a1fab;   /* Amarelo escuro */
+    --dark-status-nao-pago: #c62828ac; /* Vermelho escuro */
+    
+    /* Cores para status no modo normal */
+    --status-pago-bg: #e8f5e9;      /* Verde claro */
+    --status-espera-bg: #fff3e0;    /* Amarelo claro */
+    --status-nao-pago-bg: #ffebee;  /* Vermelho claro */
+    
+    /* Cores para status no modo escuro */
+    --dark-status-pago-bg: #1b5e1f99;     /* Verde escuro */
+    --dark-status-espera-bg: #b77a1fb2;   /* Amarelo escuro */
+    --dark-status-nao-pago-bg: #c62828ac; /* Vermelho escuro */
+}
+
+/* Ajustes para botões no modo escuro */
+.darkmode .btn-primary,
+.darkmode button[type="submit"],
+.darkmode .modal-sec .btn-submit {
+    background-color: var(--dark-button-primary) !important;
+    border-color: var(--dark-button-primary) !important;
+    color: var(--dark-button-text) !important;
+}
+
+.darkmode .btn-primary:hover,
+.darkmode button[type="submit"]:hover,
+.darkmode .modal-sec .btn-submit:hover {
+    background-color: var(--dark-button-primary-hover) !important;
+    border-color: var(--dark-button-primary-hover) !important;
+}
+
+.darkmode .btn-primary:active,
+.darkmode button[type="submit"]:active,
+.darkmode .modal-sec .btn-submit:active {
+    background-color: var(--dark-button-primary-active) !important;
+    border-color: var(--dark-button-primary-active) !important;
+}
+
+.darkmode .btn-secondary {
+    background-color: var(--dark-button-secondary) !important;
+    border-color: var(--dark-button-secondary) !important;
+    color: var(--dark-button-text) !important;
+}
+
+.darkmode .btn-secondary:hover {
+    background-color: var(--dark-button-secondary-hover) !important;
+    border-color: var(--dark-button-secondary-hover) !important;
+}
+
+.darkmode .btn-secondary:active {
+    background-color: var(--dark-button-secondary-active) !important;
+    border-color: var(--dark-button-secondary-active) !important;
+}
+
+/* Botões desabilitados */
+.darkmode .btn:disabled,
+.darkmode .btn.disabled {
+    background-color: var(--dark-button-disabled) !important;
+    border-color: var(--dark-button-disabled) !important;
+    color: var(--dark-button-disabled-text) !important;
+    cursor: not-allowed;
+}
+
+/* Ajustes para o modo escuro com alta especificidade */
+body.darkmode .modal-header,
+body.darkmode .modal-sec .modal-header,
+html body.darkmode .modal-header,
+html body.darkmode .modal-sec .modal-header {
+    background-color: var(--dark-header-bg) !important;
+    border-bottom-color: var(--dark-divider) !important;
+    color: var(--dark-text-primary) !important;
+}
+
+body.darkmode .divider,
+html body.darkmode .divider {
+    background-color: var(--dark-divider) !important;
+    border-color: var(--dark-divider) !important;
+}
+
+/* Outros ajustes do modo escuro com alta especificidade */
+body.darkmode .modal,
+body.darkmode .modal-sec .modal-content {
+    background-color: var(--dark-bg-secondary) !important;
+    color: var(--dark-text-primary) !important;
+}
+
+body.darkmode .modal-title {
+    color: var(--dark-text-primary) !important;
+}
+
+body.darkmode .modal-body {
+    color: var(--dark-text-primary) !important;
+}
+
+/* ========================= */
+/* ESTILOS DOS MODAIS */
+/* ========================= */
+.modal {
+    display: none;
+    position: relative;
+    width: 100%;
+    text-decoration: none;
+    background-color: var(--cor-branco); /* Cor de fundo do modal */
+    padding: 0 0 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    min-width: 300px;
+    max-width: 900px;
+}
+
+.modal.active {
+    display: block;
+    opacity: 1;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.modal-header {
+    background-color: var(--azul-escuro-500); /* Fundo do cabeçalho do modal */
+    border-bottom: 1px solid var(--azul-escuro-500);
+    padding: 10px;
+    color: white;
+}
+
+.modal-title {
+    font-size: 1.25em;
+    color: var(--cor-cinza);
+}
+
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    max-height: calc(80vh - 120px);
+    flex: 1;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--cor-cinza-claro);
+    padding: 10px;
+}
+
+/* ========================= */
+/* ESTILO PARA O CONTEÚDO DO MODAL */
+/* ========================= */
+#modalEdicaoCliente .modal-dialog, #modalConfirmacaoAgendamentoEdicao .modal-dialog {
+    background-color: var(--cor-branco);
+    border-radius: 5px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+#modalEdicaoCliente .modal-header {
+    padding: 10px;
+    background-color: var(--azul-escuro-500);
+    border-bottom: 1px solid var(--cor-cinza-claro);
+}
+
+#modalEdicaoCliente .modal-title {
+    font-size: 1.3em;
+    color: var(--cor-branco);
+}
+
+#modalEdicaoCliente .modal-body {
+    padding: 10px;
+}
+
+#modalEdicaoCliente .form-control {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid var(--cor-cinza-claro);
+    border-radius: 4px;
+}
+/* Estilos para a tabela no modal de lista de funcionários */
+main.darkmode table {
+    background-color: var(--dark-container-background); /* Fundo da tabela no modo escuro */
+}
+
+main.darkmode thead {
+    background-color: var(--dark-background-fundo); /* Fundo do cabeçalho no modo escuro */
+    color: var(--cor-preto); /* Cor do texto do cabeçalho em preto */
+}
+
+main.darkmode th, main.darkmode td {
+    border: 1px solid var(--dark-border-color); /* Borda em cinza claro no modo escuro */
+}
+
+main.darkmode tbody tr {
+    background-color: var(--dark-container-background); /* Fundo das linhas no modo escuro */
+}
+
+main.darkmode tbody tr:hover {
+    background-color: var(--azul-escuro-300); /* Cor ao passar o mouse no modo escuro */
+}
+
+/* ========================= */
+/* ESTILOS PARA O MODAL SEC */
+/* ========================= */
+.modal-sec {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+    padding: 20px 0;
+    
+    /* Centralização vertical e horizontal */
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+}
+
+.modal-sec.active {
+    display: flex; /* Mantém o display flex para centralização */
+}
+
+.modal-sec .modal-dialog {
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    animation: modalFadeIn 0.3s ease-in-out;
+    min-height: fit-content;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.modal-sec .modal-content {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    height: 100%;
+    max-height: 720px; /* Altura máxima ajustada para 720px */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Garante que o conteúdo não vaze */
+}
+
+.modal-sec .modal-header {
+    padding: 10px;
+    background-color: var(--azul-escuro-500);
+    border-bottom: 1px solid var(--cor-cinza-claro);
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-sec .modal-title {
+    font-size: 1.3em;
+    color: var(--cor-branco);
+    margin: 0;
+    font-weight: 600;
+}
+
+.modal-sec .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--cor-branco);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.2s;
+}
+
+.modal-sec .btn-close:hover {
+    color: var(--cor-cinza-claro);
+}
+
+.modal-sec .modal-body {
+    padding: 1.5rem;
+    overflow-y: scroll; /* Força a barra de rolagem vertical */
+    flex: 1;
+    max-height: 660px; /* Altura máxima ajustada para 660px */
+}
+
+.modal-sec .form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.modal-sec .form-control {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 0.5rem 0.75rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modal-sec .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.modal-sec .form-control[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+.modal-sec .btn-submit {
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    transition: all 0.2s;
+}
+
+.modal-sec .btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(0, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+    .modal-sec {
+        padding: 10px;
+    }
+    
+    .modal-sec .modal-dialog {
+        margin: auto;
+        max-height: calc(100vh - 20px);
+    }
+
+    .modal-sec .modal-body {
+        max-height: calc(100vh - 140px); /* Ajuste para mobile */
+    }
+}
+
+.modal-lg {
+    max-width: 100%;
+}
+
+.table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.table th {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+    
+    color: black;
+}
+
+.disabled-link {
+    pointer-events: none;
+    color: #999 !important;
+    text-decoration: none !important;
+    cursor: not-allowed !important;
+}
+
+.text-muted {
+    color: #6c757d;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+.text-muted:hover {
+    text-decoration: none;
+    color: #6c757d;
+}
+
+/* Estilos específicos para formulários dentro do modal-sec */
+.modal-sec .modal-body form {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+div#infoagendamentoContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    align-items: start;
+    padding: 1rem;
+  }
+
+.filtros-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.filtro-item {
+    display: flex;
+}
+
+.modal-sec .mb-3 {
+    margin-bottom: 0 !important; /* Remove margem padrão do Bootstrap */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ajuste para inputs se ajustarem ao conteúdo */
+.modal-sec .form-control {
+    width: auto;
+    min-width: 180px;
+    max-width: 100%;
+}
+
+/* Ajustes específicos para certos tipos de campos */
+.modal-sec input[type="date"] {
+    width: 160px;
+}
+
+.modal-sec input[type="text"] {
+    width: 100%;
+}
+
+.modal-sec input[readonly] {
+    width: fit-content;
+    min-width: 160px;
+}
+
+/* Campos que devem ocupar linha inteira */
+.modal-sec .mb-3:has(textarea),
+.modal-sec .mb-3:has(select),
+.modal-sec .mb-3:has(button[type="submit"]) {
+    grid-column: 1 / -1;
+}
+
+/* Ajuste para o botão submit */
+.modal-sec .btn-submit {
+    width: auto;
+    min-width: 200px;
+    margin: 1rem auto 0;
+    display: block;
+}
+
+/* Container de observação e nova data sempre em linha única */
+#observacaoContainer,
+#novaDataContainer {
+    grid-column: 1 / -1;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .modal-sec .modal-body form {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-sec .form-control {
+        width: 100%;
+    }
+
+    .modal-sec input[type="date"],
+    .modal-sec input[readonly] {
+        width: 100%;
+    }
+}
+
+/* Ajuste para campos especficos que precisam de mais espaço */
+.modal-sec input[name="nome_cliente"],
+.modal-sec input[name="nomeClienteConfirmacao"] {
+    width: 100%;
+}
+
+/* Ajuste para campos menores */
+.modal-sec input[name="cpf_cliente"],
+.modal-sec input[name="numero_cliente"] {
+    width: fit-content;
+}
+
+.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sortable i {
+    margin-left: 5px;
+}
+
+.sortable:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+#filtroCPF {
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#filtroCPF:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Ajuste para o container de FECHOU NEGOCIO */
+#fechouNegocioContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Ajustes específicos para campos dentro do fechouNegocioContainer */
+#fechouNegocioContainer .mb-3 {
+    flex: 1 1 auto;
+    min-width: 200px;
+    margin: 0 !important;
+}
+
+/* Ajustes específicos por tipo de campo */
+#fechouNegocioContainer .mb-3:has(#tipoNegociacao) {
+    min-width: 250px; /* Campo maior para tipo negociação */
+}
+
+#fechouNegocioContainer .mb-3:has(#banco) {
+    min-width: 200px;
+}
+
+#fechouNegocioContainer .mb-3:has(#tac) {
+    min-width: 150px; /* Campo menor para TAC */
+}
+
+#fechouNegocioContainer .mb-3:has(select) {
+    min-width: 180px; /* Tamanho padrão para selects */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    #fechouNegocioContainer .mb-3 {
+        width: 100%;
+        min-width: 100%;
+    }
+}
+
+/* Container da tabela TAC */
+.tac-table-container {
+    margin: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    max-height: 300px; /* Altura máxima da tabela */
+    overflow-y: auto;  /* Habilita scroll vertical */
+  }
+  
+  /* Estilo geral da tabela */
+  .tac-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    font-size: 14px;
+  }
+  
+  /* Cabeçalho fixo (sticky) */
+  .tac-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: var(--header-bg, #142650); /* Use uma variável ou cor padrão */
+    color: #fff;
+  }
+  
+  /* Cabeçalho em modo escuro */
+  .darkmode .tac-table thead {
+    background-color: var(--dark-bg-secondary, #142650);
+  }
+  
+  /* Células da tabela */
+  .tac-table th,
+  .tac-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  /* Larguras específicas para colunas */
+  .th-nome, .td-nome { width: 30%; }
+  .th-cpf, .td-cpf { width: 20%; }
+  .th-valor, .td-valor { width: 15%; }
+  .th-status, .td-status { width: 15%; }
+  .th-acao, .td-acao { width: 20%; }
+  
+  /* Estilo para badges de status */
+  .status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .status-pago {
+    background-color: #e6f4ea;
+    color: #1e7e34;
+  }
+  .status-nao_pago {
+    background-color: #fde7e9;
+    color: #dc3545;
+  }
+  .status-em_espera {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  
+  .status-select {
+    width: 100%;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    color: #000 !important; /* Texto em preto */
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .status-select option {
+    background-color: var(--dark-bg-secondary, #142650);
+    color: #000; /* Texto das opções em preto */
+    padding: 8px;
+  }
+  
+  .darkmode .status-select option {
+    background-color: var(--dark-bg-primary, #333);
+    color: #000; /* Mantém texto em preto mesmo no modo escuro */
+  }
+  
+  
+  /* Cores de fundo para o select conforme o status (modo escuro opcional) */
+  .status-select.dark-status-pago-bg {
+    background-color: var(--dark-status-pago-bg, #2ecc71) !important;
+  }
+  .status-select.dark-status-em_espera-bg {
+    background-color: var(--dark-status-espera-bg, #f1c40f) !important;
+  }
+  .status-select.dark-status-nao_pago-bg {
+    background-color: var(--dark-status-nao_pago-bg, #e74c3c) !important;
+    box-shadow: 0 0 10px rgba(198,40,40,0.5) !important;
+  }
+  .status-select.dark-status-nao_pago-bg:hover {
+    box-shadow: 0 0 15px rgba(198,40,40,0.6) !important;
+  }
+  
+  /* Estilo para as opções do select */
+  .status-select option {
+    background-color: var(--dark-bg-secondary, #142650);
+    color: var(--dark-text-primary, #fff);
+    padding: 8px;
+  }
+  .darkmode .status-select option {
+    background-color: var(--dark-bg-primary, #333);
+    color: var(--dark-text-primary, #fff);
+  }
+  
+  /* Efeito hover para o select */
+  .status-select:hover {
+    opacity: 0.9;
+  }
+  
+  /* Foco no select */
+  .status-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.2);
+  }
+  
+  /* Estilo para linha sem registros */
+  .no-records {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    font-style: italic;
+  }
+  
+  /* Efeito hover nas linhas */
+  .tac-row:hover {
+    background-color: #f8f9fa;
+  }
+  
+/* Responsividade */
+@media (max-width: 768px) {
+    .tac-table-container {
+        margin: 10px 0;
+        overflow-x: auto;
+    }
+    
+    .tac-table {
+        font-size: 13px;
+    }
+    
+    .tac-table th,
+    .tac-table td {
+        padding: 8px 10px;
+    }
+    
+    .status-badge {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+}
+
+/* Modo escuro */
+.darkmode .tac-table {
+    background-color: var(--dark-container-background);
+    color: var(--cor-branco);
+}
+
+.darkmode .tac-table thead {
+    background-color: var(--dark-background-fundo);
+}
+
+.darkmode .tac-table td {
+    border-bottom-color: var(--dark-border-color);
+}
+
+.darkmode .tac-row:hover {
+    background-color: var(--dark-hover-background);
+}
+
+.darkmode .status-select {
+    background-color: var(--dark-container-background);
+    color: var(--cor-branco);
+    border-color: var(--dark-border-color);
+}
+
+/* Ajuste específico para modais maiores */
+.modal-lg .modal-content {
+    max-height: 720px;
+}
+
+.modal-lg .modal-body {
+    max-height: 660px;
+}
+
+/* Estilo para a barra de rolagem (opcional, para melhor aparência) */
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Ajuste para modo escuro */
+main.darkmode .modal-body::-webkit-scrollbar-track {
+    background: var(--dark-container-background);
+}
+
+main.darkmode .modal-body::-webkit-scrollbar-thumb {
+    background: var(--dark-border-color);
+}
+
+main.darkmode .modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-hover-background);
+}
+
+
+/* Estilos específicos para o formulário dentro do Modal Cliente Rua */
+#modalClienteRua .wp-style-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#modalClienteRua .wp-style-form .section-title {
+    color: var(--azul-escuro-500);
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--azul-escuro-500);
+}
+
+#modalClienteRua .wp-style-form .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#modalClienteRua .wp-style-form label {
+    font-weight: 500;
+    color: var(--cor-cinza-escuro);
+}
+
+#modalClienteRua .wp-style-form input,
+#modalClienteRua .wp-style-form select,
+#modalClienteRua .wp-style-form textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--cor-cinza-claro);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+#modalClienteRua .wp-style-form input:focus,
+#modalClienteRua .wp-style-form select:focus,
+#modalClienteRua .wp-style-form textarea:focus {
+    border-color: var(--azul-escuro-500);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    outline: none;
+}
+
+#modalClienteRua .wp-style-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+#modalClienteRua .wp-style-form button[type="submit"] {
+    background: var(--azul-escuro-500);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#modalClienteRua .wp-style-form button[type="submit"]:hover {
+    background: var(--azul-escuro-600);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Modo escuro */
+.darkmode #modalClienteRua .wp-style-form .section-title {
+    color: var(--cor-branco);
+    border-bottom-color: var(--cor-branco);
+}
+
+.darkmode #modalClienteRua .wp-style-form label {
+    color: var(--cor-branco);
+}
+
+.darkmode #modalClienteRua .wp-style-form input,
+.darkmode #modalClienteRua .wp-style-form select,
+.darkmode #modalClienteRua .wp-style-form textarea {
+    background: var(--dark-background-fundo);
+    border-color: var(--dark-border-color);
+    color: var(--cor-branco);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    #modalClienteRua .wp-style-form {
+        gap: 1rem;
+    }
+    
+    #modalClienteRua .wp-style-form input,
+    #modalClienteRua .wp-style-form select,
+    #modalClienteRua .wp-style-form textarea {
+        padding: 0.6rem;
+    }
+}
+
+/* Estilos específicos para o container de Fechou Negócio */
+#fechouNegocioRuaContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+#fechouNegocioRuaContainer .mb-3 {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0; /* Remove margem padrão do Bootstrap */
+}
+
+#fechouNegocioRuaContainer label {
+    font-weight: 500;
+    color: var(--cor-cinza-escuro);
+}
+
+#fechouNegocioRuaContainer input,
+#fechouNegocioRuaContainer select {
+    padding: 0.75rem;
+    border: 1px solid var(--cor-cinza-claro);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+#fechouNegocioRuaContainer input:focus,
+#fechouNegocioRuaContainer select:focus {
+    border-color: var(--azul-escuro-500);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    outline: none;
+}
+
+/* Modo escuro */
+.darkmode #fechouNegocioRuaContainer label {
+    color: var(--cor-branco);
+}
+
+.darkmode #fechouNegocioRuaContainer input,
+.darkmode #fechouNegocioRuaContainer select {
+    background: var(--dark-background-fundo);
+    border-color: var(--dark-border-color);
+    color: var(--cor-branco);
+}
+
+/* Estilos específicos para o modal de TAC */
+#modalAgendamentosTAC .modal-body {
+    padding: 0; /* Remove padding para a tabela ocupar todo espaço */
+    max-height: 70vh; /* Altura máxima de 70% da altura da viewport */
+    overflow-y: auto; /* Adiciona scroll vertical */
+}
+
+#modalAgendamentosTAC .tac-table-container {
+    margin: 10px 8px 3px; /* Remove margens */
+    border-radius: 0; /* Remove border radius */
+    box-shadow: none; /* Remove sombra */
+}
+
+#modalAgendamentosTAC .tac-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--azul-escuro-500); /* Mantém a cor do cabeçalho */
+}
+
+/* Ajuste responsivo */
+@media (max-width: 768px) {
+    #modalAgendamentosTAC .modal-body {
+        max-height: 60vh; /* Altura menor em telas pequenas */
+    }
+}
+
+/* Ajustes para modo escuro */
+.darkmode #modalAgendamentosTAC .tac-table thead {
+    background-color: var(--dark-background-fundo);
+}
+
+/* Estilos específicos para os filtros do modal TAC */
+#modalAgendamentosTAC .filtros-wrapper {
+    padding: 15px;
+    border-bottom: 1px solid var(--cor-cinza-claro);
+}
+
+#modalAgendamentosTAC .filtros-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap; /* Impede a quebra de linha */
+}
+
+#modalAgendamentosTAC .filtro-input {
+    flex: 1;
+    min-width: 0; /* Permite que os inputs se ajustem ao espaço disponível */
+    padding: 8px 12px;
+    border: 1px solid #495057;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#modalAgendamentosTAC .tabela-separator {
+    height: 5px; /* Espaço entre os filtros e a tabela */
+    background-color: rgb(48, 48, 168); /* Azul escuro mais claro e opaco */
+}
+
+/* Ajustes para modo escuro */
+.darkmode #modalAgendamentosTAC .filtros-wrapper {
+    border-color: var(--dark-border-color);
+}
+
+.darkmode #modalAgendamentosTAC .filtro-input {
+    background-color: var(--dark-background-fundo);
+    border-color: var(--dark-border-color);
+    color: var(--cor-branco);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    #modalAgendamentosTAC .filtros-container {
+        flex-wrap: wrap; /* Permite quebra em telas menores */
+    }
+    
+    #modalAgendamentosTAC .filtro-input {
+        flex: 1 1 auto;
+        min-width: 120px; /* Largura mínima em telas pequenas */
+    }
+}
+
+.nome-cliente-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #0d6efd; /* cor do Bootstrap para links */
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.nome-cliente-link:hover {
+    color: #0a58ca; /* cor mais escura ao passar o mouse */
+    text-decoration: underline;
+}
+
+.btn-link.abrir-sub-modal {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #0d6efd;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.btn-link.abrir-sub-modal:hover {
+    color: #0a58ca;
+    text-decoration: underline;
+}
+
+.options_modais {
+    min-width: 270px;
+    max-width: 350px;
+}
+
+.divider {
+    min-width: 2px;
+    max-width: 2px;
+}
+
+/* Ajustes para o modo escuro nos modais */
+.darkmode .modal,
+.darkmode .modal-sec .modal-content {
+    background-color: var(--dark-bg-secondary);
+    color: var(--dark-text-primary);
+}
+
+.darkmode .modal-header,
+.darkmode .modal-sec .modal-header {
+    background-color: var(--dark-header-bg);
+    border-bottom-color: var(--dark-divider);
+}
+
+.darkmode .modal-title {
+    color: var(--dark-text-primary);
+}
+
+.darkmode .modal-body {
+    color: var(--dark-text-primary);
+}
+
+/* Ajustes para inputs e selects no modo escuro */
+.darkmode .modal input,
+.darkmode .modal select,
+.darkmode .modal textarea {
+    background-color: var(--dark-bg-primary);
+    border-color: var(--dark-divider);
+    color: var(--dark-text-primary);
+}
+
+/* Ajustes para labels no modo escuro */
+.darkmode .modal label,
+.darkmode .modal .form-label {
+    color: var(--dark-text-secondary);
+}
+
+/* Ajustes para tabelas no modo escuro */
+.darkmode .modal table {
+    background-color: var(--dark-bg-secondary);
+}
+
+.darkmode .modal th {
+    background-color: var(--dark-header-bg);
+    color: var(--dark-text-primary);
+}
+
+.darkmode .modal td {
+    color: var(--dark-text-primary);
+    border-color: var(--dark-divider);
+}
+
+.darkmode .modal tr:hover {
+    background-color: var(--dark-hover);
+}
+
+/* Ajustes para divisores no modo escuro */
+.darkmode .divider {
+    background-color: var(--dark-divider);
+}
+
+/* Ajustes para scrollbar no modo escuro */
+.darkmode .modal-body::-webkit-scrollbar-track {
+    background: var(--dark-bg-primary);
+}
+
+.darkmode .modal-body::-webkit-scrollbar-thumb {
+    background: var(--dark-divider);
+}
+
+.darkmode .modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-hover);
+}
+
+/* Ajustes para links no modo escuro */
+.darkmode .nome-cliente-link,
+.darkmode .btn-link {
+    color: #7986cb;
+}
+
+.darkmode .nome-cliente-link:hover,
+.darkmode .btn-link:hover {
+    color: #9fa8da;
+}
+
+/* Ajustes para status badges no modo escuro */
+.darkmode .status-badge {
+    background-color: var(--dark-bg-primary);
+    color: var(--dark-text-primary) !important;
+}
+
+.darkmode .status-badge.status-pago {
+    background-color: var(--dark-status-pago) !important;
+    color: #ffffff !important;
+}
+
+.darkmode .status-badge.status-em_espera {
+    background-color: var(--dark-status-espera) !important;
+    color: #ffffff !important;
+}
+
+.darkmode .status-badge.status-nao_pago {
+    background-color: var(--dark-status-nao_pago) !important;
+    color: #ffffff !important;
+}
+
+/* Ajustes para formulários específicos no modo escuro */
+.darkmode #modalClienteRua .wp-style-form input,
+.darkmode #modalClienteRua .wp-style-form select,
+.darkmode #modalClienteRua .wp-style-form textarea {
+    background-color: var(--dark-bg-primary);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-divider);
+}
+
+/* Ajustes específicos para botões em options_modais no modo escuro */
+.darkmode .options_modais .btn,
+.darkmode .options_modais button {
+    background-color: var(--dark-options-button-bg) !important;
+    color: var(--dark-text-primary) !important;
+}
+
+.darkmode .options_modais .btn:hover,
+.darkmode .options_modais button:hover {
+    background-color: var(--dark-options-button-hover) !important;
+}
+
+.darkmode .options_modais .btn:active,
+.darkmode .options_modais button:active {
+    background-color: var(--dark-options-button-hover) !important;
+    opacity: 0.8;
+}
+
+/* Cores de fundo para cada status (modo normal) */
+tr.tac-row.status-pago {
+    background-color: var(--status-pago-bg) !important;
+}
+
+tr.tac-row.status-em_espera {
+    background-color: var(--status-espera-bg) !important;
+}
+
+tr.tac-row.status-nao_pago {
+    background-color: var(--status-nao-pago-bg) !important;
+}
+
+/* Cores de fundo para cada status (modo escuro) */
+.darkmode tr.tac-row.status-pago {
+    background-color: var(--dark-status-pago-bg) !important;
+    color: #ffffff !important;
+}
+
+.darkmode tr.tac-row.status-em_espera {
+    background-color: var(--dark-status-espera-bg) !important;
+    color: #ffffff !important;
+}
+
+.darkmode tr.tac-row.status-nao_pago {
+    background-color: var(--dark-status-nao-pago-bg) !important;
+    color: #ffffff !important;
+}
+
+/* Ajuste do hover para manter a cor mas com efeito de hover */
+.tac-row:hover {
+    filter: brightness(95%);
+}
+
+.darkmode .tac-row:hover {
+    filter: brightness(110%);
+}
+
+/* Cabeçalho fixo durante o scroll */
+.tac-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* Estilo para o scroll da análise IA */
+.analise-scroll {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Estilização da barra de rolagem */
+.analise-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.analise-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.analise-scroll::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.analise-scroll::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Ajuste para modo escuro */
+.darkmode .analise-scroll::-webkit-scrollbar-track {
+    background: var(--dark-bg-primary);
+}
+
+.darkmode .analise-scroll::-webkit-scrollbar-thumb {
+    background: var(--dark-border-color);
+}
+
+.darkmode .analise-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-hover);
+}
+
+/* Padding dinâmico para o modal-body do dashboard */
+.pb-dashboard {
+    padding-bottom: calc(20px + 1rem) !important;
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 768px) {
+    .pb-dashboard {
+        padding-bottom: calc(40px + 1rem) !important;
+    }
+}
+
+/* Ajuste para telas muito pequenas */
+@media (max-width: 480px) {
+    .pb-dashboard {
+        padding-bottom: calc(60px + 1rem) !important;
+    }
+}
+
+/* Ajuste para quando há muitos itens na tabela TAC */
+.modal-body.pb-dashboard:has(#dashboardTac .table tr:nth-child(n+5)) {
+    padding-bottom: calc(80px + 1rem) !important;
+}
+
+/* Cores para badges de status */
+.dark-status-pago-bg {
+    background-color: var(--dark-status-pago-bg) !important;
+    color: #ffffff !important;
+}
+
+.dark-status-em_espera-bg {
+    background-color: var(--dark-status-espera-bg) !important;
+    color: #ffffff !important;
+}
+
+.dark-status-nao_pago-bg {
+    background-color: var(--dark-status-nao-pago-bg) !important;
+    color: #ffffff !important;
+}
+
+/* Ajuste para modo escuro */
+.darkmode .dark-status-pago-bg {
+    background-color: var(--dark-status-pago-bg) !important;
+}
+
+.darkmode .dark-status-em_espera-bg {
+    background-color: var(--dark-status-espera-bg) !important;
+}
+
+.darkmode .dark-status-nao_pago-bg {
+    background-color: var(--dark-status-nao-pago-bg) !important;
+}
+
+

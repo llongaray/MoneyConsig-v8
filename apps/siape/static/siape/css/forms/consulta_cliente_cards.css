@@ -1,0 +1,242 @@
+/* ==========================================
+   Estilos Gerais de Cards
+   ========================================== */
+.card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray);
+  border-radius: 6px;
+  box-shadow: var(--box-shadow-light);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin-bottom: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow-medium);
+}
+
+.card-header {
+  background: linear-gradient(-45deg, #70f611, #4c9fb4, #0bd5f0, #70f611) !important;
+  background-size: 400% 400% !important;
+  animation: gradientBG 15s ease infinite !important;
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 1em;
+  padding: 12px 16px;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.card-header::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.1) 40%,
+    rgba(255,255,255,0.6) 50%,
+    rgba(255,255,255,0.1) 60%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  z-index: -1;
+}
+
+.card:hover .card-header::before {
+  top: 100%;
+  left: 100%;
+}
+
+.card-body {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-body p {
+  flex: 1 1 auto;
+  margin: 0.15rem 0;
+  white-space: normal;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Card especiais com variações de cores */
+#card-margem5 .card-header,
+#card-margem5-beneficio .card-header,
+#card-margem35 .card-header {
+  background: var(--gradient-metallic-inverted);
+  background-size: 400% 400%;
+  animation: metallicShift 10s ease infinite;
+}
+
+#card-totais .card-header {
+  background: linear-gradient(135deg, #0bd5f0 0%, #142650 25%, #ffffff 50%, #142650 75%, #0bd5f0 100%);
+  background-size: 400% 400%;
+  animation: metallicShift 10s ease infinite;
+  color: var(--color-white);
+}
+
+.margem5-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.margem5-container .card {
+  flex: 0 0 48%;
+  max-width: 48%;
+}
+
+/* Dark mode */
+html.dark .card {
+  background-color: #2c2c2c;
+  border-color: #444;
+}
+
+html.dark .card-header {
+  background: var(--gradient-metallic-inverted);
+  color: var(--color-white);
+}
+
+/* Responsividade */
+@media (max-width: 767px) {
+  .card-body {
+    flex-direction: column;
+  }
+  
+  .card-body p {
+    min-width: 100%;
+  }
+}
+
+@keyframes metallicShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==========================================
+   🌙 DARK MODE - CARDS GERAIS
+   ========================================== */
+
+/* Cards gerais */
+[data-theme="dark"] .card,
+body.dark-mode .card {
+    background-color: #3d3450;
+    border-color: #3d3450;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .card:hover,
+body.dark-mode .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background-color: rgba(134, 89, 212, 0.1);
+}
+
+/* Headers dos cards */
+[data-theme="dark"] .card-header,
+body.dark-mode .card-header {
+    background: linear-gradient(-45deg, #70f611, #4c9fb4, #0bd5f0, #70f611) !important;
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .card-header::before,
+body.dark-mode .card-header::before {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.15) 40%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(255, 255, 255, 0.15) 60%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+[data-theme="dark"] .card:hover .card-header::before,
+body.dark-mode .card:hover .card-header::before {
+    top: 100%;
+    left: 100%;
+}
+
+/* Body dos cards */
+[data-theme="dark"] .card-body,
+body.dark-mode .card-body {
+    background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.05) 100%);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .card-body p,
+body.dark-mode .card-body p {
+    color: #b8b5c0;
+}
+
+/* Cards especiais com variações de cores */
+[data-theme="dark"] #card-margem5 .card-header,
+[data-theme="dark"] #card-margem5-beneficio .card-header,
+[data-theme="dark"] #card-margem35 .card-header,
+body.dark-mode #card-margem5 .card-header,
+body.dark-mode #card-margem5-beneficio .card-header,
+body.dark-mode #card-margem35 .card-header {
+    background: linear-gradient(-45deg, #70f611, #4c9fb4, #0bd5f0, #70f611) !important;
+    background-size: 400% 400% !important;
+    animation: metallicShift 10s ease infinite !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] #card-totais .card-header,
+body.dark-mode #card-totais .card-header {
+    background: linear-gradient(135deg, #0bd5f0 0%, #142650 25%, #ffffff 50%, #142650 75%, #0bd5f0 100%);
+    background-size: 400% 400%;
+    animation: metallicShift 10s ease infinite;
+    color: #ffffff;
+}
+
+/* Container de margens */
+[data-theme="dark"] .margem5-container,
+body.dark-mode .margem5-container {
+    background-color: transparent;
+}
+
+/* Responsividade no dark mode */
+@media (max-width: 767px) {
+    [data-theme="dark"] .card-body,
+    body.dark-mode .card-body {
+        background: linear-gradient(135deg, #3d3450 0%, rgba(112, 246, 17, 0.03) 100%);
+    }
+    
+    [data-theme="dark"] .card-body p,
+    body.dark-mode .card-body p {
+        color: #b8b5c0;
+    }
+} 

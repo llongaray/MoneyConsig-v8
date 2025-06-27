@@ -1,0 +1,682 @@
+{% extends "base-plus.html" %}
+{% load static %}
+{% block header_title %}MoneyConsig<span class="produto-text"></span>{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'moneyplus/css/siape_prompter.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <div class="row" id="three-col-layout">
+    <!-- COLUNA 1: Tabulação e Calculadoras -->
+    <div class="col-md-4" id="col1">
+      <!-- Card: Tabulação do Contato -->
+      <div class="card tabulacao-card mb-4">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-list me-2'></i> Tabulação do Contato
+        </div>
+        <div class="card-body">
+          <form action="#" method="post" class="tabulacao-form">
+            {% csrf_token %}
+            <!-- hidden necessários -->
+            <input type="hidden" id="cliente_id_tabulacao" name="cliente_id" value="">
+            <input type="hidden" id="campanha_id_tabulacao" name="campanha_id" value="">
+            <input type="hidden" id="produto_tabulacao" name="produto" value="">
+            <div class="mb-3">
+              <label for="statusTabulacao" class="form-label tabulacao-form-label">Status da Tabulação</label>
+              <select id="statusTabulacao" name="status" class="form-select tabulacao-form-select" required>
+                <option value="">Selecione...</option>
+                <option value="AGENDADO">Agendado</option>
+                <option value="EM_NEGOCIACAO">Em Negociação</option>
+                <option value="NAO_QUIS">Não quis</option>
+                <option value="INELEGIVEL">Inelegível</option>
+                <option value="SOLICITACAO_BLOQUEIO">Solicitação de Bloqueio</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              <i class='bx bx-save me-2'></i> Salvar Tabulação
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- Calculadora de Saldo Devedor -->
+      <div class="card calculadora-card collapsed mb-4">
+        <div class="card-header">
+          <i class='bx bx-calculator me-2'></i> Calculadora de Saldo Devedor
+        </div>
+        <div class="card-body" id="card-body-calculadora">
+          <!-- HTML da calculadora de saldo devedor -->
+          <div class="form-group mb-3">
+            <label for="calc_parcela" class="form-label">
+              <i class='bx bx-money me-2'></i>Valor da Parcela (R$)
+            </label>
+            <input type="number" id="calc_parcela" class="form-control" step="0.01" min="0" placeholder="0.00">
+          </div>
+          <div class="form-group mb-3">
+            <label for="calc_prazo" class="form-label">
+              <i class='bx bx-time me-2'></i>Prazo Restante (meses)
+            </label>
+            <input type="number" id="calc_prazo" class="form-control" min="1" max="96" placeholder="0">
+          </div>
+          <div class="btn-group w-100 mt-2">
+            <button id="calcular_saldo" class="btn btn-primary w-75">
+              <i class='bx bx-calculator me-2'></i>Calcular
+            </button>
+            <button id="limpar_calculadora" class="btn btn-outline-secondary w-25">
+              <i class='bx bx-eraser me-2'></i>Limpar
+            </button>
+          </div>
+          <div class="resultado-calculo mt-3" style="display: none;">
+            <hr>
+            <div class="d-flex justify-content-between">
+              <p><strong>Saldo Total:</strong></p>
+              <p>R$ <span id="calc_saldo_total">0.00</span></p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p><strong>Desconto (<span id="calc_percentual">0</span>%):</strong></p>
+              <p>R$ <span id="calc_desconto">0.00</span></p>
+            </div>
+            <div class="d-flex justify-content-between resultado-final">
+              <p><strong>Saldo Final:</strong></p>
+              <p>R$ <span id="calc_saldo_final">0.00</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Calculadora de Coeficiente -->
+      <div class="card calculadora-coeficiente-card collapsed mb-4">
+        <div class="card-header">
+          <i class='bx bx-calculator me-2'></i> Calculadora de Coeficiente
+        </div>
+        <div class="card-body">
+          <!-- HTML da calculadora de coeficiente -->
+          <div class="form-group mb-3">
+            <label for="coef_parcela" class="form-label"><i class='bx bx-money me-2'></i>Parcela</label>
+            <input type="number" id="coef_parcela" name="coef_parcela" class="form-control" step="0.01" min="0" placeholder="0.00">
+          </div>
+          <div class="form-group mb-3">
+            <label for="coef_coeficiente" class="form-label"><i class='bx bx-calculator me-2'></i>Coeficiente</label>
+            <input type="number" id="coef_coeficiente" name="coef_coeficiente" class="form-control" step="0.01" min="0" placeholder="0.00">
+          </div>
+          <div class="btn-group w-100 mt-2">
+            <button type="button" id="calcular_coeficiente" class="btn btn-primary w-75">
+              <i class='bx bx-calculator me-2'></i>Calcular
+            </button>
+            <button type="button" id="limpar_coeficiente" class="btn btn-outline-secondary w-25">
+              <i class='bx bx-eraser me-2'></i>Limpar
+            </button>
+          </div>
+          <div class="resultado-coeficiente mt-3" style="display: none;">
+            <hr>
+            <p><strong>Resultado:</strong> <span id="resultado_coeficiente"></span></p>
+          </div>
+        </div>
+      </div>
+      <!-- Calculadora Cartão Benefício -->
+      <div class="card calculadora-beneficio-card collapsed mb-4">
+        <div class="card-header">
+          <i class='bx bx-credit-card me-2'></i> Calculadora Cartão Benefício
+        </div>
+        <div class="card-body">
+          <!-- HTML da calculadora de cartão benefício -->
+          <div class="form-group mb-3">
+            <label for="beneficio_margemLiq" class="form-label"><i class='bx bx-wallet me-2'></i>Margem Líquida</label>
+            <input type="number" id="beneficio_margemLiq" class="form-control" step="0.01" min="0" placeholder="0.00">
+          </div>
+          <div class="btn-group w-100 mt-2">
+            <button type="button" id="calcular_beneficio" class="btn btn-primary w-75">
+              <i class='bx bx-calculator me-2'></i>Calcular
+            </button>
+            <button type="button" id="limpar_beneficio" class="btn btn-outline-secondary w-25">
+              <i class='bx bx-eraser me-2'></i>Limpar
+            </button>
+          </div>
+          <div class="resultado-beneficio mt-3" style="display: none;">
+            <hr>
+            <p><strong>Parcela do Cartão:</strong> R$ <span id="beneficio_parcela"></span></p>
+            <p><strong>Limite do Cartão:</strong> R$ <span id="beneficio_limite"></span></p>
+            <p><strong>Saque Disponível:</strong> R$ <span id="beneficio_saque"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- COLUNA 2: Ficha do Cliente -->
+    <div class="col-md-4" id="col2">
+      <div class="header-title mb-3">
+        <h1 class="titulo-pagina ficha-cliente-title">
+          <i class='bx bx-folder-open me-2'></i> Ficha do Cliente
+        </h1>
+      </div>
+      <div class="container-ficha_cliente">
+        <!-- Versão SIAPE 😃 -->
+        <div id="siape-version">
+          <h2>Ficha SIAPE</h2>
+          <!-- Informações Pessoais SIAPE -->
+          <div class="card mb-4 card-info-pessoal" id="siape-info-card">
+            <div class="card-header" id="siape-info-header">Informações Pessoais (SIAPE)</div>
+            <div class="card-body" id="siape-info-body">
+              <span class="ficha-info-span" data-field="nome">
+                <span class="label ficha-info-label"><strong>Nome Completo:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="cpf">
+                <span class="label ficha-info-label"><strong>CPF:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="data_nasc">
+                <span class="label ficha-info-label"><strong>Data de Nascimento:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="idade">
+                <span class="label ficha-info-label"><strong>Idade:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="rjur">
+                <span class="label ficha-info-label"><strong>RJUR:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+            </div>
+          </div>
+          
+          <!-- Dados Complementares SIAPE -->
+          <div class="card mb-4 card-dados-complementares" id="siape-dados-card">
+            <div class="card-header" id="siape-dados-header">Dados Complementares (SIAPE)</div>
+            <div class="card-body" id="siape-dados-body">
+              <span class="ficha-dados-span" data-field="celular_1">
+                <span class="label ficha-dados-label"><strong>Celular 1:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+              <span class="ficha-dados-span" data-field="flg_wts_1">
+                <span class="label ficha-dados-label"><strong>WhatsApp 1:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+              <span class="ficha-dados-span" data-field="celular_2">
+                <span class="label ficha-dados-label"><strong>Celular 2:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+              <span class="ficha-dados-span" data-field="flg_wts_2">
+                <span class="label ficha-dados-label"><strong>WhatsApp 2:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+              <span class="ficha-dados-span" data-field="celular_3">
+                <span class="label ficha-dados-label"><strong>Celular 3:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+              <span class="ficha-dados-span" data-field="flg_wts_3">
+                <span class="label ficha-dados-label"><strong>WhatsApp 3:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+            </div>
+          </div>
+          
+          <!-- Situação Financeira SIAPE -->
+          <div class="card mb-4 card-situacao-financeira" id="siape-situacao-card">
+            <div class="card-header" id="siape-situacao-header">Situação Financeira (SIAPE)</div>
+            <div class="card-body" id="siape-situacao-body">
+              <span class="ficha-situacao-span" data-field="situacao_funcional">
+                <span class="label ficha-situacao-label"><strong>Situação Funcional:</strong></span>
+                <span class="value ficha-situacao-value"></span>
+              </span>
+              <span class="ficha-situacao-span" data-field="margem_saldo">
+                <span class="label ficha-situacao-label"><strong>Margem de Saldo:</strong></span>
+                <span class="value ficha-situacao-value"></span>
+              </span>
+            </div>
+          </div>
+          
+          <!-- CARDS: Margens 5% e 5% Benefício lado a lado -->
+          <div class="flex-container margem5-container mb-4">
+            <!-- Margem 5% -->
+            <div class="card" id="card-margem5">
+              <div class="card-header">
+                <i class='bx bx-percentage me-2'></i> Margem 5%
+              </div>
+              <div class="card-body">
+                <p><i class='bx bx-coin me-2'></i><strong>Bruta:</strong> R$ <span id="cliente_bruta_5"></span></p>
+                <p><i class='bx bx-money me-2'></i><strong>Utilizada:</strong> R$ <span id="cliente_utilizado_5"></span></p>
+                <p><i class='bx bx-wallet me-2'></i><strong>Saldo:</strong> R$ <span id="cliente_saldo_5"></span></p>
+              </div>
+            </div>
+            <!-- Margem 5% Benefício -->
+            <div class="card" id="card-margem5-beneficio">
+              <div class="card-header">
+                <i class='bx bx-money me-2'></i> Margem 5% Benefício
+              </div>
+              <div class="card-body">
+                <p><i class='bx bx-coin me-2'></i><strong>Bruta:</strong> R$ <span id="cliente_brutaBeneficio_5"></span></p>
+                <p><i class='bx bx-money me-2'></i><strong>Utilizada:</strong> R$ <span id="cliente_utilizadoBeneficio_5"></span></p>
+                <p><i class='bx bx-wallet me-2'></i><strong>Saldo:</strong> R$ <span id="cliente_saldoBeneficio_5"></span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD: Margem 35% -->
+          <div class="card mb-4" id="card-margem35">
+            <div class="card-header">
+              <i class='bx bx-percentage me-2'></i> Margem 35%
+            </div>
+            <div class="card-body">
+              <p><i class='bx bx-coin me-2'></i><strong>Bruta:</strong> R$ <span id="cliente_bruta_35"></span></p>
+              <p><i class='bx bx-money me-2'></i><strong>Utilizada:</strong> R$ <span id="cliente_utilizado_35"></span></p>
+              <p><i class='bx bx-wallet me-2'></i><strong>Saldo:</strong> R$ <span id="cliente_saldo_35"></span></p>
+            </div>
+          </div>
+          
+          <!-- Empréstimos SIAPE -->
+          <div class="card mb-4 card-emprestimos" id="siape-emprestimos-card">
+            <div class="card-header" id="siape-emprestimos-header">Empréstimos (SIAPE)</div>
+            <div class="card-body" id="siape-emprestimos-body">
+              <table class="table-emprestimos">
+                <thead>
+                  <tr>
+                    <th data-field="matricula">Matrícula</th>
+                    <th data-field="banco">Banco</th>
+                    <th data-field="orgao">Órgão</th>
+                    <th data-field="upag">Upag</th>
+                    <th data-field="pmt">PMT</th>
+                    <th data-field="prazo">Prazo</th>
+                    <th data-field="saldo_devedor">Saldo Devedor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Dados dinâmicos -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Versão INSS 😎 -->
+        <div id="inss-version">
+          <h2>Ficha INSS</h2>
+          <!-- Informações Pessoais INSS -->
+          <div class="card mb-4 card-info-pessoal" id="inss-info-card">
+            <div class="card-header" id="inss-info-header">Informações Pessoais (INSS)</div>
+            <div class="card-body" id="inss-info-body">
+              <span class="ficha-info-span" data-field="nome">
+                <span class="label ficha-info-label"><strong>Nome Completo:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="cpf">
+                <span class="label ficha-info-label"><strong>CPF:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="data_nasc">
+                <span class="label ficha-info-label"><strong>Data de Nascimento:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="idade">
+                <span class="label ficha-info-label"><strong>Idade:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="rg">
+                <span class="label ficha-info-label"><strong>RG:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="nome_mae">
+                <span class="label ficha-info-label"><strong>Nome da Mãe:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="qtd_emprestimos">
+                <span class="label ficha-info-label"><strong>Qtd. Empréstimos:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="possui_representante">
+                <span class="label ficha-info-label"><strong>Possui Representante:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+            </div>
+          </div>
+          
+          <!-- Endereços INSS -->
+          <div class="card mb-4 card-enderecos" id="inss-enderecos-card">
+            <div class="card-header" id="inss-enderecos-header">Endereços (INSS)</div>
+            <div class="card-body" id="inss-enderecos-body">
+              <span class="ficha-enderecos-span" data-field="cep">
+                <span class="label ficha-enderecos-label"><strong>CEP:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="uf">
+                <span class="label ficha-enderecos-label"><strong>UF:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="cidade">
+                <span class="label ficha-enderecos-label"><strong>Cidade:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="bairro">
+                <span class="label ficha-enderecos-label"><strong>Bairro:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="endereco">
+                <span class="label ficha-enderecos-label"><strong>Endereço:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+            </div>
+          </div>
+          
+          <!-- Dados Complementares INSS -->
+          <div class="card mb-4 card-dados-complementares" id="inss-dados-card">
+            <div class="card-header" id="inss-dados-header">Dados Complementares (INSS)</div>
+            <div class="card-body" id="inss-dados-body">
+              <span class="ficha-dados-span" data-field="celular_1">
+                <span class="label ficha-dados-label"><strong>Celular 1:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+              <span class="ficha-dados-span" data-field="flg_wts_1">
+                <span class="label ficha-dados-label"><strong>WhatsApp 1:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+              <span class="ficha-dados-span" data-field="celular_2">
+                <span class="label ficha-dados-label"><strong>Celular 2:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+              <span class="ficha-dados-span" data-field="flg_wts_2">
+                <span class="label ficha-dados-label"><strong>WhatsApp 2:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+              <span class="ficha-dados-span" data-field="celular_3">
+                <span class="label ficha-dados-label"><strong>Celular 3:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+              <span class="ficha-dados-span" data-field="flg_wts_3">
+                <span class="label ficha-dados-label"><strong>WhatsApp 3:</strong></span>
+                <span class="value ficha-dados-value"></span>
+              </span>
+            </div>
+          </div>
+          
+          <!-- Situação Financeira INSS -->
+          <div class="card mb-4 card-situacao-financeira" id="inss-situacao-card">
+            <div class="card-header" id="inss-situacao-header">Situação Financeira (INSS)</div>
+            <div class="card-body" id="inss-situacao-body">
+              <span class="ficha-situacao-span" data-field="liberacao_emprestimo">
+                <span class="label ficha-situacao-label"><strong>Liberação de Empréstimos:</strong></span>
+                <span class="value ficha-situacao-value"></span>
+              </span>
+            </div>
+          </div>
+          
+          <!-- Desconto Associação INSS -->
+          <div class="card mb-4 card-desconto" id="inss-desconto-card">
+            <div class="card-header" id="inss-desconto-header">Desconto Associação (INSS)</div>
+            <div class="card-body" id="inss-desconto-body">
+              <span class="ficha-desconto-span" data-field="desconto">
+                <span class="label ficha-desconto-label"><strong>Desconto:</strong></span>
+                <span class="value ficha-desconto-value"></span>
+              </span>
+              <span class="ficha-desconto-span" data-field="taxa_associativa">
+                <span class="label ficha-desconto-label"><strong>Taxa Associativa:</strong></span>
+                <span class="value ficha-desconto-value"></span>
+              </span>
+              <span class="ficha-desconto-span" data-field="valor_parcela_associacao">
+                <span class="label ficha-desconto-label"><strong>Valor Parcela Associação:</strong></span>
+                <span class="value ficha-desconto-value"></span>
+              </span>
+            </div>
+          </div>
+          
+          <!-- CARDS: Margens 5% e 5% Benefício lado a lado -->
+          <div class="flex-container margem5-container mb-4">
+            <!-- Margem 5% -->
+            <div class="card mb-4" id="card-margem5-inss">
+              <div class="card-header">
+                <i class='bx bx-percentage me-2'></i> Margem 5%
+              </div>
+              <div class="card-body">
+                <p><i class='bx bx-wallet me-2'></i><strong>Saldo:</strong> R$ <span id="inss_rmc_saldo"></span></p>
+              </div>
+            </div>
+            <!-- Margem 5% Benefício -->
+            <div class="card mb-4" id="card-margem5-beneficio-inss">
+              <div class="card-header">
+                <i class='bx bx-money me-2'></i> Margem 5% Benefício
+              </div>
+              <div class="card-body">
+                <p><i class='bx bx-wallet me-2'></i><strong>Saldo:</strong> R$ <span id="inss_rcc_saldo"></span></p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Empréstimos INSS -->
+          <div class="card mb-4 card-emprestimos" id="inss-emprestimos-card">
+            <div class="card-header" id="inss-emprestimos-header">Empréstimos (INSS)</div>
+            <div class="card-body" id="inss-emprestimos-body">
+              <table class="table-emprestimos">
+                <thead>
+                  <tr>
+                    <th data-field="matricula_beneficio">Matrícula (Benefício)</th>
+                    <th data-field="cod_banco">Cód. Banco</th>
+                    <th data-field="contrato">Contrato</th>
+                    <th data-field="tipo_emprestimo">Tipo de Empréstimo</th>
+                    <th data-field="valor_parcela">Valor Parcela</th>
+                    <th data-field="prazo_inss">Prazo</th>
+                    <th data-field="taxa">Taxa</th>
+                    <th data-field="parcelas_restantes">Parcelas Restantes</th>
+                    <th data-field="saldo_devedor_inss">Saldo Devedor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Dados dinâmicos -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Versão FGTS 🏦 -->
+        <div id="fgts-version" style="display:none;">
+          <h2>Ficha FGTS</h2>
+
+          <!-- Informações Pessoais FGTS -->
+          <div class="card mb-4 card-info-pessoal" id="fgts-info-card">
+            <div class="card-header">Informações Pessoais (FGTS)</div>
+            <div class="card-body">
+              <span class="ficha-info-span" data-field="cpf">
+                <span class="label ficha-info-label"><strong>CPF:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="nome">
+                <span class="label ficha-info-label"><strong>Nome:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="data_nascimento">
+                <span class="label ficha-info-label"><strong>Data de Nascimento:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="idade">
+                <span class="label ficha-info-label"><strong>Idade:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+              <span class="ficha-info-span" data-field="tipo">
+                <span class="label ficha-info-label"><strong>Tipo:</strong></span>
+                <span class="value ficha-info-value"></span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Endereço FGTS -->
+          <div class="card mb-4 card-enderecos" id="fgts-enderecos-card">
+            <div class="card-header">Endereço (FGTS)</div>
+            <div class="card-body">
+              <span class="ficha-enderecos-span" data-field="tipo">
+                <span class="label ficha-enderecos-label"><strong>Tipo:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="logradouro">
+                <span class="label ficha-enderecos-label"><strong>Logradouro:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="numero">
+                <span class="label ficha-enderecos-label"><strong>Número:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="complemento">
+                <span class="label ficha-enderecos-label"><strong>Complemento:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="bairro">
+                <span class="label ficha-enderecos-label"><strong>Bairro:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="cidade">
+                <span class="label ficha-enderecos-label"><strong>Cidade:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="uf">
+                <span class="label ficha-enderecos-label"><strong>UF:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+              <span class="ficha-enderecos-span" data-field="cep">
+                <span class="label ficha-enderecos-label"><strong>CEP:</strong></span>
+                <span class="value ficha-enderecos-value"></span>
+              </span>
+            </div>
+          </div>
+
+
+          <!-- Financeiro FGTS -->
+          <div class="card mb-4 card-financeiro" id="fgts-financeiro-card">
+            <div class="card-header">Financeiro (FGTS)</div>
+            <div class="card-body">
+              <span class="ficha-financeiro-span" data-field="salario">
+                <span class="label ficha-financeiro-label"><strong>Salário:</strong></span>
+                <span class="value ficha-financeiro-value"></span>
+              </span>
+              <span class="ficha-financeiro-span" data-field="saldo_aproximado">
+                <span class="label ficha-financeiro-label"><strong>Saldo Aproximado:</strong></span>
+                <span class="value ficha-financeiro-value"></span>
+              </span>
+              <span class="ficha-financeiro-span" data-field="flag_fgts">
+                <span class="label ficha-financeiro-label"><strong>Flag FGTS:</strong></span>
+                <span class="value ficha-financeiro-value"></span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Profissional FGTS -->
+          <div class="card mb-4 card-profissional" id="fgts-profissional-card">
+            <div class="card-header">Profissional (FGTS)</div>
+            <div class="card-body">
+              <span class="ficha-profissional-span" data-field="data_admissao">
+                <span class="label ficha-profissional-label"><strong>Data de Admissão:</strong></span>
+                <span class="value ficha-profissional-value"></span>
+              </span>
+              <span class="ficha-profissional-span" data-field="razao_social">
+                <span class="label ficha-profissional-label"><strong>Razão Social:</strong></span>
+                <span class="value ficha-profissional-value"></span>
+              </span>
+              <span class="ficha-profissional-span" data-field="tempo_contribuicao">
+                <span class="label ficha-profissional-label"><strong>Tempo de Contribuição:</strong></span>
+                <span class="value ficha-profissional-value"></span>
+              </span>
+              <span class="ficha-profissional-span" data-field="demografica">
+                <span class="label ficha-profissional-label"><strong>Demográfica:</strong></span>
+                <span class="value ficha-profissional-value"></span>
+              </span>
+              <span class="ficha-profissional-span" data-field="possivel_profissao">
+                <span class="label ficha-profissional-label"><strong>Possível Profissão:</strong></span>
+                <span class="value ficha-profissional-value"></span>
+              </span>
+              <span class="ficha-profissional-span" data-field="score">
+                <span class="label ficha-profissional-label"><strong>Score:</strong></span>
+                <span class="value ficha-profissional-value"></span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Contato FGTS -->
+          <div class="card mb-4 card-contato" id="fgts-contato-card">
+            <div class="card-header">Contato (FGTS)</div>
+            <div class="card-body">
+              <span class="ficha-contato-span" data-field="cel1">
+                <span class="label ficha-contato-label"><strong>Celular 1:</strong></span>
+                <span class="value ficha-contato-value"></span>
+              </span>
+              <span class="ficha-contato-span" data-field="procon_cel1">
+                <span class="label ficha-contato-label"><strong>Procon Cel1:</strong></span>
+                <span class="value ficha-contato-value"></span>
+              </span>
+              <span class="ficha-contato-span" data-field="fl_whatsapp_cel1">
+                <span class="label ficha-contato-label"><strong>WhatsApp Cel1:</strong></span>
+                <span class="value ficha-contato-value"></span>
+              </span>
+              <span class="ficha-contato-span" data-field="cel2">
+                <span class="label ficha-contato-label"><strong>Celular 2:</strong></span>
+                <span class="value ficha-contato-value"></span>
+              </span>
+              <span class="ficha-contato-span" data-field="procon_cel2">
+                <span class="label ficha-contato-label"><strong>Procon Cel2:</strong></span>
+                <span class="value ficha-contato-value"></span>
+              </span>
+              <span class="ficha-contato-span" data-field="fl_whatsapp_cel2">
+                <span class="label ficha-contato-label"><strong>WhatsApp Cel2:</strong></span>
+                <span class="value ficha-contato-value"></span>
+              </span>
+              <span class="ficha-contato-span" data-field="email1">
+                <span class="label ficha-contato-label"><strong>Email:</strong></span>
+                <span class="value ficha-contato-value"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+    <!-- COLUNA 3: Agendamento -->
+    <div class="col-md-4" id="col3">
+      <!-- Card: Agendar Contato -->
+      <div class="card agendamento-form-card mb-4">
+        <div class="card-header bg-info text-white">
+          <i class='bx bx-calendar-event me-2'></i> Agendar Contato
+        </div>
+        <div class="card-body">
+          <form action="#" method="post" class="agendamento-form">
+            {% csrf_token %}
+            <!-- hidden necessários -->
+            <input type="hidden" id="campanha_id_agendamentos" name="id_campanha" value="">
+            <input type="hidden" id="cliente_id_agendamentos" name="id_cliente" value="">
+            <input type="hidden" id="produto_cliente_agendamentos" name="produto" value="">
+            <div class="mb-3">
+              <label for="dataAgendamento" class="form-label agendamento-form-label">Data</label>
+              <input type="date" id="dataAgendamento" name="data_agendamento" class="form-control agendamento-form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="horaAgendamento" class="form-label agendamento-form-label">Hora</label>
+              <input type="time" id="horaAgendamento" name="hora_agendamento" class="form-control agendamento-form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="responsavel" class="form-label agendamento-form-label">Responsável</label>
+              <input type="text" id="responsavel" name="responsavel" class="form-control agendamento-form-control" required>
+            </div>
+            <button type="submit" class="btn btn-info w-100">
+              <i class='bx bx-calendar-check me-2'></i> Salvar Agendamento
+            </button>
+          </form>
+        </div>
+      </div>
+      <!-- Card: Lista de Agendamentos -->
+      <div class="card agendamento-list-card">
+        <div class="card-header bg-primary text-white">
+          <i class='bx bx-list-ul me-2'></i> Meus Agendamentos
+        </div>
+        <div class="card-body agendamentos-list">
+          <!-- Aqui o JS vai injetar cada item de agendamento -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block addjs_extra %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'moneyplus/js/siape_prompter.js' %}"></script>
+<script src="{% static 'moneyplus/js/post_tabulacao.js' %}"></script>
+<script src="{% static 'moneyplus/js/agendamento_apis.js' %}"></script>
+
+{% endblock %}

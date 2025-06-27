@@ -1,0 +1,165 @@
+{% extends "base-plus.html" %}
+{% load static %}
+{% load custom_tags %}
+{% load permissionsacess %}
+
+{% block title %}Agendamentos - SIAPE{% endblock %}
+
+{% block addcss_extra %}
+<link rel="stylesheet" href="{% static 'siape/css/crm_kanban.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.css">
+{% endblock %}
+
+{% block header_title %}
+Agendamentos - SIAPE
+{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<div class="crm-kanban-container">
+
+    <!-- Container Principal do Conteúdo -->
+    <div class="kanban-content-container">
+        <!-- Painel de Filtros -->
+        <div class="filters-panel">
+            <div class="filter-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-filter me-2"></i>
+                    Filtros
+                </h5>
+                <button class="btn btn-sm btn-outline-primary" id="toggle-filters">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            <div class="filter-content" id="filter-content">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label>Data Início</label>
+                        <input type="date" id="data-inicio" class="form-control">
+                    </div>
+                    <div class="filter-group">
+                        <label>Data Fim</label>
+                        <input type="date" id="data-fim" class="form-control">
+                    </div>
+                    <div class="filter-group">
+                        <label>Funcionário</label>
+                        <select id="funcionario-filtro" class="form-select">
+                            <option value="">Todos os funcionários</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button id="aplicar-filtros" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>Aplicar Filtros
+                    </button>
+                    <button id="limpar-filtros" class="btn btn-outline-secondary">
+                        <i class="fas fa-eraser me-2"></i>Limpar
+                    </button>
+                    <button id="refresh-kanban" class="btn btn-outline-primary">
+                        <i class="fas fa-sync-alt me-2"></i>Atualizar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loading-overlay" style="display: none;">
+            <div class="loading-spinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Carregando...</span>
+                </div>
+                <p>Carregando dados do Kanban...</p>
+            </div>
+        </div>
+
+        <!-- Kanban Board -->
+        <div class="kanban-scroll-top" id="kanban-scroll-top">
+            <div class="scroll-content"></div>
+        </div>
+        <div class="kanban-board-wrapper" id="kanban-board-wrapper">
+            <div class="kanban-board" id="kanban-board">
+                <!-- Colunas serão geradas dinamicamente via JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Detalhes do Card -->
+<div class="modal-overlay" id="modal-detalhes-overlay">
+    <div class="modal-kanban modal-large" id="modal-detalhes-card">
+        <div class="modal-header-kanban">
+            <h5 class="modal-title-kanban" id="modalDetalhesCardLabel">
+                <i class="fas fa-user me-2"></i>
+                Detalhes do Cliente
+            </h5>
+            <button type="button" class="btn-close-kanban" id="btn-close-detalhes">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body-kanban" id="modal-detalhes-content">
+            <!-- Conteúdo será carregado via JavaScript -->
+        </div>
+        <div class="modal-footer-kanban">
+            <button type="button" class="btn btn-secondary" id="btn-fechar-detalhes">Fechar</button>
+            <button type="button" class="btn btn-primary" id="btn-editar-tabulacao">
+                <i class="fas fa-edit me-2"></i>Editar Tabulação
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Edição de Tabulação -->
+<div class="modal-overlay" id="modal-edicao-overlay">
+    <div class="modal-kanban modal-medium" id="modal-editar-tabulacao">
+        <div class="modal-header-kanban">
+            <h5 class="modal-title-kanban" id="modalEditarTabulacaoLabel">
+                <i class="fas fa-edit me-2"></i>
+                Editar Tabulação
+            </h5>
+            <button type="button" class="btn-close-kanban" id="btn-close-edicao">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body-kanban">
+            <form id="form-editar-tabulacao">
+                <div class="mb-3">
+                    <label for="novo-status" class="form-label">Novo Status</label>
+                    <select class="form-select" id="novo-status" required>
+                        <option value="">Selecione o status</option>
+                        <option value="SEM_RESPOSTA">Sem Resposta</option>
+                        <option value="EM_NEGOCIACAO">Em Negociação</option>
+                        <option value="REVERSAO">Reversão</option>
+                        <option value="REVERTIDO">Revertido</option>
+                        <option value="DESISTIU">Desistiu</option>
+                        <option value="CHECAGEM">Checagem</option>
+                        <option value="CHECAGEM_OK">Checagem OK</option>
+                        <option value="ALTO_RISCO">Alto Risco</option>
+                        <option value="CONCLUIDO_PG">Concluído PG</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="observacoes-edicao" class="form-label">Observações</label>
+                    <textarea class="form-control" id="observacoes-edicao" rows="3" placeholder="Adicione observações sobre esta alteração..."></textarea>
+                </div>
+                <input type="hidden" id="tabulacao-id-edicao">
+            </form>
+        </div>
+        <div class="modal-footer-kanban">
+            <button type="button" class="btn btn-secondary" id="btn-cancelar-edicao">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="btn-salvar-tabulacao">
+                <i class="fas fa-save me-2"></i>Salvar Alterações
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container para Notificações -->
+<div class="toast-container-kanban" id="toast-container">
+    <!-- Toasts serão adicionados dinamicamente -->
+</div>
+{% endblock %}
+
+{% block addjs_extra %}
+<script src="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.js"></script>
+<script src="{% static 'siape/js/crm_kanban.js' %}"></script>
+{% endblock %} 

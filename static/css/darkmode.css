@@ -1,0 +1,632 @@
+/* ============================ */
+/* 🌗 DARK MODE SYSTEM - CSS    */
+/* ============================ */
+
+/* ============================ */
+/* 🌗 THEME SWITCH - TOGGLE CSS */
+/* ============================ */
+
+/* Wrapper do botão de tema */
+.theme-switch-wrapper {
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* Caixa do switch */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+/* Oculta o input real */
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Área clicável do switch */
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 5px;
+    background-color: #f4f4f4;
+    border-radius: 34px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+
+/* Bolinha deslizante */
+.slider:before {
+    content: "";
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #fff;
+    border-radius: 50%;
+    z-index: 2;
+    transition: transform 0.4s ease;
+}
+
+/* Ícones (Sol e Lua) */
+.slider i {
+    font-size: 14px;
+    z-index: 1;
+    transition: opacity 0.4s ease;
+}
+
+.fa-sun {
+    color: #FFD43B; /* Amarelo solar */
+    margin-left: auto;
+}
+
+/* Garante que no modo escuro o sol continue visível */
+[data-theme="dark"] .fa-sun {
+    color: #FFD43B !important;
+    opacity: 1 !important;
+}
+
+.fa-moon {
+    color: #5c7cfa;
+    margin-right: auto;
+}
+
+/* Modo escuro ativado */
+input:checked + .slider {
+    background-color: #2f3640;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+input:checked + .slider .fa-sun {
+    opacity: 1;
+}
+
+input:checked + .slider .fa-moon {
+    opacity: 1;
+    color: #fff;
+}
+
+/* Hover com glow */
+.theme-switch:hover .slider {
+    box-shadow: 0 0 12px rgba(33, 150, 243, 0.6);
+}
+
+/* Transições suaves */
+body.transition,
+.transition {
+    transition: all 0.3s ease;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .theme-switch-wrapper {
+        top: 70px;
+        right: 10px;
+    }
+}
+
+/* ============================ */
+/* 🌙 DARK THEME VARIABLES      */
+/* ============================ */
+[data-theme="dark"] {
+    --bg-primary: #1a1625;
+    --bg-secondary: #2d2438;
+    --bg-tertiary: #3d3450;
+    --text-primary: #ffffff;
+    --text-secondary: #b8b5c0;
+    --text-muted: #8a85a0;
+    --accent-primary: #6e42c1;
+    --accent-secondary: #8659d4;
+    --accent-tertiary: #a078e8;
+    --card-bg: #2d2438;
+    --border-color: #3d3450;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --hover-bg: rgba(134, 89, 212, 0.1);
+    --active-bg: rgba(134, 89, 212, 0.2);
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --error-color: #f44336;
+    --info-color: #2196f3;
+}
+
+/* ============================ */
+/* 🎨 LAYOUT GERAL             */
+/* ============================ */
+
+/* Body e estrutura principal */
+[data-theme="dark"] body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] main {
+    background-color: var(--bg-primary);
+}
+
+/* Header */
+[data-theme="dark"] header {
+    background-color: var(--bg-secondary) !important;
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+[data-theme="dark"] .TituloPagina {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .TituloPagina p {
+    color: var(--accent-secondary);
+}
+
+/* ============================ */
+/* 📱 MENU LATERAL DARK MODE   */
+/* ============================ */
+
+/* Sidebar expandida */
+[data-theme="dark"] .sidebar {
+    background: var(--bg-secondary);
+    box-shadow: 2px 0 10px var(--shadow-color);
+    border-right: 1px solid var(--border-color);
+}
+
+/* Sidebar recolhida */
+[data-theme="dark"] .sidebar.collapsed {
+    background: var(--accent-primary);
+}
+
+/* Botão de toggle */
+[data-theme="dark"] .sidebar-toggle i {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .sidebar.collapsed .sidebar-toggle i {
+    color: #ffffff;
+}
+
+/* Categorias do menu */
+[data-theme="dark"] .sidebar-category > .category-toggle {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .sidebar-category > .category-toggle:hover {
+    background: var(--hover-bg);
+}
+
+[data-theme="dark"] .sidebar-category.expanded > .category-toggle {
+    background: var(--active-bg);
+    color: var(--accent-tertiary);
+}
+
+/* Itens do menu */
+[data-theme="dark"] .sidebar-menu li a {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .sidebar-menu li a:hover {
+    background: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .sidebar-menu li a i {
+    color: var(--accent-secondary);
+}
+
+[data-theme="dark"] .sidebar-menu li a:hover i {
+    color: var(--accent-tertiary);
+}
+
+[data-theme="dark"] .sidebar-menu li a .menu-label {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .sidebar-menu li a:hover .menu-label {
+    color: var(--text-primary);
+}
+
+/* Estado recolhido */
+[data-theme="dark"] .sidebar.collapsed .sidebar-menu li a i {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .sidebar.collapsed .sidebar-category > .category-toggle i:first-child {
+    color: #ffffff;
+}
+
+/* ============================ */
+/* 🔧 HEADER E NAVEGAÇÃO       */
+/* ============================ */
+
+/* Links do logout/perfil */
+[data-theme="dark"] .Logout a {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .Logout p {
+    color: var(--text-secondary);
+}
+
+/* Ícone de configurações */
+[data-theme="dark"] .configuracoes-link {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .configuracoes-link i {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .configuracoes-link:hover {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 12px rgba(110, 66, 193, 0.4);
+}
+
+[data-theme="dark"] .configuracoes-link:hover i {
+    color: #ffffff;
+}
+
+/* Notificações */
+[data-theme="dark"] #btn-comunicados i {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] #btn-comunicados.tem-notificacao i {
+    color: var(--accent-secondary);
+}
+
+/* ============================ */
+/* 📦 CONTAINERS E CARDS        */
+/* ============================ */
+
+[data-theme="dark"] .container,
+[data-theme="dark"] .container-fluid {
+    background-color: var(--bg-primary);
+}
+
+[data-theme="dark"] .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+[data-theme="dark"] .card:hover {
+    box-shadow: 0 6px 20px var(--shadow-color);
+    transform: translateY(-2px);
+}
+
+/* ============================ */
+/* 📊 TABELAS                   */
+/* ============================ */
+
+[data-theme="dark"] table {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] th {
+    color: var(--accent-secondary);
+    background-color: var(--bg-tertiary);
+    border-bottom: 2px solid var(--border-color);
+}
+
+[data-theme="dark"] td {
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] tr:hover {
+    background-color: var(--hover-bg);
+}
+
+[data-theme="dark"] tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* ============================ */
+/* 🎯 FORMULÁRIOS               */
+/* ============================ */
+
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 0 3px rgba(134, 89, 212, 0.2);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: var(--text-muted);
+}
+
+/* Botões */
+[data-theme="dark"] .btn {
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .btn-primary {
+    background-color: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    background-color: var(--accent-secondary);
+    border-color: var(--accent-secondary);
+}
+
+[data-theme="dark"] .btn-secondary {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+    background-color: var(--hover-bg);
+}
+
+/* ============================ */
+/* 📈 CARDS ESPECÍFICOS         */
+/* ============================ */
+
+/* Cards de métricas */
+[data-theme="dark"] .card.faturamento {
+    background-color: rgba(46, 125, 50, 0.15);
+    border-color: rgba(46, 125, 50, 0.3);
+}
+
+[data-theme="dark"] .card.faturamento .valor,
+[data-theme="dark"] .card.faturamento .porcentagem {
+    color: #81c784;
+}
+
+[data-theme="dark"] .card.quantidade {
+    background-color: rgba(21, 101, 192, 0.15);
+    border-color: rgba(21, 101, 192, 0.3);
+}
+
+[data-theme="dark"] .card.quantidade .valor,
+[data-theme="dark"] .card.quantidade .porcentagem {
+    color: #64b5f6;
+}
+
+[data-theme="dark"] .card.agendamentos {
+    background-color: rgba(239, 108, 0, 0.15);
+    border-color: rgba(239, 108, 0, 0.3);
+}
+
+[data-theme="dark"] .card.agendamentos .valor,
+[data-theme="dark"] .card.agendamentos .porcentagem {
+    color: #ffb74d;
+}
+
+[data-theme="dark"] .card.faturamento-mensal {
+    background-color: rgba(2, 136, 209, 0.15);
+    border-color: rgba(2, 136, 209, 0.3);
+}
+
+[data-theme="dark"] .card.faturamento-mensal .valor,
+[data-theme="dark"] .card.faturamento-mensal .porcentagem {
+    color: #4FC3F7;
+}
+
+/* Cards de meta */
+[data-theme="dark"] .card.meta-geral {
+    background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+    border: 1px solid #283593;
+}
+
+[data-theme="dark"] .card.meta-siape {
+    background: linear-gradient(135deg, #e65100 0%, #ef6c00 100%);
+    border: 1px solid #f57c00;
+}
+
+/* ============================ */
+/* 📊 ELEMENTOS DE DADOS        */
+/* ============================ */
+
+[data-theme="dark"] .ranking-title {
+    color: var(--accent-secondary);
+}
+
+[data-theme="dark"] .info__valores .title {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .info__valores .valor {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .txt {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .info__foto .valor {
+    color: var(--accent-tertiary) !important;
+}
+
+[data-theme="dark"] td.valor {
+    color: var(--accent-secondary);
+    font-weight: 600;
+}
+
+[data-theme="dark"] .percentual {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .porcentagem {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* ============================ */
+/* 📈 PROGRESS BARS             */
+/* ============================ */
+
+[data-theme="dark"] .progress-container {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .progress-bar {
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+}
+
+[data-theme="dark"] .progress-text {
+    color: var(--text-primary);
+}
+
+/* ============================ */
+/* 🔗 LINKS E NAVEGAÇÃO        */
+/* ============================ */
+
+[data-theme="dark"] a {
+    color: var(--accent-secondary);
+}
+
+[data-theme="dark"] a:hover {
+    color: var(--accent-tertiary);
+}
+
+/* Ícones boxicons */
+[data-theme="dark"] .bx,
+[data-theme="dark"] .bxs {
+    color: var(--accent-secondary);
+}
+
+/* ============================ */
+/* 🎨 MODAIS E POPUPS          */
+/* ============================ */
+
+[data-theme="dark"] .modal-content {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .modal-header {
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .modal-footer {
+    border-top: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .modal-title {
+    color: var(--text-primary);
+}
+
+/* Comunicados popup */
+[data-theme="dark"] .comunicados-popup {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 32px var(--shadow-color);
+}
+
+[data-theme="dark"] .comunicados-popup__tabs {
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .comunicados-popup__tab {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .comunicados-popup__tab:hover {
+    color: var(--accent-secondary);
+}
+
+[data-theme="dark"] .comunicados-popup__tab--active {
+    color: var(--accent-secondary);
+}
+
+[data-theme="dark"] .submodal-comunicado-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .submodal-comunicado-item:hover {
+    background-color: var(--hover-bg);
+}
+
+[data-theme="dark"] .submodal-comunicado-header h3 {
+    color: var(--accent-secondary);
+}
+
+[data-theme="dark"] .submodal-data {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .submodal-nao-lido {
+    background: var(--active-bg);
+}
+
+[data-theme="dark"] .submodal-nao-lido .submodal-comunicado-header h3 {
+    color: var(--accent-tertiary);
+}
+
+/* ============================ */
+/* 📱 RESPONSIVIDADE            */
+/* ============================ */
+
+@media (max-width: 768px) {
+    [data-theme="dark"] .sidebar {
+        box-shadow: 4px 0 15px var(--shadow-color);
+    }
+    
+    [data-theme="dark"] header {
+        padding: 1rem 2rem;
+    }
+    
+    [data-theme="dark"] .TituloPagina {
+        font-size: 24px;
+    }
+}
+
+/* ============================ */
+/* 🎭 ANIMAÇÕES E TRANSIÇÕES   */
+/* ============================ */
+
+[data-theme="dark"] * {
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease, 
+                box-shadow 0.3s ease;
+}
+
+/* Scroll customizado */
+[data-theme="dark"] ::-webkit-scrollbar {
+    width: 8px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--accent-primary);
+    border-radius: 4px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-secondary);
+}
